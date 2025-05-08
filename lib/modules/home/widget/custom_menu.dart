@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_pgb/router/builder.dart';
 
 import '../../../misc/text_style.dart';
 
@@ -17,27 +18,25 @@ class CustomMenu extends StatelessWidget {
         mainAxisSpacing: 0,
         childAspectRatio: 0.8,
         children: [
-          _buildMenuItem(context, 'Mart', 'assets/icons/mart.png'),
-          _buildMenuItem(context, 'Event', 'assets/icons/event.png'),
+          _buildMenuItem(context, 'Mart', 'assets/icons/mart.png', 0),
+          _buildMenuItem(context, 'Event', 'assets/icons/event.png', 1),
           _buildMenuItem(
-              context, 'Member Near', 'assets/icons/member_near.png'),
-          _buildMenuItem(context, 'PPOB', 'assets/icons/ppob.png'),
-          _buildMenuItem(context, 'Media', 'assets/icons/media.png'),
-          _buildMenuItem(context, 'Berita', 'assets/icons/news.png'),
-          _buildMenuItem(context, 'About Us', 'assets/icons/about.png'),
-          _buildMenuItem(context, 'Forum', 'assets/icons/forum.png'),
+              context, 'Member Near', 'assets/icons/member_near.png', 2),
+          _buildMenuItem(context, 'PPOB', 'assets/icons/ppob.png', 3),
+          _buildMenuItem(context, 'Media', 'assets/icons/media.png', 4),
+          _buildMenuItem(context, 'Berita', 'assets/icons/news.png', 5),
+          _buildMenuItem(context, 'About Us', 'assets/icons/about.png', 6),
+          _buildMenuItem(context, 'Forum', 'assets/icons/forum.png', 7),
         ],
       ),
     );
   }
 
-  Widget _buildMenuItem(BuildContext context, String title, String iconPath) {
+  Widget _buildMenuItem(
+      BuildContext context, String title, String iconPath, int index) {
     return InkWell(
       onTap: () {
-        // Ganti sesuai kebutuhan navigasi
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('$title diklik')),
-        );
+        _navigateToPage(context, index);
       },
       borderRadius: BorderRadius.circular(16),
       child: Column(
@@ -82,5 +81,37 @@ class CustomMenu extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _navigateToPage(BuildContext context, int index) {
+    switch (index) {
+      case 0:
+        RegisterRoute().go(context);
+        break;
+      case 1:
+        RegisterRoute().go(context);
+        break;
+      case 2:
+        RegisterRoute().go(context);
+        break;
+      case 3:
+        RegisterRoute().go(context);
+        break;
+      case 4:
+        RegisterRoute().go(context);
+        break;
+      case 5:
+        RegisterRoute().go(context);
+        break;
+      case 6:
+        RegisterRoute().go(context);
+        break;
+      case 7:
+        RegisterRoute().go(context);
+        break;
+      default:
+        // Fallback jika index tidak dikenali
+        break;
+    }
   }
 }

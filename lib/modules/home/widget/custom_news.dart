@@ -37,10 +37,21 @@ class CustomNews extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text('News', style: AppTextStyles.textStyleBold),
-          Text(
-            'Lihat Semuanya >',
-            style: AppTextStyles.textStyleNormal.copyWith(
-              color: AppColors.greyColor,
+          InkWell(
+            onTap: () {
+              // todo: Implement the action for "Lihat Semuanya"
+              debugPrint('Lihat semuanya ditekan');
+            },
+            child: Row(
+              children: [
+                Text(
+                  'Lihat Semuanya',
+                  style: AppTextStyles.textStyleNormal.copyWith(
+                    color: AppColors.greyColor,
+                  ),
+                ),
+                Icon(Icons.chevron_right, color: AppColors.greyColor, size: 20),
+              ],
             ),
           ),
         ],

@@ -26,6 +26,7 @@ dependencies:
   carousel_slider: ^5.0.0
 
   cupertino_icons: ^1.0.8
+  flutter_native_splash: ^2.4.4
 
 dev_dependencies:
   flutter_test:
@@ -34,15 +35,19 @@ dev_dependencies:
   flutter_lints: ^5.0.0
 
 flutter:
-
   uses-material-design: true
-
   assets:
     - assets/icons/
     - assets/images/
-
   fonts:
     - family: Inter
       fonts:
         - asset: assets/fonts/Inter-ExtraBold.ttf
         - asset: assets/fonts/Inter-Medium.ttf
+
+flutter_native_splash:
+  color: "#062565" 
+  image: assets/images/logo_transparant.png 
+  android: true
+  ios: true
+  fullscreen: true
