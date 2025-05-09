@@ -27,10 +27,11 @@ class AppView extends StatefulWidget {
 }
 
 class _AppViewState extends State<AppView> {
+  final router = MyRouter.init(getIt<AppBloc>());
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AppBloc, AppState>(builder: (_, localState) {
-      final router = MyRouter.init(getIt<AppBloc>());
       return MaterialApp.router(
         debugShowCheckedModeBanner: false,
         theme: baseTheme.copyWith(),

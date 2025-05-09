@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import '../widget/custom_banner.dart';
-import '../widget/custom_menu.dart';
-import '../widget/custom_news.dart';
-import '../widget/custom_drawer.dart';
-import '../widget/custom_name.dart';
+
 import '../../../misc/colors.dart';
+import '../widget/custom_banner.dart';
+import '../widget/custom_drawer.dart';
+import '../widget/custom_menu.dart';
+import '../widget/custom_name.dart';
+import '../widget/custom_news.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

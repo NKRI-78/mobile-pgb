@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/misc/text_style.dart';
+import '../../misc/text_style.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;

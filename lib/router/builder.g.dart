@@ -15,6 +15,14 @@ RouteBase get $homeRoute => GoRouteData.$route(
       factory: $HomeRouteExtension._fromState,
       routes: [
         GoRouteData.$route(
+          path: 'media',
+          factory: $MediaRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'about',
+          factory: $AboutRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'register',
           factory: $RegisterRouteExtension._fromState,
         ),
@@ -26,6 +34,40 @@ extension $HomeRouteExtension on HomeRoute {
 
   String get location => GoRouteData.$location(
         '/home',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $MediaRouteExtension on MediaRoute {
+  static MediaRoute _fromState(GoRouterState state) => MediaRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/media',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $AboutRouteExtension on AboutRoute {
+  static AboutRoute _fromState(GoRouterState state) => AboutRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/about',
       );
 
   void go(BuildContext context) => context.go(location);

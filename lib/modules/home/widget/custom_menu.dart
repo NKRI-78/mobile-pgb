@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/router/builder.dart';
+import '../../../router/builder.dart';
 
 import '../../../misc/text_style.dart';
 
@@ -98,13 +98,13 @@ class CustomMenu extends StatelessWidget {
         RegisterRoute().go(context);
         break;
       case 4:
-        RegisterRoute().go(context);
+        MediaRoute().go(context);
         break;
       case 5:
         RegisterRoute().go(context);
         break;
       case 6:
-        RegisterRoute().go(context);
+        AboutRoute().go(context);
         break;
       case 7:
         RegisterRoute().go(context);
