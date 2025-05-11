@@ -25,3 +25,6 @@ var baseTheme = ThemeData(
     ),
   ),
 );
+
+const String imageDefaultBanner = "assets/images/no_banner.png";
+const String imageDefaultUser = "assets/images/no_user.jpg";

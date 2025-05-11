@@ -3,18 +3,18 @@ part of 'app_bloc.dart';
 @JsonSerializable()
 final class AppState extends Equatable {
   final String token;
-  final String user;
+  final User? user;
 
   const AppState({
     this.token = '',
-    this.user = '',
+    this.user,
   });
 
   bool get userEmpty => token.isEmpty;
-  bool get isLoggedIn => token != '' && user != '';
+  bool get isLoggedIn => user != null && token.isNotEmpty;
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         token,
         user,
       ];
@@ -22,13 +22,13 @@ final class AppState extends Equatable {
   AppState logout() {
     return AppState(
       token: '',
-      user: '',
+      user: null,
     );
   }
 
   AppState copyWith({
     String? token,
-    String? user,
+    User? user,
   }) {
     return AppState(
       token: token ?? this.token,

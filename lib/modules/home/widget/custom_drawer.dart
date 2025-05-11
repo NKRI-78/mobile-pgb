@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_pgb/misc/injections.dart';
+import 'package:mobile_pgb/modules/app/bloc/app_bloc.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 
@@ -72,17 +75,27 @@ class CustomEndDrawer extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 24),
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Log Out',
-                        style: AppTextStyles.textStyleBold.copyWith(
-                          color: AppColors.yellowColor,
-                        ),
-                      ),
-                    ),
+                  BlocBuilder<AppBloc, AppState>(
+                    bloc: getIt<AppBloc>(),
+                    builder: (context, state) {
+                      if (state.user != null) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 24),
+                          child: TextButton(
+                            onPressed: () {
+                              showLogoutDialog(context);
+                            },
+                            child: Text(
+                              'Log Out',
+                              style: AppTextStyles.textStyleBold.copyWith(
+                                color: AppColors.yellowColor,
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
                   ),
                 ],
               ),
@@ -90,6 +103,135 @@ class CustomEndDrawer extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext dialogContext) {
+        return Center(
+          child: Material(
+            color: Colors.transparent,
+            child: Stack(
+              alignment: Alignment.topCenter,
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  padding: const EdgeInsets.fromLTRB(20, 60, 20, 20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    gradient: const LinearGradient(
+                      colors: [
+                        AppColors.secondaryColor,
+                        Color(0xFF005FA3),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.5),
+                        blurRadius: 8,
+                        offset: const Offset(3, 4),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Konfirmasi Log Out',
+                        style: AppTextStyles.textStyleBold.copyWith(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        'Apakah Anda yakin ingin logout?',
+                        style: AppTextStyles.textStyleNormal.copyWith(
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 24),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              onPressed: () =>
+                                  Navigator.of(dialogContext).pop(),
+                              child: Text(
+                                'Batal',
+                                style: AppTextStyles.textStyleNormal.copyWith(
+                                  color: AppColors.blackColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.redColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              onPressed: () {
+                                getIt<AppBloc>().add(SetUserLogout());
+                                Navigator.of(dialogContext).pop();
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                'Log Out',
+                                style: AppTextStyles.textStyleNormal.copyWith(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Positioned(
+                  top: -60,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      // color: AppColors.whiteColor,
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //     color: Colors.black.withOpacity(0.6),
+                      //     blurRadius: 8,
+                      //     offset: const Offset(3, 4),
+                      //   ),
+                      // ],
+                    ),
+                    child: Image.asset(
+                      'assets/icons/dialog.png',
+                      height: 100,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

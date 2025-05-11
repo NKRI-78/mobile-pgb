@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_pgb/router/builder.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 
 class CustomName extends StatelessWidget {
-  const CustomName({super.key});
+  final bool isLoggedIn;
+  const CustomName({super.key, required this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +18,40 @@ class CustomName extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Hello Mira',
+                isLoggedIn ? 'Hello, Hernan' : 'Selamat Datang,',
                 style: AppTextStyles.textStyleBold,
               ),
-              Text(
-                'Saldo e-Wallet',
-                style: AppTextStyles.textStyleNormal.copyWith(
-                  color: AppColors.greyColor,
-                ),
-              ),
+              isLoggedIn
+                  ? Text(
+                      'Saldo e-Wallet',
+                      style: AppTextStyles.textStyleNormal.copyWith(
+                        color: AppColors.greyColor,
+                      ),
+                    )
+                  : ElevatedButton.icon(
+                      onPressed: () {
+                        RegisterRoute().go(context);
+                      },
+                      icon: Icon(
+                        Icons.login,
+                        size: 14,
+                        color: AppColors.whiteColor,
+                      ),
+                      label: Text("Login"),
+                      style: ElevatedButton.styleFrom(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        backgroundColor: AppColors.secondaryColor,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        minimumSize: Size(0, 28),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        textStyle: AppTextStyles.textStyleNormal.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
             ],
           ),
           Row(
@@ -37,11 +64,11 @@ class CustomName extends StatelessWidget {
                 ),
               ),
               Text(
-                'Rp. 150.000',
+                isLoggedIn ? 'Rp 1.000.000' : '',
                 style: AppTextStyles.textStyleNormal.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
-              ),
+              )
             ],
           ),
         ],

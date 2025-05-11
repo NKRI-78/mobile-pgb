@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_pgb/router/builder.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 import '../../../widgets/button/custom_button.dart';
@@ -54,7 +55,9 @@ class RegisterView extends StatelessWidget {
                         text: "Login",
                         backgroundColour: AppColors.whiteColor,
                         textColour: AppColors.blackColor,
-                        onPressed: () {},
+                        onPressed: () {
+                          LoginRoute().go(context);
+                        },
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20),

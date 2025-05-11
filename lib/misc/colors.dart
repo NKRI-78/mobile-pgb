@@ -8,7 +8,10 @@ class AppColors {
   static const yellowColor = Color(0XFFE4B801);
   static const blueColor = Color(0XFF041F55);
   static const blackColor = Color(0XFF000000);
+  static const redColor = Color(0XFFFF000F);
+  static const greenColor = Color(0XFF236C06);
   static const buttonBlueColor = Color(0XFF0C3995);
   static const buttonWhiteColor = Color(0XFFFFFFFF);
+
   AppColors._();
 }

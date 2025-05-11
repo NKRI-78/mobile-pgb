@@ -1,119 +1,113 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
-import '../../../misc/colors.dart';
-import '../../../misc/text_style.dart';
+import '../../../misc/theme.dart';
 
 class CustomNews extends StatelessWidget {
-  const CustomNews({super.key});
+  final String imageUrl;
+  final String title;
+  final String content;
+  final VoidCallback onTap;
+
+  const CustomNews({
+    super.key,
+    required this.imageUrl,
+    required this.title,
+    required this.content,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: 18),
-      children: [
-        _buildNewsSectionHeader(context),
-        const SizedBox(height: 8),
-        ...List.generate(5, (index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: _buildNewsCard(
-              imageUrl: 'assets/images/contoh_news.png',
-              title:
-                  'Partai Gema Bangsa Hadir sebagai Wadah Perjuangan Menuju Indonesia Mandiri',
-              date: 'Pada Jumat, 17 Januari 2025',
-              snippet: 'Sejumlah tokoh nasional, inisiator...',
-            ),
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        margin: const EdgeInsets.only(right: 18, left: 18, bottom: 10, top: 10),
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18),
+        ),
+        child: SizedBox(
+          width: double.infinity,
+          height: 110,
+          child: Row(
+            children: [
+              _NewsImage(imageUrl: imageUrl),
+              const SizedBox(width: 5),
+              _NewsContent(title: title, content: content),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _NewsImage extends StatelessWidget {
+  final String imageUrl;
+
+  const _NewsImage({required this.imageUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
+        width: 170,
+        height: 110,
+        fit: BoxFit.cover,
+        placeholder: (context, url) =>
+            const Center(child: CircularProgressIndicator()),
+        errorWidget: (context, url, error) {
+          debugPrint('Failed to load image: $url\nError: $error');
+          return Image.asset(
+            imageDefaultBanner,
+            width: 170,
+            height: 110,
+            fit: BoxFit.cover,
           );
-        }),
-      ],
-    );
-  }
-
-  Widget _buildNewsSectionHeader(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text('News', style: AppTextStyles.textStyleBold),
-          InkWell(
-            onTap: () {
-              // todo: Implement the action for "Lihat Semuanya"
-              debugPrint('Lihat semuanya ditekan');
-            },
-            child: Row(
-              children: [
-                Text(
-                  'Lihat Semuanya',
-                  style: AppTextStyles.textStyleNormal.copyWith(
-                    color: AppColors.greyColor,
-                  ),
-                ),
-                Icon(Icons.chevron_right, color: AppColors.greyColor, size: 20),
-              ],
-            ),
-          ),
-        ],
+        },
       ),
     );
   }
+}
 
-  Widget _buildNewsCard({
-    required String imageUrl,
-    required String title,
-    required String date,
-    required String snippet,
-  }) {
-    return Container(
-      height: 100,
-      decoration: BoxDecoration(
-        color: AppColors.whiteColor,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(12),
-              bottomLeft: Radius.circular(12),
+class _NewsContent extends StatelessWidget {
+  final String title;
+  final String content;
+
+  const _NewsContent({required this.title, required this.content});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 2,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
-            child: Image.asset(
-              imageUrl,
-              width: 120,
-              height: 100,
-              fit: BoxFit.cover,
+            Text(
+              content.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ""),
+              maxLines: 2,
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.grey,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 14.5,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  '$date\n$snippet',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 12.5,
-                    color: Colors.grey,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

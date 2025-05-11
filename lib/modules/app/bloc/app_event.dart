@@ -12,7 +12,7 @@ final class InitialAppData extends AppEvent {}
 final class SetUserLogout extends AppEvent {}
 
 final class SetUserData extends AppEvent {
-  final String user;
+  final User user;
   final String token;
 
   const SetUserData({required this.user, required this.token});

@@ -8,7 +8,9 @@ part of 'app_bloc.dart';
 
 AppState _$AppStateFromJson(Map<String, dynamic> json) => AppState(
       token: json['token'] as String? ?? '',
-      user: json['user'] as String? ?? '',
+      user: json['user'] == null
+          ? null
+          : User.fromJson(json['user'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$AppStateToJson(AppState instance) => <String, dynamic>{
