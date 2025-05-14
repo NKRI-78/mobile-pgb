@@ -194,8 +194,7 @@ class HomeView extends StatelessWidget {
           Text('News', style: AppTextStyles.textStyleBold),
           InkWell(
             onTap: () {
-              // todo: Implement the action for "Lihat Semuanya"
-              debugPrint('Lihat semuanya ditekan');
+              NewsAllRoute().go(context);
             },
             child: Row(
               children: [

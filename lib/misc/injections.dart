@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:mobile_pgb/modules/news_all/cubit/news_all_cubit.dart';
 import '../modules/news_detail/cubit/news_detail_cubit.dart';
 import '../repositories/news_repository/news_repository.dart';
 
@@ -21,6 +22,7 @@ class MyInjection {
 
     getIt.registerCachedFactory<LoginCubit>(() => LoginCubit());
     getIt.registerCachedFactory<NewsDetailCubit>(() => NewsDetailCubit());
+    getIt.registerCachedFactory<NewsAllCubit>(() => NewsAllCubit());
 
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
     getIt.registerLazySingleton<HomeRepository>(() => HomeRepository());

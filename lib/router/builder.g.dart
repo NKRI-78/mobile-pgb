@@ -27,6 +27,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $NewsDetailRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: 'news-all',
+          factory: $NewsAllRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'webview',
           factory: $WebViewRouteExtension._fromState,
         ),
@@ -100,7 +104,7 @@ extension $AboutRouteExtension on AboutRoute {
 
 extension $NewsDetailRouteExtension on NewsDetailRoute {
   static NewsDetailRoute _fromState(GoRouterState state) => NewsDetailRoute(
-        newsId: int.parse(state.uri.queryParameters['news-id']!)!,
+        newsId: int.parse(state.uri.queryParameters['news-id']!),
       );
 
   String get location => GoRouteData.$location(
@@ -108,6 +112,23 @@ extension $NewsDetailRouteExtension on NewsDetailRoute {
         queryParams: {
           'news-id': newsId.toString(),
         },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $NewsAllRouteExtension on NewsAllRoute {
+  static NewsAllRoute _fromState(GoRouterState state) => NewsAllRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/news-all',
       );
 
   void go(BuildContext context) => context.go(location);

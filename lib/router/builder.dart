@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_pgb/modules/news_all/view/news_all_page.dart';
 import '../modules/login/view/login_page.dart';
 import '../modules/news_detail/view/news_detail_page.dart';
 import '../modules/register/view/register_page.dart';
@@ -16,6 +17,7 @@ part 'builder.g.dart';
   TypedGoRoute<MediaRoute>(path: 'media'),
   TypedGoRoute<AboutRoute>(path: 'about'),
   TypedGoRoute<NewsDetailRoute>(path: 'news-detail'),
+  TypedGoRoute<NewsAllRoute>(path: 'news-all'),
   TypedGoRoute<WebViewRoute>(path: 'webview'),
   TypedGoRoute<RegisterRoute>(path: 'register', routes: [
     TypedGoRoute<LoginRoute>(path: 'login'),
@@ -55,6 +57,13 @@ class NewsDetailRoute extends GoRouteData {
     return NewsDetailPage(
       newsId: newsId,
     );
+  }
+}
+
+class NewsAllRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return NewsAllPage();
   }
 }
 
