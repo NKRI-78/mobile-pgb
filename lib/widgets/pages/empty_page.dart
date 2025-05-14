@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:mobile_pgb/misc/theme.dart';
 
 import '../../misc/colors.dart';
 import '../../misc/text_style.dart';
@@ -23,8 +24,8 @@ class EmptyPage extends StatelessWidget {
           children: [
             noImage!
                 ? Image.asset(
-                    'noData',
-                    height: 120,
+                    imageDefaultData,
+                    height: 150,
                   )
                 : const SizedBox.shrink(),
             Text(

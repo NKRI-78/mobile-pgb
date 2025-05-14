@@ -14,6 +14,7 @@ class CustomTextfieldRegisterKtp extends StatelessWidget {
         _FieldNik(),
         _FieldNama(),
         _FieldTTL(),
+        _FieldJenisKelaminDanGolDarah(),
         _FieldAlamat(),
         _FieldRTRW(),
         _FieldKeldanDesa(),
@@ -83,6 +84,44 @@ class _FieldTTL extends StatelessWidget {
             var cubit = context.read<RegisterKtpCubit>();
             cubit.copyState(newState: cubit.state.copyWith(ttl: value));
           },
+        );
+      },
+    );
+  }
+}
+
+class _FieldJenisKelaminDanGolDarah extends StatelessWidget {
+  const _FieldJenisKelaminDanGolDarah();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RegisterKtpCubit, RegisterKtpState>(
+      builder: (context, state) {
+        final cubit = context.read<RegisterKtpCubit>();
+        return Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: _buildTextFormField(
+                label: 'Jenis Kelamin',
+                initialValue: state.jenisKelamin,
+                onChanged: (value) => cubit.copyState(
+                  newState: state.copyWith(jenisKelamin: value),
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              flex: 1,
+              child: _buildTextFormField(
+                label: 'Gol. Darah',
+                initialValue: state.golDarah,
+                onChanged: (value) => cubit.copyState(
+                  newState: state.copyWith(golDarah: value),
+                ),
+              ),
+            ),
+          ],
         );
       },
     );

@@ -52,13 +52,10 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
   Future<void> _fetchNews(Emitter<HomeState> emit,
       {bool isRefresh = false}) async {
-    debugPrint("📰 Fetching news... isRefresh: $isRefresh");
-
     emit(state.copyWith(isLoading: true));
 
     try {
       final int nextPage = isRefresh ? 1 : state.nextPageNews;
-      debugPrint("📡 Fetching news from API, page: $nextPage");
 
       DataPagination<NewsModel> newsData =
           await homeRepo.getNews(page: nextPage);

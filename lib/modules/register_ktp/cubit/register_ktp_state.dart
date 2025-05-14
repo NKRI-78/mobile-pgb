@@ -3,10 +3,15 @@ part of 'register_ktp_cubit.dart';
 class RegisterKtpState extends Equatable {
   final bool loading;
   final List<String> imagePaths;
+  final String? ktpImagePath;
+  final Map<String, dynamic>? extractedData;
+  final String? error;
   //
   final String nik;
   final String nama;
   final String ttl;
+  final String jenisKelamin;
+  final String golDarah;
   final String alamat;
   final String rtRw;
   final String kelDesa;
@@ -20,10 +25,15 @@ class RegisterKtpState extends Equatable {
   const RegisterKtpState({
     this.loading = false,
     this.imagePaths = const [],
+    this.ktpImagePath,
+    this.extractedData,
+    this.error,
     //
     this.nik = '',
     this.nama = '',
     this.ttl = '',
+    this.jenisKelamin = '',
+    this.golDarah = '',
     this.alamat = '',
     this.rtRw = '',
     this.kelDesa = '',
@@ -39,10 +49,15 @@ class RegisterKtpState extends Equatable {
   List<Object?> get props => [
         loading,
         imagePaths,
+        ktpImagePath,
+        extractedData,
+        error,
         //
         nik,
         nama,
         ttl,
+        jenisKelamin,
+        golDarah,
         alamat,
         rtRw,
         kelDesa,
@@ -57,10 +72,15 @@ class RegisterKtpState extends Equatable {
   RegisterKtpState copyWith({
     bool? loading,
     List<String>? imagePaths,
+    String? ktpImagePath,
+    Map<String, dynamic>? extractedData,
+    String? error,
     //
     String? nik,
     String? nama,
     String? ttl,
+    String? jenisKelamin,
+    String? golDarah,
     String? alamat,
     String? rtRw,
     String? kelDesa,
@@ -74,10 +94,15 @@ class RegisterKtpState extends Equatable {
     return RegisterKtpState(
       loading: loading ?? this.loading,
       imagePaths: imagePaths ?? this.imagePaths,
+      ktpImagePath: ktpImagePath ?? this.ktpImagePath,
+      extractedData: extractedData ?? this.extractedData,
+      error: error,
       //
       nik: nik ?? this.nik,
       nama: nama ?? this.nama,
       ttl: ttl ?? this.ttl,
+      jenisKelamin: jenisKelamin ?? this.jenisKelamin,
+      golDarah: golDarah ?? this.golDarah,
       alamat: alamat ?? this.alamat,
       rtRw: rtRw ?? this.rtRw,
       kelDesa: kelDesa ?? this.kelDesa,

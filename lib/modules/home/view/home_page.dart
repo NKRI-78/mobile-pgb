@@ -124,9 +124,20 @@ class HomeView extends StatelessWidget {
                               child: CircularProgressIndicator(),
                             )
                           else if (state.news.isEmpty)
-                            const Center(
-                              heightFactor: 5,
-                              child: Text('Tidak ada Berita..'),
+                            Center(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(height: 20),
+                                  // Image(
+                                  //   image: AssetImage(imageDefaultData),
+                                  //   height: 120,
+                                  // ),
+                                  SizedBox(height: 8),
+                                  Text('Tidak ada Berita..',
+                                      style: AppTextStyles.textStyleNormal),
+                                ],
+                              ),
                             )
                           else
                             ListView.builder(

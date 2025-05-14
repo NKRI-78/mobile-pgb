@@ -1,34 +1,75 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:cunning_document_scanner/cunning_document_scanner.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:mobile_pgb/misc/injections.dart';
+import 'package:mobile_pgb/repositories/auth_repository/auth_repository.dart';
+
+import '../../../misc/snackbar.dart';
 
 part 'register_ktp_state.dart';
 
 class RegisterKtpCubit extends Cubit<RegisterKtpState> {
   RegisterKtpCubit() : super(const RegisterKtpState());
 
+  AuthRepository repo = getIt<AuthRepository>();
+
   void copyState({required RegisterKtpState newState}) {
     emit(newState);
+  }
+
+  void reset() {
+    emit(RegisterKtpState());
+  }
+
+  Future<void> uploadKtpImage(String imagePath) async {
+    emit(state.copyWith(loading: true, error: null));
+
+    try {
+      final result = await repo.uploadKtpForOcr(File(imagePath));
+
+      final response = result['data']['response'];
+
+      emit(state.copyWith(
+        loading: false,
+        ktpImagePath: imagePath,
+        nik: response['nik'] ?? '',
+        nama: response['name'] ?? '',
+        ttl: response['place_date_birth'] ?? '',
+        jenisKelamin: response['gender'] ?? '',
+        golDarah: response['blood_type'] ?? '',
+        alamat: response['address'] ?? '',
+        rtRw: response['rt/rw'] ?? '',
+        kelDesa: response['village'] ?? '',
+        kecamatan: response['district'] ?? '',
+        agama: response['religion'] ?? '',
+        statusPerkawinan: response['status'] ?? '',
+        pekerjaan: response['job'] ?? '',
+        kewarganegaraan: response['country'] ?? '',
+        berlakuHingga: response['expired'] ?? '',
+      ));
+    } catch (e) {
+      emit(state.copyWith(loading: false, error: e.toString()));
+    }
   }
 
   Future<void> scanKtp() async {
     emit(state.copyWith(loading: true));
 
     try {
-      // Capture the image
       final images = await CunningDocumentScanner.getPictures(
         isGalleryImportAllowed: true,
         noOfPages: 1,
       );
 
       if (images != null && images.isNotEmpty) {
-        // // Extract text from the first image
-        // final text = await _extractTextFromImage(images.first);
+        final imagePath = images.first;
 
-        // // Parse the extracted text from OCR
-        // parseKtpText(text);
+        // Panggil API upload KTP dan ekstraksi teks OCR
+        await uploadKtpImage(imagePath);
 
-        // Update the state with the scanned image and parsed fields
         emit(state.copyWith(
           loading: false,
           imagePaths: images,
@@ -37,8 +78,42 @@ class RegisterKtpCubit extends Cubit<RegisterKtpState> {
         emit(state.copyWith(loading: false));
       }
     } catch (e) {
-      // Handle errors and update the state
       emit(state.copyWith(loading: false));
+    }
+  }
+
+  Future<void> checkNikExistence(BuildContext context) async {
+    emit(state.copyWith(loading: true, error: null));
+    try {
+      final isRegistered = await repo.checkNik(state.nik);
+      emit(state.copyWith(loading: false));
+
+      if (isRegistered) {
+        ShowTopSnackbar.snackbar(
+          isSuccess: false,
+          context,
+          "Nik terdaftar di sistem, silahkan cek kembali data anda",
+        );
+      } else {
+        ShowTopSnackbar.snackbar(
+          isSuccess: true,
+          context,
+          "KTP anda telah terferifikasi",
+        );
+        // Navigator.pushNamed(
+        //     context, '/register/formulir'); // ganti dengan rute kamu
+      }
+    } catch (e, stack) {
+      debugPrint('Gagal check NIK: $e');
+      debugPrint('Stack trace: $stack');
+
+      emit(state.copyWith(loading: false, error: e.toString()));
+
+      ShowTopSnackbar.snackbar(
+        isSuccess: false,
+        context,
+        "Gagal: $e",
+      );
     }
   }
 }

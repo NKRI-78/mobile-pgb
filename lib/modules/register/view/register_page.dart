@@ -208,6 +208,7 @@ class RegisterView extends StatelessWidget {
                               ),
                               onPressed: () {
                                 Navigator.of(dialogContext).pop();
+
                                 RegisterKtpRoute().go(context);
                               },
                               child: Text(

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_pgb/widgets/button/custom_button.dart';
 import '../cubit/register_ktp_cubit.dart';
 import '../widget/custom_textfield_register_ktp.dart';
 
@@ -68,6 +71,48 @@ class RegisterKtpView extends StatelessWidget {
                   return SingleChildScrollView(
                     child: Column(
                       children: [
+                        if (state.imagePaths.isNotEmpty) ...[
+                          Text(
+                            'Hasil Scan KTP',
+                            style: AppTextStyles.textStyleBold.copyWith(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Card(
+                            elevation: 6,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            clipBehavior: Clip.antiAlias,
+                            child: Image.file(
+                              File(state.imagePaths.first),
+                              width: double.infinity,
+                              height: 200,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          OutlinedButton.icon(
+                            onPressed: () {
+                              context.read<RegisterKtpCubit>().scanKtp();
+                            },
+                            icon:
+                                const Icon(Icons.refresh, color: Colors.white),
+                            label: const Text(
+                              'Pindai Ulang',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(color: Colors.white),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                        ],
                         Text(
                           'Pastikan data yang tertera sudah benar',
                           textAlign: TextAlign.center,
@@ -77,6 +122,16 @@ class RegisterKtpView extends StatelessWidget {
                         ),
                         SizedBox(height: 20),
                         CustomTextfieldRegisterKtp(),
+                        CustomButton(
+                          onPressed: () {
+                            context
+                                .read<RegisterKtpCubit>()
+                                .checkNikExistence(context);
+                          },
+                          text: "Selanjutnya",
+                          backgroundColour: AppColors.primaryColor,
+                          textColour: AppColors.secondaryColor,
+                        )
                       ],
                     ),
                   );
