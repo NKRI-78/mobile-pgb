@@ -23,12 +23,24 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $AboutRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: 'news-detail',
+          factory: $NewsDetailRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'webview',
+          factory: $WebViewRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'register',
           factory: $RegisterRouteExtension._fromState,
           routes: [
             GoRouteData.$route(
               path: 'login',
               factory: $LoginRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
+              path: 'register-ktp',
+              factory: $RegisterKtpRouteExtension._fromState,
             ),
           ],
         ),
@@ -86,6 +98,52 @@ extension $AboutRouteExtension on AboutRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+extension $NewsDetailRouteExtension on NewsDetailRoute {
+  static NewsDetailRoute _fromState(GoRouterState state) => NewsDetailRoute(
+        newsId: int.parse(state.uri.queryParameters['news-id']!)!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/news-detail',
+        queryParams: {
+          'news-id': newsId.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $WebViewRouteExtension on WebViewRoute {
+  static WebViewRoute _fromState(GoRouterState state) => WebViewRoute(
+        url: state.uri.queryParameters['url']!,
+        title: state.uri.queryParameters['title']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/webview',
+        queryParams: {
+          'url': url,
+          'title': title,
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
 extension $RegisterRouteExtension on RegisterRoute {
   static RegisterRoute _fromState(GoRouterState state) => RegisterRoute();
 
@@ -108,6 +166,23 @@ extension $LoginRouteExtension on LoginRoute {
 
   String get location => GoRouteData.$location(
         '/home/register/login',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $RegisterKtpRouteExtension on RegisterKtpRoute {
+  static RegisterKtpRoute _fromState(GoRouterState state) => RegisterKtpRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/register/register-ktp',
       );
 
   void go(BuildContext context) => context.go(location);

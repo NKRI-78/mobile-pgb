@@ -4,8 +4,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mobile_pgb/repositories/auth_repository/models/user_model.dart';
-import 'package:mobile_pgb/repositories/home_repository/home_repository.dart';
+import '../../../repositories/auth_repository/models/user_model.dart';
+import '../../../repositories/home_repository/home_repository.dart';
 
 import '../../../misc/http_client.dart';
 import '../../../misc/injections.dart';

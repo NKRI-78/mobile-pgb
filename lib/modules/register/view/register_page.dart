@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/router/builder.dart';
+import '../../../router/builder.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 import '../../../widgets/button/custom_button.dart';
@@ -45,7 +45,7 @@ class RegisterView extends StatelessWidget {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: 80),
+                      SizedBox(height: 50),
                       Image.asset(
                         'assets/images/logo_transparant.png',
                         height: size.height * 0.25,
@@ -60,7 +60,7 @@ class RegisterView extends StatelessWidget {
                         },
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        padding: const EdgeInsets.symmetric(vertical: 15),
                         child: Row(
                           children: [
                             const Expanded(
@@ -69,7 +69,7 @@ class RegisterView extends StatelessWidget {
                                 thickness: 0.5,
                               ),
                             ),
-                            SizedBox(width: 20),
+                            SizedBox(width: 10),
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8.0),
@@ -82,7 +82,7 @@ class RegisterView extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 20),
+                            SizedBox(width: 10),
                             const Expanded(
                               child: Divider(
                                 color: AppColors.greyColor,
@@ -96,7 +96,9 @@ class RegisterView extends StatelessWidget {
                         text: "Registrasi",
                         backgroundColour: AppColors.buttonBlueColor,
                         textColour: AppColors.whiteColor,
-                        onPressed: () {},
+                        onPressed: () {
+                          showKtpInstructionDialog(context);
+                        },
                       ),
                       SizedBox(height: 10),
                       CustomButton(
@@ -118,6 +120,127 @@ class RegisterView extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void showKtpInstructionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext dialogContext) {
+        return Center(
+          child: Material(
+            color: Colors.transparent,
+            child: Stack(
+              alignment: Alignment.topCenter,
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  padding: const EdgeInsets.fromLTRB(20, 60, 20, 20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    gradient: const LinearGradient(
+                      colors: [
+                        AppColors.secondaryColor,
+                        Color(0xFF005FA3),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.5),
+                        blurRadius: 8,
+                        offset: const Offset(3, 4),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Siapkan KTP Anda',
+                        style: AppTextStyles.textStyleBold.copyWith(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        'Pastikan KTP terlihat jelas dan diletakkan di tempat terang.\n'
+                        'Hindari bayangan atau buram agar proses registrasi berjalan lancar.',
+                        style: AppTextStyles.textStyleNormal.copyWith(
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 24),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.redColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              onPressed: () =>
+                                  Navigator.of(dialogContext).pop(),
+                              child: Text(
+                                'Batal',
+                                style: AppTextStyles.textStyleNormal.copyWith(
+                                  color: AppColors.whiteColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.greenColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(dialogContext).pop();
+                                RegisterKtpRoute().go(context);
+                              },
+                              child: Text(
+                                'Lanjutkan',
+                                style: AppTextStyles.textStyleNormal.copyWith(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Positioned(
+                  top: -60,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.asset(
+                      'assets/icons/dialog.png',
+                      height: 100,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/misc/theme.dart';
-import 'package:mobile_pgb/modules/app/bloc/app_bloc.dart';
-import 'package:mobile_pgb/modules/home/bloc/home_bloc.dart';
-import 'package:mobile_pgb/router/builder.dart';
+import '../../../misc/injections.dart';
+import '../../../misc/theme.dart';
+import '../../app/bloc/app_bloc.dart';
+import '../bloc/home_bloc.dart';
+import '../../../router/builder.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
@@ -141,8 +141,10 @@ class HomeView extends StatelessWidget {
                                   title: newsItem.title,
                                   content: newsItem.content,
                                   onTap: () {
-                                    debugPrint(
-                                        'Gambar URL: ${newsItem.linkImage}');
+                                    if (newsItem.id != null) {
+                                      NewsDetailRoute(newsId: newsItem.id!)
+                                          .go(context);
+                                    }
                                   },
                                 );
                               },
@@ -158,7 +160,13 @@ class HomeView extends StatelessWidget {
                       child: Center(
                         child: GestureDetector(
                           onTap: () {
-                            debugPrint('SOS Button Pressed');
+                            if (isLoggedIn) {
+                              // TODO: Navigate to SOS Page
+                              debugPrint('Navigating to SOS Page');
+                              // SosRoute().go(context);
+                            } else {
+                              RegisterRoute().go(context);
+                            }
                           },
                           child: Image.asset(
                             'assets/icons/sos.png',

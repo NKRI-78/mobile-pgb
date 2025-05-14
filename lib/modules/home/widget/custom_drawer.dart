@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/modules/app/bloc/app_bloc.dart';
+import '../../../misc/injections.dart';
+import '../../app/bloc/app_bloc.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 

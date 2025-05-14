@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import '../../../../misc/text_style.dart';
 import '../widget/custom_card_media.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MediaPage extends StatelessWidget {
   const MediaPage({super.key});

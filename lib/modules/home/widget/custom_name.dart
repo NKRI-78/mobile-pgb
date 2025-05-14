@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/router/builder.dart';
+import '../../../router/builder.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';

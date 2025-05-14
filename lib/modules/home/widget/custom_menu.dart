@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/modules/app/bloc/app_bloc.dart';
+import '../../app/bloc/app_bloc.dart';
 import '../../../misc/injections.dart';
 import '../../../router/builder.dart';
 

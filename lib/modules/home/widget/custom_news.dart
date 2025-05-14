@@ -59,7 +59,6 @@ class _NewsImage extends StatelessWidget {
         placeholder: (context, url) =>
             const Center(child: CircularProgressIndicator()),
         errorWidget: (context, url, error) {
-          debugPrint('Failed to load image: $url\nError: $error');
           return Image.asset(
             imageDefaultBanner,
             width: 170,
