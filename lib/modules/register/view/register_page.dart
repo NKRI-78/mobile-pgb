@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../router/builder.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
+import '../../../router/builder.dart';
 import '../../../widgets/button/custom_button.dart';
 
 class RegisterPage extends StatelessWidget {

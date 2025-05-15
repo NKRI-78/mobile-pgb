@@ -22,7 +22,7 @@ class NewsDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
+    return BlocProvider<NewsDetailCubit>(
       create: (context) => NewsDetailCubit()..fetchDetailNews(newsId),
       child: NewsDetailView(newsId: newsId),
     );

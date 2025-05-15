@@ -2,9 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
-import '../../../repositories/home_repository/home_repository.dart';
 
 import '../../../misc/injections.dart';
+import '../../../repositories/home_repository/home_repository.dart';
 import '../../../repositories/home_repository/models/data_pagination.dart';
 import '../../../repositories/home_repository/models/news_model.dart';
 

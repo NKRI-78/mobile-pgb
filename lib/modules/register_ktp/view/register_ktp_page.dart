@@ -2,19 +2,19 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/widgets/button/custom_button.dart';
-import '../cubit/register_ktp_cubit.dart';
-import '../widget/custom_textfield_register_ktp.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
+import '../../../widgets/button/custom_button.dart';
+import '../cubit/register_ktp_cubit.dart';
+import '../widget/custom_textfield_register_ktp.dart';
 
 class RegisterKtpPage extends StatelessWidget {
   const RegisterKtpPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
+    return BlocProvider<RegisterKtpCubit>(
       create: (_) => RegisterKtpCubit()..scanKtp(),
       child: const RegisterKtpView(),
     );
@@ -76,7 +76,7 @@ class RegisterKtpView extends StatelessWidget {
                             'Hasil Scan KTP',
                             style: AppTextStyles.textStyleBold.copyWith(
                               color: Colors.white,
-                              fontSize: 16,
+                              fontSize: 14,
                             ),
                           ),
                           const SizedBox(height: 8),
@@ -100,9 +100,11 @@ class RegisterKtpView extends StatelessWidget {
                             },
                             icon:
                                 const Icon(Icons.refresh, color: Colors.white),
-                            label: const Text(
+                            label: Text(
                               'Pindai Ulang',
-                              style: TextStyle(color: Colors.white),
+                              style: AppTextStyles.textStyleNormal.copyWith(
+                                color: AppColors.whiteColor,
+                              ),
                             ),
                             style: OutlinedButton.styleFrom(
                               side: const BorderSide(color: Colors.white),
@@ -116,8 +118,9 @@ class RegisterKtpView extends StatelessWidget {
                         Text(
                           'Pastikan data yang tertera sudah benar',
                           textAlign: TextAlign.center,
-                          style: AppTextStyles.textStyleNormal.copyWith(
+                          style: AppTextStyles.textStyleBold.copyWith(
                             color: AppColors.whiteColor,
+                            fontSize: 14,
                           ),
                         ),
                         SizedBox(height: 20),

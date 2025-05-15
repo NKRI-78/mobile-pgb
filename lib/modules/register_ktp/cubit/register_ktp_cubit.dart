@@ -4,10 +4,12 @@ import 'package:bloc/bloc.dart';
 import 'package:cunning_document_scanner/cunning_document_scanner.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/repositories/auth_repository/auth_repository.dart';
 
+import '../../../misc/injections.dart';
 import '../../../misc/snackbar.dart';
+import '../../../repositories/auth_repository/auth_repository.dart';
+import '../../../router/builder.dart';
+import '../../register_akun/model/extrack_ktp_model.dart';
 
 part 'register_ktp_state.dart';
 
@@ -100,8 +102,22 @@ class RegisterKtpCubit extends Cubit<RegisterKtpState> {
           context,
           "KTP anda telah terferifikasi",
         );
-        // Navigator.pushNamed(
-        //     context, '/register/formulir'); // ganti dengan rute kamu
+        RegisterAkunRoute(
+          $extra: ExtrackKtpModel(
+              fullname: state.nama,
+              nik: state.nik,
+              birthPlaceAndDate: state.ttl,
+              gender: state.jenisKelamin,
+              bloodType: state.golDarah,
+              administrativeVillage: state.alamat,
+              villageUnit: state.rtRw,
+              subDistrict: state.kelDesa,
+              religion: state.agama,
+              maritalStatus: state.statusPerkawinan,
+              occupation: state.pekerjaan,
+              citizenship: state.kewarganegaraan,
+              validUntil: state.berlakuHingga),
+        ).go(context);
       }
     } catch (e, stack) {
       debugPrint('Gagal check NIK: $e');

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../misc/theme.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
-
+import '../../../misc/theme.dart';
 import '../../../repositories/home_repository/models/news_model.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/image/image_card.dart';

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/modules/app/bloc/app_bloc.dart';
-import 'package:mobile_pgb/modules/news_all/cubit/news_all_cubit.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
 import '../../../widgets/pages/empty_page.dart';
 import '../../../widgets/pages/loading_page.dart';
+import '../../app/bloc/app_bloc.dart';
+import '../cubit/news_all_cubit.dart';
 import '../widget/list_news.dart';
 
 class NewsAllPage extends StatelessWidget {

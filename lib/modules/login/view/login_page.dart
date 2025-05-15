@@ -83,39 +83,25 @@ class LoginView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             spacing: 5,
                             children: [
-                              Text(
-                                "Klik",
-                                style: TextStyle(
-                                  color: AppColors.whiteColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  fontFamily: 'Intel',
-                                ),
-                              ),
+                              Text("Klik",
+                                  style: AppTextStyles.textStyleNormal.copyWith(
+                                    color: AppColors.whiteColor,
+                                  )),
                               GestureDetector(
                                 onTap: () {
                                   // LupaPasswordRoute().go(context);
                                   debugPrint("Lupa Password");
                                 },
-                                child: Text(
-                                  "Disini",
-                                  style: TextStyle(
-                                    color: AppColors.redColor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Intel',
-                                  ),
-                                ),
+                                child: Text("Disini",
+                                    style: AppTextStyles.textStyleBold.copyWith(
+                                      color: AppColors.yellowColor,
+                                      fontSize: 14,
+                                    )),
                               ),
-                              Text(
-                                "jika lupa Password",
-                                style: TextStyle(
-                                  color: AppColors.whiteColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  fontFamily: 'Intel',
-                                ),
-                              ),
+                              Text("jika lupa Password",
+                                  style: AppTextStyles.textStyleNormal.copyWith(
+                                    color: AppColors.whiteColor,
+                                  )),
                             ],
                           ),
                           SizedBox(height: 30),

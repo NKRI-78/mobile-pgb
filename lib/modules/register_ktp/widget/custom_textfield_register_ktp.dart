@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../misc/colors.dart';
+import '../../../misc/text_style.dart';
 import '../cubit/register_ktp_cubit.dart';
 
 class CustomTextfieldRegisterKtp extends StatelessWidget {
@@ -101,7 +102,7 @@ class _FieldJenisKelaminDanGolDarah extends StatelessWidget {
         return Row(
           children: [
             Expanded(
-              flex: 2,
+              flex: 1,
               child: _buildTextFormField(
                 label: 'Jenis Kelamin',
                 initialValue: state.jenisKelamin,
@@ -333,11 +334,15 @@ Widget _buildTextFormField({
           onChanged: onChanged,
           decoration: InputDecoration(
             labelText: label,
-            labelStyle: TextStyle(color: AppColors.buttonWhiteColor),
+            labelStyle: AppTextStyles.textStyleNormal.copyWith(
+              color: AppColors.whiteColor,
+            ),
             border: InputBorder.none,
             contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           ),
-          style: TextStyle(color: AppColors.whiteColor),
+          style: AppTextStyles.textStyleNormal.copyWith(
+            color: AppColors.whiteColor,
+          ),
         ),
       ),
     ),

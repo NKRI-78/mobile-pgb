@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:mobile_pgb/misc/theme.dart';
 
 import '../../misc/colors.dart';
 import '../../misc/text_style.dart';
+import '../../misc/theme.dart';
 
 class EmptyPage extends StatelessWidget {
   const EmptyPage(

@@ -26,10 +26,13 @@ dependencies:
   go_router_builder: ^2.9.0
   http: ^1.4.0
   hydrated_bloc: ^10.0.0
+  image_cropper: ^9.1.0
+  image_picker: ^1.1.2
   intl: ^0.20.2
   json_annotation: ^4.9.0
   json_serializable: ^6.9.3
   path_provider: ^2.1.5
+  pinput: ^2.2.3
   pull_to_refresh: ^2.0.0
   shimmer: ^3.0.0
   url_launcher: ^6.3.1

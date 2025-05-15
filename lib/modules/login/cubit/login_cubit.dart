@@ -7,6 +7,7 @@ import '../../../misc/snackbar.dart';
 import '../../../repositories/auth_repository/auth_repository.dart';
 import '../../../router/builder.dart';
 import '../../app/bloc/app_bloc.dart';
+import '../../register_akun/model/extrack_ktp_model.dart';
 
 part 'login_state.dart';
 
@@ -42,10 +43,11 @@ class LoginCubit extends Cubit<LoginState> {
       if (!context.mounted) {
         return;
       }
-      // RegisterOtpRoute(
-      //   email: state.email,
-      //   isLogin: true,
-      // ).push(context);
+      RegisterOtpRoute(
+        $extra: ExtrackKtpModel(),
+        email: state.email,
+        isLogin: true,
+      ).push(context);
     } catch (e) {
       if (!context.mounted) return;
 
@@ -81,15 +83,15 @@ class LoginCubit extends Cubit<LoginState> {
       );
       return false;
     }
-    // if (!RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
-    //     .hasMatch(state.email)) {
-    //   ShowTopSnackbar.snackbar(
-    //     context,
-    //     isSuccess: false,
-    //     "Format email tidak valid",
-    //   );
-    //   return false;
-    // }
+    if (!RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+        .hasMatch(state.email)) {
+      ShowTopSnackbar.snackbar(
+        context,
+        isSuccess: false,
+        "Format email tidak valid",
+      );
+      return false;
+    }
     if (state.password.isEmpty) {
       ShowTopSnackbar.snackbar(
         context,

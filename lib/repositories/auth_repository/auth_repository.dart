@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as ht;
+import '../../modules/register_akun/model/extrack_ktp_model.dart';
 
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
@@ -35,8 +36,33 @@ enum VerifyEmailType { sendingOtp, verified }
 class AuthRepository {
   String get auth => '${MyApi.baseUrl}/api/v1/auth';
   String get registKtp => '${MyApi.baseUrl}/api/v1/ocr/ktp';
+  String get mediaUpload => '${MyApi.baseUrlUpload}/api/v1/media';
 
   final http = getIt<BaseNetworkClient>();
+
+  Future<List<dynamic>> postMedia(
+      {required String folder, required File media}) async {
+    try {
+      var request = ht.MultipartRequest('PUT', Uri.parse(mediaUpload));
+      request.fields.addAll({'folder': 'profile', 'app': 'GEMA'});
+      var headers = {'Authorization': 'Bearer ${http.token}'};
+      request.headers.addAll(headers);
+      debugPrint("Image : $media");
+      request.files.add(await ht.MultipartFile.fromPath('images', media.path));
+
+      ht.StreamedResponse response = await request.send();
+      if (response.statusCode == 200) {
+        final data = await response.stream.bytesToString();
+        return jsonDecode(data)['data'];
+      } else {
+        debugPrint(response.reasonPhrase);
+      }
+      return [];
+    } catch (e) {
+      debugPrint('error profile $e');
+      rethrow;
+    }
+  }
 
   Future<Map<String, dynamic>> uploadKtpForOcr(File ktpImage) async {
     try {
@@ -134,6 +160,100 @@ class AuthRepository {
       throw "Terjadi Kesalahan Jaringan";
     } on TimeoutException {
       throw "Koneksi internet lambat, periksa jaringan Anda";
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> registerAkun({
+    String email = '',
+    String phone = '',
+    String password = '',
+    ExtrackKtpModel? ktpModel,
+  }) async {
+    try {
+      final response = await http.post(Uri.parse('$auth/register'), body: {
+        'email': email,
+        'password': password,
+        'phone': phone,
+        'name': ktpModel?.fullname ?? '',
+        'gender': ktpModel?.translateGender,
+        'nik': ktpModel?.nik ?? '',
+        'avatar_link': ktpModel?.avatarLink ?? '',
+        'birth_place_and_date': ktpModel?.birthPlaceAndDate ?? '',
+        'village_unit': ktpModel?.villageUnit ?? '',
+        'administrative_village': ktpModel?.administrativeVillage ?? '',
+        'sub_district': ktpModel?.subDistrict ?? '',
+        'religion': ktpModel?.religion ?? '',
+        'marital_status': ktpModel?.maritalStatus ?? '',
+        'occupation': ktpModel?.occupation ?? '',
+        'citizenship': ktpModel?.citizenship ?? '',
+        'blood_type': ktpModel?.bloodType ?? '',
+        'valid_until': ktpModel?.validUntil ?? '',
+      });
+
+      final json = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        return;
+      }
+      if (response.statusCode == 400) {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
+    } on SocketException {
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<LoggedIn?> verifyOtp(
+      String email, String verificationCode, VerifyEmailType type) async {
+    try {
+      final res = await http.post(Uri.parse('$auth/verify-email'), body: {
+        'email': email,
+        'otp': verificationCode,
+        'type': type == VerifyEmailType.sendingOtp ? 'SENDING_OTP' : 'VERIFIED'
+      });
+
+      debugPrint('status : ${res.body}');
+
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        if (type == VerifyEmailType.sendingOtp) {
+          return null;
+        }
+        return LoggedIn(
+          token: json['data']['token'],
+          user: User.fromJson(
+            json['data'],
+          ),
+        );
+      }
+      if (res.statusCode == 400) {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
+    } on SocketException {
+      throw "Terjadi kesalahan jaringan";
+    }
+    return null;
+  }
+
+  Future<void> resendOtp(String email) async {
+    try {
+      final res = await http.post(Uri.parse('$auth/verify-email'),
+          body: {'email': email, 'type': 'SENDING_OTP'});
+
+      debugPrint("Email $email");
+
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return;
+      }
+      if (res.statusCode == 400) {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
     } catch (e) {
       rethrow;
     }

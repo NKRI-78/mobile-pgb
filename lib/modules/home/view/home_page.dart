@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../misc/injections.dart';
-import '../../../misc/theme.dart';
-import '../../app/bloc/app_bloc.dart';
-import '../bloc/home_bloc.dart';
-import '../../../router/builder.dart';
 
 import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
+import '../../../misc/theme.dart';
+import '../../../router/builder.dart';
+import '../../app/bloc/app_bloc.dart';
+import '../bloc/home_bloc.dart';
 import '../widget/custom_banner.dart';
 import '../widget/custom_drawer.dart';
 import '../widget/custom_menu.dart';

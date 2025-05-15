@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../router/builder.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
+import '../../../router/builder.dart';
 
 class CustomName extends StatelessWidget {
   final bool isLoggedIn;

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_pgb/modules/news_all/view/news_all_page.dart';
-import '../modules/login/view/login_page.dart';
-import '../modules/news_detail/view/news_detail_page.dart';
-import '../modules/register/view/register_page.dart';
-import '../modules/register_ktp/view/register_ktp_page.dart';
-import '../modules/webview/webview.dart';
-import '../widgets/pages/about/about_us_page.dart';
 
 import '../modules/home/view/home_page.dart';
+import '../modules/login/view/login_page.dart';
+import '../modules/news_all/view/news_all_page.dart';
+import '../modules/news_detail/view/news_detail_page.dart';
+import '../modules/register/view/register_page.dart';
+import '../modules/register_akun/model/extrack_ktp_model.dart';
+import '../modules/register_akun/view/register_akun_page.dart';
+import '../modules/register_ktp/view/register_ktp_page.dart';
+import '../modules/register_otp/view/register_otp_page.dart';
+import '../modules/webview/webview.dart';
+import '../widgets/pages/about/about_us_page.dart';
 import '../widgets/pages/media/view/media_page.dart';
 
 part 'builder.g.dart';
@@ -21,7 +24,11 @@ part 'builder.g.dart';
   TypedGoRoute<WebViewRoute>(path: 'webview'),
   TypedGoRoute<RegisterRoute>(path: 'register', routes: [
     TypedGoRoute<LoginRoute>(path: 'login'),
-    TypedGoRoute<RegisterKtpRoute>(path: 'register-ktp'),
+    TypedGoRoute<RegisterKtpRoute>(path: 'register-ktp', routes: [
+      TypedGoRoute<RegisterAkunRoute>(path: 'register-akun', routes: [
+        TypedGoRoute<RegisterOtpRoute>(path: 'register-otp'),
+      ]),
+    ]),
   ]),
 ])
 class HomeRoute extends GoRouteData {
@@ -100,5 +107,38 @@ class RegisterKtpRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const RegisterKtpPage();
+  }
+}
+
+class RegisterAkunRoute extends GoRouteData {
+  final ExtrackKtpModel $extra;
+
+  RegisterAkunRoute({required this.$extra});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return RegisterAkunPage(
+      extrackKtp: $extra,
+    );
+  }
+}
+
+class RegisterOtpRoute extends GoRouteData {
+  final String email;
+  final bool isLogin;
+  final ExtrackKtpModel $extra;
+
+  RegisterOtpRoute({
+    required this.$extra,
+    required this.email,
+    required this.isLogin,
+  });
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return RegisterOtpPage(
+      isLogin: isLogin,
+      email: email,
+      extrackKtp: $extra,
+    );
   }
 }

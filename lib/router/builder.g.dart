@@ -45,6 +45,18 @@ RouteBase get $homeRoute => GoRouteData.$route(
             GoRouteData.$route(
               path: 'register-ktp',
               factory: $RegisterKtpRouteExtension._fromState,
+              routes: [
+                GoRouteData.$route(
+                  path: 'register-akun',
+                  factory: $RegisterAkunRouteExtension._fromState,
+                  routes: [
+                    GoRouteData.$route(
+                      path: 'register-otp',
+                      factory: $RegisterOtpRouteExtension._fromState,
+                    ),
+                  ],
+                ),
+              ],
             ),
           ],
         ),
@@ -214,4 +226,63 @@ extension $RegisterKtpRouteExtension on RegisterKtpRoute {
       context.pushReplacement(location);
 
   void replace(BuildContext context) => context.replace(location);
+}
+
+extension $RegisterAkunRouteExtension on RegisterAkunRoute {
+  static RegisterAkunRoute _fromState(GoRouterState state) => RegisterAkunRoute(
+        $extra: state.extra as ExtrackKtpModel,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/register/register-ktp/register-akun',
+      );
+
+  void go(BuildContext context) => context.go(location, extra: $extra);
+
+  Future<T?> push<T>(BuildContext context) =>
+      context.push<T>(location, extra: $extra);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location, extra: $extra);
+
+  void replace(BuildContext context) =>
+      context.replace(location, extra: $extra);
+}
+
+extension $RegisterOtpRouteExtension on RegisterOtpRoute {
+  static RegisterOtpRoute _fromState(GoRouterState state) => RegisterOtpRoute(
+        email: state.uri.queryParameters['email']!,
+        isLogin: _$boolConverter(state.uri.queryParameters['is-login']!),
+        $extra: state.extra as ExtrackKtpModel,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/register/register-ktp/register-akun/register-otp',
+        queryParams: {
+          'email': email,
+          'is-login': isLogin.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location, extra: $extra);
+
+  Future<T?> push<T>(BuildContext context) =>
+      context.push<T>(location, extra: $extra);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location, extra: $extra);
+
+  void replace(BuildContext context) =>
+      context.replace(location, extra: $extra);
+}
+
+bool _$boolConverter(String value) {
+  switch (value) {
+    case 'true':
+      return true;
+    case 'false':
+      return false;
+    default:
+      throw UnsupportedError('Cannot convert "$value" into a bool.');
+  }
 }
