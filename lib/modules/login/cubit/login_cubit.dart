@@ -33,7 +33,7 @@ class LoginCubit extends Cubit<LoginState> {
         getIt<AppBloc>()
             .add(SetUserData(user: loggedIn.user, token: loggedIn.token));
         HomeRoute().go(context);
-        ShowTopSnackbar.snackbar(
+        ShowSnackbar.snackbar(
           isSuccess: true,
           context,
           "Login berhasil",
@@ -63,7 +63,7 @@ class LoginCubit extends Cubit<LoginState> {
         errorMessage = e.toString();
       }
 
-      ShowTopSnackbar.snackbar(
+      ShowSnackbar.snackbar(
         isSuccess: false,
         context,
         errorMessage,
@@ -76,7 +76,7 @@ class LoginCubit extends Cubit<LoginState> {
   /// 🔹 Validasi email dan password sebelum login
   bool _validateInputs(BuildContext context) {
     if (state.email.isEmpty) {
-      ShowTopSnackbar.snackbar(
+      ShowSnackbar.snackbar(
         isSuccess: false,
         context,
         "Email tidak boleh kosong",
@@ -85,7 +85,7 @@ class LoginCubit extends Cubit<LoginState> {
     }
     if (!RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
         .hasMatch(state.email)) {
-      ShowTopSnackbar.snackbar(
+      ShowSnackbar.snackbar(
         context,
         isSuccess: false,
         "Format email tidak valid",
@@ -93,7 +93,7 @@ class LoginCubit extends Cubit<LoginState> {
       return false;
     }
     if (state.password.isEmpty) {
-      ShowTopSnackbar.snackbar(
+      ShowSnackbar.snackbar(
         context,
         isSuccess: false,
         "Password tidak boleh kosong",
@@ -101,7 +101,7 @@ class LoginCubit extends Cubit<LoginState> {
       return false;
     }
     if (state.password.length < 8) {
-      ShowTopSnackbar.snackbar(
+      ShowSnackbar.snackbar(
         context,
         isSuccess: false,
         "Password harus minimal 8 karakter",

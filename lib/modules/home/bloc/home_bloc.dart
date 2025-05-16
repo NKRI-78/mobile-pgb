@@ -7,6 +7,9 @@ import '../../../misc/injections.dart';
 import '../../../repositories/home_repository/home_repository.dart';
 import '../../../repositories/home_repository/models/data_pagination.dart';
 import '../../../repositories/home_repository/models/news_model.dart';
+import '../../../repositories/profile_repository/models/profile_model.dart';
+import '../../../repositories/profile_repository/profile_repository.dart';
+import '../../app/bloc/app_bloc.dart';
 
 part 'home_bloc.g.dart';
 part 'home_event.dart';
@@ -14,6 +17,7 @@ part 'home_state.dart';
 
 class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   final HomeRepository homeRepo = getIt<HomeRepository>();
+  final ProfileRepository profileRepo = getIt<ProfileRepository>();
 
   HomeBloc() : super(const HomeState()) {
     on<HomeInit>(_onHomeInit);
@@ -35,6 +39,9 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   void _onHomeInit(HomeInit event, Emitter<HomeState> emit) async {
     emit(state.copyWith(isLoading: true));
 
+    if (getIt<AppBloc>().state.isLoggedIn) {
+      add(LoadProfile());
+    }
     await _fetchNews(emit, isRefresh: true);
 
     emit(state.copyWith(isLoading: false));
@@ -48,7 +55,14 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     emit(event.newState);
   }
 
-  void _onLoadProfile(LoadProfile event, Emitter<HomeState> emit) {}
+  void _onLoadProfile(LoadProfile event, Emitter<HomeState> emit) async {
+    try {
+      final profile = await profileRepo.getProfile();
+      emit(state.copyWith(profile: profile));
+    } catch (e) {
+      debugPrint('❌ Error loading profile: $e');
+    }
+  }
 
   Future<void> _fetchNews(Emitter<HomeState> emit,
       {bool isRefresh = false}) async {

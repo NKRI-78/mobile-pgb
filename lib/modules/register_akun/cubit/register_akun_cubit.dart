@@ -42,35 +42,35 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
   }) {
     if (!email
         .contains(RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)?$'))) {
-      ShowTopSnackbar.snackbar(
+      ShowSnackbar.snackbar(
         context,
         "Harap masukkan email yang tepat",
         isSuccess: false,
       );
       return false;
     } else if (phone.length < 10 || !RegExp(r'^[0-9]+$').hasMatch(phone)) {
-      ShowTopSnackbar.snackbar(
+      ShowSnackbar.snackbar(
         context,
         "Nomor telepon harus minimal 10 digit dan hanya mengandung angka",
         isSuccess: false,
       );
       return false;
     } else if (password.length < 8) {
-      ShowTopSnackbar.snackbar(
+      ShowSnackbar.snackbar(
         context,
         "Kata Sandi minimal 8 karakter",
         isSuccess: false,
       );
       return false;
     } else if (passwordConfirm.length < 8) {
-      ShowTopSnackbar.snackbar(
+      ShowSnackbar.snackbar(
         context,
         "Konfirmasi Kata Sandi minimal 8 karakter",
         isSuccess: false,
       );
       return false;
     } else if (passwordConfirm != password) {
-      ShowTopSnackbar.snackbar(
+      ShowSnackbar.snackbar(
         context,
         "Kata Sandi tidak cocok",
         isSuccess: false,
@@ -85,7 +85,7 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
       emit(state.copyWith(isLoading: true));
 
       if (state.fileImage == null) {
-        ShowTopSnackbar.snackbar(
+        ShowSnackbar.snackbar(
           context,
           "Harap masukan foto",
           isSuccess: false,
@@ -140,7 +140,7 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
           isLogin: true,
         ).push(context);
 
-        ShowTopSnackbar.snackbar(
+        ShowSnackbar.snackbar(
           context,
           'Kode OTP telah dikirim, silahkan cek email Anda.',
           isSuccess: true,
@@ -148,7 +148,7 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
       }
     } catch (e) {
       if (!context.mounted) return;
-      ShowTopSnackbar.snackbar(
+      ShowSnackbar.snackbar(
         context,
         e.toString(),
         isSuccess: false,

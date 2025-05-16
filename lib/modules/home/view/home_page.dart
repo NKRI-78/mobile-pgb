@@ -29,6 +29,10 @@ class HomePage extends StatelessWidget {
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
+  Future<void> _onRefresh(BuildContext context) async {
+    context.read<HomeBloc>().add(HomeInit(context: context));
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AppBloc, AppState>(
@@ -55,27 +59,48 @@ class HomeView extends StatelessWidget {
                           child: GestureDetector(
                             onTap: () {
                               if (isLoggedIn) {
-                                // TODO: Navigate to Profile Page
-                                debugPrint('Navigating to Profile Page');
+                                ProfileRoute().go(context);
                               } else {
                                 RegisterRoute().go(context);
                               }
                             },
-                            child: CircleAvatar(
-                              radius: 22,
-                              backgroundColor: AppColors.primaryColor,
-                              backgroundImage: isLoggedIn
-                                  ? AssetImage('assets/images/user.png')
-                                  : AssetImage(imageDefaultUser),
+                            child: ClipOval(
+                              child: isLoggedIn &&
+                                      (state.profile?.profile?.avatarLink
+                                              ?.isNotEmpty ??
+                                          false)
+                                  ? FadeInImage.assetNetwork(
+                                      placeholder: imageDefaultUser,
+                                      image:
+                                          state.profile!.profile!.avatarLink!,
+                                      width: 44,
+                                      height: 44,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.asset(
+                                      imageDefaultUser,
+                                      width: 44,
+                                      height: 44,
+                                      fit: BoxFit.cover,
+                                    ),
                             ),
                           ),
                         ),
                         Center(
-                          child: Image.asset(
-                            'assets/images/logo.png',
-                            height: 45,
+                          child: Container(
+                            width: 55,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            clipBehavior: Clip.hardEdge,
+                            child: Image.asset(
+                              'assets/images/logo.png',
+                              filterQuality: FilterQuality.high,
+                              fit: BoxFit.fill,
+                            ),
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
@@ -105,88 +130,68 @@ class HomeView extends StatelessWidget {
               ),
               endDrawer: const CustomEndDrawer(),
               body: SizedBox.expand(
-                child: Stack(
-                  children: [
-                    SingleChildScrollView(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Column(
-                        children: [
-                          CustomName(
-                            isLoggedIn: isLoggedIn,
-                          ),
-                          SizedBox(height: 10),
-                          CustomBanner(),
-                          SizedBox(height: 10),
-                          CustomMenu(),
-                          _buildNewsSectionHeader(context),
-                          if (state.isLoading)
-                            const Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          else if (state.news.isEmpty)
-                            Center(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(height: 20),
-                                  // Image(
-                                  //   image: AssetImage(imageDefaultData),
-                                  //   height: 120,
-                                  // ),
-                                  SizedBox(height: 8),
-                                  Text('Tidak ada Berita..',
-                                      style: AppTextStyles.textStyleNormal),
-                                ],
-                              ),
-                            )
-                          else
-                            ListView.builder(
-                              padding: EdgeInsets.zero,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: state.news.take(5).length,
-                              itemBuilder: (context, index) {
-                                final newsItem = state.news[index];
-                                return CustomNews(
-                                  imageUrl: newsItem.linkImage,
-                                  title: newsItem.title,
-                                  content: newsItem.content,
-                                  onTap: () {
-                                    if (newsItem.id != null) {
-                                      NewsDetailRoute(newsId: newsItem.id!)
-                                          .go(context);
-                                    }
-                                  },
-                                );
-                              },
-                            ),
-                          SizedBox(height: 50),
-                        ],
-                      ),
-                    ),
-                    Positioned(
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      child: Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            if (isLoggedIn) {
-                              // TODO: Navigate to SOS Page
-                              debugPrint('Navigating to SOS Page');
-                              // SosRoute().go(context);
-                            } else {
-                              RegisterRoute().go(context);
-                            }
-                          },
-                          child: Image.asset(
-                            'assets/icons/sos.png',
-                            width: 150,
-                          ),
+                child: RefreshIndicator(
+                  onRefresh: () => _onRefresh(context),
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Column(
+                      children: [
+                        CustomName(
+                          balance: state.profile?.balance.toString(),
+                          fullname: state.profile?.profile?.fullname,
+                          isLoggedIn: isLoggedIn,
                         ),
-                      ),
+                        SizedBox(height: 10),
+                        CustomBanner(),
+                        SizedBox(height: 10),
+                        CustomMenu(),
+                        _buildNewsSectionHeader(context),
+                        if (state.isLoading)
+                          const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        else if (state.news.isEmpty)
+                          Center(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(height: 20),
+                                // Image(
+                                //   image: AssetImage(imageDefaultData),
+                                //   height: 120,
+                                // ),
+                                SizedBox(height: 20),
+                                Text('Tidak ada Berita..',
+                                    style: AppTextStyles.textStyleNormal),
+                              ],
+                            ),
+                          )
+                        else
+                          ListView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: state.news.take(5).length,
+                            itemBuilder: (context, index) {
+                              final newsItem = state.news[index];
+                              return CustomNews(
+                                imageUrl: newsItem.linkImage,
+                                title: newsItem.title,
+                                content: newsItem.content,
+                                onTap: () {
+                                  if (newsItem.id != null) {
+                                    NewsDetailRoute(newsId: newsItem.id!)
+                                        .go(context);
+                                  }
+                                },
+                              );
+                            },
+                          ),
+                        SizedBox(height: 60),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             );

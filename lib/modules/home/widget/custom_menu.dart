@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_pgb/misc/colors.dart';
 import '../../app/bloc/app_bloc.dart';
 import '../../../misc/injections.dart';
 import '../../../router/builder.dart';
@@ -26,9 +27,9 @@ class CustomMenu extends StatelessWidget {
               context, 'Member Near', 'assets/icons/member_near.png', 2),
           _buildMenuItem(context, 'PPOB', 'assets/icons/ppob.png', 3),
           _buildMenuItem(context, 'Media', 'assets/icons/media.png', 4),
-          _buildMenuItem(context, 'News', 'assets/icons/news.png', 5),
-          _buildMenuItem(context, 'About Us', 'assets/icons/about.png', 6),
-          _buildMenuItem(context, 'Forum', 'assets/icons/forum.png', 7),
+          _buildMenuItem(context, 'About Us', 'assets/icons/about.png', 5),
+          _buildMenuItem(context, 'Forum', 'assets/icons/forum.png', 6),
+          _buildMenuItem(context, 'Sos', 'assets/icons/sos.png', 7),
         ],
       ),
     );
@@ -53,14 +54,17 @@ class CustomMenu extends StatelessWidget {
               width: 60,
               height: 60,
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [
-                    Color(0xFF393FCD),
-                    Color(0xFF0F124B),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
+                gradient: index == 7
+                    ? null
+                    : const LinearGradient(
+                        colors: [
+                          Color(0xFF393FCD),
+                          Color(0xFF0F124B),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                color: index == 7 ? AppColors.redColor : null,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Center(
@@ -96,13 +100,8 @@ class CustomMenu extends StatelessWidget {
       MediaRoute().go(context);
       return;
     }
-    if (index == 6) {
-      AboutRoute().go(context);
-      return;
-    }
     if (index == 5) {
-      // NewsRoute().go(context);
-      debugPrint('NewsRoute not implemented');
+      AboutRoute().go(context);
       return;
     }
 
@@ -110,19 +109,22 @@ class CustomMenu extends StatelessWidget {
     if (isLoggedIn) {
       switch (index) {
         case 0:
-          // MartRoute().go(context);
+          // MART
           break;
         case 1:
-          // EventRoute().go(context);
+          // EVENT
           break;
         case 2:
-          // MemberNearRoute().go(context);
+          // MEMBER NEAR
           break;
         case 3:
-          // PpobRoute().go(context);
+          // PPOB
+          break;
+        case 6:
+          // FORUM
           break;
         case 7:
-          // ForumRoute().go(context);
+          // SOS
           break;
       }
     } else {

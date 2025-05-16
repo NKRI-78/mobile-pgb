@@ -50,7 +50,7 @@ class RegisterOtpCubit extends Cubit<RegisterOtpState> {
         getIt<AppBloc>()
             .add(SetUserData(user: loggedIn!.user, token: loggedIn.token));
 
-        ShowTopSnackbar.snackbar(
+        ShowSnackbar.snackbar(
           context,
           'Verify berhasil, selamat datang di Partai Gema Bangsa.',
           isSuccess: true,
@@ -62,7 +62,7 @@ class RegisterOtpCubit extends Cubit<RegisterOtpState> {
       if (!context.mounted) {
         return;
       }
-      ShowTopSnackbar.snackbar(
+      ShowSnackbar.snackbar(
         context,
         e.toString(),
         isSuccess: false,
@@ -81,7 +81,7 @@ class RegisterOtpCubit extends Cubit<RegisterOtpState> {
       await repo.resendOtp(state.email);
 
       if (context.mounted) {
-        ShowTopSnackbar.snackbar(context,
+        ShowSnackbar.snackbar(context,
             'Kode OTP sudah dikirim ulang, Silahkan cek kembali email Anda.',
             isSuccess: true);
       }
@@ -89,7 +89,7 @@ class RegisterOtpCubit extends Cubit<RegisterOtpState> {
       if (!context.mounted) {
         return;
       }
-      ShowTopSnackbar.snackbar(
+      ShowSnackbar.snackbar(
         context,
         e.toString(),
         isSuccess: false,

@@ -8,6 +8,7 @@ import '../modules/news_detail/cubit/news_detail_cubit.dart';
 import '../repositories/auth_repository/auth_repository.dart';
 import '../repositories/home_repository/home_repository.dart';
 import '../repositories/news_repository/news_repository.dart';
+import '../repositories/profile_repository/profile_repository.dart';
 import 'http_client.dart';
 
 final getIt = GetIt.instance;
@@ -27,5 +28,6 @@ class MyInjection {
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
     getIt.registerLazySingleton<HomeRepository>(() => HomeRepository());
     getIt.registerLazySingleton<NewsRepository>(() => NewsRepository());
+    getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepository());
   }
 }
