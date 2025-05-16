@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/misc/colors.dart';
+import '../../../misc/colors.dart';
 import '../../app/bloc/app_bloc.dart';
 import '../../../misc/injections.dart';
 import '../../../router/builder.dart';
@@ -17,7 +17,6 @@ class CustomMenu extends StatelessWidget {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         crossAxisCount: 4,
-        // crossAxisSpacing: 0,
         mainAxisSpacing: 0,
         childAspectRatio: 0.75,
         children: [
@@ -29,7 +28,7 @@ class CustomMenu extends StatelessWidget {
           _buildMenuItem(context, 'Media', 'assets/icons/media.png', 4),
           _buildMenuItem(context, 'About Us', 'assets/icons/about.png', 5),
           _buildMenuItem(context, 'Forum', 'assets/icons/forum.png', 6),
-          _buildMenuItem(context, 'Sos', 'assets/icons/sos.png', 7),
+          _buildMenuItem(context, 'SOS', 'assets/icons/sos.png', 7),
         ],
       ),
     );
@@ -49,13 +48,20 @@ class CustomMenu extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
-            elevation: 4,
+            elevation: 6,
             child: Container(
               width: 60,
               height: 60,
               decoration: BoxDecoration(
                 gradient: index == 7
-                    ? null
+                    ? LinearGradient(
+                        colors: [
+                          AppColors.redColor,
+                          Color(0xFFB71C1C),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      )
                     : const LinearGradient(
                         colors: [
                           Color(0xFF393FCD),
@@ -64,7 +70,6 @@ class CustomMenu extends StatelessWidget {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
-                color: index == 7 ? AppColors.redColor : null,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Center(
