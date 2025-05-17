@@ -317,6 +317,7 @@ Widget _buildTextFormField({
   required ValueChanged<String> onChanged,
   TextInputType keyboardType = TextInputType.text,
   String? initialValue,
+  bool readOnly = true,
 }) {
   return Padding(
     padding: EdgeInsets.only(bottom: 12),
@@ -329,6 +330,7 @@ Widget _buildTextFormField({
           border: Border.all(color: AppColors.whiteColor),
         ),
         child: TextFormField(
+          readOnly: readOnly,
           initialValue: initialValue,
           keyboardType: keyboardType,
           onChanged: onChanged,

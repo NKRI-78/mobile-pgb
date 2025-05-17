@@ -90,7 +90,7 @@ class RegisterKtpView extends StatelessWidget {
                               File(state.imagePaths.first),
                               width: double.infinity,
                               height: 200,
-                              fit: BoxFit.cover,
+                              fit: BoxFit.fill,
                             ),
                           ),
                           const SizedBox(height: 12),

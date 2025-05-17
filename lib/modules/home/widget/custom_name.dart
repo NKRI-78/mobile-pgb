@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 
 import '../../../misc/colors.dart';
+import '../../../misc/price_currency.dart';
 import '../../../misc/text_style.dart';
 import '../../../router/builder.dart';
 
 class CustomName extends StatelessWidget {
   final bool isLoggedIn;
-  const CustomName({super.key, required this.isLoggedIn});
+  final String? fullname;
+  final String? balance;
+  const CustomName({
+    super.key,
+    required this.isLoggedIn,
+    required this.fullname,
+    required this.balance,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +25,16 @@ class CustomName extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                isLoggedIn ? 'Hello, Hernan' : 'Selamat Datang,',
-                style: AppTextStyles.textStyleBold,
+              Flexible(
+                child: Text(
+                  isLoggedIn ? 'Hello, $fullname' : 'Selamat Datang,',
+                  style: AppTextStyles.textStyleBold.copyWith(
+                    fontSize: 16,
+                  ),
+                  overflow: TextOverflow.visible,
+                  softWrap: true,
+                  maxLines: 2,
+                ),
               ),
               isLoggedIn
                   ? Text(
@@ -33,7 +48,7 @@ class CustomName extends StatelessWidget {
                         RegisterRoute().go(context);
                       },
                       icon: Icon(
-                        Icons.login,
+                        Icons.login_outlined,
                         size: 14,
                         color: AppColors.whiteColor,
                       ),
@@ -43,9 +58,9 @@ class CustomName extends StatelessWidget {
                             EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                         backgroundColor: AppColors.secondaryColor,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        minimumSize: Size(0, 28),
+                        minimumSize: Size(0, 30),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(6),
                         ),
                         textStyle: AppTextStyles.textStyleNormal.copyWith(
                           fontWeight: FontWeight.bold,
@@ -64,11 +79,13 @@ class CustomName extends StatelessWidget {
                 ),
               ),
               Text(
-                isLoggedIn ? 'Rp 1.000.000' : '',
+                isLoggedIn && balance != null
+                    ? Price.currency(double.tryParse(balance ?? '0') ?? 0)
+                    : '',
                 style: AppTextStyles.textStyleNormal.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
-              )
+              ),
             ],
           ),
         ],

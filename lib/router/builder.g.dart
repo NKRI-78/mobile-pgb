@@ -35,6 +35,18 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $WebViewRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: 'profile',
+          factory: $ProfileRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'event',
+          factory: $EventRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'sos',
+          factory: $SosRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'register',
           factory: $RegisterRouteExtension._fromState,
           routes: [
@@ -116,7 +128,7 @@ extension $AboutRouteExtension on AboutRoute {
 
 extension $NewsDetailRouteExtension on NewsDetailRoute {
   static NewsDetailRoute _fromState(GoRouterState state) => NewsDetailRoute(
-        newsId: int.parse(state.uri.queryParameters['news-id']!),
+        newsId: int.parse(state.uri.queryParameters['news-id']!)!,
       );
 
   String get location => GoRouteData.$location(
@@ -165,6 +177,57 @@ extension $WebViewRouteExtension on WebViewRoute {
           'url': url,
           'title': title,
         },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ProfileRouteExtension on ProfileRoute {
+  static ProfileRoute _fromState(GoRouterState state) => ProfileRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/profile',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $EventRouteExtension on EventRoute {
+  static EventRoute _fromState(GoRouterState state) => EventRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/event',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $SosRouteExtension on SosRoute {
+  static SosRoute _fromState(GoRouterState state) => SosRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/sos',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -252,7 +315,7 @@ extension $RegisterAkunRouteExtension on RegisterAkunRoute {
 extension $RegisterOtpRouteExtension on RegisterOtpRoute {
   static RegisterOtpRoute _fromState(GoRouterState state) => RegisterOtpRoute(
         email: state.uri.queryParameters['email']!,
-        isLogin: _$boolConverter(state.uri.queryParameters['is-login']!),
+        isLogin: _$boolConverter(state.uri.queryParameters['is-login']!)!,
         $extra: state.extra as ExtrackKtpModel,
       );
 

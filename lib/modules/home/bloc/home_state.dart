@@ -6,16 +6,16 @@ class HomeState extends Equatable {
   final List<NewsModel> news;
   final int nextPageNews;
   final bool isLoading;
-  // final ProfileModel? profile;
-  // final BannerModel? banner;
+  final ProfileModel? profile;
+  final BannerModel? banner;
 
   const HomeState({
     this.selectedIndex = 0,
     this.news = const [],
     this.nextPageNews = 1,
     this.isLoading = false,
-    // this.profile,
-    // this.banner,
+    this.profile,
+    this.banner,
   });
 
   HomeState copyWith({
@@ -23,16 +23,16 @@ class HomeState extends Equatable {
     List<NewsModel>? news,
     int? nextPageNews,
     bool? isLoading,
-    // ProfileModel? profile,
-    // BannerModel? banner,
+    ProfileModel? profile,
+    BannerModel? banner,
   }) {
     return HomeState(
       selectedIndex: selectedIndex ?? this.selectedIndex,
       news: news ?? this.news,
       nextPageNews: nextPageNews ?? this.nextPageNews,
       isLoading: isLoading ?? this.isLoading,
-      // profile: profile ?? this.profile,
-      // banner: banner ?? this.banner,
+      profile: profile ?? this.profile,
+      banner: banner ?? this.banner,
     );
   }
 
@@ -46,7 +46,7 @@ class HomeState extends Equatable {
         news,
         nextPageNews,
         isLoading,
-        // profile,
-        // banner,
+        profile,
+        banner,
       ];
 }

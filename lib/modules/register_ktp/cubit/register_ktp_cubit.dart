@@ -91,13 +91,13 @@ class RegisterKtpCubit extends Cubit<RegisterKtpState> {
       emit(state.copyWith(loading: false));
 
       if (isRegistered) {
-        ShowTopSnackbar.snackbar(
+        ShowSnackbar.snackbar(
           isSuccess: false,
           context,
           "Nik terdaftar di sistem, silahkan cek kembali data anda",
         );
       } else {
-        ShowTopSnackbar.snackbar(
+        ShowSnackbar.snackbar(
           isSuccess: true,
           context,
           "KTP anda telah terferifikasi",
@@ -125,7 +125,7 @@ class RegisterKtpCubit extends Cubit<RegisterKtpState> {
 
       emit(state.copyWith(loading: false, error: e.toString()));
 
-      ShowTopSnackbar.snackbar(
+      ShowSnackbar.snackbar(
         isSuccess: false,
         context,
         "Gagal: $e",

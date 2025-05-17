@@ -1,11 +1,9 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-
 import 'colors.dart';
 
-class ShowTopSnackbar {
-  ShowTopSnackbar._();
+class ShowSnackbar {
+  ShowSnackbar._();
 
   static void snackbar(
     BuildContext context,
@@ -23,7 +21,7 @@ class ShowTopSnackbar {
 
     overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-        top: MediaQuery.of(context).padding.top + 5,
+        bottom: MediaQuery.of(context).padding.bottom + 20,
         left: 20,
         right: 20,
         child: SafeArea(
