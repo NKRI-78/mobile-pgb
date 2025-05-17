@@ -5,6 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 import '../../../misc/injections.dart';
 import '../../../repositories/home_repository/home_repository.dart';
+import '../../../repositories/home_repository/models/banner_model.dart';
 import '../../../repositories/home_repository/models/data_pagination.dart';
 import '../../../repositories/home_repository/models/news_model.dart';
 import '../../../repositories/profile_repository/models/profile_model.dart';
@@ -43,6 +44,8 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       add(LoadProfile());
     }
     await _fetchNews(emit, isRefresh: true);
+
+    await fetchBanner(emit);
 
     emit(state.copyWith(isLoading: false));
   }
@@ -89,6 +92,16 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       ));
     } catch (e) {
       debugPrint('❌ Error fetching news: $e');
+    }
+  }
+
+  Future<void> fetchBanner(Emitter<HomeState> emit) async {
+    try {
+      BannerModel? data = await homeRepo.getBanner();
+
+      emit(state.copyWith(banner: data));
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 }

@@ -14,6 +14,9 @@ HomeState _$HomeStateFromJson(Map<String, dynamic> json) => HomeState(
           const [],
       nextPageNews: (json['nextPageNews'] as num?)?.toInt() ?? 1,
       isLoading: json['isLoading'] as bool? ?? false,
+      profile: json['profile'] == null
+          ? null
+          : ProfileModel.fromJson(json['profile'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$HomeStateToJson(HomeState instance) => <String, dynamic>{
@@ -21,4 +24,5 @@ Map<String, dynamic> _$HomeStateToJson(HomeState instance) => <String, dynamic>{
       'news': instance.news,
       'nextPageNews': instance.nextPageNews,
       'isLoading': instance.isLoading,
+      'profile': instance.profile,
     };

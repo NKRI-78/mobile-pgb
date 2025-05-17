@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_pgb/modules/event/view/event_page.dart';
 import 'package:mobile_pgb/modules/profile/view/profile_page.dart';
+import 'package:mobile_pgb/modules/sos/view/sos_page.dart';
 
 import '../modules/home/view/home_page.dart';
 import '../modules/login/view/login_page.dart';
@@ -24,6 +26,8 @@ part 'builder.g.dart';
   TypedGoRoute<NewsAllRoute>(path: 'news-all'),
   TypedGoRoute<WebViewRoute>(path: 'webview'),
   TypedGoRoute<ProfileRoute>(path: 'profile'),
+  TypedGoRoute<EventRoute>(path: 'event'),
+  TypedGoRoute<SosRoute>(path: 'sos'),
   TypedGoRoute<RegisterRoute>(path: 'register', routes: [
     TypedGoRoute<LoginRoute>(path: 'login'),
     TypedGoRoute<RegisterKtpRoute>(path: 'register-ktp', routes: [
@@ -102,6 +106,20 @@ class RegisterRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const RegisterPage();
+  }
+}
+
+class EventRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const EventPage();
+  }
+}
+
+class SosRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const SosPage();
   }
 }
 

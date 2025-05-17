@@ -117,7 +117,7 @@ class CustomMenu extends StatelessWidget {
           // MART
           break;
         case 1:
-          // EVENT
+          EventRoute().go(context);
           break;
         case 2:
           // MEMBER NEAR
@@ -129,7 +129,7 @@ class CustomMenu extends StatelessWidget {
           // FORUM
           break;
         case 7:
-          // SOS
+          SosRoute().go(context);
           break;
       }
     } else {

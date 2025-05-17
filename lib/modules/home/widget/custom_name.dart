@@ -48,7 +48,7 @@ class CustomName extends StatelessWidget {
                         RegisterRoute().go(context);
                       },
                       icon: Icon(
-                        Icons.login,
+                        Icons.login_outlined,
                         size: 14,
                         color: AppColors.whiteColor,
                       ),
@@ -58,9 +58,9 @@ class CustomName extends StatelessWidget {
                             EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                         backgroundColor: AppColors.secondaryColor,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        minimumSize: Size(0, 28),
+                        minimumSize: Size(0, 30),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(6),
                         ),
                         textStyle: AppTextStyles.textStyleNormal.copyWith(
                           fontWeight: FontWeight.bold,

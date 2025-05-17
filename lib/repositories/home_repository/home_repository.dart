@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
+import 'models/banner_model.dart';
 import 'models/data_pagination.dart';
 import 'models/news_model.dart';
 import 'models/pagination_model.dart';
 
 class HomeRepository {
   String get news => '${MyApi.baseUrl}/api/v1/news';
+
+  String get banner => '${MyApi.baseUrl}/api/v1/banner';
 
   final http = getIt<BaseNetworkClient>();
 
@@ -35,6 +38,22 @@ class HomeRepository {
       }
     } catch (e) {
       debugPrint("Error fetching news: $e");
+      rethrow;
+    }
+  }
+
+  Future<BannerModel?> getBanner() async {
+    try {
+      final res = await http.get(Uri.parse(banner));
+
+      debugPrint(res.body);
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return BannerModel.fromJson(json);
+      } else {
+        throw "error api";
+      }
+    } catch (e) {
       rethrow;
     }
   }

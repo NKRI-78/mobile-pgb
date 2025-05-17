@@ -39,6 +39,14 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $ProfileRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: 'event',
+          factory: $EventRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'sos',
+          factory: $SosRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'register',
           factory: $RegisterRouteExtension._fromState,
           routes: [
@@ -186,6 +194,40 @@ extension $ProfileRouteExtension on ProfileRoute {
 
   String get location => GoRouteData.$location(
         '/home/profile',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $EventRouteExtension on EventRoute {
+  static EventRoute _fromState(GoRouterState state) => EventRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/event',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $SosRouteExtension on SosRoute {
+  static SosRoute _fromState(GoRouterState state) => SosRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/sos',
       );
 
   void go(BuildContext context) => context.go(location);
