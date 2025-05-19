@@ -51,6 +51,12 @@ RouteBase get $homeRoute => GoRouteData.$route(
         GoRouteData.$route(
           path: 'sos',
           factory: $SosRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'sos-detail',
+              factory: $SosDetailRouteExtension._fromState,
+            ),
+          ],
         ),
         GoRouteData.$route(
           path: 'register',
@@ -256,6 +262,30 @@ extension $SosRouteExtension on SosRoute {
 
   String get location => GoRouteData.$location(
         '/home/sos',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $SosDetailRouteExtension on SosDetailRoute {
+  static SosDetailRoute _fromState(GoRouterState state) => SosDetailRoute(
+        sosType: state.uri.queryParameters['sos-type']!,
+        message: state.uri.queryParameters['message']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/sos/sos-detail',
+        queryParams: {
+          'sos-type': sosType,
+          'message': message,
+        },
       );
 
   void go(BuildContext context) => context.go(location);

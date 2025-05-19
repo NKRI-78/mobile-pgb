@@ -1,16 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../misc/theme.dart';
-import '../cubit/news_detail_cubit.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../misc/date_helper.dart';
 import '../../../misc/text_style.dart';
+import '../../../misc/theme.dart';
 import '../../../repositories/news_repository/models/news_detail_model.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/photo_view/custom_fullscreen_preview.dart';
+import '../cubit/news_detail_cubit.dart';
 
 class NewsDetailPage extends StatelessWidget {
   const NewsDetailPage({
@@ -125,7 +125,7 @@ class NewsDetailView extends StatelessWidget {
           },
           onLinkTap:
               (String? url, Map<String, String> attributes, element) async {
-            WebViewRoute(url: url!, title: "LINGKUNGANKU-MOBILE").push(context);
+            WebViewRoute(url: url!, title: "GEMA-MOBILE").push(context);
           },
         )
       ],

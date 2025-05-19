@@ -3,11 +3,11 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/misc/colors.dart';
-import 'package:mobile_pgb/misc/snackbar.dart';
-import 'package:mobile_pgb/misc/theme.dart';
-import 'package:mobile_pgb/modules/profile/cubit/profile_cubit.dart';
-import 'package:mobile_pgb/widgets/button/custom_button.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/snackbar.dart';
+import '../../../misc/theme.dart';
+import '../cubit/profile_cubit.dart';
+import '../../../widgets/button/custom_button.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:gallery_saver_plus/gallery_saver.dart';
 

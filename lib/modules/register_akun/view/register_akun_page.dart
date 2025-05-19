@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../cubit/register_akun_cubit.dart';
-import '../model/extrack_ktp_model.dart';
-import '../widget/custom_textfield_akun.dart';
-import '../widget/customfield_foto.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 import '../../../widgets/button/custom_button.dart';
+import '../cubit/register_akun_cubit.dart';
+import '../model/extrack_ktp_model.dart';
+import '../widget/custom_textfield_akun.dart';
+import '../widget/customfield_foto.dart';
 
 class RegisterAkunPage extends StatelessWidget {
   const RegisterAkunPage({
