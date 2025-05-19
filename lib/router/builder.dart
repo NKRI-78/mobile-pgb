@@ -4,6 +4,7 @@ import 'package:mobile_pgb/modules/event/view/event_page.dart';
 import 'package:mobile_pgb/modules/profile/view/profile_page.dart';
 import 'package:mobile_pgb/modules/sos/view/sos_page.dart';
 
+import '../modules/event_detail/view/event_detail_page.dart';
 import '../modules/home/view/home_page.dart';
 import '../modules/login/view/login_page.dart';
 import '../modules/news_all/view/news_all_page.dart';
@@ -26,7 +27,9 @@ part 'builder.g.dart';
   TypedGoRoute<NewsAllRoute>(path: 'news-all'),
   TypedGoRoute<WebViewRoute>(path: 'webview'),
   TypedGoRoute<ProfileRoute>(path: 'profile'),
-  TypedGoRoute<EventRoute>(path: 'event'),
+  TypedGoRoute<EventRoute>(path: 'event', routes: [
+    TypedGoRoute<EventDetailRoute>(path: 'event-detail'),
+  ]),
   TypedGoRoute<SosRoute>(path: 'sos'),
   TypedGoRoute<RegisterRoute>(path: 'register', routes: [
     TypedGoRoute<LoginRoute>(path: 'login'),
@@ -113,6 +116,18 @@ class EventRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const EventPage();
+  }
+}
+
+class EventDetailRoute extends GoRouteData {
+  final int idEvent;
+
+  EventDetailRoute({required this.idEvent});
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return EventDetailPage(
+      idEvent: idEvent,
+    );
   }
 }
 

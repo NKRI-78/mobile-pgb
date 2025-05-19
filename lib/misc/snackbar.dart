@@ -21,7 +21,9 @@ class ShowSnackbar {
 
     overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-        bottom: MediaQuery.of(context).padding.bottom + 20,
+        bottom: MediaQuery.of(context).viewInsets.bottom +
+            MediaQuery.of(context).padding.bottom +
+            20,
         left: 20,
         right: 20,
         child: SafeArea(

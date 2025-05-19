@@ -41,6 +41,12 @@ RouteBase get $homeRoute => GoRouteData.$route(
         GoRouteData.$route(
           path: 'event',
           factory: $EventRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'event-detail',
+              factory: $EventDetailRouteExtension._fromState,
+            ),
+          ],
         ),
         GoRouteData.$route(
           path: 'sos',
@@ -211,6 +217,28 @@ extension $EventRouteExtension on EventRoute {
 
   String get location => GoRouteData.$location(
         '/home/event',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $EventDetailRouteExtension on EventDetailRoute {
+  static EventDetailRoute _fromState(GoRouterState state) => EventDetailRoute(
+        idEvent: int.parse(state.uri.queryParameters['id-event']!)!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/event/event-detail',
+        queryParams: {
+          'id-event': idEvent.toString(),
+        },
       );
 
   void go(BuildContext context) => context.go(location);

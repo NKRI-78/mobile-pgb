@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_pgb/widgets/pages/loading_page.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -148,23 +149,29 @@ class HomeView extends StatelessWidget {
                         CustomMenu(),
                         _buildNewsSectionHeader(context),
                         if (state.isLoading)
-                          const Center(
-                            child: CircularProgressIndicator(),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.25,
+                            child: const Center(
+                              child: CustomLoadingPage(
+                                color: AppColors.secondaryColor,
+                              ),
+                            ),
                           )
                         else if (state.news.isEmpty)
-                          Center(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                SizedBox(height: 20),
-                                // Image(
-                                //   image: AssetImage(imageDefaultData),
-                                //   height: 120,
-                                // ),
-                                SizedBox(height: 20),
-                                Text('Tidak ada Berita..',
-                                    style: AppTextStyles.textStyleNormal),
-                              ],
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.25,
+                            child: Center(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Image(
+                                    image: AssetImage(imageDefaultData),
+                                    height: 120,
+                                  ),
+                                  Text('Tidak ada Berita..',
+                                      style: AppTextStyles.textStyleNormal),
+                                ],
+                              ),
                             ),
                           )
                         else
@@ -188,7 +195,7 @@ class HomeView extends StatelessWidget {
                               );
                             },
                           ),
-                        SizedBox(height: 60),
+                        SizedBox(height: 50),
                       ],
                     ),
                   ),

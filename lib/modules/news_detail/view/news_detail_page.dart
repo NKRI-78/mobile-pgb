@@ -48,6 +48,7 @@ class NewsDetailView extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
+            surfaceTintColor: Colors.transparent,
             title: Text(
               'News Detail',
               style: AppTextStyles.textStyleBold,

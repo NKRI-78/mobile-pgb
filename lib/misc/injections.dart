@@ -1,11 +1,13 @@
 import 'package:get_it/get_it.dart';
 
 import '../modules/app/bloc/app_bloc.dart';
+import '../modules/event/cubit/event_cubit.dart';
 import '../modules/home/bloc/home_bloc.dart';
 import '../modules/login/cubit/login_cubit.dart';
 import '../modules/news_all/cubit/news_all_cubit.dart';
 import '../modules/news_detail/cubit/news_detail_cubit.dart';
 import '../repositories/auth_repository/auth_repository.dart';
+import '../repositories/event_repository/event_repository.dart';
 import '../repositories/home_repository/home_repository.dart';
 import '../repositories/news_repository/news_repository.dart';
 import '../repositories/profile_repository/profile_repository.dart';
@@ -20,14 +22,16 @@ class MyInjection {
     //
     getIt.registerLazySingleton<AppBloc>(() => AppBloc());
     getIt.registerLazySingleton<HomeBloc>(() => HomeBloc());
-
+    //
     getIt.registerCachedFactory<LoginCubit>(() => LoginCubit());
     getIt.registerCachedFactory<NewsDetailCubit>(() => NewsDetailCubit());
     getIt.registerCachedFactory<NewsAllCubit>(() => NewsAllCubit());
-
+    getIt.registerCachedFactory<EventCubit>(() => EventCubit());
+    //
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
     getIt.registerLazySingleton<HomeRepository>(() => HomeRepository());
     getIt.registerLazySingleton<NewsRepository>(() => NewsRepository());
     getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepository());
+    getIt.registerLazySingleton<EventRepository>(() => EventRepository());
   }
 }
