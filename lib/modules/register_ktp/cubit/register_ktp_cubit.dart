@@ -85,38 +85,51 @@ class RegisterKtpCubit extends Cubit<RegisterKtpState> {
   }
 
   Future<void> checkNikExistence(BuildContext context) async {
+    final nik = state.nik.trim();
+
+    // Cek NIK kosong
+    if (nik.isEmpty) {
+      ShowSnackbar.snackbar(
+        isSuccess: false,
+        context,
+        "NIK tidak boleh kosong",
+      );
+      return;
+    }
+
     emit(state.copyWith(loading: true, error: null));
     try {
-      final isRegistered = await repo.checkNik(state.nik);
+      final isRegistered = await repo.checkNik(nik);
       emit(state.copyWith(loading: false));
 
       if (isRegistered) {
         ShowSnackbar.snackbar(
           isSuccess: false,
           context,
-          "Nik terdaftar di sistem, silahkan cek kembali data anda",
+          "NIK terdaftar di sistem, silakan cek kembali data Anda",
         );
       } else {
         ShowSnackbar.snackbar(
           isSuccess: true,
           context,
-          "KTP anda telah terferifikasi",
+          "KTP Anda telah terverifikasi",
         );
         RegisterAkunRoute(
           $extra: ExtrackKtpModel(
-              fullname: state.nama,
-              nik: state.nik,
-              birthPlaceAndDate: state.ttl,
-              gender: state.jenisKelamin,
-              bloodType: state.golDarah,
-              administrativeVillage: state.alamat,
-              villageUnit: state.rtRw,
-              subDistrict: state.kelDesa,
-              religion: state.agama,
-              maritalStatus: state.statusPerkawinan,
-              occupation: state.pekerjaan,
-              citizenship: state.kewarganegaraan,
-              validUntil: state.berlakuHingga),
+            fullname: state.nama,
+            nik: nik,
+            birthPlaceAndDate: state.ttl,
+            gender: state.jenisKelamin,
+            bloodType: state.golDarah,
+            administrativeVillage: state.alamat,
+            villageUnit: state.rtRw,
+            subDistrict: state.kelDesa,
+            religion: state.agama,
+            maritalStatus: state.statusPerkawinan,
+            occupation: state.pekerjaan,
+            citizenship: state.kewarganegaraan,
+            validUntil: state.berlakuHingga,
+          ),
         ).go(context);
       }
     } catch (e, stack) {

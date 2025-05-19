@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_pgb/misc/colors.dart';
+import 'package:mobile_pgb/misc/text_style.dart';
 
 import '../../../misc/theme.dart';
 
@@ -90,19 +92,20 @@ class _NewsContent extends StatelessWidget {
           children: [
             Text(
               title,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
+              style: AppTextStyles.textStyleBold.copyWith(
+                fontSize: 14,
               ),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
+            SizedBox(
+              height: 5,
+            ),
             Text(
               content.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ""),
-              maxLines: 2,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
+              maxLines: 3,
+              style: AppTextStyles.textStyleNormal.copyWith(
+                color: AppColors.greyColor,
               ),
               overflow: TextOverflow.ellipsis,
             ),

@@ -46,8 +46,11 @@ class CustomButton extends StatelessWidget {
             ],
             Text(
               text,
-              style: AppTextStyles.textStyleBold
-                  .copyWith(fontWeight: FontWeight.w500, color: textColour),
+              style: AppTextStyles.textStyleBold.copyWith(
+                fontWeight: FontWeight.w500,
+                color: textColour,
+                fontSize: 16,
+              ),
             ),
           ],
         ),

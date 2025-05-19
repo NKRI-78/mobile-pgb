@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_pgb/widgets/pages/loading_page.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
@@ -63,9 +64,10 @@ class RegisterKtpView extends StatelessWidget {
               child: BlocBuilder<RegisterKtpCubit, RegisterKtpState>(
                 builder: (context, state) {
                   if (state.loading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return Center(
+                        child: CustomLoadingPage(
+                      color: AppColors.primaryColor,
+                    ));
                   }
 
                   return SingleChildScrollView(
@@ -94,27 +96,26 @@ class RegisterKtpView extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 12),
-                          OutlinedButton.icon(
-                            onPressed: () {
-                              context.read<RegisterKtpCubit>().scanKtp();
-                            },
-                            icon:
-                                const Icon(Icons.refresh, color: Colors.white),
-                            label: Text(
-                              'Pindai Ulang',
-                              style: AppTextStyles.textStyleNormal.copyWith(
-                                color: AppColors.whiteColor,
-                              ),
-                            ),
-                            style: OutlinedButton.styleFrom(
-                              side: const BorderSide(color: Colors.white),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
+                        ],
+                        OutlinedButton.icon(
+                          onPressed: () {
+                            context.read<RegisterKtpCubit>().scanKtp();
+                          },
+                          icon: const Icon(Icons.refresh, color: Colors.white),
+                          label: Text(
+                            'Pindai Ulang',
+                            style: AppTextStyles.textStyleNormal.copyWith(
+                              color: AppColors.whiteColor,
                             ),
                           ),
-                          const SizedBox(height: 12),
-                        ],
+                          style: OutlinedButton.styleFrom(
+                            side: const BorderSide(color: Colors.white),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
                         Text(
                           'Pastikan data yang tertera sudah benar',
                           textAlign: TextAlign.center,

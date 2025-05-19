@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../misc/colors.dart';
 
-class LoadingPage extends StatelessWidget {
-  const LoadingPage({super.key});
+class CustomLoadingPage extends StatelessWidget {
+  final Color color;
+
+  const CustomLoadingPage({
+    super.key,
+    this.color = AppColors.secondaryColor,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * .75,
-      child: const Column(
+      height: MediaQuery.of(context).size.height * 0.75,
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          CircularProgressIndicator(
-            color: AppColors.secondaryColor,
+          SpinKitWave(
+            color: color,
+            size: 20.0,
           ),
         ],
       ),

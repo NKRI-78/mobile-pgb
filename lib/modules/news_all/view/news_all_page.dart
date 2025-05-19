@@ -90,7 +90,9 @@ class NewsAllView extends StatelessWidget {
                             delegate: SliverChildListDelegate(
                               [
                                 state.loading
-                                    ? const LoadingPage()
+                                    ? CustomLoadingPage(
+                                        color: AppColors.secondaryColor,
+                                      )
                                     : state.news.isEmpty
                                         ? const EmptyPage(
                                             msg: "Tidak ada Berita..")

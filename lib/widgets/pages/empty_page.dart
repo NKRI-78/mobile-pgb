@@ -30,6 +30,7 @@ class EmptyPage extends StatelessWidget {
                 : const SizedBox.shrink(),
             Text(
               msg,
+              textAlign: TextAlign.center,
               style: AppTextStyles.textStyleNormal
                   .copyWith(color: AppColors.blackColor),
             ),

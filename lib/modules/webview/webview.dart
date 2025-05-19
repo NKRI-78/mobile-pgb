@@ -68,7 +68,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
               size: 24,
             ),
           ),
-          toolbarHeight: 90,
+          toolbarHeight: 80,
           actions: [
             PopupMenuButton(
               color: AppColors.whiteColor,
@@ -105,7 +105,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
               Padding(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: Image.asset(
-                  'assets/icons/lingkunganku_putih.png',
+                  'assets/icons/about.png',
                   fit: BoxFit.contain,
                   height: 35,
                 ),
