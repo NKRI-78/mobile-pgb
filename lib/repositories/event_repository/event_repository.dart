@@ -67,4 +67,33 @@ class EventRepository {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> jointEvent({String idEvent = ""}) async {
+    try {
+      final res = await http.post(
+        Uri.parse('$event/joinAndUnjoin'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'eventId': idEvent,
+        }),
+      );
+
+      debugPrint("Join Event ID: $idEvent");
+      debugPrint("Response body: ${res.body}");
+
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return json;
+      }
+      if (res.statusCode == 400) {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
+
+      throw "Terjadi kesalahan tak terduga";
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

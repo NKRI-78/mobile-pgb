@@ -5,7 +5,6 @@ import 'package:slide_to_confirm/slide_to_confirm.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
-import '../../../misc/location.dart';
 import '../../../misc/text_style.dart';
 import '../cubit/sos_page_cubit.dart';
 
@@ -91,11 +90,9 @@ class SosDetailView extends StatelessWidget {
                 foregroundColor: AppColors.greyColor,
                 text: 'Geser untuk mengirim',
                 onConfirmation: () async {
-                  debugPrint("Confirm");
+                  // var position = await determinePosition(context);
 
-                  var position = await determinePosition(context);
-
-                  debugPrint('Position: $position');
+                  // debugPrint('Position: $position');
 
                   if (context.mounted) {
                     buildAgreementDialog(context, sosType, message);

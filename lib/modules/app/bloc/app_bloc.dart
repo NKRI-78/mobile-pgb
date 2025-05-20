@@ -9,7 +9,12 @@ import '../../../misc/http_client.dart';
 import '../../../misc/injections.dart';
 import '../../../repositories/auth_repository/models/user_model.dart';
 import '../../../repositories/home_repository/home_repository.dart';
+import '../../../repositories/notification/models/notification_count_model.dart';
+import '../../../repositories/notification/notification_repository.dart';
+import '../../../repositories/profile_repository/models/profile_model.dart';
+import '../../../repositories/profile_repository/profile_repository.dart';
 import '../../home/bloc/home_bloc.dart';
+import '../../profile/cubit/profile_cubit.dart';
 
 part 'app_bloc.g.dart';
 part 'app_event.dart';
@@ -20,10 +25,14 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     on<InitialAppData>(_onInitialAppData);
     on<SetUserLogout>(_onSetUserLogout);
     on<SetUserData>(_onSetUserData);
-    // on<AppEvent>((event, emit) {});
+    on<GetBadgeNotif>(_onGetBadgeNotif);
+    on<GetProfileData>(_onGetProfile);
+    on<AppEvent>((event, emit) {});
   }
 
   HomeRepository repoHome = HomeRepository();
+  ProfileRepository repoProfile = ProfileRepository();
+  NotificationRepository repoNotif = NotificationRepository();
 
   @override
   AppState? fromJson(Map<String, dynamic> json) {
@@ -37,15 +46,17 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
 
   FutureOr<void> _onInitialAppData(
       InitialAppData event, Emitter<AppState> emit) {
+    add(GetBadgeNotif());
+    add(GetProfileData());
     //
   }
 
   FutureOr<void> _onSetUserData(SetUserData event, Emitter<AppState> emit) {
     getIt<BaseNetworkClient>().addTokenToHeader(event.token);
     emit(state.copyWith(token: event.token, user: event.user));
-    // getIt<ProfileCubit>().getProfile();
+    getIt<ProfileCubit>().getProfile();
     getIt<HomeBloc>().add(HomeInit());
-    // state.copyWith();
+    state.copyWith();
   }
 
   Future<void> _onSetUserLogout(
@@ -53,10 +64,33 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     try {
       // repoHome.setFcm('');
       emit(state.logout());
-      // getIt<ProfileCubit>().emit(ProfileState());
+      getIt<ProfileCubit>().emit(ProfileState());
       getIt<HomeBloc>().add(HomeNavigate(0));
     } catch (e) {
       debugPrint(e.toString());
+    }
+  }
+
+  FutureOr<void> _onGetBadgeNotif(
+      GetBadgeNotif event, Emitter<AppState> emit) async {
+    try {
+      emit(state.copyWith(loadingNotif: true));
+      NotificationCountModel badges = await repoNotif.getBadgesNotif();
+      emit(state.copyWith(badges: badges, loadingNotif: false));
+    } catch (e) {
+      debugPrint("Error : $e");
+    } finally {
+      emit(state.copyWith(loadingNotif: false));
+    }
+  }
+
+  FutureOr<void> _onGetProfile(
+      GetProfileData event, Emitter<AppState> emit) async {
+    try {
+      final profile = await repoProfile.getProfile();
+      emit(state.copyWith(profile: profile));
+    } catch (e) {
+      debugPrint("Error : $e");
     }
   }
 }

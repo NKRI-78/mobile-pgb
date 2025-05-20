@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../modules/event/view/event_page.dart';
-import '../modules/profile/view/profile_page.dart';
-import '../modules/sos/view/sos_page.dart';
 
+import '../modules/event/view/event_page.dart';
 import '../modules/event_detail/view/event_detail_page.dart';
 import '../modules/home/view/home_page.dart';
 import '../modules/login/view/login_page.dart';
 import '../modules/news_all/view/news_all_page.dart';
 import '../modules/news_detail/view/news_detail_page.dart';
+import '../modules/notification/view/detail/notification_detail_page.dart';
+import '../modules/notification/view/notification_page.dart';
+import '../modules/profile/view/profile_page.dart';
 import '../modules/register/view/register_page.dart';
 import '../modules/register_akun/model/extrack_ktp_model.dart';
 import '../modules/register_akun/view/register_akun_page.dart';
 import '../modules/register_ktp/view/register_ktp_page.dart';
 import '../modules/register_otp/view/register_otp_page.dart';
+import '../modules/settings/view/settings_page.dart';
 import '../modules/sos/view/sos_detail_page.dart';
+import '../modules/sos/view/sos_page.dart';
 import '../modules/webview/webview.dart';
 import '../widgets/pages/about/about_us_page.dart';
 import '../widgets/pages/media/view/media_page.dart';
@@ -28,6 +31,10 @@ part 'builder.g.dart';
   TypedGoRoute<NewsAllRoute>(path: 'news-all'),
   TypedGoRoute<WebViewRoute>(path: 'webview'),
   TypedGoRoute<ProfileRoute>(path: 'profile'),
+  TypedGoRoute<SettingsRoute>(path: 'settings'),
+  TypedGoRoute<NotificationRoute>(path: 'notification', routes: [
+    TypedGoRoute<NotificationDetailRoute>(path: 'notification-detail'),
+  ]),
   TypedGoRoute<EventRoute>(path: 'event', routes: [
     TypedGoRoute<EventDetailRoute>(path: 'event-detail'),
   ]),
@@ -105,6 +112,33 @@ class ProfileRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const ProfilePage();
+  }
+}
+
+class SettingsRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return SettingsPage();
+  }
+}
+
+class NotificationRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const NotificationPage();
+  }
+}
+
+class NotificationDetailRoute extends GoRouteData {
+  final int idNotif;
+
+  NotificationDetailRoute({required this.idNotif});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return NotificationDetailPage(
+      idNotif: idNotif,
+    );
   }
 }
 

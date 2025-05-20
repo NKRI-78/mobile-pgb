@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../misc/colors.dart';
-import '../cubit/sos_page_cubit.dart';
 
+import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 import '../../../router/builder.dart';
+import '../cubit/sos_page_cubit.dart';
 
 part '../widget/custom_card_section.dart';
 

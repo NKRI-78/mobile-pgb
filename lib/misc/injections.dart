@@ -1,5 +1,7 @@
 import 'package:get_it/get_it.dart';
+import '../modules/notification/cubit/notification_cubit.dart';
 import '../modules/sos/cubit/sos_page_cubit.dart';
+import '../repositories/notification/notification_repository.dart';
 import '../repositories/sos_repository/sos_repository.dart';
 
 import '../modules/app/bloc/app_bloc.dart';
@@ -30,6 +32,7 @@ class MyInjection {
     getIt.registerCachedFactory<NewsAllCubit>(() => NewsAllCubit());
     getIt.registerCachedFactory<EventCubit>(() => EventCubit());
     getIt.registerCachedFactory<SosCubit>(() => SosCubit());
+    getIt.registerCachedFactory<NotificationCubit>(() => NotificationCubit());
     //
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
     getIt.registerLazySingleton<HomeRepository>(() => HomeRepository());
@@ -37,5 +40,7 @@ class MyInjection {
     getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepository());
     getIt.registerLazySingleton<EventRepository>(() => EventRepository());
     getIt.registerLazySingleton<SosRepository>(() => SosRepository());
+    getIt.registerLazySingleton<NotificationRepository>(
+        () => NotificationRepository());
   }
 }

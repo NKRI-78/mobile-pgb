@@ -1,12 +1,13 @@
+import 'package:badges/badges.dart' as Badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../widgets/pages/loading_page.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
 import '../../../misc/theme.dart';
 import '../../../router/builder.dart';
+import '../../../widgets/pages/loading_page.dart';
 import '../../app/bloc/app_bloc.dart';
 import '../bloc/home_bloc.dart';
 import '../widget/custom_banner.dart';
@@ -106,13 +107,35 @@ class HomeView extends StatelessWidget {
                     ),
                   ),
                   actions: [
-                    IconButton(
-                      icon: Icon(
-                        Icons.notifications_none_outlined,
-                        color: AppColors.greyColor,
-                        size: 28,
-                      ),
-                      onPressed: () {},
+                    BlocBuilder<AppBloc, AppState>(
+                      builder: (context, state) {
+                        return Badges.Badge(
+                          position: Badges.BadgePosition.topEnd(end: 5, top: 0),
+                          showBadge: state.badges?.unreadCount == null ||
+                                  state.badges?.unreadCount == 0
+                              ? false
+                              : true,
+                          badgeStyle: const Badges.BadgeStyle(
+                              padding: EdgeInsets.all(5)),
+                          badgeContent: Text(
+                            state.loadingNotif
+                                ? '..'
+                                : '${state.badges?.unreadCount}',
+                            style: const TextStyle(
+                                fontSize: 10, color: Colors.white),
+                          ),
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.notifications_none_outlined,
+                              color: AppColors.greyColor,
+                              size: 28,
+                            ),
+                            onPressed: () {
+                              NotificationRoute().go(context);
+                            },
+                          ),
+                        );
+                      },
                     ),
                     Builder(builder: (context) {
                       return IconButton(
@@ -195,7 +218,7 @@ class HomeView extends StatelessWidget {
                               );
                             },
                           ),
-                        SizedBox(height: 50),
+                        // SizedBox(height: 30),
                       ],
                     ),
                   ),

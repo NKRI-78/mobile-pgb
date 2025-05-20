@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../widgets/pages/loading_page.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/snackbar.dart';
 import '../../../misc/theme.dart';
@@ -36,6 +37,9 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
+        if (state.isLoading) {
+          return CustomLoadingPage();
+        }
         return Scaffold(
           backgroundColor: AppColors.primaryColor,
           extendBodyBehindAppBar: true,

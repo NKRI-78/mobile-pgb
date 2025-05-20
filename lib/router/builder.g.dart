@@ -39,6 +39,20 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $ProfileRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: 'settings',
+          factory: $SettingsRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'notification',
+          factory: $NotificationRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'notification-detail',
+              factory: $NotificationDetailRouteExtension._fromState,
+            ),
+          ],
+        ),
+        GoRouteData.$route(
           path: 'event',
           factory: $EventRouteExtension._fromState,
           routes: [
@@ -206,6 +220,64 @@ extension $ProfileRouteExtension on ProfileRoute {
 
   String get location => GoRouteData.$location(
         '/home/profile',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $SettingsRouteExtension on SettingsRoute {
+  static SettingsRoute _fromState(GoRouterState state) => SettingsRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/settings',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $NotificationRouteExtension on NotificationRoute {
+  static NotificationRoute _fromState(GoRouterState state) =>
+      NotificationRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/notification',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $NotificationDetailRouteExtension on NotificationDetailRoute {
+  static NotificationDetailRoute _fromState(GoRouterState state) =>
+      NotificationDetailRoute(
+        idNotif: int.parse(state.uri.queryParameters['id-notif']!)!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/notification/notification-detail',
+        queryParams: {
+          'id-notif': idNotif.toString(),
+        },
       );
 
   void go(BuildContext context) => context.go(location);
