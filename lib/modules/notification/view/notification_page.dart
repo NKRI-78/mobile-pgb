@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../misc/injections.dart';
-import '../cubit/notification_cubit.dart';
 
 import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
 import '../../app/bloc/app_bloc.dart';
+import '../cubit/notification_cubit.dart';
 import '../widget/notification_list.dart';
+import '../widget/notification_list_ppob.dart';
 
 class NotificationPage extends StatelessWidget {
   const NotificationPage({super.key});
@@ -83,7 +84,7 @@ class NotificationView extends StatelessWidget {
               children: [
                 NotificationList(category: "SOS"),
                 NotificationList(category: "PAYMENT"),
-                NotificationList(category: "PPOB"),
+                NotificationListPpob(),
                 NotificationList(category: "OTHER"),
               ],
             ),

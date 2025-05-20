@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../modules/wallet/view/wallet_page.dart';
 
 import '../modules/event/view/event_page.dart';
 import '../modules/event_detail/view/event_detail_page.dart';
@@ -8,7 +9,10 @@ import '../modules/login/view/login_page.dart';
 import '../modules/news_all/view/news_all_page.dart';
 import '../modules/news_detail/view/news_detail_page.dart';
 import '../modules/notification/view/detail/notification_detail_page.dart';
+import '../modules/notification/view/detail/notification_ppob_detail_page.dart';
 import '../modules/notification/view/notification_page.dart';
+import '../modules/ppob/view/ppob_page.dart';
+import '../modules/ppob/view/ppob_waiting_payment_page.dart';
 import '../modules/profile/view/profile_page.dart';
 import '../modules/register/view/register_page.dart';
 import '../modules/register_akun/model/extrack_ktp_model.dart';
@@ -32,8 +36,13 @@ part 'builder.g.dart';
   TypedGoRoute<WebViewRoute>(path: 'webview'),
   TypedGoRoute<ProfileRoute>(path: 'profile'),
   TypedGoRoute<SettingsRoute>(path: 'settings'),
+  TypedGoRoute<PpobPaymentRoute>(path: 'ppob-payment'),
+  TypedGoRoute<PpobRoute>(path: 'ppob', routes: [
+    TypedGoRoute<WalletRoute>(path: 'wallet'),
+  ]),
   TypedGoRoute<NotificationRoute>(path: 'notification', routes: [
     TypedGoRoute<NotificationDetailRoute>(path: 'notification-detail'),
+    TypedGoRoute<NotificationPpobRoute>(path: 'notification-ppob'),
   ]),
   TypedGoRoute<EventRoute>(path: 'event', routes: [
     TypedGoRoute<EventDetailRoute>(path: 'event-detail'),
@@ -122,6 +131,50 @@ class SettingsRoute extends GoRouteData {
   }
 }
 
+class PpobPaymentRoute extends GoRouteData {
+  final String paymentAccess;
+  final double totalPayment;
+  final String paymentCode;
+  final String nameProduct;
+  final String logoChannel;
+  final DateTime paymentExpire;
+
+  PpobPaymentRoute({
+    required this.paymentAccess,
+    required this.totalPayment,
+    required this.paymentCode,
+    required this.nameProduct,
+    required this.logoChannel,
+    required this.paymentExpire,
+  });
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return PpobWaitingPaymentPage(
+      paymentAccess: paymentAccess,
+      totalPayment: totalPayment,
+      paymentCode: paymentCode,
+      nameProduct: nameProduct,
+      logoChannel: logoChannel,
+      paymentExpire: paymentExpire,
+    );
+  }
+}
+
+class PpobRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return PpobPage();
+  }
+}
+
+class WalletRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return WalletPage();
+  }
+}
+
 class NotificationRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -137,6 +190,19 @@ class NotificationDetailRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return NotificationDetailPage(
+      idNotif: idNotif,
+    );
+  }
+}
+
+class NotificationPpobRoute extends GoRouteData {
+  final int idNotif;
+
+  NotificationPpobRoute({required this.idNotif});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return NotificationPpobDetailPage(
       idNotif: idNotif,
     );
   }

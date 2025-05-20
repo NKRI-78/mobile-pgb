@@ -10,6 +10,8 @@ import '../../../repositories/notification/models/notification_detailv2_model.da
 import '../../../repositories/notification/models/notification_model.dart';
 import '../../../repositories/notification/models/notificationv2_model.dart';
 import '../../../repositories/notification/notification_repository.dart';
+import '../../../repositories/ppob_repository/models/payment_channel_modelv2.dart';
+import '../../../repositories/ppob_repository/ppob_repository.dart';
 import '../../app/bloc/app_bloc.dart';
 
 part 'notification_state.dart';
@@ -19,7 +21,7 @@ class NotificationCubit extends Cubit<NotificationState> {
       : super(NotificationState(pagination: Pagination.initial));
 
   NotificationRepository repo = NotificationRepository();
-  // PpobRepository repoPPOB = PpobRepository();
+  PpobRepository repoPPOB = PpobRepository();
 
   static RefreshController refreshCtrl = RefreshController();
 

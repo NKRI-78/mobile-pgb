@@ -1,15 +1,13 @@
-// ignore_for_file: unnecessary_new
-
 class ProfileModel {
   int? id;
   String? username;
   String? email;
   String? phone;
-  int? latitude;
-  int? longitude;
+  double? latitude;
+  double? longitude;
   String? emailVerified;
   String? fcmToken;
-  int? balance;
+  int balance; // tidak nullable, default 0
   String? role;
   String? storeId;
   String? createdAt;
@@ -17,44 +15,51 @@ class ProfileModel {
   String? deletedAt;
   Profile? profile;
 
-  ProfileModel(
-      {this.id,
-      this.username,
-      this.email,
-      this.phone,
-      this.latitude,
-      this.longitude,
-      this.emailVerified,
-      this.fcmToken,
-      this.balance,
-      this.role,
-      this.storeId,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.profile});
+  ProfileModel({
+    this.id,
+    this.username,
+    this.email,
+    this.phone,
+    this.latitude,
+    this.longitude,
+    this.emailVerified,
+    this.fcmToken,
+    this.balance = 0,
+    this.role,
+    this.storeId,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.profile,
+  });
 
-  ProfileModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    username = json['username'];
-    email = json['email'];
-    phone = json['phone'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
-    emailVerified = json['email_verified'];
-    fcmToken = json['fcm_token'];
-    balance = json['balance'];
-    role = json['role'];
-    storeId = json['store_id'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
-    profile =
-        json['profile'] != null ? new Profile.fromJson(json['profile']) : null;
+  factory ProfileModel.fromJson(Map<String, dynamic> json) {
+    return ProfileModel(
+      id: json['id'],
+      username: json['username'],
+      email: json['email'],
+      phone: json['phone'],
+      latitude: (json['latitude'] is int)
+          ? (json['latitude'] as int).toDouble()
+          : json['latitude'] ?? 0.0,
+      longitude: (json['longitude'] is int)
+          ? (json['longitude'] as int).toDouble()
+          : json['longitude'] ?? 0.0,
+      emailVerified: json['email_verified'],
+      fcmToken: json['fcm_token'],
+      balance: json['balance'] ?? 0,
+      role: json['role'],
+      storeId: json['store_id'],
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
+      deletedAt: json['deleted_at'],
+      profile:
+          json['profile'] != null ? Profile.fromJson(json['profile']) : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = {};
     data['id'] = id;
     data['username'] = username;
     data['email'] = email;
@@ -97,51 +102,54 @@ class Profile {
   String? createdAt;
   String? updatedAt;
 
-  Profile(
-      {this.id,
-      this.fullname,
-      this.avatarLink,
-      this.address,
-      this.gender,
-      this.nik,
-      this.birthPlaceAndDate,
-      this.villageUnit,
-      this.administrativeVillage,
-      this.subDistrict,
-      this.religion,
-      this.maritalStatus,
-      this.occupation,
-      this.citizenship,
-      this.bloodType,
-      this.validUntil,
-      this.userId,
-      this.createdAt,
-      this.updatedAt});
+  Profile({
+    this.id,
+    this.fullname,
+    this.avatarLink,
+    this.address,
+    this.gender,
+    this.nik,
+    this.birthPlaceAndDate,
+    this.villageUnit,
+    this.administrativeVillage,
+    this.subDistrict,
+    this.religion,
+    this.maritalStatus,
+    this.occupation,
+    this.citizenship,
+    this.bloodType,
+    this.validUntil,
+    this.userId,
+    this.createdAt,
+    this.updatedAt,
+  });
 
-  Profile.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    fullname = json['fullname'];
-    avatarLink = json['avatar_link'];
-    address = json['address'];
-    gender = json['gender'];
-    nik = json['nik'];
-    birthPlaceAndDate = json['birth_place_and_date'];
-    villageUnit = json['village_unit'];
-    administrativeVillage = json['administrative_village'];
-    subDistrict = json['sub_district'];
-    religion = json['religion'];
-    maritalStatus = json['marital_status'];
-    occupation = json['occupation'];
-    citizenship = json['citizenship'];
-    bloodType = json['blood_type'];
-    validUntil = json['valid_until'];
-    userId = json['user_id'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+  factory Profile.fromJson(Map<String, dynamic> json) {
+    return Profile(
+      id: json['id'],
+      fullname: json['fullname'],
+      avatarLink: json['avatar_link'],
+      address: json['address'],
+      gender: json['gender'],
+      nik: json['nik'],
+      birthPlaceAndDate: json['birth_place_and_date'],
+      villageUnit: json['village_unit'],
+      administrativeVillage: json['administrative_village'],
+      subDistrict: json['sub_district'],
+      religion: json['religion'],
+      maritalStatus: json['marital_status'],
+      occupation: json['occupation'],
+      citizenship: json['citizenship'],
+      bloodType: json['blood_type'],
+      validUntil: json['valid_until'],
+      userId: json['user_id'],
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = {};
     data['id'] = id;
     data['fullname'] = fullname;
     data['avatar_link'] = avatarLink;

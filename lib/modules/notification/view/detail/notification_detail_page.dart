@@ -189,7 +189,7 @@ class NotificationDetailView extends StatelessWidget {
                         child: SizedBox(
                           width: double.infinity,
                           child: CustomButton(
-                            backgroundColour: AppColors.buttonBlueColor,
+                            backgroundColour: AppColors.secondaryColor,
                             textColour: AppColors.whiteColor,
                             text: "Lihat Lokasi",
                             onPressed: () {

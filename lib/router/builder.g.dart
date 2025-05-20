@@ -43,12 +43,30 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $SettingsRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: 'ppob-payment',
+          factory: $PpobPaymentRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'ppob',
+          factory: $PpobRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'wallet',
+              factory: $WalletRouteExtension._fromState,
+            ),
+          ],
+        ),
+        GoRouteData.$route(
           path: 'notification',
           factory: $NotificationRouteExtension._fromState,
           routes: [
             GoRouteData.$route(
               path: 'notification-detail',
               factory: $NotificationDetailRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
+              path: 'notification-ppob',
+              factory: $NotificationPpobRouteExtension._fromState,
             ),
           ],
         ),
@@ -249,6 +267,74 @@ extension $SettingsRouteExtension on SettingsRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+extension $PpobPaymentRouteExtension on PpobPaymentRoute {
+  static PpobPaymentRoute _fromState(GoRouterState state) => PpobPaymentRoute(
+        paymentAccess: state.uri.queryParameters['payment-access']!,
+        totalPayment:
+            double.parse(state.uri.queryParameters['total-payment']!)!,
+        paymentCode: state.uri.queryParameters['payment-code']!,
+        nameProduct: state.uri.queryParameters['name-product']!,
+        logoChannel: state.uri.queryParameters['logo-channel']!,
+        paymentExpire:
+            DateTime.parse(state.uri.queryParameters['payment-expire']!)!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/ppob-payment',
+        queryParams: {
+          'payment-access': paymentAccess,
+          'total-payment': totalPayment.toString(),
+          'payment-code': paymentCode,
+          'name-product': nameProduct,
+          'logo-channel': logoChannel,
+          'payment-expire': paymentExpire.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $PpobRouteExtension on PpobRoute {
+  static PpobRoute _fromState(GoRouterState state) => PpobRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/ppob',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $WalletRouteExtension on WalletRoute {
+  static WalletRoute _fromState(GoRouterState state) => WalletRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/ppob/wallet',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
 extension $NotificationRouteExtension on NotificationRoute {
   static NotificationRoute _fromState(GoRouterState state) =>
       NotificationRoute();
@@ -275,6 +361,29 @@ extension $NotificationDetailRouteExtension on NotificationDetailRoute {
 
   String get location => GoRouteData.$location(
         '/home/notification/notification-detail',
+        queryParams: {
+          'id-notif': idNotif.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $NotificationPpobRouteExtension on NotificationPpobRoute {
+  static NotificationPpobRoute _fromState(GoRouterState state) =>
+      NotificationPpobRoute(
+        idNotif: int.parse(state.uri.queryParameters['id-notif']!)!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/notification/notification-ppob',
         queryParams: {
           'id-notif': idNotif.toString(),
         },

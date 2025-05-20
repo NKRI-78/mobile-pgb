@@ -1,22 +1,23 @@
 import 'dart:io';
 import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../widgets/pages/loading_page.dart';
+import 'package:gallery_saver_plus/gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/snackbar.dart';
-import '../../../misc/theme.dart';
-import '../cubit/profile_cubit.dart';
-import '../../../widgets/button/custom_button.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:gallery_saver_plus/gallery_saver.dart';
-
 import '../../../misc/text_style.dart';
+import '../../../misc/theme.dart';
+import '../../../widgets/button/custom_button.dart';
+import '../../../widgets/pages/loading_page.dart';
+import '../cubit/profile_cubit.dart';
 
-part '../widget/custom_download_kta.dart';
 part '../widget/custom_card_profile.dart';
 part '../widget/custom_data_profile.dart';
+part '../widget/custom_download_kta.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -94,7 +95,7 @@ class ProfileView extends StatelessWidget {
                   //
                 },
                 text: "Edit",
-                backgroundColour: AppColors.buttonBlueColor,
+                backgroundColour: AppColors.secondaryColor,
                 textColour: AppColors.buttonWhiteColor,
               )),
         );
