@@ -4,6 +4,7 @@ part of 'app_bloc.dart';
 final class AppState extends Equatable {
   final String token;
   final User? user;
+  final CartCountModel? badgeCart;
   final ProfileModel? profile;
   final bool loadingNotif;
   final NotificationCountModel? badges;
@@ -11,8 +12,9 @@ final class AppState extends Equatable {
   const AppState({
     this.token = '',
     this.user,
-    this.profile,
     this.loadingNotif = false,
+    this.badgeCart,
+    this.profile,
     this.badges,
   });
 
@@ -23,8 +25,9 @@ final class AppState extends Equatable {
   List<Object?> get props => [
         token,
         user,
-        profile,
         loadingNotif,
+        badgeCart,
+        profile,
         badges,
       ];
 
@@ -38,15 +41,17 @@ final class AppState extends Equatable {
   AppState copyWith({
     String? token,
     User? user,
-    ProfileModel? profile,
     bool? loadingNotif,
+    CartCountModel? badgeCart,
+    ProfileModel? profile,
     NotificationCountModel? badges,
   }) {
     return AppState(
       token: token ?? this.token,
       user: user ?? this.user,
-      profile: profile ?? this.profile,
       loadingNotif: loadingNotif ?? this.loadingNotif,
+      badgeCart: badgeCart ?? this.badgeCart,
+      profile: profile ?? this.profile,
       badges: badges ?? this.badges,
     );
   }

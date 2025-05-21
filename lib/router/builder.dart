@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_pgb/modules/cart/view/cart_page.dart';
+import 'package:mobile_pgb/modules/checkout/view/checkout_page.dart';
+import 'package:mobile_pgb/modules/create_shipping_address/view/create_address_page.dart';
+import 'package:mobile_pgb/modules/detail_product/view/detail_product_page.dart';
+import 'package:mobile_pgb/modules/event/view/event_page.dart';
+import 'package:mobile_pgb/modules/list_address/view/list_address_page.dart';
+import 'package:mobile_pgb/modules/profile/view/profile_page.dart';
+import 'package:mobile_pgb/modules/shop/view/shop_page.dart';
+import 'package:mobile_pgb/modules/sos/view/sos_page.dart';
+import 'package:mobile_pgb/modules/update_shipping_address/view/update_address_page.dart';
+import 'package:mobile_pgb/modules/waiting_paymentv2/view/waiting_payment_page.dart';
 
-import '../modules/event/view/event_page.dart';
 import '../modules/event_detail/view/event_detail_page.dart';
 import '../modules/home/view/home_page.dart';
 import '../modules/login/view/login_page.dart';
@@ -12,7 +22,6 @@ import '../modules/notification/view/detail/notification_ppob_detail_page.dart';
 import '../modules/notification/view/notification_page.dart';
 import '../modules/ppob/view/ppob_page.dart';
 import '../modules/ppob/view/ppob_waiting_payment_page.dart';
-import '../modules/profile/view/profile_page.dart';
 import '../modules/register/view/register_page.dart';
 import '../modules/register_akun/model/extrack_ktp_model.dart';
 import '../modules/register_akun/view/register_akun_page.dart';
@@ -20,7 +29,6 @@ import '../modules/register_ktp/view/register_ktp_page.dart';
 import '../modules/register_otp/view/register_otp_page.dart';
 import '../modules/settings/view/settings_page.dart';
 import '../modules/sos/view/sos_detail_page.dart';
-import '../modules/sos/view/sos_page.dart';
 import '../modules/waiting_payment/view/waiting_payment_page.dart';
 import '../modules/wallet/view/wallet_page.dart';
 import '../modules/webview/webview.dart';
@@ -49,6 +57,17 @@ part 'builder.g.dart';
   TypedGoRoute<EventRoute>(path: 'event', routes: [
     TypedGoRoute<EventDetailRoute>(path: 'event-detail'),
   ]),
+  TypedGoRoute<CheckoutRoute>(path: 'checkout',),
+  TypedGoRoute<SosRoute>(path: 'sos'),
+  TypedGoRoute<WaitingPaymentV2Route>(path: 'waiting-method'),
+  TypedGoRoute<ShopRoute>(path: 'shop', routes: [
+    TypedGoRoute<DetailProductRoute>(path: "detail-prod" ,)
+  ]),
+  TypedGoRoute<AddressRoute>(path: 'address', routes: [
+    TypedGoRoute<CreateAddressRoute>(path: 'create-address'),
+    TypedGoRoute<UpdateAddressRoute>(path: 'update-address'),
+  ]),
+  TypedGoRoute<CartRoute>(path: 'cart'),
   TypedGoRoute<SosRoute>(path: 'sos', routes: [
     TypedGoRoute<SosDetailRoute>(path: 'sos-detail'),
   ]),
@@ -318,6 +337,178 @@ class RegisterOtpRoute extends GoRouteData {
       isLogin: isLogin,
       email: email,
       extrackKtp: $extra,
+    );
+  }
+}
+
+class ShopRoute extends GoRouteData {
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return CustomTransitionPage(
+      key: state.pageKey,
+      child: const ShopPage(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: animation.drive(
+            Tween(begin: const Offset(1.0, 0.0), end: Offset.zero)
+                .chain(CurveTween(curve: Curves.easeInOut)),
+          ),
+          child: child,
+        );
+      },
+    );
+  }
+}
+
+class DetailProductRoute extends GoRouteData {
+  final String idProduct;
+
+  DetailProductRoute({required this.idProduct});
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return CustomTransitionPage(
+      key: state.pageKey,
+      child: DetailProductPage(idProduct: idProduct,),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: animation.drive(
+            Tween(begin: const Offset(1.0, 0.0), end: Offset.zero)
+                .chain(CurveTween(curve: Curves.easeInOut)),
+          ),
+          child: child,
+        );
+      },
+    );
+  }
+}
+
+class CartRoute extends GoRouteData {
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return CustomTransitionPage(
+      key: state.pageKey,
+      child: const CartPage(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: animation.drive(
+            Tween(begin: const Offset(1.0, 0.0), end: Offset.zero)
+                .chain(CurveTween(curve: Curves.easeInOut)),
+          ),
+          child: child,
+        );
+      },
+    );
+  }
+}
+
+class CheckoutRoute extends GoRouteData {
+  final String from;
+  final String? qty;
+  final String? productId;
+
+  CheckoutRoute({this.from = "", this.qty, this.productId});
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return CustomTransitionPage(
+      key: state.pageKey,
+      child: CheckoutPage(
+        from: from,
+        qty: qty,
+        productId: productId,
+      ),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: animation.drive(
+            Tween(begin: const Offset(1.0, 0.0), end: Offset.zero)
+                .chain(CurveTween(curve: Curves.easeInOut)),
+          ),
+          child: child,
+        );
+      },
+    );
+  }
+}
+
+class AddressRoute extends GoRouteData {
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return CustomTransitionPage(
+      key: state.pageKey,
+      child: const ListAddressPage(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: animation.drive(
+            Tween(begin: const Offset(1.0, 0.0), end: Offset.zero)
+                .chain(CurveTween(curve: Curves.easeInOut)),
+          ),
+          child: child,
+        );
+      },
+    );
+  }
+}
+
+class CreateAddressRoute extends GoRouteData {
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return CustomTransitionPage(
+      key: state.pageKey,
+      child: const CreateAddressPage(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: animation.drive(
+            Tween(begin: const Offset(1.0, 0.0), end: Offset.zero)
+                .chain(CurveTween(curve: Curves.easeInOut)),
+          ),
+          child: child,
+        );
+      },
+    );
+  }
+}
+
+class UpdateAddressRoute extends GoRouteData {
+  final String idAddress;
+
+  UpdateAddressRoute({required this.idAddress});
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return CustomTransitionPage(
+      key: state.pageKey,
+      child: UpdateAddressPage(idAddress: idAddress,),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: animation.drive(
+            Tween(begin: const Offset(1.0, 0.0), end: Offset.zero)
+                .chain(CurveTween(curve: Curves.easeInOut)),
+          ),
+          child: child,
+        );
+      },
+    );
+  }
+}
+
+class WaitingPaymentV2Route extends GoRouteData {
+  final String id;
+  final int? tabIndex;
+
+  WaitingPaymentV2Route({required this.id, this.tabIndex});
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return CustomTransitionPage(
+      key: state.pageKey,
+      child: WaitingPaymentV2Page(id: id, tabIndex: tabIndex,),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: animation.drive(
+            Tween(begin: const Offset(1.0, 0.0), end: Offset.zero)
+                .chain(CurveTween(curve: Curves.easeInOut)),
+          ),
+          child: child,
+        );
+      },
     );
   }
 }

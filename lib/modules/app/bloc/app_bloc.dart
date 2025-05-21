@@ -4,6 +4,10 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mobile_pgb/repositories/cart_repository/cart_repository.dart';
+import 'package:mobile_pgb/repositories/cart_repository/models/cart_count_model.dart';
+import 'package:mobile_pgb/repositories/notificationv2_repository/models/notification_countv2_model.dart';
+import 'package:mobile_pgb/repositories/notificationv2_repository/notificationv2_repository.dart';
 
 import '../../../misc/http_client.dart';
 import '../../../misc/injections.dart';
@@ -26,13 +30,17 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     on<SetUserLogout>(_onSetUserLogout);
     on<SetUserData>(_onSetUserData);
     on<GetBadgeNotif>(_onGetBadgeNotif);
+    on<GetBadgeCart>(_onGetBadgeCart);
+    
     on<GetProfileData>(_onGetProfile);
     on<AppEvent>((event, emit) {});
+    // on<AppEvent>((event, emit) {});
   }
 
   HomeRepository repoHome = HomeRepository();
   ProfileRepository repoProfile = ProfileRepository();
   NotificationRepository repoNotif = NotificationRepository();
+  CartRepository repoCart = CartRepository();
 
   @override
   AppState? fromJson(Map<String, dynamic> json) {
@@ -46,6 +54,7 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
 
   FutureOr<void> _onInitialAppData(
       InitialAppData event, Emitter<AppState> emit) {
+    add(GetBadgeCart());
     add(GetBadgeNotif());
     add(GetProfileData());
     //
@@ -82,6 +91,12 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     } finally {
       emit(state.copyWith(loadingNotif: false));
     }
+  }
+
+  FutureOr<void> _onGetBadgeCart(GetBadgeCart event, Emitter<AppState> emit) async {
+    var cart = await repoCart.getCartCount();
+
+    emit(state.copyWith(badgeCart: cart));
   }
 
   FutureOr<void> _onGetProfile(
