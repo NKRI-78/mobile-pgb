@@ -1,39 +1,121 @@
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-Future<Position> determinePosition() async {
+import 'colors.dart';
+import 'text_style.dart';
+
+Future<Position> determinePosition(BuildContext context) async {
   bool serviceEnabled;
   LocationPermission permission;
 
-  // Test if location services are enabled.
+  // Cek apakah layanan lokasi aktif
   serviceEnabled = await Geolocator.isLocationServiceEnabled();
   if (!serviceEnabled) {
-    // Location services are not enabled don't continue
-    // accessing the position and request users of the
-    // App to enable the location services.
     return Future.error('Location services are disabled.');
   }
 
   permission = await Geolocator.checkPermission();
+
   if (permission == LocationPermission.denied) {
+    // Permintaan pertama
     permission = await Geolocator.requestPermission();
+
     if (permission == LocationPermission.denied) {
-      // Permissions are denied, next time you could try
-      // requesting permissions again (this is also where
-      // Android's shouldShowRequestPermissionRationale
-      // returned true. According to Android guidelines
-      // your App should show an explanatory UI now.
-      return Future.error('Location permissions are denied');
+      // Permintaan kedua jika user menolak pertama kali
+      permission = await Geolocator.requestPermission();
+
+      if (permission == LocationPermission.denied) {
+        // Jika user menolak lagi, tampilkan dialog ke pengaturan
+        showPermissionDialog(context);
+        return Future.error('Location permissions are permanently denied');
+      }
     }
   }
 
   if (permission == LocationPermission.deniedForever) {
-    // Permissions are denied forever, handle appropriately.
-    return Future.error(
-        'Location permissions are permanently denied, we cannot request permissions.');
+    // Jika user langsung menolak selamanya, tampilkan dialog
+    showPermissionDialog(context);
+    return Future.error('Location permissions are permanently denied');
   }
 
-  // When we reach here, permissions are granted and we can
-  // continue accessing the position of the device.
+  // Izin diberikan, ambil lokasi pengguna
   return await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.bestForNavigation);
+    desiredAccuracy: LocationAccuracy.bestForNavigation,
+  );
+}
+
+void showPermissionDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) {
+      return WillPopScope(
+        onWillPop: () async {
+          return false;
+        },
+        child: AlertDialog(
+          title: Text(
+            textAlign: TextAlign.center,
+            'Izin Lokasi Diperlukan!',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: Colors.black87,
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.location_on_rounded,
+                size: 60,
+                color: AppColors.secondaryColor,
+              ),
+              Text(
+                'Izin lokasi diperlukan agar aplikasi dapat berfungsi dengan baik. '
+                'Harap aktifkan izin lokasi di pengaturan aplikasi.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.black54,
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+              child: Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    openAppSettings();
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.secondaryColor,
+                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                    textStyle: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  child: FittedBox(
+                    child: Text(
+                      'Ke Pengaturan',
+                      style: AppTextStyles.textStyleBold.copyWith(
+                        color: AppColors.whiteColor,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }

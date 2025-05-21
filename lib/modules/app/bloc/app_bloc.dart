@@ -6,14 +6,19 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mobile_pgb/repositories/cart_repository/cart_repository.dart';
 import 'package:mobile_pgb/repositories/cart_repository/models/cart_count_model.dart';
-import 'package:mobile_pgb/repositories/notificationv2_repository/models/notification_count_model.dart';
-import 'package:mobile_pgb/repositories/notificationv2_repository/notification_repository.dart';
+import 'package:mobile_pgb/repositories/notificationv2_repository/models/notification_countv2_model.dart';
+import 'package:mobile_pgb/repositories/notificationv2_repository/notificationv2_repository.dart';
 
 import '../../../misc/http_client.dart';
 import '../../../misc/injections.dart';
 import '../../../repositories/auth_repository/models/user_model.dart';
 import '../../../repositories/home_repository/home_repository.dart';
+import '../../../repositories/notification/models/notification_count_model.dart';
+import '../../../repositories/notification/notification_repository.dart';
+import '../../../repositories/profile_repository/models/profile_model.dart';
+import '../../../repositories/profile_repository/profile_repository.dart';
 import '../../home/bloc/home_bloc.dart';
+import '../../profile/cubit/profile_cubit.dart';
 
 part 'app_bloc.g.dart';
 part 'app_event.dart';
@@ -26,10 +31,14 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     on<SetUserData>(_onSetUserData);
     on<GetBadgeNotif>(_onGetBadgeNotif);
     on<GetBadgeCart>(_onGetBadgeCart);
+    
+    on<GetProfileData>(_onGetProfile);
+    on<AppEvent>((event, emit) {});
     // on<AppEvent>((event, emit) {});
   }
 
   HomeRepository repoHome = HomeRepository();
+  ProfileRepository repoProfile = ProfileRepository();
   NotificationRepository repoNotif = NotificationRepository();
   CartRepository repoCart = CartRepository();
 
@@ -47,14 +56,16 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
       InitialAppData event, Emitter<AppState> emit) {
     add(GetBadgeCart());
     add(GetBadgeNotif());
+    add(GetProfileData());
+    //
   }
 
   FutureOr<void> _onSetUserData(SetUserData event, Emitter<AppState> emit) {
     getIt<BaseNetworkClient>().addTokenToHeader(event.token);
     emit(state.copyWith(token: event.token, user: event.user));
-    // getIt<ProfileCubit>().getProfile();
+    getIt<ProfileCubit>().getProfile();
     getIt<HomeBloc>().add(HomeInit());
-    // state.copyWith();
+    state.copyWith();
   }
 
   Future<void> _onSetUserLogout(
@@ -62,7 +73,7 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     try {
       // repoHome.setFcm('');
       emit(state.logout());
-      // getIt<ProfileCubit>().emit(ProfileState());
+      getIt<ProfileCubit>().emit(ProfileState());
       getIt<HomeBloc>().add(HomeNavigate(0));
     } catch (e) {
       debugPrint(e.toString());
@@ -86,5 +97,15 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     var cart = await repoCart.getCartCount();
 
     emit(state.copyWith(badgeCart: cart));
+  }
+
+  FutureOr<void> _onGetProfile(
+      GetProfileData event, Emitter<AppState> emit) async {
+    try {
+      final profile = await repoProfile.getProfile();
+      emit(state.copyWith(profile: profile));
+    } catch (e) {
+      debugPrint("Error : $e");
+    }
   }
 }

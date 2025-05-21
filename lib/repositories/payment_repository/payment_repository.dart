@@ -10,18 +10,17 @@ import 'package:mobile_pgb/repositories/payment_repository/models/payment_channe
 import 'package:mobile_pgb/repositories/payment_repository/models/payment_model.dart';
 
 class PaymentRepository {
+  Uri get paymentChannel =>
+      Uri.parse('http://157.245.193.49:9985/api/v1/channel');
 
-  final http = getIt<BaseNetworkClient>(); 
+  Uri findPaymentUri(String id) =>
+      Uri.parse('${MyApi.baseUrl}/api/v1/payment/detail/$id');
 
-  Uri get paymentChannel => Uri.parse('http://157.245.193.49:3098/api/v1/channel');
-
-  Uri findPaymentUri(String id) => Uri.parse('${MyApi.baseUrl}/api/v1/payment/detail/$id');
-
-  Uri topUpUri() => Uri.parse('${MyApi.baseUrl}/api/v1/topup');
+  final http = getIt<BaseNetworkClient>();
 
   Future<PaymentModel> findPayment(String paymentNumber) async {
     try {
-      var res = await http.get(findPaymentUri(paymentNumber));
+      var res = await http.get(findPaymentUri((paymentNumber)));
 
       debugPrint(res.body);
 

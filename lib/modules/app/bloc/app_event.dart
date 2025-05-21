@@ -15,6 +15,8 @@ final class GetBadgeNotif extends AppEvent {}
 
 final class GetBadgeCart extends AppEvent {}
 
+final class GetProfileData extends AppEvent {}
+
 final class SetUserData extends AppEvent {
   final User user;
   final String token;

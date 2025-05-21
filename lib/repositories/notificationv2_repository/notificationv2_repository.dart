@@ -11,9 +11,9 @@ import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
 import '../../misc/pagination.dart';
-import 'models/notification_count_model.dart';
+import 'models/notification_countv2_model.dart';
 
-class NotificationRepository {
+class NotificationV2Repository {
   final http = getIt<BaseNetworkClient>();
   String get notif => '${MyApi.baseUrl}/api/v1/notification';
   String get notifV2 => '${MyApi.baseUrlPpob}/api/v1/inbox';
@@ -61,14 +61,14 @@ class NotificationRepository {
     }
   }
 
-  Future<NotificationCountModel> getBadgesNotif({String type = ""}) async {
+  Future<NotificationCountV2Model> getBadgesNotif({String type = ""}) async {
     try {
       final res = await http.get(Uri.parse('$notif/getUnreadCount?type=$type'));
 
       debugPrint(res.body);
       final json = jsonDecode(res.body);
       if (res.statusCode == 200) {
-        return NotificationCountModel.fromJson(json['data']);
+        return NotificationCountV2Model.fromJson(json['data']);
       } else {
         throw json['message'] ?? "Terjadi kesalahan";
       }

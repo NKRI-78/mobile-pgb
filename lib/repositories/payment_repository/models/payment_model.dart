@@ -17,27 +17,31 @@ class PaymentModel {
   String? updatedAt;
   String? deletedAt;
   List<Orders>? orders;
+  String? paymentType;
+  List<Invoices>? invoices;
 
-  PaymentModel(
-      {this.data,
-      this.id,
-      this.paymentNumber,
-      this.type,
-      this.name,
-      this.code,
-      this.logoUrl,
-      this.platform,
-      this.price,
-      this.totalPrice,
-      this.fee,
-      this.status,
-      this.expireAt,
-      this.userId,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.orders,
-    });
+  PaymentModel({
+    this.data,
+    this.id,
+    this.paymentNumber,
+    this.type,
+    this.name,
+    this.code,
+    this.logoUrl,
+    this.platform,
+    this.price,
+    this.totalPrice,
+    this.fee,
+    this.status,
+    this.expireAt,
+    this.userId,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.orders,
+    this.paymentType,
+    this.invoices,
+  });
 
   PaymentModel.fromJson(Map<String, dynamic> json) {
     data = json['data'];
@@ -61,6 +65,13 @@ class PaymentModel {
       orders = <Orders>[];
       json['orders'].forEach((v) {
         orders!.add(Orders.fromJson(v));
+      });
+    }
+    paymentType = json['payment_type'];
+    if (json['invoices'] != null) {
+      invoices = <Invoices>[];
+      json['invoices'].forEach((v) {
+        invoices!.add(Invoices.fromJson(v));
       });
     }
   }
@@ -89,6 +100,88 @@ class PaymentModel {
     if (orders != null) {
       data['orders'] = orders!.map((v) => v.toJson()).toList();
     }
+    data['payment_type'] = paymentType;
+    if (invoices != null) {
+      data['invoices'] = invoices!.map((v) => v.toJson()).toList();
+    }
+
+    return data;
+  }
+}
+
+class Invoices {
+  int? id;
+  String? name;
+  String? invoiceNumber;
+  String? invoiceDate;
+  String? dueDate;
+  String? paidDate;
+  int? totalAmount;
+  int? paidAmount;
+  String? note;
+  String? status;
+  int? userId;
+  int? neighborhoodId;
+  int? familyId;
+  String? createdAt;
+  String? updatedAt;
+  String? deletedAt;
+
+  Invoices(
+      {this.id,
+      this.name,
+      this.invoiceNumber,
+      this.invoiceDate,
+      this.dueDate,
+      this.paidDate,
+      this.totalAmount,
+      this.paidAmount,
+      this.note,
+      this.status,
+      this.userId,
+      this.neighborhoodId,
+      this.familyId,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  Invoices.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    invoiceNumber = json['invoice_number'];
+    invoiceDate = json['invoice_date'];
+    dueDate = json['due_date'];
+    paidDate = json['paid_date'];
+    totalAmount = json['total_amount'];
+    paidAmount = json['paid_amount'];
+    note = json['note'];
+    status = json['status'];
+    userId = json['user_id'];
+    neighborhoodId = json['neighborhood_id'];
+    familyId = json['family_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['invoice_number'] = invoiceNumber;
+    data['invoice_date'] = invoiceDate;
+    data['due_date'] = dueDate;
+    data['paid_date'] = paidDate;
+    data['total_amount'] = totalAmount;
+    data['paid_amount'] = paidAmount;
+    data['note'] = note;
+    data['status'] = status;
+    data['user_id'] = userId;
+    data['neighborhood_id'] = neighborhoodId;
+    data['family_id'] = familyId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }
@@ -410,4 +503,3 @@ class Pictures {
     return data;
   }
 }
-

@@ -58,12 +58,14 @@ class PaymentChannelModel {
     if (user != null) {
       data['user'] = user!.toJson();
     }
+
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     data['deletedAt'] = deletedAt;
     return data;
   }
 }
+
 
 class User {
   int? balance;

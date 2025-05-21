@@ -15,10 +15,10 @@ import 'package:mobile_pgb/widgets/pages/empty_page.dart';
 import 'package:mobile_pgb/widgets/pages/loading_page.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 
-class WaitingPaymentPage extends StatelessWidget {
+class WaitingPaymentV2Page extends StatelessWidget {
   final String id;
   final int? tabIndex;
-  const WaitingPaymentPage({
+  const WaitingPaymentV2Page({
     super.key, 
     required this.id, 
     this.tabIndex,
@@ -29,19 +29,19 @@ class WaitingPaymentPage extends StatelessWidget {
     print("ID Payement : $id");
     return BlocProvider<WaitingPaymentCubit>(
       create: (context) => WaitingPaymentCubit(id: id)..init(context, tabIndex ?? 0),
-      child: const WaitingPaymentView(),
+      child: const WaitingPaymentV2View(),
     );
   }
 }
 
-class WaitingPaymentView extends StatefulWidget {
-  const WaitingPaymentView({super.key});
+class WaitingPaymentV2View extends StatefulWidget {
+  const WaitingPaymentV2View({super.key});
 
   @override
-  State<WaitingPaymentView> createState() => _WaitingPaymentViewState();
+  State<WaitingPaymentV2View> createState() => _WaitingPaymentViewState();
 }
 
-class _WaitingPaymentViewState extends State<WaitingPaymentView> {
+class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
   late bool isExpired;
 
   @override

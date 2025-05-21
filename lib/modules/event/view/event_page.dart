@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/misc/colors.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/modules/event/cubit/event_cubit.dart';
-import 'package:mobile_pgb/modules/event/widget/custom_table_calendar.dart';
-import 'package:mobile_pgb/router/builder.dart';
-import 'package:mobile_pgb/widgets/pages/empty_page.dart';
-import 'package:mobile_pgb/widgets/pages/loading_page.dart';
 
+import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
 import '../../../repositories/event_repository/models/event_model.dart';
+import '../../../router/builder.dart';
+import '../../../widgets/pages/empty_page.dart';
+import '../../../widgets/pages/loading_page.dart';
+import '../cubit/event_cubit.dart';
 import '../widget/custom_card_event.dart';
+import '../widget/custom_table_calendar.dart';
 
 class EventPage extends StatelessWidget {
   const EventPage({super.key});

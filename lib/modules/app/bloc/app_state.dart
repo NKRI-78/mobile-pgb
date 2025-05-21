@@ -4,8 +4,9 @@ part of 'app_bloc.dart';
 final class AppState extends Equatable {
   final String token;
   final User? user;
-  final bool loadingNotif;
   final CartCountModel? badgeCart;
+  final ProfileModel? profile;
+  final bool loadingNotif;
   final NotificationCountModel? badges;
 
   const AppState({
@@ -13,6 +14,7 @@ final class AppState extends Equatable {
     this.user,
     this.loadingNotif = false,
     this.badgeCart,
+    this.profile,
     this.badges,
   });
 
@@ -25,6 +27,7 @@ final class AppState extends Equatable {
         user,
         loadingNotif,
         badgeCart,
+        profile,
         badges,
       ];
 
@@ -40,6 +43,7 @@ final class AppState extends Equatable {
     User? user,
     bool? loadingNotif,
     CartCountModel? badgeCart,
+    ProfileModel? profile,
     NotificationCountModel? badges,
   }) {
     return AppState(
@@ -47,6 +51,7 @@ final class AppState extends Equatable {
       user: user ?? this.user,
       loadingNotif: loadingNotif ?? this.loadingNotif,
       badgeCart: badgeCart ?? this.badgeCart,
+      profile: profile ?? this.profile,
       badges: badges ?? this.badges,
     );
   }

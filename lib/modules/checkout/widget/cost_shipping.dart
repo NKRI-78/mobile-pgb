@@ -145,7 +145,7 @@ class CostShipping extends StatelessWidget {
                               ],
                             ),
                           ),
-                      Divider(color: AppColors.greyColor.withOpacity(0.5), height: 3, thickness: 1,)
+                      Divider(color: AppColors.greyColor.withValues(alpha: 0.5), height: 3, thickness: 1,)
                     ],
                                     ),
                   )

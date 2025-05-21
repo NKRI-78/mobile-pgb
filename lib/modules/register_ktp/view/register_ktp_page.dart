@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/widgets/pages/loading_page.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 import '../../../widgets/button/custom_button.dart';
+import '../../../widgets/pages/loading_page.dart';
 import '../cubit/register_ktp_cubit.dart';
 import '../widget/custom_textfield_register_ktp.dart';
 

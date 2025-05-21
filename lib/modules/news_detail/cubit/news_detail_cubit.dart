@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../misc/injections.dart';
-import '../../../repositories/news_repository/news_repository.dart';
 
+import '../../../misc/injections.dart';
 import '../../../repositories/news_repository/models/news_detail_model.dart';
+import '../../../repositories/news_repository/news_repository.dart';
 
 part 'news_detail_state.dart';
 
