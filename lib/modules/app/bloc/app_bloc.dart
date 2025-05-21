@@ -4,6 +4,10 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mobile_pgb/repositories/cart_repository/cart_repository.dart';
+import 'package:mobile_pgb/repositories/cart_repository/models/cart_count_model.dart';
+import 'package:mobile_pgb/repositories/notificationv2_repository/models/notification_count_model.dart';
+import 'package:mobile_pgb/repositories/notificationv2_repository/notification_repository.dart';
 
 import '../../../misc/http_client.dart';
 import '../../../misc/injections.dart';
@@ -20,10 +24,14 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     on<InitialAppData>(_onInitialAppData);
     on<SetUserLogout>(_onSetUserLogout);
     on<SetUserData>(_onSetUserData);
+    on<GetBadgeNotif>(_onGetBadgeNotif);
+    on<GetBadgeCart>(_onGetBadgeCart);
     // on<AppEvent>((event, emit) {});
   }
 
   HomeRepository repoHome = HomeRepository();
+  NotificationRepository repoNotif = NotificationRepository();
+  CartRepository repoCart = CartRepository();
 
   @override
   AppState? fromJson(Map<String, dynamic> json) {
@@ -37,7 +45,8 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
 
   FutureOr<void> _onInitialAppData(
       InitialAppData event, Emitter<AppState> emit) {
-    //
+    add(GetBadgeCart());
+    add(GetBadgeNotif());
   }
 
   FutureOr<void> _onSetUserData(SetUserData event, Emitter<AppState> emit) {
@@ -58,5 +67,24 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     } catch (e) {
       debugPrint(e.toString());
     }
+  }
+
+  FutureOr<void> _onGetBadgeNotif(
+      GetBadgeNotif event, Emitter<AppState> emit) async {
+    try {
+      emit(state.copyWith(loadingNotif: true));
+      NotificationCountModel badges = await repoNotif.getBadgesNotif();
+      emit(state.copyWith(badges: badges, loadingNotif: false));
+    } catch (e) {
+      debugPrint("Error : $e");
+    } finally {
+      emit(state.copyWith(loadingNotif: false));
+    }
+  }
+
+  FutureOr<void> _onGetBadgeCart(GetBadgeCart event, Emitter<AppState> emit) async {
+    var cart = await repoCart.getCartCount();
+
+    emit(state.copyWith(badgeCart: cart));
   }
 }

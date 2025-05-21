@@ -11,9 +11,20 @@ AppState _$AppStateFromJson(Map<String, dynamic> json) => AppState(
       user: json['user'] == null
           ? null
           : User.fromJson(json['user'] as Map<String, dynamic>),
+      loadingNotif: json['loadingNotif'] as bool? ?? false,
+      badgeCart: json['badgeCart'] == null
+          ? null
+          : CartCountModel.fromJson(json['badgeCart'] as Map<String, dynamic>),
+      badges: json['badges'] == null
+          ? null
+          : NotificationCountModel.fromJson(
+              json['badges'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$AppStateToJson(AppState instance) => <String, dynamic>{
       'token': instance.token,
       'user': instance.user,
+      'loadingNotif': instance.loadingNotif,
+      'badgeCart': instance.badgeCart,
+      'badges': instance.badges,
     };

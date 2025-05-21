@@ -49,8 +49,44 @@ RouteBase get $homeRoute => GoRouteData.$route(
           ],
         ),
         GoRouteData.$route(
+          path: 'checkout',
+          factory: $CheckoutRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'sos',
           factory: $SosRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'waiting-method',
+          factory: $WaitingPaymentRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'shop',
+          factory: $ShopRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'detail-prod',
+              factory: $DetailProductRouteExtension._fromState,
+            ),
+          ],
+        ),
+        GoRouteData.$route(
+          path: 'address',
+          factory: $AddressRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'create-address',
+              factory: $CreateAddressRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
+              path: 'update-address',
+              factory: $UpdateAddressRouteExtension._fromState,
+            ),
+          ],
+        ),
+        GoRouteData.$route(
+          path: 'cart',
+          factory: $CartRouteExtension._fromState,
         ),
         GoRouteData.$route(
           path: 'register',
@@ -251,11 +287,178 @@ extension $EventDetailRouteExtension on EventDetailRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+extension $CheckoutRouteExtension on CheckoutRoute {
+  static CheckoutRoute _fromState(GoRouterState state) => CheckoutRoute(
+        from: state.uri.queryParameters['from'] ?? "",
+        qty: state.uri.queryParameters['qty'],
+        productId: state.uri.queryParameters['product-id'],
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/checkout',
+        queryParams: {
+          if (from != "") 'from': from,
+          if (qty != null) 'qty': qty,
+          if (productId != null) 'product-id': productId,
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
 extension $SosRouteExtension on SosRoute {
   static SosRoute _fromState(GoRouterState state) => SosRoute();
 
   String get location => GoRouteData.$location(
         '/home/sos',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $WaitingPaymentRouteExtension on WaitingPaymentRoute {
+  static WaitingPaymentRoute _fromState(GoRouterState state) =>
+      WaitingPaymentRoute(
+        id: state.uri.queryParameters['id']!,
+        tabIndex: _$convertMapValue(
+            'tab-index', state.uri.queryParameters, int.tryParse),
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/waiting-method',
+        queryParams: {
+          'id': id,
+          if (tabIndex != null) 'tab-index': tabIndex!.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ShopRouteExtension on ShopRoute {
+  static ShopRoute _fromState(GoRouterState state) => ShopRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/shop',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $DetailProductRouteExtension on DetailProductRoute {
+  static DetailProductRoute _fromState(GoRouterState state) =>
+      DetailProductRoute(
+        idProduct: state.uri.queryParameters['id-product']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/shop/detail-prod',
+        queryParams: {
+          'id-product': idProduct,
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $AddressRouteExtension on AddressRoute {
+  static AddressRoute _fromState(GoRouterState state) => AddressRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/address',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $CreateAddressRouteExtension on CreateAddressRoute {
+  static CreateAddressRoute _fromState(GoRouterState state) =>
+      CreateAddressRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/address/create-address',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $UpdateAddressRouteExtension on UpdateAddressRoute {
+  static UpdateAddressRoute _fromState(GoRouterState state) =>
+      UpdateAddressRoute(
+        idAddress: state.uri.queryParameters['id-address']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/address/update-address',
+        queryParams: {
+          'id-address': idAddress,
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $CartRouteExtension on CartRoute {
+  static CartRoute _fromState(GoRouterState state) => CartRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/cart',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -365,6 +568,15 @@ extension $RegisterOtpRouteExtension on RegisterOtpRoute {
 
   void replace(BuildContext context) =>
       context.replace(location, extra: $extra);
+}
+
+T? _$convertMapValue<T>(
+  String key,
+  Map<String, String> map,
+  T? Function(String) converter,
+) {
+  final value = map[key];
+  return value == null ? null : converter(value);
 }
 
 bool _$boolConverter(String value) {

@@ -1,4 +1,10 @@
 import 'package:get_it/get_it.dart';
+import 'package:mobile_pgb/misc/socket.dart';
+import 'package:mobile_pgb/modules/cart/cubit/cart_cubit.dart';
+import 'package:mobile_pgb/modules/checkout/cubit/checkout_cubit.dart';
+import 'package:mobile_pgb/modules/detail_product/cubit/detail_product_cubit.dart';
+import 'package:mobile_pgb/modules/list_address/cubit/list_address_cubit.dart';
+import 'package:mobile_pgb/repositories/shop_repository/shop_repository.dart';
 
 import '../modules/app/bloc/app_bloc.dart';
 import '../modules/event/cubit/event_cubit.dart';
@@ -27,11 +33,24 @@ class MyInjection {
     getIt.registerCachedFactory<NewsDetailCubit>(() => NewsDetailCubit());
     getIt.registerCachedFactory<NewsAllCubit>(() => NewsAllCubit());
     getIt.registerCachedFactory<EventCubit>(() => EventCubit());
+    getIt.registerCachedFactory<CartCubit>(() => CartCubit());
+    getIt.registerCachedFactory<DetailProductCubit>(() => DetailProductCubit ());
+    getIt.registerCachedFactory<CheckoutCubit>(() => CheckoutCubit());
+    getIt.registerLazySingleton<ListAddressCubit>(() => ListAddressCubit()); 
+
+    //
+
+    //Socket IO
+    getIt.registerLazySingleton<SocketServices>(
+      () => SocketServices()..connect(),
+    );
+
     //
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
     getIt.registerLazySingleton<HomeRepository>(() => HomeRepository());
     getIt.registerLazySingleton<NewsRepository>(() => NewsRepository());
     getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepository());
     getIt.registerLazySingleton<EventRepository>(() => EventRepository());
+    getIt.registerLazySingleton<ShopRepository>(() => ShopRepository());
   }
 }

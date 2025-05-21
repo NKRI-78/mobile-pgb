@@ -114,7 +114,7 @@ class CustomMenu extends StatelessWidget {
     if (isLoggedIn) {
       switch (index) {
         case 0:
-          // MART
+          ShopRoute().go(context);
           break;
         case 1:
           EventRoute().go(context);
