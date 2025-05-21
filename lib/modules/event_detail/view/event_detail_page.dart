@@ -69,21 +69,22 @@ class EventDetailView extends StatelessWidget {
               ],
             ),
           ),
-          bottomNavigationBar: Container(
-            padding: EdgeInsets.all(10),
-            color: Colors.transparent,
-            child: CustomButton(
-              onPressed: () async {
-                await context
-                    .read<EventDetailCubit>()
-                    .toggleJoinStatus(context);
-              },
-              text: state.isJoined ? "Unjoin" : "Join",
-              backgroundColour: state.isJoined
-                  ? AppColors.redColor
-                  : AppColors.secondaryColor,
-              textColour: AppColors.whiteColor,
-            ),
+          bottomNavigationBar: Padding(
+            padding: const EdgeInsets.all(10),
+            child: state.loading
+                ? SizedBox.shrink()
+                : CustomButton(
+                    onPressed: () async {
+                      await context
+                          .read<EventDetailCubit>()
+                          .toggleJoinStatus(context);
+                    },
+                    text: state.isJoined ? "Unjoin" : "Join",
+                    backgroundColour: state.isJoined
+                        ? AppColors.redColor
+                        : AppColors.secondaryColor,
+                    textColour: AppColors.whiteColor,
+                  ),
           ),
         );
       },

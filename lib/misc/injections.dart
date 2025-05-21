@@ -1,4 +1,6 @@
 import 'package:get_it/get_it.dart';
+import '../modules/wallet/cubit/wallet_cubit.dart';
+import '../repositories/wallet_repository/wallet_repository.dart';
 import '../modules/ppob/cubit/ppob_cubit.dart';
 import '../repositories/ppob_repository/ppob_repository.dart';
 import '../modules/notification/cubit/notification_cubit.dart';
@@ -24,12 +26,14 @@ final getIt = GetIt.instance;
 
 class MyInjection {
   static setup() {
-    //
+    // BASE
     getIt.registerLazySingleton<BaseNetworkClient>(() => BaseNetworkClient());
-    //
+
+    // BLOC
     getIt.registerLazySingleton<AppBloc>(() => AppBloc());
     getIt.registerLazySingleton<HomeBloc>(() => HomeBloc());
-    //
+
+    // CUBIT
     getIt.registerCachedFactory<LoginCubit>(() => LoginCubit());
     getIt.registerCachedFactory<NewsDetailCubit>(() => NewsDetailCubit());
     getIt.registerCachedFactory<NewsAllCubit>(() => NewsAllCubit());
@@ -38,7 +42,9 @@ class MyInjection {
     getIt.registerCachedFactory<NotificationCubit>(() => NotificationCubit());
     getIt.registerCachedFactory<PpobCubit>(() => PpobCubit());
     getIt.registerCachedFactory<ProfileCubit>(() => ProfileCubit());
-    //
+    getIt.registerCachedFactory<WalletCubit>(() => WalletCubit());
+
+    // REPO
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
     getIt.registerLazySingleton<HomeRepository>(() => HomeRepository());
     getIt.registerLazySingleton<NewsRepository>(() => NewsRepository());
@@ -48,5 +54,6 @@ class MyInjection {
     getIt.registerLazySingleton<NotificationRepository>(
         () => NotificationRepository());
     getIt.registerLazySingleton<PpobRepository>(() => PpobRepository());
+    getIt.registerLazySingleton<WalletRepository>(() => WalletRepository());
   }
 }

@@ -64,6 +64,7 @@ class _NotificationPpobDetailViewState
               ),
               onPressed: () {
                 GoRouter.of(context).pop();
+                getIt<NotificationCubit>().fetchNotification();
               },
             ),
           ),

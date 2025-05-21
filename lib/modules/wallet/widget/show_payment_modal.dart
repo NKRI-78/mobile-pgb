@@ -1,44 +1,34 @@
-part of '../view/ppob_page.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-void _customPaymentSection(BuildContext context, List<PulsaDataModel> selected,
-    String phoneNumber, String type) {
-  final ppobCubit = context.read<PpobCubit>();
-  final String? productType = ppobCubit.currentType;
+import '../../../misc/colors.dart';
+import '../../../misc/price_currency.dart';
+import '../../../misc/snackbar.dart';
+import '../../../misc/text_style.dart';
+import '../../../router/builder.dart';
+import '../../../widgets/button/custom_button.dart';
+import '../cubit/wallet_cubit.dart';
 
+void showPaymentModal(BuildContext context) {
+  final walletCubit = context.read<WalletCubit>();
   showModalBottomSheet(
     context: context,
-    isScrollControlled: true,
-    shape: RoundedRectangleBorder(
+    shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),
+    isScrollControlled: true,
     builder: (context) {
       return BlocProvider.value(
-        value: ppobCubit,
-        child:
-            BlocBuilder<PpobCubit, PpobState>(builder: (dialogContext, state) {
-          final pulsaData = selected.first;
+        value: walletCubit,
+        child: BlocBuilder<WalletCubit, WalletState>(builder: (context, state) {
           final selectedChannel = state.channel;
-          final double productPrice = pulsaData.price?.toDouble() ?? 0;
-          final double totalAmount = productPrice + state.adminFee;
-          final String paymentCode = state.channel?.nameCode ?? "";
-          final String nameProduct = selected.first.name.toString();
-          final String logoChannel = state.channel?.logo ?? "";
-
-          String getProductTitle(String? type) {
-            switch (type) {
-              case "PULSA":
-                return "Harga Pulsa";
-              case "DATA":
-                return "Harga Paket Data";
-              default:
-                return "Harga Produk";
-            }
-          }
+          final adminFee = state.adminFee;
 
           return Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Column(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -54,25 +44,20 @@ void _customPaymentSection(BuildContext context, List<PulsaDataModel> selected,
                     ),
                     InkWell(
                       onTap: () {
-                        dialogContext
-                            .read<PpobCubit>()
-                            .getPaymentChannel(dialogContext);
+                        context.read<WalletCubit>().getPaymentChannel(context);
                       },
                       splashColor: Colors.grey.withValues(alpha: 0.3),
                       highlightColor: Colors.grey.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                       child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 10),
                         child: Text(
-                          dialogContext.watch<PpobCubit>().state.channel == null
+                          context.watch<WalletCubit>().state.channel == null
                               ? "Pilih Pembayaran"
                               : "Ganti Pembayaran",
                           style: TextStyle(
-                            color: dialogContext
-                                        .watch<PpobCubit>()
-                                        .state
-                                        .channel ==
+                            color: context.watch<WalletCubit>().state.channel ==
                                     null
                                 ? AppColors.secondaryColor
                                 : AppColors.redColor,
@@ -81,11 +66,11 @@ void _customPaymentSection(BuildContext context, List<PulsaDataModel> selected,
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
                 Divider(),
-                SizedBox(height: 5),
+                const SizedBox(height: 10),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -95,22 +80,22 @@ void _customPaymentSection(BuildContext context, List<PulsaDataModel> selected,
                     ),
                   ),
                 ),
-                SizedBox(height: 5),
-                _buildDetailRow("Pembayaran Untuk", nameProduct),
                 _buildDetailRow(
-                  getProductTitle(productType),
-                  "${Price.currency(productPrice)}",
+                  "Topup Saldo",
+                  "${Price.currency(state.amount)}",
                   isBold: true,
                 ),
                 _buildDetailRow(
                   "Biaya Admin Bank",
-                  "${Price.currency(state.adminFee)}",
+                  "${Price.currency(adminFee)}",
                   isBold: true,
                 ),
+                SizedBox(height: 5),
                 _buildDetailRowWithImage(
-                    "Pembayaran Dengan",
-                    selectedChannel?.logo ?? "",
-                    selectedChannel?.name ?? " _ "),
+                  "Pembayaran Dengan",
+                  selectedChannel?.logo ?? "",
+                  selectedChannel?.name ?? " _ ",
+                ),
                 Divider(),
                 SizedBox(height: 5),
                 Align(
@@ -124,15 +109,14 @@ void _customPaymentSection(BuildContext context, List<PulsaDataModel> selected,
                 ),
                 _buildDetailRow(
                   "Total Pembayaran",
-                  "${Price.currency(totalAmount)}",
+                  "${Price.currency(state.totalAmount)}",
                   isBold: true,
                 ),
                 const SizedBox(height: 10),
                 SizedBox(
                   width: double.infinity,
-                  child: BlocBuilder<PpobCubit, PpobState>(
+                  child: BlocBuilder<WalletCubit, WalletState>(
                     builder: (context, state) {
-                      final userId = getIt<AppBloc>().state.user?.id ?? 0;
                       return CustomButton(
                         backgroundColour: AppColors.secondaryColor,
                         textColour: AppColors.whiteColor,
@@ -140,36 +124,14 @@ void _customPaymentSection(BuildContext context, List<PulsaDataModel> selected,
                         onPressed: state.isLoading || state.channel == null
                             ? null
                             : () async {
-                                final cubit = context.read<PpobCubit>();
+                                var cubit = context.read<WalletCubit>();
                                 try {
-                                  final response = await cubit.checkoutItem(
-                                      userId.toString(), type, phoneNumber);
-
-                                  if (response != null) {
-                                    final isQRPayment = paymentCode
-                                            .toLowerCase()
-                                            .contains("gopay") ||
-                                        paymentCode
-                                            .toLowerCase()
-                                            .contains("qris");
-
-                                    final expireTime = isQRPayment
-                                        ? DateTime.now()
-                                            .add(const Duration(minutes: 15))
-                                        : DateTime.now()
-                                            .add(const Duration(days: 1));
-                                    PpobPaymentRoute(
-                                      paymentExpire: expireTime,
-                                      paymentAccess:
-                                          response['payment_access'] ?? "-",
-                                      totalPayment: totalAmount,
-                                      paymentCode: paymentCode,
-                                      nameProduct: nameProduct,
-                                      logoChannel: logoChannel,
-                                    ).go(context);
-                                  } else {
-                                    throw Exception(
-                                        "Gagal mendapatkan kode pembayaran.");
+                                  var paymentNumber =
+                                      await cubit.topUpWallet(context);
+                                  if (context.mounted) {
+                                    WaitingPaymentRoute(
+                                            id: paymentNumber.toString())
+                                        .go(context);
                                   }
                                 } catch (e) {
                                   ShowSnackbar.snackbar(

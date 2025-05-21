@@ -44,19 +44,6 @@ class _CustomFieldSectionState extends State<CustomFieldSection> {
         );
       }
 
-      // if (nomor.length < 5) {
-      //   // ⚠️ Nomor kurang dari 5 digit, tampilkan error
-      //   setState(() {
-      //     _errorMessage = "Nomor harus minimal 5 digit.";
-      //   });
-      //   return;
-      // } else {
-      //   // ✅ Nomor valid, hilangkan error
-      //   setState(() {
-      //     _errorMessage = null;
-      //   });
-      // }
-
       String prefix = nomor.substring(0, 5);
       if (prefix != lastPrefix) {
         lastPrefix = prefix;

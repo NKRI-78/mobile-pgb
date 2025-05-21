@@ -4,21 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../widget/custom_button_wallet.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/price_currency.dart';
 import '../../../misc/snackbar.dart';
+import '../../../misc/text_style.dart';
+import '../../../repositories/ppob_repository/models/pulsa_data_model.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/contact/contact_list_ppob.dart';
 import '../../app/bloc/app_bloc.dart';
 import '../cubit/ppob_cubit.dart';
-// import '../../../widgets/contact/contact_list_ppob.dart';
-
-import '../../../misc/text_style.dart';
-import '../../../repositories/ppob_repository/models/pulsa_data_model.dart';
+import '../widget/custom_button_wallet.dart';
 import '../widget/custom_list_pulsa_data_section.dart';
 
 part '../widget/custom_card_section.dart';
@@ -136,7 +134,7 @@ class _PpobViewState extends State<PpobView> {
     } else if (selectedIndex == 2) {
       widgets.addAll([
         Padding(
-          padding: const EdgeInsets.all(6.0),
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 20),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(16),
             child: Image.asset(
@@ -185,7 +183,7 @@ class _PpobViewState extends State<PpobView> {
                       },
                 child: Container(
                   width: double.infinity,
-                  height: 70,
+                  height: 50,
                   decoration: BoxDecoration(
                     color: (selectedIndex == -1 || selectedPulsaData == null)
                         ? Colors.grey
@@ -214,7 +212,6 @@ class _PpobViewState extends State<PpobView> {
             backgroundColor: AppColors.primaryColor,
             surfaceTintColor: Colors.transparent,
             pinned: true,
-            toolbarHeight: 80,
             elevation: 2,
             title: Text(
               'PPOB',

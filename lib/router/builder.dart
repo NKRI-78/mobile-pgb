@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../modules/wallet/view/wallet_page.dart';
 
 import '../modules/event/view/event_page.dart';
 import '../modules/event_detail/view/event_detail_page.dart';
@@ -22,6 +21,8 @@ import '../modules/register_otp/view/register_otp_page.dart';
 import '../modules/settings/view/settings_page.dart';
 import '../modules/sos/view/sos_detail_page.dart';
 import '../modules/sos/view/sos_page.dart';
+import '../modules/waiting_payment/view/waiting_payment_page.dart';
+import '../modules/wallet/view/wallet_page.dart';
 import '../modules/webview/webview.dart';
 import '../widgets/pages/about/about_us_page.dart';
 import '../widgets/pages/media/view/media_page.dart';
@@ -37,6 +38,7 @@ part 'builder.g.dart';
   TypedGoRoute<ProfileRoute>(path: 'profile'),
   TypedGoRoute<SettingsRoute>(path: 'settings'),
   TypedGoRoute<PpobPaymentRoute>(path: 'ppob-payment'),
+  TypedGoRoute<WaitingPaymentRoute>(path: 'waiting-payment'),
   TypedGoRoute<PpobRoute>(path: 'ppob', routes: [
     TypedGoRoute<WalletRoute>(path: 'wallet'),
   ]),
@@ -157,6 +159,18 @@ class PpobPaymentRoute extends GoRouteData {
       nameProduct: nameProduct,
       logoChannel: logoChannel,
       paymentExpire: paymentExpire,
+    );
+  }
+}
+
+class WaitingPaymentRoute extends GoRouteData {
+  final String id;
+
+  WaitingPaymentRoute({required this.id});
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return WaitingPaymentPage(
+      id: id,
     );
   }
 }

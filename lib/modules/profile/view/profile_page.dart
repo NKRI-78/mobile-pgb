@@ -38,9 +38,6 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
-        if (state.isLoading) {
-          return CustomLoadingPage();
-        }
         return Scaffold(
           backgroundColor: AppColors.primaryColor,
           extendBodyBehindAppBar: true,
@@ -62,42 +59,57 @@ class ProfileView extends StatelessWidget {
               },
             ),
           ),
-          body: SafeArea(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  CustomCardProfile(
-                    noKta: state.profile?.profile?.nik ?? '-',
-                    nama: state.profile?.profile?.fullname ?? '-',
-                    tempatTglLahir:
-                        state.profile?.profile?.birthPlaceAndDate ?? '-',
-                    agama: state.profile?.profile?.religion ?? '-',
-                    alamat:
-                        state.profile?.profile?.administrativeVillage ?? '-',
-                    fotoPath:
-                        state.profile?.profile?.avatarLink ?? imageDefaultUser,
+          body: AnimatedSwitcher(
+            duration: Duration(milliseconds: 300),
+            child: state.isLoading
+                ? Center(
+                    child: CustomLoadingPage(),
+                  )
+                : SafeArea(
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.all(16),
+                      child: Column(
+                        children: [
+                          CustomCardProfile(
+                            noKta: state.profile?.profile?.nik ?? '-',
+                            nama: state.profile?.profile?.fullname ?? '-',
+                            tempatTglLahir:
+                                state.profile?.profile?.birthPlaceAndDate ??
+                                    '-',
+                            agama: state.profile?.profile?.religion ?? '-',
+                            alamat:
+                                state.profile?.profile?.administrativeVillage ??
+                                    '-',
+                            fotoPath: state.profile?.profile?.avatarLink ??
+                                imageDefaultUser,
+                          ),
+                          CustomDownloadKta(),
+                          CustomDataProfile(
+                            email: state.profile?.email ?? '',
+                            nama: state.profile?.profile?.fullname ?? '',
+                            noTlp: state.profile?.phone ?? '',
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  CustomDownloadKta(),
-                  CustomDataProfile(
-                    email: state.profile?.email ?? '',
-                    nama: state.profile?.profile?.fullname ?? '',
-                    noTlp: state.profile?.phone ?? '',
-                  ),
-                ],
-              ),
-            ),
           ),
-          bottomNavigationBar: SafeArea(
-              minimum: EdgeInsets.only(left: 16, right: 16, bottom: 16),
-              child: CustomButton(
-                onPressed: () {
-                  //
-                },
-                text: "Edit",
-                backgroundColour: AppColors.secondaryColor,
-                textColour: AppColors.buttonWhiteColor,
-              )),
+          bottomNavigationBar: AnimatedSwitcher(
+            duration: Duration(microseconds: 300),
+            child: state.isLoading
+                ? SizedBox.shrink()
+                : SafeArea(
+                    minimum: EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                    child: CustomButton(
+                      onPressed: () {
+                        //
+                      },
+                      text: "Edit",
+                      backgroundColour: AppColors.secondaryColor,
+                      textColour: AppColors.buttonWhiteColor,
+                    ),
+                  ),
+          ),
         );
       },
     );

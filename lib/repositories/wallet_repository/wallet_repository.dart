@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as httpBase;
 
@@ -10,6 +12,7 @@ import 'model/payment_channel_model.dart';
 
 class WalletRepository {
   String get topUp => '${MyApi.baseUrl}/api/v1/topup';
+  String get paymentChannel => '${MyApi.baseUrl}/api/v1/payment/channel';
   final http = getIt<BaseNetworkClient>();
 
   Future<int> topUpWallet({
@@ -59,6 +62,31 @@ class WalletRepository {
       } else {
         throw decodedMap['message'] ?? "Terjadi kesalahan";
       }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<PaymentChannelModel>> getChannels() async {
+    try {
+      var res = await http.get(Uri.parse(paymentChannel));
+
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        var list = (json['data'] as List)
+            .map((e) => PaymentChannelModel.fromJson(e))
+            .toList();
+        return list;
+      }
+      if (res.statusCode == 400) {
+        throw json['message'] ?? "Terjadi kesalahan";
+      } else {
+        throw "Error";
+      }
+    } on SocketException {
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
     } catch (e) {
       rethrow;
     }
