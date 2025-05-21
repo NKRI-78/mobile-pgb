@@ -8,6 +8,7 @@ class CustomButton extends StatelessWidget {
   final Color textColour;
   final void Function()? onPressed;
   final Widget? leading;
+  final bool isLoading; // Status loading
 
   const CustomButton({
     super.key,
@@ -16,6 +17,8 @@ class CustomButton extends StatelessWidget {
     required this.textColour,
     this.onPressed,
     this.leading,
+    this.isLoading = false,
+    SizedBox? child,
   });
 
   @override

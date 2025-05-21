@@ -4,11 +4,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as ht;
-import '../../modules/register_akun/model/extrack_ktp_model.dart';
 
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
+import '../../modules/register_akun/model/extrack_ktp_model.dart';
 import 'models/user_model.dart';
 
 class LoggedIn {

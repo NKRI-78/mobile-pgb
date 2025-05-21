@@ -43,6 +43,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     if (getIt<AppBloc>().state.isLoggedIn) {
       add(LoadProfile());
     }
+    getIt<AppBloc>().add(InitialAppData());
     await _fetchNews(emit, isRefresh: true);
 
     await fetchBanner(emit);

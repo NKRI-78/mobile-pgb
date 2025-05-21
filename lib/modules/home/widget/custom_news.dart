@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/misc/colors.dart';
-import 'package:mobile_pgb/misc/text_style.dart';
 
+import '../../../misc/colors.dart';
+import '../../../misc/text_style.dart';
 import '../../../misc/theme.dart';
 
 class CustomNews extends StatelessWidget {

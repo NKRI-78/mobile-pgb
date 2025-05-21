@@ -1,16 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../misc/theme.dart';
-import '../cubit/news_detail_cubit.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../misc/date_helper.dart';
 import '../../../misc/text_style.dart';
+import '../../../misc/theme.dart';
 import '../../../repositories/news_repository/models/news_detail_model.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/photo_view/custom_fullscreen_preview.dart';
+import '../cubit/news_detail_cubit.dart';
 
 class NewsDetailPage extends StatelessWidget {
   const NewsDetailPage({
@@ -118,16 +118,20 @@ class NewsDetailView extends StatelessWidget {
         Html(
           data: formatHtmlContent(newsData?.data?.content),
           style: {
+            "p": Style(
+              margin: Margins.only(bottom: 12),
+            ),
             "a": Style(
               color: Colors.blue,
               textDecoration: TextDecoration.underline,
             ),
           },
-          onLinkTap:
-              (String? url, Map<String, String> attributes, element) async {
-            WebViewRoute(url: url!, title: "LINGKUNGANKU-MOBILE").push(context);
+          onLinkTap: (url, attrs, element) {
+            if (url != null) {
+              WebViewRoute(url: url, title: "GEMA-MOBILE").push(context);
+            }
           },
-        )
+        ),
       ],
     );
   }
@@ -135,10 +139,11 @@ class NewsDetailView extends StatelessWidget {
   String formatHtmlContent(String? content) {
     if (content == null || content.isEmpty) return "";
 
-    final isHtml = RegExp(r'<[^>]+>').hasMatch(content);
-    if (isHtml) return content;
+    final sanitized = content
+        .replaceAll(RegExp(r'<p><br\s*/?></p>', caseSensitive: false), '')
+        .replaceAll(RegExp(r'<p>(&nbsp;|\s)*</p>', caseSensitive: false), '');
 
-    return "<p>${content.replaceAll('\n', '</p><p>')}</p>";
+    return sanitized;
   }
 
   Widget _buildImageCard(BuildContext context, String? imageUrl) {

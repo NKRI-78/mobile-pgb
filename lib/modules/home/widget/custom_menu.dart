@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../misc/colors.dart';
-import '../../app/bloc/app_bloc.dart';
-import '../../../misc/injections.dart';
-import '../../../router/builder.dart';
 
+import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
+import '../../../router/builder.dart';
+import '../../app/bloc/app_bloc.dart';
 
 class CustomMenu extends StatelessWidget {
   const CustomMenu({super.key});
@@ -27,7 +27,7 @@ class CustomMenu extends StatelessWidget {
           _buildMenuItem(context, 'PPOB', 'assets/icons/ppob.png', 3),
           _buildMenuItem(context, 'Media', 'assets/icons/media.png', 4),
           _buildMenuItem(context, 'About Us', 'assets/icons/about.png', 5),
-          _buildMenuItem(context, 'Forum', 'assets/icons/forum.png', 6),
+          _buildMenuItem(context, 'Interaksi', 'assets/icons/forum.png', 6),
           _buildMenuItem(context, 'SOS', 'assets/icons/sos.png', 7),
         ],
       ),
@@ -123,7 +123,7 @@ class CustomMenu extends StatelessWidget {
           // MEMBER NEAR
           break;
         case 3:
-          // PPOB
+          PpobRoute().go(context);
           break;
         case 6:
           // FORUM

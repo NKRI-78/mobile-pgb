@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
+import '../../../router/builder.dart';
 import '../../app/bloc/app_bloc.dart';
 
 class CustomEndDrawer extends StatelessWidget {
@@ -35,7 +36,9 @@ class CustomEndDrawer extends StatelessWidget {
                   ),
                   const SizedBox(height: 80),
                   OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      SettingsRoute().go(context);
+                    },
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.white,
                       side: const BorderSide(
@@ -212,14 +215,6 @@ class CustomEndDrawer extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      // color: AppColors.whiteColor,
-                      // boxShadow: [
-                      //   BoxShadow(
-                      //     color: Colors.black.withOpacity(0.6),
-                      //     blurRadius: 8,
-                      //     offset: const Offset(3, 4),
-                      //   ),
-                      // ],
                     ),
                     child: Image.asset(
                       'assets/icons/dialog.png',

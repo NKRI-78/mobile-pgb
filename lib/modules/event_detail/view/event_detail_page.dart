@@ -2,17 +2,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_pgb/misc/colors.dart';
-import 'package:mobile_pgb/misc/theme.dart';
-import 'package:mobile_pgb/widgets/button/custom_button.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
+import '../../../misc/theme.dart';
+import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/photo_view/custom_fullscreen_preview.dart';
 import '../cubit/event_detail_cubit.dart';
 
-part '../widget/custom_image_detail_event.dart';
 part '../widget/custom_deskripsi_detail_event.dart';
+part '../widget/custom_image_detail_event.dart';
 
 class EventDetailPage extends StatelessWidget {
   const EventDetailPage({super.key, required this.idEvent});
@@ -69,17 +69,22 @@ class EventDetailView extends StatelessWidget {
               ],
             ),
           ),
-          bottomNavigationBar: Container(
-            padding: EdgeInsets.all(10),
-            color: Colors.transparent,
-            child: CustomButton(
-              onPressed: () {
-                //
-              },
-              text: "Join",
-              backgroundColour: AppColors.secondaryColor,
-              textColour: AppColors.whiteColor,
-            ),
+          bottomNavigationBar: Padding(
+            padding: const EdgeInsets.all(10),
+            child: state.loading
+                ? SizedBox.shrink()
+                : CustomButton(
+                    onPressed: () async {
+                      await context
+                          .read<EventDetailCubit>()
+                          .toggleJoinStatus(context);
+                    },
+                    text: state.isJoined ? "Unjoin" : "Join",
+                    backgroundColour: state.isJoined
+                        ? AppColors.redColor
+                        : AppColors.secondaryColor,
+                    textColour: AppColors.whiteColor,
+                  ),
           ),
         );
       },

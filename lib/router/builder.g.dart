@@ -39,6 +39,42 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $ProfileRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: 'settings',
+          factory: $SettingsRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'ppob-payment',
+          factory: $PpobPaymentRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'waiting-payment',
+          factory: $WaitingPaymentRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'ppob',
+          factory: $PpobRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'wallet',
+              factory: $WalletRouteExtension._fromState,
+            ),
+          ],
+        ),
+        GoRouteData.$route(
+          path: 'notification',
+          factory: $NotificationRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'notification-detail',
+              factory: $NotificationDetailRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
+              path: 'notification-ppob',
+              factory: $NotificationPpobRouteExtension._fromState,
+            ),
+          ],
+        ),
+        GoRouteData.$route(
           path: 'event',
           factory: $EventRouteExtension._fromState,
           routes: [
@@ -51,6 +87,12 @@ RouteBase get $homeRoute => GoRouteData.$route(
         GoRouteData.$route(
           path: 'sos',
           factory: $SosRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'sos-detail',
+              factory: $SosDetailRouteExtension._fromState,
+            ),
+          ],
         ),
         GoRouteData.$route(
           path: 'register',
@@ -212,6 +254,178 @@ extension $ProfileRouteExtension on ProfileRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+extension $SettingsRouteExtension on SettingsRoute {
+  static SettingsRoute _fromState(GoRouterState state) => SettingsRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/settings',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $PpobPaymentRouteExtension on PpobPaymentRoute {
+  static PpobPaymentRoute _fromState(GoRouterState state) => PpobPaymentRoute(
+        paymentAccess: state.uri.queryParameters['payment-access']!,
+        totalPayment:
+            double.parse(state.uri.queryParameters['total-payment']!)!,
+        paymentCode: state.uri.queryParameters['payment-code']!,
+        nameProduct: state.uri.queryParameters['name-product']!,
+        logoChannel: state.uri.queryParameters['logo-channel']!,
+        paymentExpire:
+            DateTime.parse(state.uri.queryParameters['payment-expire']!)!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/ppob-payment',
+        queryParams: {
+          'payment-access': paymentAccess,
+          'total-payment': totalPayment.toString(),
+          'payment-code': paymentCode,
+          'name-product': nameProduct,
+          'logo-channel': logoChannel,
+          'payment-expire': paymentExpire.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $WaitingPaymentRouteExtension on WaitingPaymentRoute {
+  static WaitingPaymentRoute _fromState(GoRouterState state) =>
+      WaitingPaymentRoute(
+        id: state.uri.queryParameters['id']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/waiting-payment',
+        queryParams: {
+          'id': id,
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $PpobRouteExtension on PpobRoute {
+  static PpobRoute _fromState(GoRouterState state) => PpobRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/ppob',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $WalletRouteExtension on WalletRoute {
+  static WalletRoute _fromState(GoRouterState state) => WalletRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/ppob/wallet',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $NotificationRouteExtension on NotificationRoute {
+  static NotificationRoute _fromState(GoRouterState state) =>
+      NotificationRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/notification',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $NotificationDetailRouteExtension on NotificationDetailRoute {
+  static NotificationDetailRoute _fromState(GoRouterState state) =>
+      NotificationDetailRoute(
+        idNotif: int.parse(state.uri.queryParameters['id-notif']!)!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/notification/notification-detail',
+        queryParams: {
+          'id-notif': idNotif.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $NotificationPpobRouteExtension on NotificationPpobRoute {
+  static NotificationPpobRoute _fromState(GoRouterState state) =>
+      NotificationPpobRoute(
+        idNotif: int.parse(state.uri.queryParameters['id-notif']!)!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/notification/notification-ppob',
+        queryParams: {
+          'id-notif': idNotif.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
 extension $EventRouteExtension on EventRoute {
   static EventRoute _fromState(GoRouterState state) => EventRoute();
 
@@ -256,6 +470,30 @@ extension $SosRouteExtension on SosRoute {
 
   String get location => GoRouteData.$location(
         '/home/sos',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $SosDetailRouteExtension on SosDetailRoute {
+  static SosDetailRoute _fromState(GoRouterState state) => SosDetailRoute(
+        sosType: state.uri.queryParameters['sos-type']!,
+        message: state.uri.queryParameters['message']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/sos/sos-detail',
+        queryParams: {
+          'sos-type': sosType,
+          'message': message,
+        },
       );
 
   void go(BuildContext context) => context.go(location);

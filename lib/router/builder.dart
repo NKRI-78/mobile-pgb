@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_pgb/modules/event/view/event_page.dart';
-import 'package:mobile_pgb/modules/profile/view/profile_page.dart';
-import 'package:mobile_pgb/modules/sos/view/sos_page.dart';
 
+import '../modules/event/view/event_page.dart';
 import '../modules/event_detail/view/event_detail_page.dart';
 import '../modules/home/view/home_page.dart';
 import '../modules/login/view/login_page.dart';
 import '../modules/news_all/view/news_all_page.dart';
 import '../modules/news_detail/view/news_detail_page.dart';
+import '../modules/notification/view/detail/notification_detail_page.dart';
+import '../modules/notification/view/detail/notification_ppob_detail_page.dart';
+import '../modules/notification/view/notification_page.dart';
+import '../modules/ppob/view/ppob_page.dart';
+import '../modules/ppob/view/ppob_waiting_payment_page.dart';
+import '../modules/profile/view/profile_page.dart';
 import '../modules/register/view/register_page.dart';
 import '../modules/register_akun/model/extrack_ktp_model.dart';
 import '../modules/register_akun/view/register_akun_page.dart';
 import '../modules/register_ktp/view/register_ktp_page.dart';
 import '../modules/register_otp/view/register_otp_page.dart';
+import '../modules/settings/view/settings_page.dart';
+import '../modules/sos/view/sos_detail_page.dart';
+import '../modules/sos/view/sos_page.dart';
+import '../modules/waiting_payment/view/waiting_payment_page.dart';
+import '../modules/wallet/view/wallet_page.dart';
 import '../modules/webview/webview.dart';
 import '../widgets/pages/about/about_us_page.dart';
 import '../widgets/pages/media/view/media_page.dart';
@@ -27,10 +36,22 @@ part 'builder.g.dart';
   TypedGoRoute<NewsAllRoute>(path: 'news-all'),
   TypedGoRoute<WebViewRoute>(path: 'webview'),
   TypedGoRoute<ProfileRoute>(path: 'profile'),
+  TypedGoRoute<SettingsRoute>(path: 'settings'),
+  TypedGoRoute<PpobPaymentRoute>(path: 'ppob-payment'),
+  TypedGoRoute<WaitingPaymentRoute>(path: 'waiting-payment'),
+  TypedGoRoute<PpobRoute>(path: 'ppob', routes: [
+    TypedGoRoute<WalletRoute>(path: 'wallet'),
+  ]),
+  TypedGoRoute<NotificationRoute>(path: 'notification', routes: [
+    TypedGoRoute<NotificationDetailRoute>(path: 'notification-detail'),
+    TypedGoRoute<NotificationPpobRoute>(path: 'notification-ppob'),
+  ]),
   TypedGoRoute<EventRoute>(path: 'event', routes: [
     TypedGoRoute<EventDetailRoute>(path: 'event-detail'),
   ]),
-  TypedGoRoute<SosRoute>(path: 'sos'),
+  TypedGoRoute<SosRoute>(path: 'sos', routes: [
+    TypedGoRoute<SosDetailRoute>(path: 'sos-detail'),
+  ]),
   TypedGoRoute<RegisterRoute>(path: 'register', routes: [
     TypedGoRoute<LoginRoute>(path: 'login'),
     TypedGoRoute<RegisterKtpRoute>(path: 'register-ktp', routes: [
@@ -105,6 +126,102 @@ class ProfileRoute extends GoRouteData {
   }
 }
 
+class SettingsRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return SettingsPage();
+  }
+}
+
+class PpobPaymentRoute extends GoRouteData {
+  final String paymentAccess;
+  final double totalPayment;
+  final String paymentCode;
+  final String nameProduct;
+  final String logoChannel;
+  final DateTime paymentExpire;
+
+  PpobPaymentRoute({
+    required this.paymentAccess,
+    required this.totalPayment,
+    required this.paymentCode,
+    required this.nameProduct,
+    required this.logoChannel,
+    required this.paymentExpire,
+  });
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return PpobWaitingPaymentPage(
+      paymentAccess: paymentAccess,
+      totalPayment: totalPayment,
+      paymentCode: paymentCode,
+      nameProduct: nameProduct,
+      logoChannel: logoChannel,
+      paymentExpire: paymentExpire,
+    );
+  }
+}
+
+class WaitingPaymentRoute extends GoRouteData {
+  final String id;
+
+  WaitingPaymentRoute({required this.id});
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return WaitingPaymentPage(
+      id: id,
+    );
+  }
+}
+
+class PpobRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return PpobPage();
+  }
+}
+
+class WalletRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return WalletPage();
+  }
+}
+
+class NotificationRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const NotificationPage();
+  }
+}
+
+class NotificationDetailRoute extends GoRouteData {
+  final int idNotif;
+
+  NotificationDetailRoute({required this.idNotif});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return NotificationDetailPage(
+      idNotif: idNotif,
+    );
+  }
+}
+
+class NotificationPpobRoute extends GoRouteData {
+  final int idNotif;
+
+  NotificationPpobRoute({required this.idNotif});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return NotificationPpobDetailPage(
+      idNotif: idNotif,
+    );
+  }
+}
+
 class RegisterRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -135,6 +252,26 @@ class SosRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const SosPage();
+  }
+}
+
+class SosDetailRoute extends GoRouteData {
+  // final bool isLoggedIn;
+  final String sosType;
+  final String message;
+
+  SosDetailRoute({
+    // required this.isLoggedIn,
+    required this.sosType,
+    required this.message,
+  });
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return SosDetailPage(
+      message: message,
+      sosType: sosType,
+      // isLoggedIn: isLoggedIn,
+    );
   }
 }
 

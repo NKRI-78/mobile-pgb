@@ -6,6 +6,7 @@ final class EventDetailState extends Equatable {
   final bool loading;
   final bool success;
   final String? errorMessage;
+  final bool isJoined;
 
   const EventDetailState({
     this.idEvent = 0,
@@ -13,6 +14,7 @@ final class EventDetailState extends Equatable {
     this.loading = false,
     this.success = false,
     this.errorMessage,
+    this.isJoined = false,
   });
 
   EventDetailState copyWith({
@@ -21,6 +23,7 @@ final class EventDetailState extends Equatable {
     bool? loading,
     bool? success,
     String? errorMessage,
+    bool? isJoined,
   }) {
     return EventDetailState(
       idEvent: idEvent ?? this.idEvent,
@@ -28,6 +31,7 @@ final class EventDetailState extends Equatable {
       loading: loading ?? this.loading,
       success: success ?? this.success,
       errorMessage: errorMessage,
+      isJoined: isJoined ?? this.isJoined,
     );
   }
 
@@ -38,5 +42,6 @@ final class EventDetailState extends Equatable {
         loading,
         success,
         errorMessage,
+        isJoined,
       ];
 }
