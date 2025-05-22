@@ -49,13 +49,13 @@ class AboutUsPage extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'JATIDIRI PARTAI',
+                  'JATI DIRI PARTAI',
                   style: AppTextStyles.textStyleBold.copyWith(fontSize: 16),
                 ),
               ),
               SizedBox(height: 10),
               _buildBulletPoint(
-                'Identitas dan Karakter Partai. Jatidiri Partai Gema Bangsa mencakup nilai, tujuan, dan cita-cita sebagai landasan perjuangan untuk memperjuangkan aspirasi rakyat. '
+                'Identitas dan Karakter Partai. Jati diri Partai Gema Bangsa mencakup nilai, tujuan, dan cita-cita sebagai landasan perjuangan untuk memperjuangkan aspirasi rakyat. '
                 'Partai ini memiliki karakter sebagai partai nasional yang modern, terbuka, berwawasan kebangsaan, dan berbasis pada kekuatan rakyat dengan orientasi pada kemandirian bangsa.',
               ),
               SizedBox(height: 5),

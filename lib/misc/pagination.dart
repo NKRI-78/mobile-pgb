@@ -32,16 +32,12 @@ class Pagination {
   });
 
   static Pagination initial = Pagination(
-      totalItems: 0,
-      totalPages: 0,
-      currentPage: 0,
-      previous: null,
-      next: null);
+      totalItems: 0, totalPages: 0, currentPage: 0, previous: null, next: null);
 
   factory Pagination.fromJson(Map<String, dynamic> json) => Pagination(
         totalItems: json["total"] ?? 0,
         totalPages: json["pages"] ?? 0,
-        currentPage: json["current_page"] ?? 0,
+        currentPage: json["currentPage"] ?? 0,
         previous: json["previous"],
         next: json["next"],
       );

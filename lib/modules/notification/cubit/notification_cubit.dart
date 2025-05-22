@@ -151,7 +151,9 @@ class NotificationCubit extends Cubit<NotificationState> {
     try {
       await repo.readAllNotifPpob(userId);
 
-      final updatedNotif = state.inboxNotif.map((notif) => notif).toList();
+      final updatedNotif = state.inboxNotif
+          .map((notif) => notif.copyWith(isRead: true))
+          .toList();
 
       emit(state.copyWith(inboxNotif: updatedNotif));
     } catch (e) {

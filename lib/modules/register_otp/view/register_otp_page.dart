@@ -42,7 +42,8 @@ class RegisterOtpView extends StatelessWidget {
         // Hitung detik yang tersisa
         final minutes = (state.timeRemaining / 60).floor();
         final seconds = state.timeRemaining % 60;
-        final timeRemaining = '$minutes:${seconds.toString().padLeft(2, '0')}';
+        final timeRemaining =
+            '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
 
         return WillPopScope(
           onWillPop: () async => false,

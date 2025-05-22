@@ -10,6 +10,7 @@ class CustomButton extends StatelessWidget {
   final Widget? leading;
   final double? radius;
   final bool isLoading;
+  final IconData? icon; // Ikon opsional
 
   const CustomButton({
     super.key,
@@ -18,10 +19,10 @@ class CustomButton extends StatelessWidget {
     required this.textColour,
     this.onPressed,
     this.leading,
-
     this.radius,
     this.isLoading = false,
     SizedBox? child,
+    this.icon,
   });
 
   @override
