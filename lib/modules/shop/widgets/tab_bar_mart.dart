@@ -30,11 +30,6 @@ class TabBarMart extends StatelessWidget {
             automaticIndicatorColorAdjustment: true,
             padding: EdgeInsets.zero,
             isScrollable: true, // Required// Other tabs color
-            labelPadding: const EdgeInsets.only(left: 20),
-            indicator: const UnderlineTabIndicator(
-              borderSide: BorderSide(color: AppColors.greyColor, width: 1), // Indicator height
-              insets: EdgeInsets.symmetric(horizontal: 48), // Indicator width
-            ),
             onTap: (index) {
               final selectedId = categories[index].id;
               context.read<ShopBloc>().add(
@@ -43,7 +38,7 @@ class TabBarMart extends StatelessWidget {
             },
             unselectedLabelColor: AppColors.greyColor,
             indicatorSize: TabBarIndicatorSize.tab,
-            labelColor: AppColors.greyColor.withAlpha(90),
+            labelColor: AppColors.secondaryColor,
             indicatorColor: AppColors.greyColor,
             tabs: tabs,
           ),

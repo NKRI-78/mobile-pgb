@@ -19,7 +19,7 @@ class VirtualAccountMethodWidgetv2 extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppColors.blackColor)
+        border: Border.all(color: AppColors.blackColor.withValues(alpha: 0.10))
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -47,7 +47,7 @@ class VirtualAccountMethodWidgetv2 extends StatelessWidget {
               ],
             ),
           ),
-          Divider(color: AppColors.blackColor, thickness: 2, height: 5,),
+          Divider(color: AppColors.blackColor.withValues(alpha: 0.10), thickness: 2, height: 5,),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Row(

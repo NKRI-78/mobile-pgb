@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -38,6 +39,7 @@ class CustomEndDrawer extends StatelessWidget {
                   OutlinedButton(
                     onPressed: () {
                       SettingsRoute().go(context);
+                      GoRouter.of(context).pop();
                     },
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.white,
@@ -59,7 +61,10 @@ class CustomEndDrawer extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      OrderRoute(initIndex: 0).go(context);
+                      GoRouter.of(context).pop();
+                    },
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.white,
                       side: const BorderSide(
@@ -71,7 +76,31 @@ class CustomEndDrawer extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      'Contact Support',
+                      'Pesanan Saya',
+                      style: AppTextStyles.textStyleNormal.copyWith(
+                        fontSize: 14,
+                        color: AppColors.whiteColor,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  OutlinedButton(
+                    onPressed: () {
+                      NeedRiviewRoute().go(context);
+                      GoRouter.of(context).pop();
+                    },
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      side: const BorderSide(
+                        color: Colors.white,
+                      ),
+                      minimumSize: const Size.fromHeight(48),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: Text(
+                      'Beri Penilaian',
                       style: AppTextStyles.textStyleNormal.copyWith(
                         fontSize: 14,
                         color: AppColors.whiteColor,

@@ -52,7 +52,7 @@ class ShopView extends StatelessWidget {
           },
           child: SmartRefresher(
             header: const WaterDropMaterialHeader(
-              backgroundColor: AppColors.secondaryColor,
+              backgroundColor: AppColors.buttonBlueColor,
               distance: 60,
               offset: 0,
             ),

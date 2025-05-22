@@ -103,6 +103,12 @@ RouteBase get $homeRoute => GoRouteData.$route(
             GoRouteData.$route(
               path: 'detail-prod',
               factory: $DetailProductRouteExtension._fromState,
+              routes: [
+                GoRouteData.$route(
+                  path: 'show-more-testimoni',
+                  factory: $ShowMoreTestimoniRouteExtension._fromState,
+                ),
+              ],
             ),
           ],
         ),
@@ -159,6 +165,33 @@ RouteBase get $homeRoute => GoRouteData.$route(
               ],
             ),
           ],
+        ),
+        GoRouteData.$route(
+          path: 'my-order',
+          factory: $OrderRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'order-detail',
+              factory: $DetailOrderRouteExtension._fromState,
+              routes: [
+                GoRouteData.$route(
+                  path: 'tracking',
+                  factory: $TrackingRouteExtension._fromState,
+                  routes: [
+                    GoRouteData.$route(
+                      path: 'detail-proff',
+                      factory:
+                          $PageDetailProofShippingRouteExtension._fromState,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+        GoRouteData.$route(
+          path: 'need-riview',
+          factory: $NeedRiviewRouteExtension._fromState,
         ),
       ],
     );
@@ -614,6 +647,32 @@ extension $DetailProductRouteExtension on DetailProductRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+extension $ShowMoreTestimoniRouteExtension on ShowMoreTestimoniRoute {
+  static ShowMoreTestimoniRoute _fromState(GoRouterState state) =>
+      ShowMoreTestimoniRoute(
+        idProduct: state.uri.queryParameters['id-product']!,
+        $extra: state.extra as List<Reviews>,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/shop/detail-prod/show-more-testimoni',
+        queryParams: {
+          'id-product': idProduct,
+        },
+      );
+
+  void go(BuildContext context) => context.go(location, extra: $extra);
+
+  Future<T?> push<T>(BuildContext context) =>
+      context.push<T>(location, extra: $extra);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location, extra: $extra);
+
+  void replace(BuildContext context) =>
+      context.replace(location, extra: $extra);
+}
+
 extension $AddressRouteExtension on AddressRoute {
   static AddressRoute _fromState(GoRouterState state) => AddressRoute();
 
@@ -810,6 +869,130 @@ extension $RegisterOtpRouteExtension on RegisterOtpRoute {
 
   void replace(BuildContext context) =>
       context.replace(location, extra: $extra);
+}
+
+extension $OrderRouteExtension on OrderRoute {
+  static OrderRoute _fromState(GoRouterState state) => OrderRoute(
+        initIndex: int.parse(state.uri.queryParameters['init-index']!)!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/my-order',
+        queryParams: {
+          'init-index': initIndex.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $DetailOrderRouteExtension on DetailOrderRoute {
+  static DetailOrderRoute _fromState(GoRouterState state) => DetailOrderRoute(
+        idOrder: int.parse(state.uri.queryParameters['id-order']!)!,
+        initIndex: int.parse(state.uri.queryParameters['init-index']!)!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/my-order/order-detail',
+        queryParams: {
+          'id-order': idOrder.toString(),
+          'init-index': initIndex.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $TrackingRouteExtension on TrackingRoute {
+  static TrackingRoute _fromState(GoRouterState state) => TrackingRoute(
+        noTracking: state.uri.queryParameters['no-tracking']!,
+        store: state.uri.queryParameters['store']!,
+        initIndex: int.parse(state.uri.queryParameters['init-index']!)!,
+        idOrder: int.parse(state.uri.queryParameters['id-order']!)!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/my-order/order-detail/tracking',
+        queryParams: {
+          'no-tracking': noTracking,
+          'store': store,
+          'init-index': initIndex.toString(),
+          'id-order': idOrder.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $PageDetailProofShippingRouteExtension
+    on PageDetailProofShippingRoute {
+  static PageDetailProofShippingRoute _fromState(GoRouterState state) =>
+      PageDetailProofShippingRoute(
+        initIndex: int.parse(state.uri.queryParameters['init-index']!)!,
+        idOrder: int.parse(state.uri.queryParameters['id-order']!)!,
+        noTracking: state.uri.queryParameters['no-tracking']!,
+        store: state.uri.queryParameters['store']!,
+        $extra: state.extra as TrackingModel,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/my-order/order-detail/tracking/detail-proff',
+        queryParams: {
+          'init-index': initIndex.toString(),
+          'id-order': idOrder.toString(),
+          'no-tracking': noTracking,
+          'store': store,
+        },
+      );
+
+  void go(BuildContext context) => context.go(location, extra: $extra);
+
+  Future<T?> push<T>(BuildContext context) =>
+      context.push<T>(location, extra: $extra);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location, extra: $extra);
+
+  void replace(BuildContext context) =>
+      context.replace(location, extra: $extra);
+}
+
+extension $NeedRiviewRouteExtension on NeedRiviewRoute {
+  static NeedRiviewRoute _fromState(GoRouterState state) => NeedRiviewRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/need-riview',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 T? _$convertMapValue<T>(

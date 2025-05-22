@@ -28,7 +28,7 @@ class DetectText extends StatelessWidget {
           fontFamily: 'SF Pro'
         ),
         basicStyle: const TextStyle(
-          color: AppColors.whiteColor,
+          color: AppColors.blackColor,
           fontSize: fontSizeDefault,
           fontWeight: FontWeight.w400,
           fontFamily: 'SF Pro'

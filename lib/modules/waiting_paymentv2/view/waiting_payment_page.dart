@@ -71,6 +71,7 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
           double totalShipping = state.payment?.orders?.fold(0.0, (sum, order) {
             return sum! + ((order.otherPrice ?? 0));
           }) ?? 0;
+          
         return Scaffold(
           backgroundColor: AppColors.primaryColor,
           // bottomNavigationBar: state.payment?.status != 'PAID' ? null : CustomBotton(
@@ -119,7 +120,7 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                             border: Border.all(
-                                                color: AppColors.blackColor)),
+                                                color: AppColors.blackColor.withValues(alpha: 0.10))),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -139,7 +140,7 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
                                                   style: TextStyle(
                                                       color: isExpired
                                                           ? AppColors.redColor
-                                                          : AppColors.whiteColor,
+                                                          : AppColors.blackColor,
                                                       fontSize: fontSizeDefault,
                                                       fontWeight:
                                                           FontWeight.bold),
@@ -203,7 +204,7 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
                                           decoration: BoxDecoration(
                                             color: AppColors.whiteColor,
                                             borderRadius: BorderRadius.circular(10),
-                                            border: Border.all(color: AppColors.blackColor)
+                                            border: Border.all(color: AppColors.blackColor.withValues(alpha: 0.10))
                                           ),
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -225,7 +226,7 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
                                                   ),
                                                 ],
                                               ),
-                                              const Divider(thickness: .7,  color: AppColors.blackColor,),
+                                              Divider(thickness: .7,  color: AppColors.blackColor.withValues(alpha: 0.10),),
                                               Column(
                                                 children: List.generate(state.payment?.orders?.length ?? 0, (index) {
                                                   final data =  state.payment?.orders?[index];
@@ -335,7 +336,7 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
                                               );
                                                 }).toList(),
                                               ),
-                                              state.payment?.data?['type'] == "TOPUP" ? Container() : const Divider(thickness: .3, color: AppColors.blackColor,),
+                                              state.payment?.data?['type'] == "TOPUP" ? Container() : Divider(thickness: .3, color: AppColors.blackColor.withValues(alpha: 0.10),),
                                               Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -376,7 +377,7 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               border: Border.all(
-                                                  color: AppColors.blackColor)),
+                                                  color: AppColors.blackColor.withValues(alpha: 0.10))),
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -391,9 +392,9 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
-                                              const Divider(
+                                              Divider(
                                                 thickness: .3,
-                                                color: AppColors.blackColor,
+                                                color: AppColors.blackColor.withValues(alpha: 0.10),
                                               ),
                                               Padding(
                                                 padding:
@@ -491,7 +492,7 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
                                                   ],
                                                 ),
                                               ),
-                                              const Divider(thickness: .5, color: AppColors.blackColor,),
+                                              Divider(thickness: .5, color: AppColors.blackColor.withValues(alpha: 0.10),),
                                               Padding(
                                                 padding:
                                                     const EdgeInsets.symmetric(

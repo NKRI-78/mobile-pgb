@@ -12,7 +12,7 @@ class WaitingPaymentModel {
   Data? data;
   String? status;
   String? expireAt;
-  String? userId;
+  int? userId;
   String? createdAt;
   String? updatedAt;
   String? deletedAt;
