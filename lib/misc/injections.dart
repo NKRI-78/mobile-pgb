@@ -4,6 +4,7 @@ import 'package:mobile_pgb/modules/cart/cubit/cart_cubit.dart';
 import 'package:mobile_pgb/modules/checkout/cubit/checkout_cubit.dart';
 import 'package:mobile_pgb/modules/detail_product/cubit/detail_product_cubit.dart';
 import 'package:mobile_pgb/modules/list_address/cubit/list_address_cubit.dart';
+import 'package:mobile_pgb/modules/need_riview/cubit/need_riview_cubit.dart';
 import 'package:mobile_pgb/repositories/shop_repository/shop_repository.dart';
 import '../modules/forum/cubit/forum_cubit.dart';
 import '../modules/forum_detail/cubit/forum_detail_cubit.dart';
@@ -49,6 +50,7 @@ class MyInjection {
     getIt.registerCachedFactory<CartCubit>(() => CartCubit());
     getIt.registerCachedFactory<DetailProductCubit>(() => DetailProductCubit());
     getIt.registerCachedFactory<CheckoutCubit>(() => CheckoutCubit());
+    getIt.registerLazySingleton<NeedRiviewCubit>(() => NeedRiviewCubit()); 
     getIt.registerLazySingleton<ListAddressCubit>(() => ListAddressCubit());
 
     //

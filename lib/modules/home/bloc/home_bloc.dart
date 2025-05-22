@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mobile_pgb/misc/location.dart';
 
 import '../../../misc/injections.dart';
 import '../../../misc/location.dart';

@@ -16,13 +16,10 @@ class TabbarOrder extends StatelessWidget {
           length: 7,
           initialIndex: state.tabIndex,
           child: TabBar(
-            automaticIndicatorColorAdjustment: false,
+            automaticIndicatorColorAdjustment: true,
             isScrollable: true,
+            tabAlignment: TabAlignment.start,
             padding: EdgeInsets.zero,
-            indicatorPadding: EdgeInsets.zero,
-            indicator: const UnderlineTabIndicator(
-              borderSide: BorderSide(color: AppColors.blueColor, width: 1),
-            ),
             onTap: (value) {
               print("TabIndex $value");
               final cubit = context.read<OrderCubit>();
@@ -44,11 +41,11 @@ class TabbarOrder extends StatelessWidget {
                 cubit.getOrderUser("CANCEL");
               }
             },
-            unselectedLabelColor: AppColors.whiteColor,
+            unselectedLabelColor: AppColors.greyColor,
             indicatorSize: TabBarIndicatorSize.tab,
-            labelColor: AppColors.blueColor,
-            indicatorColor: AppColors.blueColor,
-            dividerColor: AppColors.whiteColor,
+            labelColor: AppColors.secondaryColor,
+            indicatorColor: AppColors.secondaryColor,
+            dividerColor: AppColors.greyColor,
             tabs:  [
               TextWithBadge(
                 title: 'Belum Bayar',

@@ -3,14 +3,22 @@ import 'package:go_router/go_router.dart';
 import 'package:mobile_pgb/modules/cart/view/cart_page.dart';
 import 'package:mobile_pgb/modules/checkout/view/checkout_page.dart';
 import 'package:mobile_pgb/modules/create_shipping_address/view/create_address_page.dart';
+import 'package:mobile_pgb/modules/detail_oder/view/detail_order.dart';
 import 'package:mobile_pgb/modules/detail_product/view/detail_product_page.dart';
 import 'package:mobile_pgb/modules/event/view/event_page.dart';
 import 'package:mobile_pgb/modules/list_address/view/list_address_page.dart';
+import 'package:mobile_pgb/modules/need_riview/views/need_riview_page.dart';
+import 'package:mobile_pgb/modules/order/view/order_page.dart';
 import 'package:mobile_pgb/modules/profile/view/profile_page.dart';
 import 'package:mobile_pgb/modules/shop/view/shop_page.dart';
+import 'package:mobile_pgb/modules/show_more_testimoni/view/show_more_testimoni.dart';
 import 'package:mobile_pgb/modules/sos/view/sos_page.dart';
+import 'package:mobile_pgb/modules/tracking/view/tracking_page.dart';
 import 'package:mobile_pgb/modules/update_shipping_address/view/update_address_page.dart';
 import 'package:mobile_pgb/modules/waiting_paymentv2/view/waiting_payment_page.dart';
+import 'package:mobile_pgb/repositories/oder_repository/models/tracking_model.dart';
+import 'package:mobile_pgb/repositories/shop_repository/models/detail_product_model.dart';
+import 'package:mobile_pgb/widgets/pages/page_detail_proof_shipping.dart';
 
 import '../modules/event_detail/view/event_detail_page.dart';
 import '../modules/forum/view/forum_page.dart';
@@ -77,9 +85,9 @@ part 'builder.g.dart';
   TypedGoRoute<SosRoute>(path: 'sos'),
   TypedGoRoute<WaitingPaymentV2Route>(path: 'waiting-method'),
   TypedGoRoute<ShopRoute>(path: 'shop', routes: [
-    TypedGoRoute<DetailProductRoute>(
-      path: "detail-prod",
-    )
+    TypedGoRoute<DetailProductRoute>(path: "detail-prod" , routes: [
+      TypedGoRoute<ShowMoreTestimoniRoute>(path: 'show-more-testimoni'),
+    ])
   ]),
   TypedGoRoute<AddressRoute>(path: 'address', routes: [
     TypedGoRoute<CreateAddressRoute>(path: 'create-address'),
@@ -109,6 +117,14 @@ part 'builder.g.dart';
       ]),
     ]),
   ]),
+  TypedGoRoute<OrderRoute>(path: 'my-order', routes: [
+  TypedGoRoute<DetailOrderRoute>(path: 'order-detail', routes: [
+      TypedGoRoute<TrackingRoute>(path: 'tracking', routes: [
+        TypedGoRoute<PageDetailProofShippingRoute>(path: 'detail-proff'),
+      ]),
+    ]),
+  ]),
+  TypedGoRoute<NeedRiviewRoute>(path: "need-riview"),
 ])
 class HomeRoute extends GoRouteData {
   @override
@@ -617,6 +633,100 @@ class WaitingPaymentV2Route extends GoRouteData {
       child: WaitingPaymentV2Page(
         id: id,
         tabIndex: tabIndex,
+      ),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: animation.drive(
+            Tween(begin: const Offset(1.0, 0.0), end: Offset.zero)
+                .chain(CurveTween(curve: Curves.easeInOut)),
+          ),
+          child: child,
+        );
+      },
+    );
+  }
+}
+
+class OrderRoute extends GoRouteData {
+  final int initIndex;
+
+  OrderRoute({required this.initIndex});
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return OrderPage(initIndex: initIndex,);
+  }
+}
+
+class DetailOrderRoute extends GoRouteData {
+  final int idOrder;
+  final int initIndex;
+
+  DetailOrderRoute({required this.idOrder, required this.initIndex});
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return DetailOrderPage(idOrder: idOrder, initIndex: initIndex,);
+  }
+}
+
+class TrackingRoute extends GoRouteData {
+  final String noTracking;
+  final String store;
+  final int initIndex;
+  final int idOrder;
+
+  TrackingRoute({required this.noTracking, required this.store,required this.initIndex,required this.idOrder, });
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return TrackingPage(noTracking: noTracking,store: store,idOrder: idOrder, initIndex: initIndex,);
+  }
+}
+
+class PageDetailProofShippingRoute extends GoRouteData {
+  final TrackingModel $extra;
+  final int initIndex;
+  final int idOrder;
+  final String noTracking;
+  final String store;
+
+  PageDetailProofShippingRoute({required this.$extra, required this.initIndex, required this.idOrder,required this.noTracking,required this.store, });
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return PageDetailProofShipping(tracking: $extra,);
+  }
+}
+
+class NeedRiviewRoute extends GoRouteData {
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return CustomTransitionPage(
+      key: state.pageKey,
+      child: const NeedRiviewPage(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: animation.drive(
+            Tween(begin: const Offset(1.0, 0.0), end: Offset.zero)
+                .chain(CurveTween(curve: Curves.easeInOut)),
+          ),
+          child: child,
+        );
+      },
+    );
+  }
+}
+
+class ShowMoreTestimoniRoute extends GoRouteData {
+  final String idProduct;
+  final List<Reviews> $extra;
+
+  ShowMoreTestimoniRoute({required this.idProduct, required this.$extra});
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return CustomTransitionPage(
+      key: state.pageKey,
+      child: ShowMoreTesttimoniPage(
+        idProduct: idProduct,
+        reviews: $extra,
       ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return SlideTransition(

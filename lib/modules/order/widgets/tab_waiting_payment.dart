@@ -6,6 +6,7 @@ import 'package:mobile_pgb/misc/date_helper.dart';
 import 'package:mobile_pgb/misc/price_currency.dart';
 import 'package:mobile_pgb/misc/theme.dart';
 import 'package:mobile_pgb/modules/order/cubit/order_cubit.dart';
+import 'package:mobile_pgb/router/builder.dart';
 import 'package:mobile_pgb/widgets/image/image_card.dart';
 import 'package:mobile_pgb/widgets/pages/empty_page.dart';
 import 'package:mobile_pgb/widgets/pages/loading_page.dart';
@@ -26,14 +27,14 @@ class TabWaitingPayment extends StatelessWidget {
           children: state.waitingPayment.reversed.map((e) => 
             InkWell(
               onTap: () {
-                // WaitingPaymentRoute(id: e.id.toString()).push(context);
+                WaitingPaymentV2Route(id: e.id.toString()).push(context);
               },
               child: Container(
                 margin: const EdgeInsets.symmetric(vertical: 5),
                 decoration: BoxDecoration(
-                  color: AppColors.whiteColor.withOpacity(0.10),
+                  color: AppColors.whiteColor,
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: AppColors.whiteColor)
+                  border: Border.all(color: AppColors.blackColor.withValues(alpha: 0.10))
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -51,7 +52,7 @@ class TabWaitingPayment extends StatelessWidget {
                               const Text(
                                 "Tanggal Pembelian",
                                 style: TextStyle(
-                                  color: AppColors.whiteColor,
+                                  color: AppColors.blackColor,
                                   fontSize: fontSizeDefault,
                                 ),
                               ),

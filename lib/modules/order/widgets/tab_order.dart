@@ -7,6 +7,7 @@ import 'package:mobile_pgb/misc/date_helper.dart';
 import 'package:mobile_pgb/misc/price_currency.dart';
 import 'package:mobile_pgb/misc/theme.dart';
 import 'package:mobile_pgb/modules/order/cubit/order_cubit.dart';
+import 'package:mobile_pgb/router/builder.dart';
 import 'package:mobile_pgb/widgets/button/custom_button.dart';
 import 'package:mobile_pgb/widgets/image/image_card.dart';
 import 'package:mobile_pgb/widgets/pages/empty_page.dart';
@@ -29,7 +30,7 @@ class TabOrder extends StatelessWidget {
             print(e.status);
             return InkWell(
               onTap: () {
-                // DetailOrderRoute(idOrder: e.id ?? 0, initIndex: state.tabIndex).go(context);
+                DetailOrderRoute(idOrder: e.id ?? 0, initIndex: state.tabIndex).go(context);
               },
               child: Container(
                 margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -79,7 +80,7 @@ class TabOrder extends StatelessWidget {
                           )
                         ],
                       ),
-                      const Divider(thickness: 0.3, color: AppColors.whiteColor),
+                      Divider(thickness: 0.3, color: AppColors.blackColor.withValues(alpha: 0.10)),
                       Column(
                         children: e.items!.map((e) => 
                           Padding(
@@ -109,7 +110,7 @@ class TabOrder extends StatelessWidget {
                                         e.product?.name ?? "",
                                         maxLines: 2,
                                         style: const TextStyle(
-                                          color: AppColors.whiteColor,
+                                          color: AppColors.blackColor,
                                           fontSize: fontSizeDefault,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -117,7 +118,7 @@ class TabOrder extends StatelessWidget {
                                       Text(
                                         '${e.quantity} Barang',
                                         style: const TextStyle(
-                                          color: AppColors.whiteColor,
+                                          color: AppColors.blackColor,
                                           fontSize: fontSizeDefault,
                                         ),
                                       ),
@@ -140,7 +141,7 @@ class TabOrder extends StatelessWidget {
                               const Text(
                                 'Total Harga',
                                 style: TextStyle(
-                                  color: AppColors.whiteColor,
+                                  color: AppColors.blackColor,
                                   fontSize: fontSizeDefault,
                                 ),
                               ),
@@ -156,15 +157,15 @@ class TabOrder extends StatelessWidget {
                           ),
                           e.needReview == true ? SizedBox(
                             width: 150,
-                            height: 30,
+                            height: 40,
                             child: CustomButton(
                               onPressed: () {
-                                // NeedRiviewRoute().go(context);
+                                NeedRiviewRoute().go(context);
                               },
                               radius: 8,
                               backgroundColour: AppColors.buttonBlueColor,
                               textColour: AppColors.whiteColor, 
-                              text: "Beri Ulasan"
+                              text: "Beri Penilaian"
                             ),
                           ) : Container()
                         ],

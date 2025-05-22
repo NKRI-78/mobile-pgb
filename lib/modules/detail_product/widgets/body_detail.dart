@@ -6,14 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_pgb/misc/colors.dart';
+import 'package:mobile_pgb/misc/date_helper.dart';
 import 'package:mobile_pgb/misc/helper.dart';
 import 'package:mobile_pgb/misc/price_currency.dart';
 import 'package:mobile_pgb/misc/theme.dart';
 import 'package:mobile_pgb/modules/detail_product/cubit/detail_product_cubit.dart';
 import 'package:mobile_pgb/repositories/shop_repository/models/detail_product_model.dart';
+import 'package:mobile_pgb/router/builder.dart';
 import 'package:mobile_pgb/widgets/detect_text/detect_text.dart';
 import 'package:mobile_pgb/widgets/image/image_avatar.dart';
 import 'package:mobile_pgb/widgets/image/image_card.dart';
+import 'package:mobile_pgb/widgets/pages/page_full_screen_gallery.dart';
 
 class BodyDetail extends StatelessWidget {
   const BodyDetail({super.key, this.data});
@@ -251,7 +254,7 @@ class BodyDetail extends StatelessWidget {
                                 data!.reviews!.isEmpty ? Container() : 
                                 InkWell(
                                   onTap: () {
-                                    // ShowMoreTestimoniRoute(idProduct: data?.id.toString() ?? "", $extra: data?.reviews ?? []).go(context);
+                                    ShowMoreTestimoniRoute(idProduct: data?.id.toString() ?? "", $extra: data?.reviews ?? []).go(context);
                                   },
                                   child: const Text(
                                     "Lihat Semua",
@@ -320,11 +323,11 @@ class BodyDetail extends StatelessWidget {
                                 final riview = data?.reviews?[index];
                                 return Container(
                                   margin: const EdgeInsets.symmetric(vertical: 5),
-                                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                                   decoration: BoxDecoration(
-                                    color: AppColors.blackColor.withOpacity(0.10),
+                                    color: AppColors.whiteColor,
                                     borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(color: AppColors.blackColor.withOpacity(0.2))
+                                    border: Border.all(color: AppColors.blackColor.withValues(alpha: 0.2))
                                   ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -332,10 +335,10 @@ class BodyDetail extends StatelessWidget {
                                     children: [
                                       Row(
                                         children: [
-                                          // ImageAvatar(
-                                          //   image: riview?.userProfile?.profile?.linkAvatar ?? "", 
-                                          //   radius: 15, 
-                                          // ),
+                                          ImageAvatar(
+                                            image: riview?.userProfile?.profile?.linkAvatar ?? "", 
+                                            radius: 15, 
+                                          ),
                                           const SizedBox(
                                             width: 10,
                                           ),
@@ -346,7 +349,7 @@ class BodyDetail extends StatelessWidget {
                                           //     Text(
                                           //       riview?.userProfile?.profile?.fullname ?? "",
                                           //       style: const TextStyle(
-                                          //         color: whiteColor,
+                                          //         color: AppColors.blackColor,
                                           //         fontSize: fontSizeLarge,
                                           //         fontWeight: FontWeight.bold
                                           //       ),
@@ -354,7 +357,7 @@ class BodyDetail extends StatelessWidget {
                                           //     Text(
                                           //       DateHelper.formatDate(DateTime.parse(riview?.updatedAt ?? "")),
                                           //       style: const TextStyle(
-                                          //         color: whiteColor,
+                                          //         color: AppColors.blackColor,
                                           //         fontSize: fontSizeSmall,
                                           //         fontWeight: FontWeight.bold
                                           //       ),
@@ -382,7 +385,7 @@ class BodyDetail extends StatelessWidget {
                                           maxRating: 5,
                                         ),
                                       ),
-                                      riview?.images?.isEmpty ?? false ? const SizedBox.shrink() : Text(
+                                      riview?.message == null || riview?.message == "" ? SizedBox.shrink() : Text(
                                         riview?.message ?? "",
                                         style: const TextStyle(
                                           color: AppColors.blackColor
@@ -405,14 +408,14 @@ class BodyDetail extends StatelessWidget {
                                               margin: const EdgeInsets.only(right: 12),
                                               child: InkWell(
                                                 onTap: () {
-                                                  // Navigator.push(context, MaterialPageRoute(
-                                                  //   builder: (_) => FullscreenGallery(
-                                                  //     images: riview?.images?.map((media) => media.link)
-                                                  //     .whereType<String>()
-                                                  //     .toList() ?? [],
-                                                  //     initialIndex: index,
-                                                  //   ),
-                                                  // ));
+                                                  Navigator.push(context, MaterialPageRoute(
+                                                    builder: (_) => FullscreenGallery(
+                                                      images: riview?.images?.map((media) => media.link)
+                                                      .whereType<String>()
+                                                      .toList() ?? [],
+                                                      initialIndex: index,
+                                                    ),
+                                                  ));
                                                 },
                                                 child: ImageCard(
                                                     image: riview?.images?[index].link ?? "", 

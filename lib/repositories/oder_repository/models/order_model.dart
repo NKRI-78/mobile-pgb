@@ -108,7 +108,7 @@ class Payment {
   int? fee;
   String? status;
   String? expireAt;
-  String? userId;
+  int? userId;
   String? createdAt;
   String? updatedAt;
   String? deletedAt;
