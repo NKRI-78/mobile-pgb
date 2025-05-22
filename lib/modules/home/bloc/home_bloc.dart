@@ -4,6 +4,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../../misc/injections.dart';
+import '../../../misc/location.dart';
 import '../../../repositories/home_repository/home_repository.dart';
 import '../../../repositories/home_repository/models/banner_model.dart';
 import '../../../repositories/home_repository/models/data_pagination.dart';
@@ -42,6 +43,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
     if (getIt<AppBloc>().state.isLoggedIn) {
       add(LoadProfile());
+      await determinePosition(event.context!);
     }
     getIt<AppBloc>().add(InitialAppData());
     await _fetchNews(emit, isRefresh: true);

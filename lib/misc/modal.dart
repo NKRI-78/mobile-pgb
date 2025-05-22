@@ -1,13 +1,8 @@
-import 'dart:io';
-
-import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_pgb/misc/colors.dart';
 import 'package:mobile_pgb/misc/text_style.dart';
 import 'package:mobile_pgb/misc/theme.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 enum BackgroundConfirmModal {
   confirmDelete,
@@ -83,24 +78,27 @@ class GeneralModal {
                       const SizedBox(height: 24),
                       Row(
                         children: [
-                          showCancelButton ?? false ?  Expanded(
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              onPressed: () =>
-                                  Navigator.of(dialogContext).pop(),
-                              child: Text(
-                                'Tutup',
-                                style: AppTextStyles.textStyleNormal.copyWith(
-                                  color: AppColors.blackColor,
-                                ),
-                              ),
-                            ),
-                          ) : Container(),
+                          showCancelButton ?? false
+                              ? Expanded(
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                    ),
+                                    onPressed: () =>
+                                        Navigator.of(dialogContext).pop(),
+                                    child: Text(
+                                      'Tutup',
+                                      style: AppTextStyles.textStyleNormal
+                                          .copyWith(
+                                        color: AppColors.blackColor,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : Container(),
                           const SizedBox(width: 12),
                           Expanded(
                             child: ElevatedButton(
@@ -140,8 +138,9 @@ class GeneralModal {
                     ),
                     child: Image.asset(
                       locationImage ?? imageDefaultData,
-                      height: 100,
-                      fit: BoxFit.cover,
+                      height: 140,
+                      width: 140,
+                      fit: BoxFit.contain,
                     ),
                   ),
                 ),

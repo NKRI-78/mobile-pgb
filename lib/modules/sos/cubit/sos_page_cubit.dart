@@ -56,14 +56,24 @@ class SosCubit extends Cubit<SosState> {
           isSuccess: true,
         );
       }
-    } on Exception catch (e) {
+    } catch (e) {
       emit(state.copyWith(isLoading: false));
+
+      String errorMessage = "Terjadi kesalahan. Coba lagi.";
+
+      if (e is PermissionDeniedException ||
+          (e is Exception && e.toString().contains("denied"))) {
+        errorMessage =
+            "Izin lokasi ditolak. Aktifkan lokasi untuk mengirim SOS.";
+      } else if (e.toString().contains("location services are disabled")) {
+        errorMessage = "Layanan lokasi dinonaktifkan. Aktifkan GPS perangkat.";
+      }
 
       if (context.mounted) {
         Navigator.of(context, rootNavigator: true).pop();
         ShowSnackbar.snackbar(
           context,
-          e.toString(),
+          errorMessage,
           isSuccess: false,
         );
       }

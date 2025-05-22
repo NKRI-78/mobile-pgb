@@ -126,7 +126,7 @@ class CustomMenu extends StatelessWidget {
           PpobRoute().go(context);
           break;
         case 6:
-          // FORUM
+          ForumRoute().go(context);
           break;
         case 7:
           SosRoute().go(context);
