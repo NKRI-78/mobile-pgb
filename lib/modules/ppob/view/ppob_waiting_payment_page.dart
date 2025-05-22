@@ -7,12 +7,10 @@ import 'package:intl/intl.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 
 import '../../../misc/colors.dart';
-import '../../../misc/helper.dart';
 import '../../../misc/price_currency.dart';
 import '../../../misc/snackbar.dart';
 import '../../../misc/text_style.dart';
 import '../../../misc/theme.dart';
-import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/image/image_card.dart';
 
 class PpobWaitingPaymentPage extends StatefulWidget {
@@ -192,21 +190,21 @@ class _PpobWaitingPaymentPageState extends State<PpobWaitingPaymentPage> {
                 },
               ),
             ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              child: CustomButton(
-                backgroundColour: AppColors.secondaryColor,
-                textColour: AppColors.whiteColor,
-                text: "Bayar Langsung",
-                onPressed: () {
-                  Helper.openLink(
-                    url: widget.paymentAccess,
-                    context: context,
-                  );
-                },
-              ),
-            ),
+            // const SizedBox(height: 20),
+            // SizedBox(
+            //   width: double.infinity,
+            //   child: CustomButton(
+            //     backgroundColour: AppColors.secondaryColor,
+            //     textColour: AppColors.whiteColor,
+            //     text: "Bayar Langsung",
+            //     onPressed: () {
+            //       Helper.openLink(
+            //         url: widget.paymentAccess,
+            //         context: context,
+            //       );
+            //     },
+            //   ),
+            // ),
           ] else ...[
             // Tetap pakai tampilan default untuk non-QR
             Row(

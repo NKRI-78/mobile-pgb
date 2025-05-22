@@ -21,17 +21,44 @@ class NotificationV2Model {
     }
   }
 
-  NotificationV2Model(
-      {this.id,
-      this.title,
-      this.description,
-      this.field2,
-      this.field3,
-      this.field4,
-      this.field5,
-      this.field6,
-      this.link,
-      this.isRead});
+  NotificationV2Model({
+    this.id,
+    this.title,
+    this.description,
+    this.field2,
+    this.field3,
+    this.field4,
+    this.field5,
+    this.field6,
+    this.link,
+    this.isRead,
+  });
+
+  NotificationV2Model copyWith({
+    int? id,
+    String? title,
+    String? description,
+    String? field2,
+    String? field3,
+    String? field4,
+    String? field5,
+    String? field6,
+    String? link,
+    bool? isRead,
+  }) {
+    return NotificationV2Model(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      field2: field2 ?? this.field2,
+      field3: field3 ?? this.field3,
+      field4: field4 ?? this.field4,
+      field5: field5 ?? this.field5,
+      field6: field6 ?? this.field6,
+      link: link ?? this.link,
+      isRead: isRead ?? this.isRead,
+    );
+  }
 
   NotificationV2Model.fromJson(Map<String, dynamic> json) {
     id = json['id'];

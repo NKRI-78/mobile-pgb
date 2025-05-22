@@ -258,4 +258,75 @@ class AuthRepository {
       rethrow;
     }
   }
+
+  Future<void> forgotPasswordSendOTP(String email) async {
+    try {
+      final res = await http.post(Uri.parse('$auth/forgot-password'), body: {
+        'email': email,
+        'step': "SENDING_OTP",
+      });
+      debugPrint("email : $email");
+      debugPrint(res.body);
+
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return;
+      }
+      if (res.statusCode == 400) {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
+    } on SocketException {
+      throw "Terjadi kesalahan jaringan";
+    }
+  }
+
+  Future<void> forgotPasswordVerifyOTP(String email, String otp) async {
+    try {
+      final res = await http.post(Uri.parse('$auth/forgot-password'), body: {
+        'email': email,
+        'step': "VERIFICATION_OTP",
+        'otp': otp,
+      });
+      debugPrint("email : $email");
+      debugPrint(res.body);
+
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return;
+      }
+      if (res.statusCode == 400) {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
+    } on SocketException {
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> forgotPasswordChangePass(
+      String email, String otp, String password) async {
+    try {
+      final res = await http.post(Uri.parse('$auth/forgot-password'), body: {
+        'email': email,
+        'step': "CHANGE_PASSWORD",
+        'otp': otp,
+        'password': password,
+      });
+      debugPrint("email : $email");
+      debugPrint(res.body);
+
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return;
+      }
+      if (res.statusCode == 400) {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
+    } on SocketException {
+      throw "Terjadi kesalahan jaringan";
+    }
+  }
 }

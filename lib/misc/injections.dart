@@ -6,7 +6,10 @@ import 'package:mobile_pgb/modules/detail_product/cubit/detail_product_cubit.dar
 import 'package:mobile_pgb/modules/list_address/cubit/list_address_cubit.dart';
 import 'package:mobile_pgb/modules/need_riview/cubit/need_riview_cubit.dart';
 import 'package:mobile_pgb/repositories/shop_repository/shop_repository.dart';
+import '../modules/forum/cubit/forum_cubit.dart';
+import '../modules/forum_detail/cubit/forum_detail_cubit.dart';
 import '../modules/wallet/cubit/wallet_cubit.dart';
+import '../repositories/forum_repository/forum_repository.dart';
 import '../repositories/wallet_repository/wallet_repository.dart';
 import '../modules/ppob/cubit/ppob_cubit.dart';
 import '../repositories/ppob_repository/ppob_repository.dart';
@@ -45,10 +48,10 @@ class MyInjection {
     getIt.registerCachedFactory<NewsAllCubit>(() => NewsAllCubit());
     getIt.registerCachedFactory<EventCubit>(() => EventCubit());
     getIt.registerCachedFactory<CartCubit>(() => CartCubit());
-    getIt.registerCachedFactory<DetailProductCubit>(() => DetailProductCubit ());
+    getIt.registerCachedFactory<DetailProductCubit>(() => DetailProductCubit());
     getIt.registerCachedFactory<CheckoutCubit>(() => CheckoutCubit());
-    getIt.registerLazySingleton<ListAddressCubit>(() => ListAddressCubit()); 
     getIt.registerLazySingleton<NeedRiviewCubit>(() => NeedRiviewCubit()); 
+    getIt.registerLazySingleton<ListAddressCubit>(() => ListAddressCubit());
 
     //
 
@@ -63,6 +66,8 @@ class MyInjection {
     getIt.registerCachedFactory<PpobCubit>(() => PpobCubit());
     getIt.registerCachedFactory<ProfileCubit>(() => ProfileCubit());
     getIt.registerCachedFactory<WalletCubit>(() => WalletCubit());
+    getIt.registerLazySingleton<ForumCubit>(() => ForumCubit());
+    getIt.registerLazySingleton<ForumDetailCubit>(() => ForumDetailCubit());
 
     // REPO
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
@@ -77,5 +82,6 @@ class MyInjection {
         () => NotificationRepository());
     getIt.registerLazySingleton<PpobRepository>(() => PpobRepository());
     getIt.registerLazySingleton<WalletRepository>(() => WalletRepository());
+    getIt.registerLazySingleton<ForumRepository>(() => ForumRepository());
   }
 }

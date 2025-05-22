@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
+import '../../../router/builder.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../cubit/login_cubit.dart';
 import '../widget/custom_textfield_login.dart';
@@ -89,7 +90,7 @@ class LoginView extends StatelessWidget {
                                   )),
                               GestureDetector(
                                 onTap: () {
-                                  // LupaPasswordRoute().go(context);
+                                  LupaPasswordRoute().go(context);
                                   debugPrint("Lupa Password");
                                 },
                                 child: Text("Disini",

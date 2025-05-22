@@ -21,7 +21,7 @@ class RegisterOtpCubit extends Cubit<RegisterOtpState> {
 
   final bool isLogin;
   Timer? _timer;
-  int _start = 120;
+  int _start = 180;
 
   void _startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
@@ -73,7 +73,7 @@ class RegisterOtpCubit extends Cubit<RegisterOtpState> {
   }
 
   Future<void> resendOtp(BuildContext context) async {
-    _start = 120;
+    _start = 180;
     _startTimer();
     emit(state.copyWith(timeRemaining: _start, timerFinished: false));
     try {

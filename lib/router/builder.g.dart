@@ -15,6 +15,28 @@ RouteBase get $homeRoute => GoRouteData.$route(
       factory: $HomeRouteExtension._fromState,
       routes: [
         GoRouteData.$route(
+          path: 'forum',
+          factory: $ForumRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'forum-detail',
+              factory: $ForumDetailRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
+              path: 'forum-create',
+              factory: $ForumCreateRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
+              path: 'clipped-photo',
+              factory: $ClippedPhotoRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
+              path: 'detail-video',
+              factory: $DetailVideoPlayerRouteExtension._fromState,
+            ),
+          ],
+        ),
+        GoRouteData.$route(
           path: 'media',
           factory: $MediaRouteExtension._fromState,
         ),
@@ -147,6 +169,24 @@ RouteBase get $homeRoute => GoRouteData.$route(
             GoRouteData.$route(
               path: 'login',
               factory: $LoginRouteExtension._fromState,
+              routes: [
+                GoRouteData.$route(
+                  path: 'lupa-password',
+                  factory: $LupaPasswordRouteExtension._fromState,
+                  routes: [
+                    GoRouteData.$route(
+                      path: 'lupa-password-otp',
+                      factory: $LupaPasswordOtpRouteExtension._fromState,
+                      routes: [
+                        GoRouteData.$route(
+                          path: 'lupa-password-change',
+                          factory: $LupaPasswordChangeRouteExtension._fromState,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
             ),
             GoRouteData.$route(
               path: 'register-ktp',
@@ -201,6 +241,110 @@ extension $HomeRouteExtension on HomeRoute {
 
   String get location => GoRouteData.$location(
         '/home',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ForumRouteExtension on ForumRoute {
+  static ForumRoute _fromState(GoRouterState state) => ForumRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/forum',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ForumDetailRouteExtension on ForumDetailRoute {
+  static ForumDetailRoute _fromState(GoRouterState state) => ForumDetailRoute(
+        idForum: state.uri.queryParameters['id-forum']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/forum/forum-detail',
+        queryParams: {
+          'id-forum': idForum,
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ForumCreateRouteExtension on ForumCreateRoute {
+  static ForumCreateRoute _fromState(GoRouterState state) => ForumCreateRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/forum/forum-create',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ClippedPhotoRouteExtension on ClippedPhotoRoute {
+  static ClippedPhotoRoute _fromState(GoRouterState state) => ClippedPhotoRoute(
+        idForum: int.parse(state.uri.queryParameters['id-forum']!)!,
+        indexPhoto: _$convertMapValue(
+            'index-photo', state.uri.queryParameters, int.tryParse),
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/forum/clipped-photo',
+        queryParams: {
+          'id-forum': idForum.toString(),
+          if (indexPhoto != null) 'index-photo': indexPhoto!.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $DetailVideoPlayerRouteExtension on DetailVideoPlayerRoute {
+  static DetailVideoPlayerRoute _fromState(GoRouterState state) =>
+      DetailVideoPlayerRoute(
+        urlVideo: state.uri.queryParameters['url-video']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/forum/detail-video',
+        queryParams: {
+          'url-video': urlVideo,
+        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -794,6 +938,72 @@ extension $LoginRouteExtension on LoginRoute {
 
   String get location => GoRouteData.$location(
         '/home/register/login',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $LupaPasswordRouteExtension on LupaPasswordRoute {
+  static LupaPasswordRoute _fromState(GoRouterState state) =>
+      LupaPasswordRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/register/login/lupa-password',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $LupaPasswordOtpRouteExtension on LupaPasswordOtpRoute {
+  static LupaPasswordOtpRoute _fromState(GoRouterState state) =>
+      LupaPasswordOtpRoute(
+        email: state.uri.queryParameters['email']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/register/login/lupa-password/lupa-password-otp',
+        queryParams: {
+          'email': email,
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $LupaPasswordChangeRouteExtension on LupaPasswordChangeRoute {
+  static LupaPasswordChangeRoute _fromState(GoRouterState state) =>
+      LupaPasswordChangeRoute(
+        email: state.uri.queryParameters['email']!,
+        otp: state.uri.queryParameters['otp']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/register/login/lupa-password/lupa-password-otp/lupa-password-change',
+        queryParams: {
+          'email': email,
+          'otp': otp,
+        },
       );
 
   void go(BuildContext context) => context.go(location);

@@ -21,8 +21,14 @@ import 'package:mobile_pgb/repositories/shop_repository/models/detail_product_mo
 import 'package:mobile_pgb/widgets/pages/page_detail_proof_shipping.dart';
 
 import '../modules/event_detail/view/event_detail_page.dart';
+import '../modules/forum/view/forum_page.dart';
+import '../modules/forum_create/view/forum_create_page.dart';
+import '../modules/forum_detail/view/forum_detail_page.dart';
 import '../modules/home/view/home_page.dart';
 import '../modules/login/view/login_page.dart';
+import '../modules/lupa_password/view/lupa_password_page.dart';
+import '../modules/lupa_password_change/view/lupa_password_change.dart';
+import '../modules/lupa_password_otp/view/lupa_password_otp.dart';
 import '../modules/news_all/view/news_all_page.dart';
 import '../modules/news_detail/view/news_detail_page.dart';
 import '../modules/notification/view/detail/notification_detail_page.dart';
@@ -42,10 +48,18 @@ import '../modules/wallet/view/wallet_page.dart';
 import '../modules/webview/webview.dart';
 import '../widgets/pages/about/about_us_page.dart';
 import '../widgets/pages/media/view/media_page.dart';
+import '../widgets/pages/video/detail_video_player.dart';
+import '../widgets/photo_view/clipped_photo_view.dart';
 
 part 'builder.g.dart';
 
 @TypedGoRoute<HomeRoute>(path: '/home', routes: [
+  TypedGoRoute<ForumRoute>(path: 'forum', routes: [
+    TypedGoRoute<ForumDetailRoute>(path: 'forum-detail'),
+    TypedGoRoute<ForumCreateRoute>(path: 'forum-create'),
+    TypedGoRoute<ClippedPhotoRoute>(path: 'clipped-photo'),
+    TypedGoRoute<DetailVideoPlayerRoute>(path: 'detail-video'),
+  ]),
   TypedGoRoute<MediaRoute>(path: 'media'),
   TypedGoRoute<AboutRoute>(path: 'about'),
   TypedGoRoute<NewsDetailRoute>(path: 'news-detail'),
@@ -65,7 +79,9 @@ part 'builder.g.dart';
   TypedGoRoute<EventRoute>(path: 'event', routes: [
     TypedGoRoute<EventDetailRoute>(path: 'event-detail'),
   ]),
-  TypedGoRoute<CheckoutRoute>(path: 'checkout',),
+  TypedGoRoute<CheckoutRoute>(
+    path: 'checkout',
+  ),
   TypedGoRoute<SosRoute>(path: 'sos'),
   TypedGoRoute<WaitingPaymentV2Route>(path: 'waiting-method'),
   TypedGoRoute<ShopRoute>(path: 'shop', routes: [
@@ -82,7 +98,19 @@ part 'builder.g.dart';
     TypedGoRoute<SosDetailRoute>(path: 'sos-detail'),
   ]),
   TypedGoRoute<RegisterRoute>(path: 'register', routes: [
-    TypedGoRoute<LoginRoute>(path: 'login'),
+    TypedGoRoute<LoginRoute>(
+      path: 'login',
+      routes: [
+        TypedGoRoute<LupaPasswordRoute>(path: 'lupa-password', routes: [
+          TypedGoRoute<LupaPasswordOtpRoute>(
+              path: 'lupa-password-otp',
+              routes: [
+                TypedGoRoute<LupaPasswordChangeRoute>(
+                    path: 'lupa-password-change'),
+              ])
+        ]),
+      ],
+    ),
     TypedGoRoute<RegisterKtpRoute>(path: 'register-ktp', routes: [
       TypedGoRoute<RegisterAkunRoute>(path: 'register-akun', routes: [
         TypedGoRoute<RegisterOtpRoute>(path: 'register-otp'),
@@ -102,6 +130,57 @@ class HomeRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return HomePage();
+  }
+}
+
+class ForumRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ForumPage();
+  }
+}
+
+class ForumDetailRoute extends GoRouteData {
+  final String idForum;
+
+  ForumDetailRoute({required this.idForum});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ForumDetailPage(idForum: idForum);
+  }
+}
+
+class ForumCreateRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ForumCreatePage();
+  }
+}
+
+class ClippedPhotoRoute extends GoRouteData {
+  final int idForum;
+  final int? indexPhoto;
+
+  ClippedPhotoRoute({required this.idForum, this.indexPhoto});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ClippedPhotoPage(
+      idForum: idForum,
+      indexPhoto: indexPhoto ?? 0,
+    );
+  }
+}
+
+class DetailVideoPlayerRoute extends GoRouteData {
+  final String urlVideo;
+
+  DetailVideoPlayerRoute({required this.urlVideo});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return DetailVideoPlayer(urlVideo: urlVideo);
   }
 }
 
@@ -319,6 +398,36 @@ class LoginRoute extends GoRouteData {
   }
 }
 
+class LupaPasswordRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return LupaPasswordPage();
+  }
+}
+
+class LupaPasswordOtpRoute extends GoRouteData {
+  final String email;
+
+  LupaPasswordOtpRoute({required this.email});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return LupaPasswordOtpPage(email: email);
+  }
+}
+
+class LupaPasswordChangeRoute extends GoRouteData {
+  final String email;
+  final String otp;
+
+  LupaPasswordChangeRoute({required this.email, required this.otp});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return LupaPasswordChangePage(email: email, otp: otp);
+  }
+}
+
 class RegisterKtpRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -386,7 +495,9 @@ class DetailProductRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return CustomTransitionPage(
       key: state.pageKey,
-      child: DetailProductPage(idProduct: idProduct,),
+      child: DetailProductPage(
+        idProduct: idProduct,
+      ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return SlideTransition(
           position: animation.drive(
@@ -494,7 +605,9 @@ class UpdateAddressRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return CustomTransitionPage(
       key: state.pageKey,
-      child: UpdateAddressPage(idAddress: idAddress,),
+      child: UpdateAddressPage(
+        idAddress: idAddress,
+      ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return SlideTransition(
           position: animation.drive(
@@ -517,7 +630,10 @@ class WaitingPaymentV2Route extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return CustomTransitionPage(
       key: state.pageKey,
-      child: WaitingPaymentV2Page(id: id, tabIndex: tabIndex,),
+      child: WaitingPaymentV2Page(
+        id: id,
+        tabIndex: tabIndex,
+      ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return SlideTransition(
           position: animation.drive(
