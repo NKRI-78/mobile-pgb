@@ -33,9 +33,9 @@ class DownloadHelper {
           backgroundColor: AppColors.whiteColor,
           msgTextAlign: TextAlign.start,
           max: 100,
-          msgColor: AppColors.whiteColor,
+          msgColor: AppColors.secondaryColor,
           msg: "Please wait...",
-          progressBgColor: AppColors.greyColor,
+          progressBgColor: AppColors.secondaryColor,
           progressValueColor: AppColors.whiteColor,
           onStatusChanged: (status) async {
             if (status == DialogStatus.opened) {

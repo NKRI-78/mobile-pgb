@@ -14,6 +14,7 @@ class ExtrackKtpModel {
   String? occupation;
   String? citizenship;
   String? bloodType;
+  String? address;
   String? validUntil;
   String? updatedAt;
   String? createdAt;
@@ -42,6 +43,7 @@ class ExtrackKtpModel {
       this.occupation,
       this.citizenship,
       this.bloodType,
+      this.address,
       this.validUntil,
       this.updatedAt,
       this.createdAt});

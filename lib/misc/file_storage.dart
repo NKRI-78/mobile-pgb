@@ -42,7 +42,7 @@ class FileStorage {
       }
 
       final dir = await getExternalStorageDirectory(); // app-specific dir
-      final path = '${dir!.path}/LINGKUNGANKU-MOBILE';
+      final path = '${dir!.path}/PGB-MOBILE';
 
       final folder = Directory(path);
       if (!await folder.exists()) {
@@ -53,7 +53,7 @@ class FileStorage {
     } else {
       // iOS atau lainnya
       final directory = await getApplicationDocumentsDirectory();
-      final path = '${directory.path}/LINGKUNGANKU-MOBILE';
+      final path = '${directory.path}/PGB-MOBILE';
       await Directory(path).create(recursive: true);
       return path;
     }
@@ -126,13 +126,13 @@ class FileStorage {
     if (_isImage(filename)) {
       final result = await GallerySaver.saveImage(
         file.path,
-        albumName: 'LINGKUNGANKU-MOBILE',
+        albumName: 'PGB-MOBILE',
       );
       debugPrint("Save image to gallery result: ${result ?? 'null'}");
     } else if (_isVideo(filename)) {
       final result = await GallerySaver.saveVideo(
         file.path,
-        albumName: 'LINGKUNGANKU-MOBILE',
+        albumName: 'PGB-MOBILE',
       );
       debugPrint("Save video to gallery result: ${result ?? 'null'}");
     }

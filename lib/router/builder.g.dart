@@ -59,6 +59,12 @@ RouteBase get $homeRoute => GoRouteData.$route(
         GoRouteData.$route(
           path: 'profile',
           factory: $ProfileRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'profile-update',
+              factory: $ProfileUpdateRouteExtension._fromState,
+            ),
+          ],
         ),
         GoRouteData.$route(
           path: 'settings',
@@ -459,6 +465,24 @@ extension $ProfileRouteExtension on ProfileRoute {
 
   String get location => GoRouteData.$location(
         '/home/profile',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ProfileUpdateRouteExtension on ProfileUpdateRoute {
+  static ProfileUpdateRoute _fromState(GoRouterState state) =>
+      ProfileUpdateRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/profile/profile-update',
       );
 
   void go(BuildContext context) => context.go(location);

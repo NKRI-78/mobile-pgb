@@ -120,6 +120,7 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
           avatarLink: remaplink[0]['url']['url'],
           nik: state.ktpModel?.nik,
           fullname: state.ktpModel?.fullname,
+          address: state.ktpModel?.address,
           birthPlaceAndDate: state.ktpModel?.birthPlaceAndDate,
           administrativeVillage: state.ktpModel?.administrativeVillage,
           bloodType: state.ktpModel?.bloodType,
@@ -133,6 +134,8 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
           villageUnit: state.ktpModel?.villageUnit,
         ),
       );
+
+      print("MODEL : ${state.ktpModel?.address}");
 
       if (context.mounted) {
         RegisterOtpRoute(

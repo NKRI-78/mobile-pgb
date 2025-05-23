@@ -36,6 +36,7 @@ import '../modules/notification/view/detail/notification_ppob_detail_page.dart';
 import '../modules/notification/view/notification_page.dart';
 import '../modules/ppob/view/ppob_page.dart';
 import '../modules/ppob/view/ppob_waiting_payment_page.dart';
+import '../modules/profile_update/view/profile_update_page.dart';
 import '../modules/register/view/register_page.dart';
 import '../modules/register_akun/model/extrack_ktp_model.dart';
 import '../modules/register_akun/view/register_akun_page.dart';
@@ -65,7 +66,9 @@ part 'builder.g.dart';
   TypedGoRoute<NewsDetailRoute>(path: 'news-detail'),
   TypedGoRoute<NewsAllRoute>(path: 'news-all'),
   TypedGoRoute<WebViewRoute>(path: 'webview'),
-  TypedGoRoute<ProfileRoute>(path: 'profile'),
+  TypedGoRoute<ProfileRoute>(path: 'profile', routes: [
+    TypedGoRoute<ProfileUpdateRoute>(path: 'profile-update'),
+  ]),
   TypedGoRoute<SettingsRoute>(path: 'settings'),
   TypedGoRoute<PpobPaymentRoute>(path: 'ppob-payment'),
   TypedGoRoute<WaitingPaymentRoute>(path: 'waiting-payment'),
@@ -85,7 +88,7 @@ part 'builder.g.dart';
   TypedGoRoute<SosRoute>(path: 'sos'),
   TypedGoRoute<WaitingPaymentV2Route>(path: 'waiting-method'),
   TypedGoRoute<ShopRoute>(path: 'shop', routes: [
-    TypedGoRoute<DetailProductRoute>(path: "detail-prod" , routes: [
+    TypedGoRoute<DetailProductRoute>(path: "detail-prod", routes: [
       TypedGoRoute<ShowMoreTestimoniRoute>(path: 'show-more-testimoni'),
     ])
   ]),
@@ -118,7 +121,7 @@ part 'builder.g.dart';
     ]),
   ]),
   TypedGoRoute<OrderRoute>(path: 'my-order', routes: [
-  TypedGoRoute<DetailOrderRoute>(path: 'order-detail', routes: [
+    TypedGoRoute<DetailOrderRoute>(path: 'order-detail', routes: [
       TypedGoRoute<TrackingRoute>(path: 'tracking', routes: [
         TypedGoRoute<PageDetailProofShippingRoute>(path: 'detail-proff'),
       ]),
@@ -239,6 +242,13 @@ class ProfileRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const ProfilePage();
+  }
+}
+
+class ProfileUpdateRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const ProfileUpdatePage();
   }
 }
 
@@ -653,7 +663,9 @@ class OrderRoute extends GoRouteData {
   OrderRoute({required this.initIndex});
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return OrderPage(initIndex: initIndex,);
+    return OrderPage(
+      initIndex: initIndex,
+    );
   }
 }
 
@@ -664,7 +676,10 @@ class DetailOrderRoute extends GoRouteData {
   DetailOrderRoute({required this.idOrder, required this.initIndex});
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return DetailOrderPage(idOrder: idOrder, initIndex: initIndex,);
+    return DetailOrderPage(
+      idOrder: idOrder,
+      initIndex: initIndex,
+    );
   }
 }
 
@@ -674,10 +689,20 @@ class TrackingRoute extends GoRouteData {
   final int initIndex;
   final int idOrder;
 
-  TrackingRoute({required this.noTracking, required this.store,required this.initIndex,required this.idOrder, });
+  TrackingRoute({
+    required this.noTracking,
+    required this.store,
+    required this.initIndex,
+    required this.idOrder,
+  });
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return TrackingPage(noTracking: noTracking,store: store,idOrder: idOrder, initIndex: initIndex,);
+    return TrackingPage(
+      noTracking: noTracking,
+      store: store,
+      idOrder: idOrder,
+      initIndex: initIndex,
+    );
   }
 }
 
@@ -688,11 +713,19 @@ class PageDetailProofShippingRoute extends GoRouteData {
   final String noTracking;
   final String store;
 
-  PageDetailProofShippingRoute({required this.$extra, required this.initIndex, required this.idOrder,required this.noTracking,required this.store, });
+  PageDetailProofShippingRoute({
+    required this.$extra,
+    required this.initIndex,
+    required this.idOrder,
+    required this.noTracking,
+    required this.store,
+  });
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return PageDetailProofShipping(tracking: $extra,);
+    return PageDetailProofShipping(
+      tracking: $extra,
+    );
   }
 }
 

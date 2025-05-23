@@ -118,7 +118,7 @@ class NotificationDetailView extends StatelessWidget {
             state.detail?.type == 'GIVEN_ROLE' ||
             state.detail?.type == 'PAYMENT' ||
             state.detail?.type == 'BROADCAST' ||
-            state.detail?.type == 'INVOICES';
+            state.detail?.type == 'FORUM';
     return Column(
       children: [
         Expanded(

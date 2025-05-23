@@ -19,9 +19,8 @@ class ListNotifCard extends StatelessWidget {
       onTap: () async {
         await context.read<NotificationCubit>().readNotif(notif.id.toString());
 
-        if (notif.type == "INVOICES") {
-          // Jika INVOICE, masuk ke halaman Iuran
-          // IuranRoute().push(context);
+        if (notif.type == "FORUM") {
+          ForumDetailRoute(idForum: notif.data['id']).go(context);
         } else if (notif.type.contains("PAYMENT")) {
           // Jika bukan INVOICE, masuk ke detail pembayaran
           WaitingPaymentRoute(id: notif.paymentId.toString()).push(context);
@@ -79,18 +78,20 @@ class ListNotifCard extends StatelessWidget {
                 ),
               ],
             ),
-            const Divider(thickness: .5, color: AppColors.greyColor),
-            Text(
-              notif.type == "SOS" ||
-                      notif.type.contains("PAYMENT") ||
-                      notif.type == "BROADCAST"
-                  ? notif.message
-                  : (notif.body ?? ''),
-              style: const TextStyle(
-                color: AppColors.blackColor,
-                fontSize: 13,
+            if (notif.type != "FORUM") ...[
+              const Divider(thickness: .5, color: AppColors.greyColor),
+              Text(
+                notif.type == "SOS" ||
+                        notif.type.contains("PAYMENT") ||
+                        notif.type == "BROADCAST"
+                    ? notif.message
+                    : (notif.body ?? ''),
+                style: const TextStyle(
+                  color: AppColors.blackColor,
+                  fontSize: 13,
+                ),
               ),
-            ),
+            ],
             if (notif.type.contains("PAYMENT")) ...[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

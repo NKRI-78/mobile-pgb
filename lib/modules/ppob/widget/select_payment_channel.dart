@@ -80,9 +80,7 @@ class SelectPaymentChannel extends StatelessWidget {
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 5, horizontal: 10),
                           title: Text(
-                            e.name == "Saldo"
-                                ? "Lingkunganku Wallet"
-                                : e.name ?? "",
+                            e.name == "Saldo" ? "PGB Wallet" : e.name ?? "",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
