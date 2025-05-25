@@ -19,9 +19,7 @@ class ListNotifCard extends StatelessWidget {
       onTap: () async {
         await context.read<NotificationCubit>().readNotif(notif.id.toString());
 
-        if (notif.type == "FORUM") {
-          ForumDetailRoute(idForum: notif.data['id']).go(context);
-        } else if (notif.type.contains("PAYMENT")) {
+        if (notif.type.contains("PAYMENT")) {
           // Jika bukan INVOICE, masuk ke detail pembayaran
           WaitingPaymentRoute(id: notif.paymentId.toString()).push(context);
         } else {

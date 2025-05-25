@@ -20,6 +20,7 @@ final class AppState extends Equatable {
 
   bool get userEmpty => token.isEmpty;
   bool get isLoggedIn => user != null && token.isNotEmpty;
+  bool get isVerified => user?.emailVerified != null && token.isNotEmpty;
 
   @override
   List<Object?> get props => [

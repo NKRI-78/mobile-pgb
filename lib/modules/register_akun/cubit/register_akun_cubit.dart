@@ -135,8 +135,6 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
         ),
       );
 
-      print("MODEL : ${state.ktpModel?.address}");
-
       if (context.mounted) {
         RegisterOtpRoute(
           $extra: ExtrackKtpModel(),

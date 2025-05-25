@@ -39,7 +39,7 @@ class _NotificationListState extends State<NotificationList> {
           if (widget.category == "SOS") return n.type == "SOS";
           if (widget.category == "PAYMENT") return n.type.contains("PAYMENT");
           if (widget.category == "OTHER") {
-            return ["BROADCAST", "FORUM"].contains(n.type);
+            return ["BROADCAST"].contains(n.type);
           }
           return false;
         }).toList();

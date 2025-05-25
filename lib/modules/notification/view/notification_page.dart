@@ -37,8 +37,7 @@ class NotificationView extends StatelessWidget {
             .where((n) => n.type.contains("PAYMENT") && n.readAt == null)
             .length;
         int unreadOther = state.notif
-            .where((n) =>
-                ["BROADCAST", "FORUM"].contains(n.type) && n.readAt == null)
+            .where((n) => ["BROADCAST"].contains(n.type) && n.readAt == null)
             .length;
 
         return DefaultTabController(

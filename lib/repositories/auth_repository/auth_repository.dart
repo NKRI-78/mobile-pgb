@@ -351,4 +351,20 @@ class AuthRepository {
       throw "Terjadi kesalahan jaringan";
     }
   }
+
+  Future<void> resendEmail(String emailOld, String emailNew) async {
+    try {
+      final res = await http.post(Uri.parse('$auth/resendEmail'), body: {
+        'emailOld': emailOld,
+        'emailNew': emailNew,
+      });
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) return;
+      if (res.statusCode == 400) {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

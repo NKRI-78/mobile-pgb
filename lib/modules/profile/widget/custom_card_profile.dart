@@ -95,13 +95,27 @@ class CustomCardProfile extends StatelessWidget {
                   Positioned(
                     bottom: 10,
                     right: 10,
-                    child: BarcodeWidget(
-                      barcode: Barcode.qrCode(),
-                      data: noKta,
-                      width: 60,
-                      height: 60,
-                      drawText: false,
-                      backgroundColor: Colors.white,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: AppColors.whiteColor,
+                            width: 2,
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(4),
+                        child: BarcodeWidget(
+                          barcode: Barcode.qrCode(),
+                          data: noKta,
+                          width: 50,
+                          height: 50,
+                          drawText: false,
+                          backgroundColor: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
                 ],

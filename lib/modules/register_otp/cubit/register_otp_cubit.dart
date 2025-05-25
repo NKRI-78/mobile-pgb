@@ -18,6 +18,9 @@ class RegisterOtpCubit extends Cubit<RegisterOtpState> {
   }
 
   AuthRepository repo = getIt<AuthRepository>();
+  void updateEmail(String newEmail) {
+    emit(state.copyWith(email: newEmail));
+  }
 
   final bool isLogin;
   Timer? _timer;

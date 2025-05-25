@@ -10,7 +10,7 @@ class CustomButton extends StatelessWidget {
   final Widget? leading;
   final double? radius;
   final bool isLoading;
-  final IconData? icon; // Ikon opsional
+  final IconData? icon;
 
   const CustomButton({
     super.key,

@@ -67,11 +67,12 @@ class FileStorage {
     debugPrint('Filename : $filePath');
 
     final snackBar = SnackBar(
-      backgroundColor:
-          isExistFile ? AppColors.redColor : AppColors.secondaryColor,
+      backgroundColor: isExistFile ? AppColors.redColor : AppColors.greenColor,
       duration: const Duration(seconds: 5),
       content: Text(
-        "${isExistFile ? 'File sudah ada di' : 'File berhasil diunduh, disimpan ke'} $filePath",
+        isExistFile
+            ? 'File sudah ada dan siap digunakan.'
+            : 'File berhasil diunduh dan disimpan.',
         style: const TextStyle(
             color: AppColors.whiteColor, fontWeight: FontWeight.w700),
       ),

@@ -40,6 +40,7 @@ import '../modules/profile_update/view/profile_update_page.dart';
 import '../modules/register/view/register_page.dart';
 import '../modules/register_akun/model/extrack_ktp_model.dart';
 import '../modules/register_akun/view/register_akun_page.dart';
+import '../modules/register_change/view/register_change_page.dart';
 import '../modules/register_ktp/view/register_ktp_page.dart';
 import '../modules/register_otp/view/register_otp_page.dart';
 import '../modules/settings/view/settings_page.dart';
@@ -55,6 +56,7 @@ import '../widgets/photo_view/clipped_photo_view.dart';
 part 'builder.g.dart';
 
 @TypedGoRoute<HomeRoute>(path: '/home', routes: [
+  TypedGoRoute<SosDetailRoute>(path: 'sos-detail'),
   TypedGoRoute<ForumRoute>(path: 'forum', routes: [
     TypedGoRoute<ForumDetailRoute>(path: 'forum-detail'),
     TypedGoRoute<ForumCreateRoute>(path: 'forum-create'),
@@ -97,9 +99,7 @@ part 'builder.g.dart';
     TypedGoRoute<UpdateAddressRoute>(path: 'update-address'),
   ]),
   TypedGoRoute<CartRoute>(path: 'cart'),
-  TypedGoRoute<SosRoute>(path: 'sos', routes: [
-    TypedGoRoute<SosDetailRoute>(path: 'sos-detail'),
-  ]),
+  TypedGoRoute<SosRoute>(path: 'sos'),
   TypedGoRoute<RegisterRoute>(path: 'register', routes: [
     TypedGoRoute<LoginRoute>(
       path: 'login',
@@ -116,7 +116,9 @@ part 'builder.g.dart';
     ),
     TypedGoRoute<RegisterKtpRoute>(path: 'register-ktp', routes: [
       TypedGoRoute<RegisterAkunRoute>(path: 'register-akun', routes: [
-        TypedGoRoute<RegisterOtpRoute>(path: 'register-otp'),
+        TypedGoRoute<RegisterOtpRoute>(path: 'register-otp', routes: [
+          TypedGoRoute<RegisterChangeRoute>(path: 'register-change')
+        ]),
       ]),
     ]),
   ]),
@@ -471,6 +473,27 @@ class RegisterOtpRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return RegisterOtpPage(
+      isLogin: isLogin,
+      email: email,
+      extrackKtp: $extra,
+    );
+  }
+}
+
+class RegisterChangeRoute extends GoRouteData {
+  final String email;
+  final ExtrackKtpModel $extra;
+
+  final bool isLogin;
+
+  RegisterChangeRoute({
+    required this.isLogin,
+    required this.email,
+    required this.$extra,
+  });
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return RegisterChangePage(
       isLogin: isLogin,
       email: email,
       extrackKtp: $extra,
