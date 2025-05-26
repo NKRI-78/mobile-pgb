@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,8 @@ class HomeRepository {
   String get news => '${MyApi.baseUrl}/api/v1/news';
 
   String get banner => '${MyApi.baseUrl}/api/v1/banner';
+
+  String get profile => '${MyApi.baseUrl}/api/v1/profile';
 
   final http = getIt<BaseNetworkClient>();
 
@@ -55,6 +58,24 @@ class HomeRepository {
       }
     } catch (e) {
       rethrow;
+    }
+  }
+
+  Future<void> setFcm(String token) async {
+    try {
+      debugPrint('FCM : $token');
+      final res = await http.post(Uri.parse('$profile/fcm-update'), body: {
+        'token': token
+      },);
+      debugPrint('Data FCM  : ${res.body}');
+
+      if (res.statusCode == 200) {
+        return;
+      } else {
+        throw "Ada masalah pada server";
+      }
+    } on SocketException {
+      throw "Terjadi kesalahan jaringan";
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_pgb/misc/firebase_messangging.dart';
 
 import '../../../misc/injections.dart';
 import '../../../misc/theme.dart';
@@ -28,6 +29,15 @@ class AppView extends StatefulWidget {
 
 class _AppViewState extends State<AppView> {
   final router = MyRouter.init(getIt<AppBloc>());
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      FirebaseMessagingMisc.init();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -58,7 +58,7 @@ class DetectText extends StatelessWidget {
         } else if (mention) {
           return null;
         } else {
-          // WebViewScreenRoute(title: "ATJ-Mobile", url: tappedText.toLowerCase()).go(context);
+          // WebViewScreenRoute(title: "PGB-Mobile", url: tappedText.toLowerCase()).go(context);
         }
       },
     );

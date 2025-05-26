@@ -7,7 +7,7 @@ import 'builder.dart';
 class MyRouter {
   static GoRouter init(AppBloc app) {
     return GoRouter(
-      navigatorKey: navigatorKey,
+      navigatorKey: myNavigatorKey,
       routes: $appRoutes,
       initialLocation: app.state.alreadyOnboarding
           ? HomeRoute().location

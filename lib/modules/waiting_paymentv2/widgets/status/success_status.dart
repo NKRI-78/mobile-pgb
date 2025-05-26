@@ -64,7 +64,7 @@ class SuccessStatus extends StatelessWidget {
                     height: 150,
                   ),
                   const Text(
-                      "Pembayaran Anda berhasil! Terima kasih telah Berbelanja di ATJ-Mobile",
+                      "Pembayaran Anda berhasil! Terima kasih telah Berbelanja di PGB-Mobile",
                       textAlign: TextAlign.center,
                       maxLines: 2,
                       overflow: TextOverflow.visible,

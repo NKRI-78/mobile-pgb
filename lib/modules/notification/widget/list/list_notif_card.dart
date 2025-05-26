@@ -95,27 +95,13 @@ class ListNotifCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      'Jenis Pembayaran',
+                      notif.type == "WAITING_PAYMENT" ? "Menunggu Pembayaran" : notif.data["description"] ?? "",
                       style: TextStyle(
                         color: AppColors.blackColor,
                         fontSize: 14,
                       ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          notif.paymentType == "INVOICE" ? "IURAN" : "TOPUP",
-                          style: const TextStyle(
-                            color: AppColors.blackColor,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
                     ),
                   ),
                 ],
