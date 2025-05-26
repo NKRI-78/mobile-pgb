@@ -42,7 +42,7 @@ class FileStorage {
       }
 
       final dir = await getExternalStorageDirectory(); // app-specific dir
-      final path = '${dir!.path}/LINGKUNGANKU-MOBILE';
+      final path = '${dir!.path}/PGB-MOBILE';
 
       final folder = Directory(path);
       if (!await folder.exists()) {
@@ -53,7 +53,7 @@ class FileStorage {
     } else {
       // iOS atau lainnya
       final directory = await getApplicationDocumentsDirectory();
-      final path = '${directory.path}/LINGKUNGANKU-MOBILE';
+      final path = '${directory.path}/PGB-MOBILE';
       await Directory(path).create(recursive: true);
       return path;
     }
@@ -67,11 +67,12 @@ class FileStorage {
     debugPrint('Filename : $filePath');
 
     final snackBar = SnackBar(
-      backgroundColor:
-          isExistFile ? AppColors.redColor : AppColors.secondaryColor,
+      backgroundColor: isExistFile ? AppColors.redColor : AppColors.greenColor,
       duration: const Duration(seconds: 5),
       content: Text(
-        "${isExistFile ? 'File sudah ada di' : 'File berhasil diunduh, disimpan ke'} $filePath",
+        isExistFile
+            ? 'File sudah ada dan siap digunakan.'
+            : 'File berhasil diunduh dan disimpan.',
         style: const TextStyle(
             color: AppColors.whiteColor, fontWeight: FontWeight.w700),
       ),
@@ -126,13 +127,13 @@ class FileStorage {
     if (_isImage(filename)) {
       final result = await GallerySaver.saveImage(
         file.path,
-        albumName: 'LINGKUNGANKU-MOBILE',
+        albumName: 'PGB-MOBILE',
       );
       debugPrint("Save image to gallery result: ${result ?? 'null'}");
     } else if (_isVideo(filename)) {
       final result = await GallerySaver.saveVideo(
         file.path,
-        albumName: 'LINGKUNGANKU-MOBILE',
+        albumName: 'PGB-MOBILE',
       );
       debugPrint("Save video to gallery result: ${result ?? 'null'}");
     }

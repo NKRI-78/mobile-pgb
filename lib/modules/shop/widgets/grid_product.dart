@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/misc/colors.dart';
-import 'package:mobile_pgb/misc/price_currency.dart';
-import 'package:mobile_pgb/misc/text_style.dart';
-import 'package:mobile_pgb/repositories/shop_repository/models/product_model.dart';
-import 'package:mobile_pgb/router/builder.dart';
-import 'package:mobile_pgb/widgets/image/image_card.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/price_currency.dart';
+import '../../../misc/text_style.dart';
+import '../../../repositories/shop_repository/models/product_model.dart';
+import '../../../router/builder.dart';
+import '../../../widgets/image/image_card.dart';
 
 class GridProduct extends StatelessWidget {
   const GridProduct({super.key, required this.data});
@@ -18,28 +18,23 @@ class GridProduct extends StatelessWidget {
       width: double.infinity,
       height: 300,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: AppColors.whiteColor
-      ),
+          borderRadius: BorderRadius.circular(15), color: AppColors.whiteColor),
       child: Column(
         children: [
           InkWell(
-          onTap: () {
-            DetailProductRoute(idProduct: data.id.toString()).go(context);
-          },
-          child: ImageCard(
-            image: (data.pictures?.isEmpty ?? false)
-              ? ""
-              : data.pictures?.first.link ?? "",
-            radius: 15, 
-            height: 148, 
-            width: double.infinity,
-          )),
+              onTap: () {
+                DetailProductRoute(idProduct: data.id.toString()).go(context);
+              },
+              child: ImageCard(
+                image: (data.pictures?.isEmpty ?? false)
+                    ? ""
+                    : data.pictures?.first.link ?? "",
+                radius: 15,
+                height: 148,
+                width: double.infinity,
+              )),
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 5
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -53,9 +48,8 @@ class GridProduct extends StatelessWidget {
                 Text(
                   data.category?.name ?? "",
                   maxLines: 1,
-                  style: AppTextStyles.textStyleNormal.copyWith(
-                    color: AppColors.greyColor
-                  ),
+                  style: AppTextStyles.textStyleNormal
+                      .copyWith(color: AppColors.greyColor),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5),

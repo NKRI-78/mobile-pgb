@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/repositories/notificationv2_repository/models/notification_model.dart';
+import 'models/notification_model.dart';
 import 'models/notification_detailv2_model.dart';
 import 'models/notificationv2_model.dart';
 import 'models/notification_detail_model.dart';
@@ -21,7 +21,8 @@ class NotificationV2Repository {
   Future<PaginationModel<NotificationModel>> getNotification(
       {int page = 1, String type = ""}) async {
     try {
-      final res = await http.get(Uri.parse('$notif?page=$page&type=${type.replaceAll(" ", "")}'));
+      final res = await http
+          .get(Uri.parse('$notif?page=$page&type=${type.replaceAll(" ", "")}'));
 
       print("Url : '$notif?page=$page&limit=10&type=$type'");
 

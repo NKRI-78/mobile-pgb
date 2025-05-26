@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:mobile_pgb/misc/api_url.dart';
-import 'package:mobile_pgb/misc/http_client.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/repositories/list_address_repository/models/address_list_model.dart';
+import '../../misc/api_url.dart';
+import '../../misc/http_client.dart';
+import '../../misc/injections.dart';
+import 'models/address_list_model.dart';
 
 class ListAddressRepository {
   String get shipping => '${MyApi.baseUrl}/api/v1/shipping-address';
@@ -19,7 +19,9 @@ class ListAddressRepository {
 
       final json = jsonDecode(res.body);
       if (res.statusCode == 200) {
-        var list = (json['data'] as List).map((e) => AddressListModel.fromJson(e)).toList();
+        var list = (json['data'] as List)
+            .map((e) => AddressListModel.fromJson(e))
+            .toList();
         return list;
       }
       if (res.statusCode == 400) {
@@ -50,9 +52,11 @@ class ListAddressRepository {
       rethrow;
     }
   }
+
   Future<void> selectMainAddress(String idAddress) async {
     try {
-      final res = await http.post(Uri.parse('$shipping/select-address/$idAddress'));
+      final res =
+          await http.post(Uri.parse('$shipping/select-address/$idAddress'));
 
       print(res.body);
       print("Status : ${res.statusCode}");

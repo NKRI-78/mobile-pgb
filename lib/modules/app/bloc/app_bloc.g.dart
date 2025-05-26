@@ -22,6 +22,7 @@ AppState _$AppStateFromJson(Map<String, dynamic> json) => AppState(
           ? null
           : NotificationCountModel.fromJson(
               json['badges'] as Map<String, dynamic>),
+      alreadyOnboarding: json['alreadyOnboarding'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$AppStateToJson(AppState instance) => <String, dynamic>{
@@ -31,4 +32,5 @@ Map<String, dynamic> _$AppStateToJson(AppState instance) => <String, dynamic>{
       'profile': instance.profile,
       'loadingNotif': instance.loadingNotif,
       'badges': instance.badges,
+      'alreadyOnboarding': instance.alreadyOnboarding,
     };

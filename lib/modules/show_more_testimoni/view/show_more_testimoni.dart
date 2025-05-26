@@ -1,11 +1,11 @@
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/misc/colors.dart';
-import 'package:mobile_pgb/misc/theme.dart';
-import 'package:mobile_pgb/repositories/shop_repository/models/detail_product_model.dart';
-import 'package:mobile_pgb/widgets/header/header_section.dart';
-import 'package:mobile_pgb/widgets/image/image_avatar.dart';
-import 'package:mobile_pgb/widgets/image/image_card.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/theme.dart';
+import '../../../repositories/shop_repository/models/detail_product_model.dart';
+import '../../../widgets/header/header_section.dart';
+import '../../../widgets/image/image_avatar.dart';
+import '../../../widgets/image/image_card.dart';
 
 class ShowMoreTesttimoniPage extends StatelessWidget {
   const ShowMoreTesttimoniPage({
@@ -44,18 +44,22 @@ class ShowMoreTesttimoniPage extends StatelessWidget {
                       ...reviews!.map((riview) {
                         final message = riview.message;
                         final rating = riview.rating?.toDouble() ?? 0.0;
-                        final fullname = riview.userProfile?.profile?.fullname ?? "";
-                        final avatar = riview.userProfile?.profile?.linkAvatar ?? "";
+                        final fullname =
+                            riview.userProfile?.profile?.fullname ?? "";
+                        final avatar =
+                            riview.userProfile?.profile?.linkAvatar ?? "";
                         final images = riview.images ?? [];
 
                         return Container(
                           margin: const EdgeInsets.symmetric(vertical: 5),
-                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 10),
                           decoration: BoxDecoration(
-                            color: AppColors.whiteColor,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: AppColors.blackColor.withValues(alpha: 0.2))
-                          ),
+                              color: AppColors.whiteColor,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                  color: AppColors.blackColor
+                                      .withValues(alpha: 0.2))),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -83,43 +87,52 @@ class ShowMoreTesttimoniPage extends StatelessWidget {
                                 maxRating: 5,
                               ),
                               const SizedBox(height: 8),
-                                message == null || message == "" ? SizedBox.shrink() : Text(
-                                  message,
-                                  style: const TextStyle(color: AppColors.blackColor),
-                                ),
-                              riview.images?.isEmpty ?? false ? const SizedBox.shrink() : const SizedBox(height: 10),
+                              message == null || message == ""
+                                  ? SizedBox.shrink()
+                                  : Text(
+                                      message,
+                                      style: const TextStyle(
+                                          color: AppColors.blackColor),
+                                    ),
+                              riview.images?.isEmpty ?? false
+                                  ? const SizedBox.shrink()
+                                  : const SizedBox(height: 10),
                               if (images.isNotEmpty)
-                                riview.images?.isEmpty ?? false ? const SizedBox.shrink() : SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Row(
-                                    children: List.generate(images.length, (imgIndex) {
-                                      final img = images[imgIndex];
-                                      return Container(
-                                        width: 100,
-                                        height: 100,
-                                        margin: const EdgeInsets.only(right: 12),
-                                        child: InkWell(
-                                          onTap: () {
-                                            // Navigator.push(context, MaterialPageRoute(
-                                            //   builder: (_) => FullscreenGallery(
-                                            //     images: riview.images?.map((media) => media.link)
-                                            //     .whereType<String>()
-                                            //     .toList() ?? [],
-                                            //     initialIndex: imgIndex,
-                                            //   ),
-                                            // ));
-                                          },
-                                          child: ImageCard(
-                                            image: img.link ?? "",
-                                            height: 50,
-                                            radius: 8,
-                                            width: 50,
-                                          ),
+                                riview.images?.isEmpty ?? false
+                                    ? const SizedBox.shrink()
+                                    : SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: Row(
+                                          children: List.generate(images.length,
+                                              (imgIndex) {
+                                            final img = images[imgIndex];
+                                            return Container(
+                                              width: 100,
+                                              height: 100,
+                                              margin: const EdgeInsets.only(
+                                                  right: 12),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  // Navigator.push(context, MaterialPageRoute(
+                                                  //   builder: (_) => FullscreenGallery(
+                                                  //     images: riview.images?.map((media) => media.link)
+                                                  //     .whereType<String>()
+                                                  //     .toList() ?? [],
+                                                  //     initialIndex: imgIndex,
+                                                  //   ),
+                                                  // ));
+                                                },
+                                                child: ImageCard(
+                                                  image: img.link ?? "",
+                                                  height: 50,
+                                                  radius: 8,
+                                                  width: 50,
+                                                ),
+                                              ),
+                                            );
+                                          }),
                                         ),
-                                      );
-                                    }),
-                                  ),
-                                ),
+                                      ),
                             ],
                           ),
                         );
@@ -139,12 +152,16 @@ class ShowMoreTesttimoniPage extends StatelessWidget {
     final ratingList = reviews.where((r) => r.rating != null).toList();
 
     // List untuk ulasan lengkap (rating + pesan)
-    final reviewList = reviews.where((r) => r.rating != null && r.message != null && r.message != "").toList();
+    final reviewList = reviews
+        .where((r) => r.rating != null && r.message != null && r.message != "")
+        .toList();
 
     // Hitung total dan rata-rata rating
     final totalRating = ratingList.fold(0.0, (sum, r) => sum + r.rating!);
-    final averageRating = ratingList.isNotEmpty ? (totalRating / ratingList.length) : 0;
-    final displayRating = double.parse(averageRating.toStringAsFixed(1)); // Misal: 4.27 => 4.3
+    final averageRating =
+        ratingList.isNotEmpty ? (totalRating / ratingList.length) : 0;
+    final displayRating =
+        double.parse(averageRating.toStringAsFixed(1)); // Misal: 4.27 => 4.3
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -164,7 +181,8 @@ class ShowMoreTesttimoniPage extends StatelessWidget {
                   ),
                 ),
                 TextSpan(
-                  text: '(${ratingList.length} rating • ${reviewList.length} ulasan)',
+                  text:
+                      '(${ratingList.length} rating • ${reviewList.length} ulasan)',
                   style: const TextStyle(
                     color: AppColors.blackColor,
                     fontSize: fontSizeDefault,
@@ -178,5 +196,4 @@ class ShowMoreTesttimoniPage extends StatelessWidget {
       ),
     );
   }
-
 }

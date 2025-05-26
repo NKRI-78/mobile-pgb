@@ -2,16 +2,16 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
-import 'package:mobile_pgb/misc/api_url.dart';
-import 'package:mobile_pgb/misc/http_client.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/repositories/detail_order_repository/models/detail_order_model.dart';
+import '../../misc/api_url.dart';
+import '../../misc/http_client.dart';
+import '../../misc/injections.dart';
+import 'models/detail_order_model.dart';
 
 class DetailOrderRepository {
   String get order => '${MyApi.baseUrl}/api/v1/order';
 
   final http = getIt<BaseNetworkClient>();
-  
+
   Future<DetailOrderModel> getDetailOrder(String idOrder) async {
     try {
       final res = await http.get(Uri.parse('$order/detail/$idOrder'));
@@ -25,14 +25,15 @@ class DetailOrderRepository {
       }
     } on SocketException {
       throw "Terjadi kesalahan jaringan";
-    } catch(e) {
+    } catch (e) {
       rethrow;
     }
   }
 
   Future<void> getEndOrder(String idOrder) async {
     try {
-      final res = await http.post(Uri.parse('$order/user/finish-order/$idOrder'));
+      final res =
+          await http.post(Uri.parse('$order/user/finish-order/$idOrder'));
 
       debugPrint(res.body);
       final json = jsonDecode(res.body);
@@ -43,7 +44,7 @@ class DetailOrderRepository {
       }
     } on SocketException {
       throw "Terjadi kesalahan jaringan";
-    } catch(e) {
+    } catch (e) {
       rethrow;
     }
   }
@@ -56,15 +57,18 @@ class DetailOrderRepository {
   }) async {
     try {
       final body = jsonEncode({
-        "message": message, 
+        "message": message,
         "rating": rating,
         "images": images,
       });
       debugPrint(body);
       debugPrint('$order/user/rating/$idOrder');
 
-      final res = await http.post(Uri.parse('$order/user/rating/$idOrder'), body: body, headers: {'Content-Type': 'application/json',});
-      
+      final res = await http
+          .post(Uri.parse('$order/user/rating/$idOrder'), body: body, headers: {
+        'Content-Type': 'application/json',
+      });
+
       debugPrint(res.body);
 
       final json = jsonDecode(res.body);
@@ -78,5 +82,4 @@ class DetailOrderRepository {
       rethrow;
     }
   }
-  
 }

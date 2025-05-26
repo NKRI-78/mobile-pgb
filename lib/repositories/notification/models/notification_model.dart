@@ -14,8 +14,10 @@ class NotificationModel {
   final String? body;
   final String? paymentType;
   final String? paymentNumber;
+  final dynamic data;
 
   NotificationModel({
+    this.data,
     required this.id,
     required this.type,
     required this.title,
@@ -37,6 +39,7 @@ class NotificationModel {
     final data = json['data']; // Ambil objek data utama
 
     return NotificationModel(
+      data: json['data'],
       id: json['id'] ?? 0,
       type: json['type'] ?? "",
       title: data?['title'] ?? "", // Pastikan mengambil dari `data`
@@ -62,6 +65,7 @@ class NotificationModel {
 
   /// Tambahkan method copyWith
   NotificationModel copyWith({
+    dynamic data,
     int? id,
     String? type,
     String? title,
@@ -79,6 +83,7 @@ class NotificationModel {
     String? paymentNumber,
   }) {
     return NotificationModel(
+      data: data ?? this.data,
       id: id ?? this.id,
       type: type ?? this.type,
       title: title ?? this.title,

@@ -173,7 +173,6 @@ class _CommentForumState extends State<CommentForum> {
                 padding: const EdgeInsets.only(left: 50),
                 physics: const ScrollPhysics(),
                 shrinkWrap: true,
-                reverse: true,
                 itemCount: widget.comment.replies?.length ?? 0,
                 itemBuilder: (context, index) {
                   return CardReply(

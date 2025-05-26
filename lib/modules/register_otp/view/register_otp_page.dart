@@ -5,6 +5,7 @@ import 'package:pinput/pinput.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
+import '../../../router/builder.dart';
 import '../../register_akun/model/extrack_ktp_model.dart';
 import '../cubit/register_otp_cubit.dart';
 
@@ -102,6 +103,42 @@ class RegisterOtpView extends StatelessWidget {
                                   TextSpan(
                                       text:
                                           " yang di gunakan pada saat Registrasi."),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'Email Anda salah? ',
+                                    style: AppTextStyles.textStyleBold.copyWith(
+                                      color: AppColors.whiteColor,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: 'Klik di sini',
+                                    style: AppTextStyles.textStyleBold.copyWith(
+                                      color: AppColors.yellowColor,
+                                      fontSize: 15,
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () async {
+                                        final result =
+                                            await RegisterChangeRoute(
+                                          isLogin: true,
+                                          email: state.email,
+                                          $extra: extrackKtp,
+                                        ).push(context);
+                                        if (result != null && context.mounted) {
+                                          context
+                                              .read<RegisterOtpCubit>()
+                                              .updateEmail(result);
+                                        }
+                                      },
+                                  ),
                                 ],
                               ),
                             ),

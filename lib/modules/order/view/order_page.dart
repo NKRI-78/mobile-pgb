@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/misc/colors.dart';
-import 'package:mobile_pgb/modules/order/cubit/order_cubit.dart';
-import 'package:mobile_pgb/modules/order/widgets/tab_order.dart';
-import 'package:mobile_pgb/modules/order/widgets/tab_waiting_payment.dart';
-import 'package:mobile_pgb/modules/order/widgets/tabbar_order.dart';
-import 'package:mobile_pgb/widgets/header/header_section.dart';
+import '../../../misc/colors.dart';
+import '../cubit/order_cubit.dart';
+import '../widgets/tab_order.dart';
+import '../widgets/tab_waiting_payment.dart';
+import '../widgets/tabbar_order.dart';
+import '../../../widgets/header/header_section.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class OrderPage extends StatelessWidget {
@@ -62,21 +62,19 @@ class OrderView extends StatelessWidget {
                   ),
                 ),
                 SliverList(
-                  delegate: SliverChildListDelegate([
-                      BlocBuilder<OrderCubit, OrderState>(
-                        buildWhen: (previous, current) =>
-                            previous.tabIndex != current.tabIndex,
-                        builder: (context, state) {
-                          if (state.tabIndex == 0) {
-                            return const TabWaitingPayment();
-                          }else{
-                            return const TabOrder();
-                          }
-                        },
-                      )
-                    ]
+                    delegate: SliverChildListDelegate([
+                  BlocBuilder<OrderCubit, OrderState>(
+                    buildWhen: (previous, current) =>
+                        previous.tabIndex != current.tabIndex,
+                    builder: (context, state) {
+                      if (state.tabIndex == 0) {
+                        return const TabWaitingPayment();
+                      } else {
+                        return const TabOrder();
+                      }
+                    },
                   )
-                ),
+                ])),
               ],
             ),
           ),

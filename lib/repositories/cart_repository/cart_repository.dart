@@ -1,17 +1,16 @@
 import 'dart:convert';
 
-import 'package:mobile_pgb/misc/api_url.dart';
-import 'package:mobile_pgb/misc/http_client.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/repositories/cart_repository/models/cart_count_model.dart';
-import 'package:mobile_pgb/repositories/cart_repository/models/cart_model.dart';
+import '../../misc/api_url.dart';
+import '../../misc/http_client.dart';
+import '../../misc/injections.dart';
+import 'models/cart_count_model.dart';
+import 'models/cart_model.dart';
 
 class CartRepository {
   String get cart => '${MyApi.baseUrl}/api/v1/cart';
   final http = getIt<BaseNetworkClient>();
-  
-  Future<List<CartModel>> getCart() async {
 
+  Future<List<CartModel>> getCart() async {
     try {
       final res = await http.get(Uri.parse(cart));
 
@@ -30,7 +29,6 @@ class CartRepository {
   }
 
   Future<CartCountModel> getCartCount() async {
-
     try {
       final res = await http.get(Uri.parse('$cart/quantity/count'));
 
@@ -92,24 +90,27 @@ class CartRepository {
     }
   }
 
-  Future<void> assignQty({required String productId, required String qty, bool? isSelected}) async {
+  Future<void> assignQty(
+      {required String productId,
+      required String qty,
+      bool? isSelected}) async {
     try {
       print("Product id : $productId, qty : $qty, isSelected $isSelected ");
 
       Map<String, String?> body;
-      if (isSelected == null){
+      if (isSelected == null) {
         body = {
           'product_id': productId,
           'quantity': qty,
         };
-      }else{
+      } else {
         body = {
           'product_id': productId,
           'quantity': qty,
           'is_selected': isSelected.toString(),
         };
       }
-      
+
       final res = await http.post(Uri.parse(cart), body: body);
 
       print(res.body);
@@ -149,7 +150,8 @@ class CartRepository {
     }
   }
 
-  Future<void> assignCart(String productId, String qty, String? price, bool isSelected) async {
+  Future<void> assignCart(
+      String productId, String qty, String? price, bool isSelected) async {
     try {
       print("Product id : $productId, qty : $qty");
       final res = await http.post(Uri.parse(cart), body: {

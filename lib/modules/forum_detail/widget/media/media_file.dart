@@ -39,7 +39,8 @@ class MediaFile extends StatelessWidget {
                   media.link?.split('/').last ?? "Unknown File",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTextStyles.textStyleNormal,
+                  style: AppTextStyles.textStyleNormal
+                      .copyWith(color: AppColors.whiteColor),
                 ),
               ),
               const SizedBox(width: 10),

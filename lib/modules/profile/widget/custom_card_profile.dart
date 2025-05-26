@@ -44,47 +44,77 @@ class CustomCardProfile extends StatelessWidget {
                   fit: BoxFit.fill,
                 ),
               ),
-              padding: const EdgeInsets.only(left: 10, right: 25),
-              child: Row(
+              child: Stack(
                 children: [
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 25),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        InfoLine(
-                          label: 'No. KTA               ',
-                          value: noKta,
+                        Container(
+                          margin: const EdgeInsets.only(top: 20),
+                          width: imageWidth,
+                          height: imageHeight,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            image: DecorationImage(
+                              image: fotoPath.startsWith('http')
+                                  ? NetworkImage(fotoPath)
+                                  : AssetImage(fotoPath) as ImageProvider,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
-                        InfoLine(
-                          label: 'Nama                   ',
-                          value: nama,
-                        ),
-                        InfoLine(
-                          label: 'Tempat/Tgl Lahir',
-                          value: tempatTglLahir,
-                        ),
-                        InfoLine(
-                          label: 'Agama                 ',
-                          value: agama,
-                        ),
-                        InfoLine(
-                          label: 'Alamat                 ',
-                          value: alamat,
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              InfoLine(
+                                  label: 'No. KTA               ',
+                                  value: noKta),
+                              InfoLine(
+                                  label: 'Nama                   ',
+                                  value: nama),
+                              InfoLine(
+                                  label: 'Tempat/Tgl Lahir',
+                                  value: tempatTglLahir),
+                              InfoLine(
+                                  label: 'Agama                 ',
+                                  value: agama),
+                              InfoLine(
+                                  label: 'Alamat                 ',
+                                  value: alamat),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  Container(
-                    width: imageWidth,
-                    height: imageHeight,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      image: DecorationImage(
-                        image: fotoPath.startsWith('http')
-                            ? NetworkImage(fotoPath)
-                            : AssetImage(fotoPath) as ImageProvider,
-                        fit: BoxFit.fill,
+                  Positioned(
+                    bottom: 10,
+                    right: 10,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: AppColors.whiteColor,
+                            width: 2,
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(4),
+                        child: BarcodeWidget(
+                          barcode: Barcode.qrCode(),
+                          data: noKta,
+                          width: 50,
+                          height: 50,
+                          drawText: false,
+                          backgroundColor: Colors.white,
+                        ),
                       ),
                     ),
                   ),

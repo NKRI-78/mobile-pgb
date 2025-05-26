@@ -7,13 +7,40 @@ part of 'builder.dart';
 // **************************************************************************
 
 List<RouteBase> get $appRoutes => [
+      $onboardingRoute,
       $homeRoute,
     ];
+
+RouteBase get $onboardingRoute => GoRouteData.$route(
+      path: '/onboarding',
+      factory: $OnboardingRouteExtension._fromState,
+    );
+
+extension $OnboardingRouteExtension on OnboardingRoute {
+  static OnboardingRoute _fromState(GoRouterState state) => OnboardingRoute();
+
+  String get location => GoRouteData.$location(
+        '/onboarding',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
 
 RouteBase get $homeRoute => GoRouteData.$route(
       path: '/home',
       factory: $HomeRouteExtension._fromState,
       routes: [
+        GoRouteData.$route(
+          path: 'sos-detail',
+          factory: $SosDetailRouteExtension._fromState,
+        ),
         GoRouteData.$route(
           path: 'forum',
           factory: $ForumRouteExtension._fromState,
@@ -59,6 +86,12 @@ RouteBase get $homeRoute => GoRouteData.$route(
         GoRouteData.$route(
           path: 'profile',
           factory: $ProfileRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'profile-update',
+              factory: $ProfileUpdateRouteExtension._fromState,
+            ),
+          ],
         ),
         GoRouteData.$route(
           path: 'settings',
@@ -155,12 +188,6 @@ RouteBase get $homeRoute => GoRouteData.$route(
         GoRouteData.$route(
           path: 'sos',
           factory: $SosRouteExtension._fromState,
-          routes: [
-            GoRouteData.$route(
-              path: 'sos-detail',
-              factory: $SosDetailRouteExtension._fromState,
-            ),
-          ],
         ),
         GoRouteData.$route(
           path: 'register',
@@ -199,6 +226,12 @@ RouteBase get $homeRoute => GoRouteData.$route(
                     GoRouteData.$route(
                       path: 'register-otp',
                       factory: $RegisterOtpRouteExtension._fromState,
+                      routes: [
+                        GoRouteData.$route(
+                          path: 'register-change',
+                          factory: $RegisterChangeRouteExtension._fromState,
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -241,6 +274,30 @@ extension $HomeRouteExtension on HomeRoute {
 
   String get location => GoRouteData.$location(
         '/home',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $SosDetailRouteExtension on SosDetailRoute {
+  static SosDetailRoute _fromState(GoRouterState state) => SosDetailRoute(
+        sosType: state.uri.queryParameters['sos-type']!,
+        message: state.uri.queryParameters['message']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/sos-detail',
+        queryParams: {
+          'sos-type': sosType,
+          'message': message,
+        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -459,6 +516,24 @@ extension $ProfileRouteExtension on ProfileRoute {
 
   String get location => GoRouteData.$location(
         '/home/profile',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ProfileUpdateRouteExtension on ProfileUpdateRoute {
+  static ProfileUpdateRoute _fromState(GoRouterState state) =>
+      ProfileUpdateRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/profile/profile-update',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -892,30 +967,6 @@ extension $CartRouteExtension on CartRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $SosDetailRouteExtension on SosDetailRoute {
-  static SosDetailRoute _fromState(GoRouterState state) => SosDetailRoute(
-        sosType: state.uri.queryParameters['sos-type']!,
-        message: state.uri.queryParameters['message']!,
-      );
-
-  String get location => GoRouteData.$location(
-        '/home/sos/sos-detail',
-        queryParams: {
-          'sos-type': sosType,
-          'message': message,
-        },
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
 extension $RegisterRouteExtension on RegisterRoute {
   static RegisterRoute _fromState(GoRouterState state) => RegisterRoute();
 
@@ -1066,6 +1117,34 @@ extension $RegisterOtpRouteExtension on RegisterOtpRoute {
         queryParams: {
           'email': email,
           'is-login': isLogin.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location, extra: $extra);
+
+  Future<T?> push<T>(BuildContext context) =>
+      context.push<T>(location, extra: $extra);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location, extra: $extra);
+
+  void replace(BuildContext context) =>
+      context.replace(location, extra: $extra);
+}
+
+extension $RegisterChangeRouteExtension on RegisterChangeRoute {
+  static RegisterChangeRoute _fromState(GoRouterState state) =>
+      RegisterChangeRoute(
+        isLogin: _$boolConverter(state.uri.queryParameters['is-login']!)!,
+        email: state.uri.queryParameters['email']!,
+        $extra: state.extra as ExtrackKtpModel,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/register/register-ktp/register-akun/register-otp/register-change',
+        queryParams: {
+          'is-login': isLogin.toString(),
+          'email': email,
         },
       );
 

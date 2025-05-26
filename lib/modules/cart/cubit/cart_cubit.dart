@@ -4,11 +4,11 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/misc/snackbar.dart';
-import 'package:mobile_pgb/modules/app/bloc/app_bloc.dart';
-import 'package:mobile_pgb/repositories/cart_repository/cart_repository.dart';
-import 'package:mobile_pgb/repositories/cart_repository/models/cart_model.dart';
+import '../../../misc/injections.dart';
+import '../../../misc/snackbar.dart';
+import '../../app/bloc/app_bloc.dart';
+import '../../../repositories/cart_repository/cart_repository.dart';
+import '../../../repositories/cart_repository/models/cart_model.dart';
 
 part 'cart_state.dart';
 
@@ -24,18 +24,20 @@ class CartCubit extends Cubit<CartState> {
       emit(state.copyWith(cart: cart, loading: false));
     } on SocketException catch (e) {
       if (!context.mounted) {
-          return;
-        }
-      ShowSnackbar.snackbar(context, "Network Error: ${e.message}", isSuccess: false);
+        return;
+      }
+      ShowSnackbar.snackbar(context, "Network Error: ${e.message}",
+          isSuccess: false);
     } on ClientException catch (e) {
       if (!context.mounted) {
-          return;
-        }
-      ShowSnackbar.snackbar(context, "Client Error: ${e.message}", isSuccess: false);
+        return;
+      }
+      ShowSnackbar.snackbar(context, "Client Error: ${e.message}",
+          isSuccess: false);
     } catch (e) {
       if (!context.mounted) {
-          return;
-        }
+        return;
+      }
       ShowSnackbar.snackbar(context, "Unexpected Error: $e", isSuccess: false);
     }
   }
@@ -63,10 +65,12 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  Future<void> assignQty({String? productId, String? qty, bool? isSelected}) async {
+  Future<void> assignQty(
+      {String? productId, String? qty, bool? isSelected}) async {
     try {
       print("Product id add : $productId");
-      await repo.assignQty(productId: productId ?? "0", qty: qty ?? "0", isSelected: isSelected);
+      await repo.assignQty(
+          productId: productId ?? "0", qty: qty ?? "0", isSelected: isSelected);
     } on SocketException {
       throw "Terjadi kesalahan jaringan";
     } finally {
@@ -86,12 +90,12 @@ class CartCubit extends Cubit<CartState> {
 
   bool get hasSelectedItems {
     return state.cart.any((cartModel) =>
-      cartModel.carts?.any((e) => e.isSelected == true) ?? false);
+        cartModel.carts?.any((e) => e.isSelected == true) ?? false);
   }
 
   void toggleSelection({
-  required String productId,
-  required bool isSelected,
+    required String productId,
+    required bool isSelected,
   }) {
     final updatedCart = state.cart.map((cart) {
       return cart.copyWith(
@@ -101,9 +105,7 @@ class CartCubit extends Cubit<CartState> {
             final qty = item.quantity ?? 0;
 
             // Jika ingin memilih dan qty melebihi stock, sesuaikan
-            final adjustedQty = isSelected
-                ? (qty > stock ? stock : qty)
-                : qty;
+            final adjustedQty = isSelected ? (qty > stock ? stock : qty) : qty;
 
             return item.copyWith(
               isSelected: isSelected,
@@ -139,9 +141,8 @@ class CartCubit extends Cubit<CartState> {
     emit(state.copyWith(cart: updatedCart));
   }
 
-
-
-  num get totalSelectedPrice { // Ubah tipe total jadi num
+  num get totalSelectedPrice {
+    // Ubah tipe total jadi num
     num total = 0; // Ganti ke num
 
     for (final cart in state.cart) {
@@ -159,7 +160,6 @@ class CartCubit extends Cubit<CartState> {
 
     return total;
   }
-
 
   // 🔹 Update jumlah barang ke API
   // Future<void> _updateQuantityInApi(Product product) async {

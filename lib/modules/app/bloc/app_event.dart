@@ -7,6 +7,8 @@ sealed class AppEvent extends Equatable {
   List<Object> get props => [];
 }
 
+final class FinishOnboarding extends AppEvent {}
+
 final class InitialAppData extends AppEvent {}
 
 final class SetUserLogout extends AppEvent {}

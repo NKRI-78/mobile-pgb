@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mobile_pgb/misc/colors.dart';
-import 'package:mobile_pgb/misc/location.dart';
-import 'package:mobile_pgb/repositories/google_map_api_repository/google_map_api_repository.dart';
-import 'package:mobile_pgb/repositories/google_map_api_repository/src/models/place_autocomplete.dart';
+import '../../misc/colors.dart';
+import '../../misc/location.dart';
+import '../../repositories/google_map_api_repository/google_map_api_repository.dart';
+import '../../repositories/google_map_api_repository/src/models/place_autocomplete.dart';
 
 import '../../misc/keyboard_visibility.dart';
 
@@ -74,7 +74,8 @@ class _CustomSelectMapLocationWidgetState
     final country = place.first.country;
 
     setState(() {
-      address = '$administrativeArea $subAdministrativeArea \n$street, $country';
+      address =
+          '$administrativeArea $subAdministrativeArea \n$street, $country';
       loading = false;
     });
   }
@@ -131,7 +132,7 @@ class _CustomSelectMapLocationWidgetState
                           contentPadding:
                               const EdgeInsets.only(left: 16, top: 16),
                           hintText: "Cari...",
-                          fillColor: AppColors.blackColor,
+                          fillColor: AppColors.whiteColor,
                           border: InputBorder.none,
                         ),
                       ),
@@ -143,7 +144,7 @@ class _CustomSelectMapLocationWidgetState
                           maxHeight: 400,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.greyColor,
+                          color: AppColors.primaryColor,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         padding: const EdgeInsets.all(16),
@@ -164,9 +165,8 @@ class _CustomSelectMapLocationWidgetState
                                         title: Text(
                                           e.title,
                                           style: const TextStyle(
-                                            fontSize: 14,
-                                            color: AppColors.blackColor
-                                          ),
+                                              fontSize: 14,
+                                              color: AppColors.blackColor),
                                           maxLines: 5,
                                         ),
                                       ),
@@ -308,7 +308,8 @@ class _CustomSelectMapLocationWidgetState
       setState(() {
         places = [];
       });
-      final location = await GoogleMapApiRepository().getCoordinatePlace(auto.placeId);
+      final location =
+          await GoogleMapApiRepository().getCoordinatePlace(auto.placeId);
       if (location != null) {
         mapController?.moveCamera(
           CameraUpdate.newLatLng(

@@ -108,7 +108,7 @@ class ForumRepository {
   }) async {
     try {
       var request = ht.MultipartRequest('PUT', Uri.parse(mediaUpload));
-      request.fields.addAll({'folder': folder, 'app': 'LINGKUNGANKU'});
+      request.fields.addAll({'folder': folder, 'app': 'PGB'});
 
       var headers = {'Authorization': 'Bearer ${http.token}'};
       request.headers.addAll(headers);

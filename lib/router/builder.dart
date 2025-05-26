@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_pgb/modules/cart/view/cart_page.dart';
-import 'package:mobile_pgb/modules/checkout/view/checkout_page.dart';
-import 'package:mobile_pgb/modules/create_shipping_address/view/create_address_page.dart';
-import 'package:mobile_pgb/modules/detail_oder/view/detail_order.dart';
-import 'package:mobile_pgb/modules/detail_product/view/detail_product_page.dart';
-import 'package:mobile_pgb/modules/event/view/event_page.dart';
-import 'package:mobile_pgb/modules/list_address/view/list_address_page.dart';
-import 'package:mobile_pgb/modules/need_riview/views/need_riview_page.dart';
-import 'package:mobile_pgb/modules/order/view/order_page.dart';
-import 'package:mobile_pgb/modules/profile/view/profile_page.dart';
-import 'package:mobile_pgb/modules/shop/view/shop_page.dart';
-import 'package:mobile_pgb/modules/show_more_testimoni/view/show_more_testimoni.dart';
-import 'package:mobile_pgb/modules/sos/view/sos_page.dart';
-import 'package:mobile_pgb/modules/tracking/view/tracking_page.dart';
-import 'package:mobile_pgb/modules/update_shipping_address/view/update_address_page.dart';
-import 'package:mobile_pgb/modules/waiting_paymentv2/view/waiting_payment_page.dart';
-import 'package:mobile_pgb/repositories/oder_repository/models/tracking_model.dart';
-import 'package:mobile_pgb/repositories/shop_repository/models/detail_product_model.dart';
-import 'package:mobile_pgb/widgets/pages/page_detail_proof_shipping.dart';
+import '../modules/cart/view/cart_page.dart';
+import '../modules/checkout/view/checkout_page.dart';
+import '../modules/create_shipping_address/view/create_address_page.dart';
+import '../modules/detail_oder/view/detail_order.dart';
+import '../modules/detail_product/view/detail_product_page.dart';
+import '../modules/event/view/event_page.dart';
+import '../modules/list_address/view/list_address_page.dart';
+import '../modules/need_riview/views/need_riview_page.dart';
+import '../modules/order/view/order_page.dart';
+import '../modules/profile/view/profile_page.dart';
+import '../modules/shop/view/shop_page.dart';
+import '../modules/show_more_testimoni/view/show_more_testimoni.dart';
+import '../modules/sos/view/sos_page.dart';
+import '../modules/tracking/view/tracking_page.dart';
+import '../modules/update_shipping_address/view/update_address_page.dart';
+import '../modules/waiting_paymentv2/view/waiting_payment_page.dart';
+import '../repositories/oder_repository/models/tracking_model.dart';
+import '../repositories/shop_repository/models/detail_product_model.dart';
+import '../widgets/pages/page_detail_proof_shipping.dart';
 
 import '../modules/event_detail/view/event_detail_page.dart';
 import '../modules/forum/view/forum_page.dart';
@@ -34,11 +34,14 @@ import '../modules/news_detail/view/news_detail_page.dart';
 import '../modules/notification/view/detail/notification_detail_page.dart';
 import '../modules/notification/view/detail/notification_ppob_detail_page.dart';
 import '../modules/notification/view/notification_page.dart';
+import '../modules/onboarding/view/onboarding_page.dart';
 import '../modules/ppob/view/ppob_page.dart';
 import '../modules/ppob/view/ppob_waiting_payment_page.dart';
+import '../modules/profile_update/view/profile_update_page.dart';
 import '../modules/register/view/register_page.dart';
 import '../modules/register_akun/model/extrack_ktp_model.dart';
 import '../modules/register_akun/view/register_akun_page.dart';
+import '../modules/register_change/view/register_change_page.dart';
 import '../modules/register_ktp/view/register_ktp_page.dart';
 import '../modules/register_otp/view/register_otp_page.dart';
 import '../modules/settings/view/settings_page.dart';
@@ -53,7 +56,16 @@ import '../widgets/photo_view/clipped_photo_view.dart';
 
 part 'builder.g.dart';
 
+@TypedGoRoute<OnboardingRoute>(path: '/onboarding')
+class OnboardingRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return OnboardingPage();
+  }
+}
+
 @TypedGoRoute<HomeRoute>(path: '/home', routes: [
+  TypedGoRoute<SosDetailRoute>(path: 'sos-detail'),
   TypedGoRoute<ForumRoute>(path: 'forum', routes: [
     TypedGoRoute<ForumDetailRoute>(path: 'forum-detail'),
     TypedGoRoute<ForumCreateRoute>(path: 'forum-create'),
@@ -65,7 +77,9 @@ part 'builder.g.dart';
   TypedGoRoute<NewsDetailRoute>(path: 'news-detail'),
   TypedGoRoute<NewsAllRoute>(path: 'news-all'),
   TypedGoRoute<WebViewRoute>(path: 'webview'),
-  TypedGoRoute<ProfileRoute>(path: 'profile'),
+  TypedGoRoute<ProfileRoute>(path: 'profile', routes: [
+    TypedGoRoute<ProfileUpdateRoute>(path: 'profile-update'),
+  ]),
   TypedGoRoute<SettingsRoute>(path: 'settings'),
   TypedGoRoute<PpobPaymentRoute>(path: 'ppob-payment'),
   TypedGoRoute<WaitingPaymentRoute>(path: 'waiting-payment'),
@@ -85,7 +99,7 @@ part 'builder.g.dart';
   TypedGoRoute<SosRoute>(path: 'sos'),
   TypedGoRoute<WaitingPaymentV2Route>(path: 'waiting-method'),
   TypedGoRoute<ShopRoute>(path: 'shop', routes: [
-    TypedGoRoute<DetailProductRoute>(path: "detail-prod" , routes: [
+    TypedGoRoute<DetailProductRoute>(path: "detail-prod", routes: [
       TypedGoRoute<ShowMoreTestimoniRoute>(path: 'show-more-testimoni'),
     ])
   ]),
@@ -94,9 +108,7 @@ part 'builder.g.dart';
     TypedGoRoute<UpdateAddressRoute>(path: 'update-address'),
   ]),
   TypedGoRoute<CartRoute>(path: 'cart'),
-  TypedGoRoute<SosRoute>(path: 'sos', routes: [
-    TypedGoRoute<SosDetailRoute>(path: 'sos-detail'),
-  ]),
+  TypedGoRoute<SosRoute>(path: 'sos'),
   TypedGoRoute<RegisterRoute>(path: 'register', routes: [
     TypedGoRoute<LoginRoute>(
       path: 'login',
@@ -113,12 +125,14 @@ part 'builder.g.dart';
     ),
     TypedGoRoute<RegisterKtpRoute>(path: 'register-ktp', routes: [
       TypedGoRoute<RegisterAkunRoute>(path: 'register-akun', routes: [
-        TypedGoRoute<RegisterOtpRoute>(path: 'register-otp'),
+        TypedGoRoute<RegisterOtpRoute>(path: 'register-otp', routes: [
+          TypedGoRoute<RegisterChangeRoute>(path: 'register-change')
+        ]),
       ]),
     ]),
   ]),
   TypedGoRoute<OrderRoute>(path: 'my-order', routes: [
-  TypedGoRoute<DetailOrderRoute>(path: 'order-detail', routes: [
+    TypedGoRoute<DetailOrderRoute>(path: 'order-detail', routes: [
       TypedGoRoute<TrackingRoute>(path: 'tracking', routes: [
         TypedGoRoute<PageDetailProofShippingRoute>(path: 'detail-proff'),
       ]),
@@ -239,6 +253,13 @@ class ProfileRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const ProfilePage();
+  }
+}
+
+class ProfileUpdateRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const ProfileUpdatePage();
   }
 }
 
@@ -468,6 +489,27 @@ class RegisterOtpRoute extends GoRouteData {
   }
 }
 
+class RegisterChangeRoute extends GoRouteData {
+  final String email;
+  final ExtrackKtpModel $extra;
+
+  final bool isLogin;
+
+  RegisterChangeRoute({
+    required this.isLogin,
+    required this.email,
+    required this.$extra,
+  });
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return RegisterChangePage(
+      isLogin: isLogin,
+      email: email,
+      extrackKtp: $extra,
+    );
+  }
+}
+
 class ShopRoute extends GoRouteData {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
@@ -653,7 +695,9 @@ class OrderRoute extends GoRouteData {
   OrderRoute({required this.initIndex});
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return OrderPage(initIndex: initIndex,);
+    return OrderPage(
+      initIndex: initIndex,
+    );
   }
 }
 
@@ -664,7 +708,10 @@ class DetailOrderRoute extends GoRouteData {
   DetailOrderRoute({required this.idOrder, required this.initIndex});
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return DetailOrderPage(idOrder: idOrder, initIndex: initIndex,);
+    return DetailOrderPage(
+      idOrder: idOrder,
+      initIndex: initIndex,
+    );
   }
 }
 
@@ -674,10 +721,20 @@ class TrackingRoute extends GoRouteData {
   final int initIndex;
   final int idOrder;
 
-  TrackingRoute({required this.noTracking, required this.store,required this.initIndex,required this.idOrder, });
+  TrackingRoute({
+    required this.noTracking,
+    required this.store,
+    required this.initIndex,
+    required this.idOrder,
+  });
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return TrackingPage(noTracking: noTracking,store: store,idOrder: idOrder, initIndex: initIndex,);
+    return TrackingPage(
+      noTracking: noTracking,
+      store: store,
+      idOrder: idOrder,
+      initIndex: initIndex,
+    );
   }
 }
 
@@ -688,11 +745,19 @@ class PageDetailProofShippingRoute extends GoRouteData {
   final String noTracking;
   final String store;
 
-  PageDetailProofShippingRoute({required this.$extra, required this.initIndex, required this.idOrder,required this.noTracking,required this.store, });
+  PageDetailProofShippingRoute({
+    required this.$extra,
+    required this.initIndex,
+    required this.idOrder,
+    required this.noTracking,
+    required this.store,
+  });
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return PageDetailProofShipping(tracking: $extra,);
+    return PageDetailProofShipping(
+      tracking: $extra,
+    );
   }
 }
 

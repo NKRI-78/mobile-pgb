@@ -124,8 +124,8 @@ class DetailForum extends StatelessWidget {
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children: forum?.forumComment?.reversed
-                            .map(
+                    children: forum?.forumComment
+                            ?.map(
                               (e) => InkWell(
                                   onTap: () {},
                                   child: CommentForum(

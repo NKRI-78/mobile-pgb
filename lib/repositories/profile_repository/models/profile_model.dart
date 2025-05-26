@@ -82,6 +82,7 @@ class ProfileModel {
 }
 
 class Profile {
+  String? kta;
   int? id;
   String? fullname;
   String? avatarLink;
@@ -103,6 +104,7 @@ class Profile {
   String? updatedAt;
 
   Profile({
+    this.kta,
     this.id,
     this.fullname,
     this.avatarLink,
@@ -126,6 +128,7 @@ class Profile {
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
+      kta: json['kta'],
       id: json['id'],
       fullname: json['fullname'],
       avatarLink: json['avatar_link'],
@@ -150,6 +153,7 @@ class Profile {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
+    data['kta'] = kta;
     data['id'] = id;
     data['fullname'] = fullname;
     data['avatar_link'] = avatarLink;

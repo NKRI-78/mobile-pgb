@@ -1,6 +1,8 @@
 part of 'register_akun_cubit.dart';
 
 class RegisterAkunState extends Equatable {
+  final String token;
+  final UserModel? user;
   final bool isLoading;
   final bool isPasswordObscured;
   final bool isConfirmPasswordObscured;
@@ -12,6 +14,8 @@ class RegisterAkunState extends Equatable {
   final ExtrackKtpModel? ktpModel;
 
   const RegisterAkunState({
+    this.token = '',
+    this.user,
     this.isLoading = false,
     this.isPasswordObscured = true,
     this.isConfirmPasswordObscured = true,
@@ -34,9 +38,13 @@ class RegisterAkunState extends Equatable {
         passwordConfirm,
         fileImage,
         ktpModel,
+        user,
+        token,
       ];
 
   RegisterAkunState copyWith({
+    String? token,
+    UserModel? user,
     bool? isLoading,
     bool? isPasswordObscured,
     bool? isConfirmPasswordObscured,
@@ -48,6 +56,8 @@ class RegisterAkunState extends Equatable {
     ExtrackKtpModel? ktpModel,
   }) {
     return RegisterAkunState(
+      token: token ?? this.token,
+      user: user ?? this.user,
       isLoading: isLoading ?? this.isLoading,
       isPasswordObscured: isPasswordObscured ?? this.isPasswordObscured,
       isConfirmPasswordObscured:

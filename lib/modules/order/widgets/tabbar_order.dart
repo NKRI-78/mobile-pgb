@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:badges/badges.dart' as Badges;
-import 'package:mobile_pgb/misc/colors.dart';
-import 'package:mobile_pgb/misc/theme.dart';
-import 'package:mobile_pgb/modules/order/cubit/order_cubit.dart'; 
+import '../../../misc/colors.dart';
+import '../../../misc/theme.dart';
+import '../cubit/order_cubit.dart';
 
 class TabbarOrder extends StatelessWidget {
   const TabbarOrder({super.key});
@@ -24,16 +24,16 @@ class TabbarOrder extends StatelessWidget {
               print("TabIndex $value");
               final cubit = context.read<OrderCubit>();
               cubit.copyState(newState: cubit.state.copyWith(tabIndex: value));
-              
-              if(value == 0) {
+
+              if (value == 0) {
                 cubit.getPaymentWaiting();
-              } else if(value == 1){
+              } else if (value == 1) {
                 cubit.getOrderUser("WAITING_CONFIRM");
               } else if (value == 2) {
                 cubit.getOrderUser("ON_PROCESS");
               } else if (value == 3) {
                 cubit.getOrderUser("DELIVERY");
-              } else if(value == 4 ) {
+              } else if (value == 4) {
                 cubit.getOrderUser("DELIVERED");
               } else if (value == 5) {
                 cubit.getOrderUser("FINISHED");
@@ -46,7 +46,7 @@ class TabbarOrder extends StatelessWidget {
             labelColor: AppColors.secondaryColor,
             indicatorColor: AppColors.secondaryColor,
             dividerColor: AppColors.greyColor,
-            tabs:  [
+            tabs: [
               TextWithBadge(
                 title: 'Belum Bayar',
                 showBadge: true,
@@ -91,7 +91,11 @@ class TabbarOrder extends StatelessWidget {
 }
 
 class TextWithBadge extends StatelessWidget {
-  const TextWithBadge({super.key, required this.title, this.showBadge = false, this.textBadge = 0});
+  const TextWithBadge(
+      {super.key,
+      required this.title,
+      this.showBadge = false,
+      this.textBadge = 0});
 
   final String title;
   final bool? showBadge;

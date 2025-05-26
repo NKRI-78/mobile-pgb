@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/misc/colors.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/modules/list_address/cubit/list_address_cubit.dart';
-import 'package:mobile_pgb/modules/list_address/widgets/card_list_address.dart';
-import 'package:mobile_pgb/router/builder.dart';
-import 'package:mobile_pgb/widgets/button/custom_button.dart';
-import 'package:mobile_pgb/widgets/header/header_section.dart';
-import 'package:mobile_pgb/widgets/pages/empty_page.dart';
-import 'package:mobile_pgb/widgets/pages/loading_page.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
+import '../cubit/list_address_cubit.dart';
+import '../widgets/card_list_address.dart';
+import '../../../router/builder.dart';
+import '../../../widgets/button/custom_button.dart';
+import '../../../widgets/header/header_section.dart';
+import '../../../widgets/pages/empty_page.dart';
+import '../../../widgets/pages/loading_page.dart';
 
 class ListAddressPage extends StatelessWidget {
   const ListAddressPage({super.key});
@@ -16,9 +16,8 @@ class ListAddressPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ListAddressCubit>.value(
-      value:  getIt<ListAddressCubit>()..getListAddress(),
-      child: const ListAddressView()
-    );
+        value: getIt<ListAddressCubit>()..getListAddress(),
+        child: const ListAddressView());
   }
 }
 
@@ -39,7 +38,7 @@ class ListAddressView extends StatelessWidget {
             ),
             child: SizedBox(
               width: double.infinity,
-              height: 50, 
+              height: 50,
               child: CustomButton(
                 radius: 0,
                 onPressed: () {
@@ -55,19 +54,19 @@ class ListAddressView extends StatelessWidget {
             slivers: [
               const HeaderSection(titleHeader: "Alamat Saya"),
               state.loading
-              ? const SliverFillRemaining(
-                  child: Center(child: CustomLoadingPage()),
-                )
-              : state.address.isEmpty
-                ? const SliverFillRemaining(
-                    child: Center(child: EmptyPage(msg: "Belum ada alamat")))
-                :  SliverList.list(
-                children: state.address.map((e) => 
-                  CardListAddress(
-                    addressList: e,
-                  )
-                ).toList()
-              )
+                  ? const SliverFillRemaining(
+                      child: Center(child: CustomLoadingPage()),
+                    )
+                  : state.address.isEmpty
+                      ? const SliverFillRemaining(
+                          child:
+                              Center(child: EmptyPage(msg: "Belum ada alamat")))
+                      : SliverList.list(
+                          children: state.address
+                              .map((e) => CardListAddress(
+                                    addressList: e,
+                                  ))
+                              .toList())
             ],
           ),
         );

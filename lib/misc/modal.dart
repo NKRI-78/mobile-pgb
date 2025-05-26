@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobile_pgb/misc/colors.dart';
-import 'package:mobile_pgb/misc/text_style.dart';
-import 'package:mobile_pgb/misc/theme.dart';
+import 'colors.dart';
+import 'text_style.dart';
+import 'theme.dart';
 
 enum BackgroundConfirmModal {
   confirmDelete,

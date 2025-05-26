@@ -4,11 +4,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mobile_pgb/repositories/cart_repository/cart_repository.dart';
-import 'package:mobile_pgb/repositories/cart_repository/models/cart_count_model.dart';
-import 'package:mobile_pgb/repositories/notificationv2_repository/models/notification_countv2_model.dart';
-import 'package:mobile_pgb/repositories/notificationv2_repository/notificationv2_repository.dart';
-
+import '../../../repositories/cart_repository/cart_repository.dart';
+import '../../../repositories/cart_repository/models/cart_count_model.dart';
 import '../../../misc/http_client.dart';
 import '../../../misc/injections.dart';
 import '../../../repositories/auth_repository/models/user_model.dart';
@@ -27,11 +24,12 @@ part 'app_state.dart';
 class AppBloc extends HydratedBloc<AppEvent, AppState> {
   AppBloc() : super(AppInitial()) {
     on<InitialAppData>(_onInitialAppData);
+    on<FinishOnboarding>(_onFinishOnboarding);
     on<SetUserLogout>(_onSetUserLogout);
     on<SetUserData>(_onSetUserData);
     on<GetBadgeNotif>(_onGetBadgeNotif);
     on<GetBadgeCart>(_onGetBadgeCart);
-    
+
     on<GetProfileData>(_onGetProfile);
     on<AppEvent>((event, emit) {});
     // on<AppEvent>((event, emit) {});
@@ -60,6 +58,11 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     //
   }
 
+  FutureOr<void> _onFinishOnboarding(
+      FinishOnboarding event, Emitter<AppState> emit) {
+    emit(state.copyWith(alreadyOnboarding: true));
+  }
+
   FutureOr<void> _onSetUserData(SetUserData event, Emitter<AppState> emit) {
     getIt<BaseNetworkClient>().addTokenToHeader(event.token);
     emit(state.copyWith(token: event.token, user: event.user));
@@ -69,8 +72,13 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
   }
 
   Future<void> _onSetUserLogout(
-      SetUserLogout event, Emitter<AppState> emit) async {
+    SetUserLogout event,
+    Emitter<AppState> emit,
+  ) async {
     try {
+      getIt<BaseNetworkClient>().removeTokenFromHeader();
+      await clear();
+      emit(AppInitial());
       // repoHome.setFcm('');
       emit(state.logout());
       getIt<ProfileCubit>().emit(ProfileState());
@@ -93,7 +101,8 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     }
   }
 
-  FutureOr<void> _onGetBadgeCart(GetBadgeCart event, Emitter<AppState> emit) async {
+  FutureOr<void> _onGetBadgeCart(
+      GetBadgeCart event, Emitter<AppState> emit) async {
     var cart = await repoCart.getCartCount();
 
     emit(state.copyWith(badgeCart: cart));

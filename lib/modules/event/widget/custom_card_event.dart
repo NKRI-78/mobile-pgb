@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../../misc/theme.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../misc/text_style.dart';
@@ -128,7 +129,7 @@ class CustomCardEventSection extends StatelessWidget {
       color: Colors.grey[300],
       child: Center(
         child: Image.asset(
-          'assets/images/no_image.png',
+          imageDefaultBanner,
           width: 100,
           height: 100,
           fit: BoxFit.contain,

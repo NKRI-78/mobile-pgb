@@ -84,29 +84,29 @@ class CustomEndDrawer extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  OutlinedButton(
-                    onPressed: () {
-                      NeedRiviewRoute().go(context);
-                      GoRouter.of(context).pop();
-                    },
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      side: const BorderSide(
-                        color: Colors.white,
-                      ),
-                      minimumSize: const Size.fromHeight(48),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: Text(
-                      'Beri Penilaian',
-                      style: AppTextStyles.textStyleNormal.copyWith(
-                        fontSize: 14,
-                        color: AppColors.whiteColor,
-                      ),
-                    ),
-                  ),
+                  // OutlinedButton(
+                  //   onPressed: () {
+                  //     NeedRiviewRoute().go(context);
+                  //     GoRouter.of(context).pop();
+                  //   },
+                  //   style: OutlinedButton.styleFrom(
+                  //     foregroundColor: Colors.white,
+                  //     side: const BorderSide(
+                  //       color: Colors.white,
+                  //     ),
+                  //     minimumSize: const Size.fromHeight(48),
+                  //     shape: RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.circular(12),
+                  //     ),
+                  //   ),
+                  //   child: Text(
+                  //     'Beri Penilaian',
+                  //     style: AppTextStyles.textStyleNormal.copyWith(
+                  //       fontSize: 14,
+                  //       color: AppColors.whiteColor,
+                  //     ),
+                  //   ),
+                  // ),
                   const Spacer(),
                   BlocBuilder<AppBloc, AppState>(
                     bloc: getIt<AppBloc>(),

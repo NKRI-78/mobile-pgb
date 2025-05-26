@@ -71,6 +71,7 @@ class SosCubit extends Cubit<SosState> {
 
       if (context.mounted) {
         Navigator.of(context, rootNavigator: true).pop();
+
         ShowSnackbar.snackbar(
           context,
           errorMessage,

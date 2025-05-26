@@ -1,13 +1,14 @@
 import 'package:get_it/get_it.dart';
-import 'package:mobile_pgb/misc/socket.dart';
-import 'package:mobile_pgb/modules/cart/cubit/cart_cubit.dart';
-import 'package:mobile_pgb/modules/checkout/cubit/checkout_cubit.dart';
-import 'package:mobile_pgb/modules/detail_product/cubit/detail_product_cubit.dart';
-import 'package:mobile_pgb/modules/list_address/cubit/list_address_cubit.dart';
-import 'package:mobile_pgb/modules/need_riview/cubit/need_riview_cubit.dart';
-import 'package:mobile_pgb/repositories/shop_repository/shop_repository.dart';
+import 'socket.dart';
+import '../modules/cart/cubit/cart_cubit.dart';
+import '../modules/checkout/cubit/checkout_cubit.dart';
+import '../modules/detail_product/cubit/detail_product_cubit.dart';
+import '../modules/list_address/cubit/list_address_cubit.dart';
+import '../modules/need_riview/cubit/need_riview_cubit.dart';
+import '../repositories/shop_repository/shop_repository.dart';
 import '../modules/forum/cubit/forum_cubit.dart';
 import '../modules/forum_detail/cubit/forum_detail_cubit.dart';
+import '../modules/register_change/cubit/register_change_cubit.dart';
 import '../modules/wallet/cubit/wallet_cubit.dart';
 import '../repositories/forum_repository/forum_repository.dart';
 import '../repositories/wallet_repository/wallet_repository.dart';
@@ -50,7 +51,7 @@ class MyInjection {
     getIt.registerCachedFactory<CartCubit>(() => CartCubit());
     getIt.registerCachedFactory<DetailProductCubit>(() => DetailProductCubit());
     getIt.registerCachedFactory<CheckoutCubit>(() => CheckoutCubit());
-    getIt.registerLazySingleton<NeedRiviewCubit>(() => NeedRiviewCubit()); 
+    getIt.registerLazySingleton<NeedRiviewCubit>(() => NeedRiviewCubit());
     getIt.registerLazySingleton<ListAddressCubit>(() => ListAddressCubit());
 
     //
@@ -68,7 +69,8 @@ class MyInjection {
     getIt.registerCachedFactory<WalletCubit>(() => WalletCubit());
     getIt.registerLazySingleton<ForumCubit>(() => ForumCubit());
     getIt.registerLazySingleton<ForumDetailCubit>(() => ForumDetailCubit());
-
+    getIt.registerLazySingleton<RegisterChangeCubit>(
+        () => RegisterChangeCubit());
     // REPO
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
     getIt.registerLazySingleton<HomeRepository>(() => HomeRepository());

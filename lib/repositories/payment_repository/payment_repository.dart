@@ -3,11 +3,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as httpBase;
-import 'package:mobile_pgb/misc/api_url.dart';
-import 'package:mobile_pgb/misc/http_client.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/repositories/payment_repository/models/payment_channel_model.dart';
-import 'package:mobile_pgb/repositories/payment_repository/models/payment_model.dart';
+import '../../misc/api_url.dart';
+import '../../misc/http_client.dart';
+import '../../misc/injections.dart';
+import 'models/payment_channel_model.dart';
+import 'models/payment_model.dart';
 
 class PaymentRepository {
   Uri get paymentChannel =>
@@ -67,21 +67,24 @@ class PaymentRepository {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${http.token}'
       };
-      var res = httpBase.Request('POST', Uri.parse('${MyApi.baseUrl}/api/v1/topup'),);
+      var res = httpBase.Request(
+        'POST',
+        Uri.parse('${MyApi.baseUrl}/api/v1/topup'),
+      );
       res.body = json.encode({
-        "payment_method":  {
-            "id": payment.id,
-            "paymentType": payment.paymentType,
-            "name": payment.name,
-            "nameCode": payment.nameCode,
-            "logo": payment.logo,
-            "fee": payment.paymentType == "VIRTUAL_ACCOUNT" ? "6500" : "1500",
-            "service_fee": "",
-            "platform": payment.platform,
-            "howToUseUrl": payment.howToUseUrl,
-            "createdAt": payment.createdAt,
-            "updatedAt": payment.updatedAt,
-            "deletedAt": payment.deletedAt
+        "payment_method": {
+          "id": payment.id,
+          "paymentType": payment.paymentType,
+          "name": payment.name,
+          "nameCode": payment.nameCode,
+          "logo": payment.logo,
+          "fee": payment.paymentType == "VIRTUAL_ACCOUNT" ? "6500" : "1500",
+          "service_fee": "",
+          "platform": payment.platform,
+          "howToUseUrl": payment.howToUseUrl,
+          "createdAt": payment.createdAt,
+          "updatedAt": payment.updatedAt,
+          "deletedAt": payment.deletedAt
         },
         "amountTopup": amount
       });
@@ -97,7 +100,7 @@ class PaymentRepository {
       if (response.statusCode == 400) {
         debugPrint(response.reasonPhrase);
       }
-    return "";
+      return "";
     } on SocketException {
       throw "Terjadi kesalahan jaringan";
     }

@@ -1,12 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/misc/pagination.dart';
-import 'package:mobile_pgb/modules/app/models/badges_order_model.dart';
-import 'package:mobile_pgb/repositories/app_repository/app_repository.dart';
-import 'package:mobile_pgb/repositories/oder_repository/models/order_model.dart';
-import 'package:mobile_pgb/repositories/oder_repository/models/waiting_payment_model.dart';
-import 'package:mobile_pgb/repositories/oder_repository/order_repository.dart';
+import '../../../misc/injections.dart';
+import '../../../misc/pagination.dart';
+import '../../app/models/badges_order_model.dart';
+import '../../../repositories/app_repository/app_repository.dart';
+import '../../../repositories/oder_repository/models/order_model.dart';
+import '../../../repositories/oder_repository/models/waiting_payment_model.dart';
+import '../../../repositories/oder_repository/order_repository.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 part 'order_state.dart';
@@ -16,7 +16,7 @@ class OrderCubit extends Cubit<OrderState> {
 
   OrderRepository repo = OrderRepository();
   AppRepository appRepo = AppRepository();
-  
+
   static RefreshController refreshCtrl = RefreshController();
 
   void init(int initIndex) {
@@ -42,7 +42,6 @@ class OrderCubit extends Cubit<OrderState> {
     refreshCtrl.refreshCompleted();
   }
 
-
   void copyState({required OrderState newState}) {
     emit(newState);
   }
@@ -53,7 +52,7 @@ class OrderCubit extends Cubit<OrderState> {
       var value = await repo.getOrderStatus(status: status);
       var list = value.list;
       var pagination = value.pagination;
-      
+
       emit(state.copyWith(
         order: list,
         nexPageOrder: pagination.next,
@@ -70,10 +69,14 @@ class OrderCubit extends Cubit<OrderState> {
   Future<void> loadMoreOrderUser(String status) async {
     try {
       emit(state.copyWith(loading: true));
-      var value = await repo.getOrderStatus(status: status, page: state.nexPageOrder == 0 ?  state.nexPageOrder + 1 : state.nexPageOrder);
+      var value = await repo.getOrderStatus(
+          status: status,
+          page: state.nexPageOrder == 0
+              ? state.nexPageOrder + 1
+              : state.nexPageOrder);
       var list = value.list;
       var pagination = value.pagination;
-      
+
       emit(state.copyWith(
         order: list,
         nexPageOrder: pagination.next,
@@ -86,14 +89,18 @@ class OrderCubit extends Cubit<OrderState> {
       emit(state.copyWith(loading: false));
     }
   }
-  
+
   Future<void> loadMorePaymentWaiting(String status) async {
     try {
       emit(state.copyWith(loading: true));
-      var value = await repo.getOrderStatus(status: status, page: state.nexPageOrder == 0 ?  state.nexPageOrder + 1 : state.nexPageOrder);
+      var value = await repo.getOrderStatus(
+          status: status,
+          page: state.nexPageOrder == 0
+              ? state.nexPageOrder + 1
+              : state.nexPageOrder);
       var list = value.list;
       var pagination = value.pagination;
-      
+
       emit(state.copyWith(
         order: list,
         nexPageOrder: pagination.next,
@@ -119,12 +126,12 @@ class OrderCubit extends Cubit<OrderState> {
     }
   }
 
-  Future<void> getBadges () async {
+  Future<void> getBadges() async {
     try {
-    emit(state.copyWith(loading: true));
-     BadgesOrderModel badges =  await appRepo.getBadgesOrder();
+      emit(state.copyWith(loading: true));
+      BadgesOrderModel badges = await appRepo.getBadgesOrder();
 
-     emit(state.copyWith(badges: badges, loading: false));
+      emit(state.copyWith(badges: badges, loading: false));
     } catch (e) {
       print("Error : $e");
     }

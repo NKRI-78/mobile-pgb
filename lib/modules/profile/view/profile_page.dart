@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallery_saver_plus/gallery_saver.dart';
+import '../../../router/builder.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:barcode_widget/barcode_widget.dart';
 
 import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
 import '../../../misc/snackbar.dart';
 import '../../../misc/text_style.dart';
 import '../../../misc/theme.dart';
@@ -24,8 +27,8 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ProfileCubit()..getProfile(),
+    return BlocProvider.value(
+      value: getIt<ProfileCubit>()..getProfile(),
       child: ProfileView(),
     );
   }
@@ -71,7 +74,7 @@ class ProfileView extends StatelessWidget {
                       child: Column(
                         children: [
                           CustomCardProfile(
-                            noKta: state.profile?.profile?.nik ?? '-',
+                            noKta: state.profile?.profile?.kta ?? '-',
                             nama: state.profile?.profile?.fullname ?? '-',
                             tempatTglLahir:
                                 state.profile?.profile?.birthPlaceAndDate ??
@@ -94,22 +97,19 @@ class ProfileView extends StatelessWidget {
                     ),
                   ),
           ),
-          bottomNavigationBar: AnimatedSwitcher(
-            duration: Duration(microseconds: 300),
-            child: state.isLoading
-                ? SizedBox.shrink()
-                : SafeArea(
-                    minimum: EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                    child: CustomButton(
-                      onPressed: () {
-                        //
-                      },
-                      text: "Edit",
-                      backgroundColour: AppColors.secondaryColor,
-                      textColour: AppColors.buttonWhiteColor,
-                    ),
+          bottomNavigationBar: state.isLoading
+              ? SizedBox.shrink()
+              : SafeArea(
+                  minimum: EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                  child: CustomButton(
+                    onPressed: () {
+                      ProfileUpdateRoute().go(context);
+                    },
+                    text: "Edit",
+                    backgroundColour: AppColors.secondaryColor,
+                    textColour: AppColors.buttonWhiteColor,
                   ),
-          ),
+                ),
         );
       },
     );

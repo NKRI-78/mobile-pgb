@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_pgb/misc/colors.dart';
-import 'package:mobile_pgb/misc/snackbar.dart';
-import 'package:mobile_pgb/repositories/payment_repository/models/payment_model.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/snackbar.dart';
+import '../../../repositories/payment_repository/models/payment_model.dart';
 
 class VirtualAccountMethodWidget extends StatelessWidget {
   const VirtualAccountMethodWidget({super.key, required this.payment});
@@ -43,7 +43,8 @@ class VirtualAccountMethodWidget extends StatelessWidget {
                   await Clipboard.setData(
                       ClipboardData(text: payment.data?['vaNumber'] ?? ''));
                   if (context.mounted) {
-                    ShowSnackbar.snackbar(context, "Berhasil menyalin nomor VA", isSuccess: true);
+                    ShowSnackbar.snackbar(context, "Berhasil menyalin nomor VA",
+                        isSuccess: true);
                   }
                 } catch (e) {
                   ///
@@ -81,7 +82,8 @@ class VirtualAccountMethodWidget extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        Text('Rp ${NumberFormat('#,##0.00', 'ID').format(payment.price ?? 0)}',
+        Text(
+          'Rp ${NumberFormat('#,##0.00', 'ID').format(payment.price ?? 0)}',
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
@@ -98,7 +100,8 @@ class VirtualAccountMethodWidget extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        Text('Rp ${NumberFormat('#,##0.00', 'ID').format(int.parse(payment.fee.toString()))}',
+        Text(
+          'Rp ${NumberFormat('#,##0.00', 'ID').format(int.parse(payment.fee.toString()))}',
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
@@ -132,7 +135,9 @@ class VirtualAccountMethodWidget extends StatelessWidget {
                   await Clipboard.setData(
                       ClipboardData(text: payment.price?.toString() ?? '0'));
                   if (context.mounted) {
-                    ShowSnackbar.snackbar(context, 'Berhasil menyalin total pembayaran', isSuccess: true);
+                    ShowSnackbar.snackbar(
+                        context, 'Berhasil menyalin total pembayaran',
+                        isSuccess: true);
                   }
                 } catch (e) {
                   ///

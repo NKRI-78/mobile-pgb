@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
-import 'package:mobile_pgb/misc/api_url.dart';
-import 'package:mobile_pgb/misc/http_client.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/repositories/shop_repository/models/category_model.dart';
-import 'package:mobile_pgb/repositories/shop_repository/models/detail_product_model.dart';
-import 'package:mobile_pgb/repositories/shop_repository/models/product_model.dart';
+import '../../misc/api_url.dart';
+import '../../misc/http_client.dart';
+import '../../misc/injections.dart';
+import 'models/category_model.dart';
+import 'models/detail_product_model.dart';
+import 'models/product_model.dart';
 
 import '../../misc/pagination.dart';
 
@@ -53,12 +53,16 @@ class ShopRepository {
       rethrow;
     }
   }
-  Future<PaginationModel<ProductModel>> getProductRecomendation({int? idCategory ,int page = 1}) async {
+
+  Future<PaginationModel<ProductModel>> getProductRecomendation(
+      {int? idCategory, int page = 1}) async {
     try {
-      final res = await http.get(Uri.parse('$shop/byCategory/fanbaseRecomendation?${idCategory == null ? "" : "category_id=$idCategory"}&page=$page&limit=20'));
+      final res = await http.get(Uri.parse(
+          '$shop/byCategory/fanbaseRecomendation?${idCategory == null ? "" : "category_id=$idCategory"}&page=$page&limit=20'));
 
       print(res.body);
-      print('Link : $shop/byCategory/fanbaseRecomendation?${idCategory == null ? "" : "category_id=$idCategory"}&page=$page');
+      print(
+          'Link : $shop/byCategory/fanbaseRecomendation?${idCategory == null ? "" : "category_id=$idCategory"}&page=$page');
       print("Status : ${res.statusCode}");
 
       final json = jsonDecode(res.body);
@@ -68,7 +72,8 @@ class ShopRepository {
             .map((e) => ProductModel.fromJson(e))
             .toList();
         print("Pagination : ${jsonEncode(pagination)}");
-        return PaginationModel<ProductModel>(pagination: pagination, list: list);
+        return PaginationModel<ProductModel>(
+            pagination: pagination, list: list);
       } else {
         throw json['message'] ?? "Terjadi kesalahan";
       }
@@ -76,11 +81,15 @@ class ShopRepository {
       rethrow;
     }
   }
-  Future<PaginationModel<ProductModel>> getProductOfficial({int? idCategory ,int page = 0}) async {
-    try {
-      final res = await http.get(Uri.parse('$shop/getProducts?${idCategory == null || idCategory == 0 ? "" : "category_id=$idCategory"}&page=$page'));
 
-      print('Url : $shop/getProducts?${idCategory == null ? "" : "category_id=$idCategory"}&page=$page');
+  Future<PaginationModel<ProductModel>> getProductOfficial(
+      {int? idCategory, int page = 0}) async {
+    try {
+      final res = await http.get(Uri.parse(
+          '$shop/getProducts?${idCategory == null || idCategory == 0 ? "" : "category_id=$idCategory"}&page=$page'));
+
+      print(
+          'Url : $shop/getProducts?${idCategory == null ? "" : "category_id=$idCategory"}&page=$page');
       print(res.body);
       print("Status : ${res.statusCode}");
 
@@ -91,7 +100,8 @@ class ShopRepository {
             .map((e) => ProductModel.fromJson(e))
             .toList();
         print("Pagination : ${jsonEncode(pagination)}");
-        return PaginationModel<ProductModel>(pagination: pagination, list: list);
+        return PaginationModel<ProductModel>(
+            pagination: pagination, list: list);
       } else {
         throw json['message'] ?? "Terjadi kesalahan";
       }
@@ -114,7 +124,7 @@ class ShopRepository {
       }
     } on SocketException {
       throw "Terjadi kesalahan jaringan";
-    } catch(e) {
+    } catch (e) {
       print('Error $e');
       rethrow;
     }
@@ -165,7 +175,8 @@ class ShopRepository {
     }
   }
 
-  Future<void> assignCart(String productId, String qty, String? price, bool isSelected) async {
+  Future<void> assignCart(
+      String productId, String qty, String? price, bool isSelected) async {
     try {
       print("Product id : $productId, qty : $qty");
       final res = await http.post(Uri.parse(cart), body: {

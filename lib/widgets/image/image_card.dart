@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/misc/colors.dart';
-import 'package:mobile_pgb/misc/theme.dart';
+import '../../misc/colors.dart';
+import '../../misc/theme.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ImageCard extends StatelessWidget {
@@ -11,7 +11,14 @@ class ImageCard extends StatelessWidget {
   final double radius;
   final BoxFit? fit;
   final String? imageError;
-  const ImageCard({super.key, required this.image, this.height, required this.radius, required this.width, this.fit = BoxFit.fill, this.imageError});
+  const ImageCard(
+      {super.key,
+      required this.image,
+      this.height,
+      required this.radius,
+      required this.width,
+      this.fit = BoxFit.fill,
+      this.imageError});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +40,8 @@ class ImageCard extends StatelessWidget {
                 margin: EdgeInsets.zero,
                 color: AppColors.whiteColor,
                 elevation: 4.0,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0)),
                 child: Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(radius),
@@ -45,7 +53,7 @@ class ImageCard extends StatelessWidget {
         },
         errorWidget: (BuildContext context, String text, dynamic _) {
           return Image.asset(
-            imageError ?? imageDefaultData ,
+            imageError ?? imageDefaultData,
             width: width,
             height: height,
             fit: BoxFit.cover,
