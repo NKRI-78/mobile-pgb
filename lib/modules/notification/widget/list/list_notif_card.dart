@@ -21,7 +21,7 @@ class ListNotifCard extends StatelessWidget {
 
         if (notif.type.contains("PAYMENT")) {
           // Jika bukan INVOICE, masuk ke detail pembayaran
-          WaitingPaymentRoute(id: notif.paymentId.toString()).push(context);
+          WaitingPaymentV2Route(id: notif.paymentId.toString()).push(context);
         } else {
           // Navigasi default untuk notifikasi lain
           await NotificationDetailRoute(idNotif: notif.id)

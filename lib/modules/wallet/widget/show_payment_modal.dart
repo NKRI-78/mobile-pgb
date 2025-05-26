@@ -129,7 +129,7 @@ void showPaymentModal(BuildContext context) {
                                   var paymentNumber =
                                       await cubit.topUpWallet(context);
                                   if (context.mounted) {
-                                    WaitingPaymentRoute(
+                                    WaitingPaymentV2Route(
                                             id: paymentNumber.toString())
                                         .go(context);
                                   }

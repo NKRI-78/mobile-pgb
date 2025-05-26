@@ -100,7 +100,7 @@ class CheckoutView extends StatelessWidget {
                                             var paymentNumber =
                                                 await cubit.checkoutItem();
                                             if (context.mounted) {
-                                              WaitingPaymentRoute(
+                                              WaitingPaymentV2Route(
                                                       id: paymentNumber)
                                                   .go(context);
                                             }

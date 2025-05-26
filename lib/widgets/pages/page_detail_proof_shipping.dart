@@ -24,10 +24,10 @@ class PageDetailProofShipping extends StatelessWidget {
               alignment: Alignment.topLeft,
               child: Container(
                 height: 130,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 25, vertical: 30),
-                decoration:
-                    BoxDecoration(color: AppColors.blackColor.withOpacity(0.5)),
+                padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 30),
+                decoration: BoxDecoration(
+                  color: AppColors.blackColor.withValues(alpha: 0.5)
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
