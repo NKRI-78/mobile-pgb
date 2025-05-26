@@ -135,7 +135,11 @@ class HomeView extends StatelessWidget {
                               size: 28,
                             ),
                             onPressed: () {
-                              NotificationRoute().go(context);
+                              if (isLoggedIn) {
+                                NotificationRoute().go(context);
+                              } else {
+                                RegisterRoute().go(context);
+                              }
                             },
                           ),
                         );

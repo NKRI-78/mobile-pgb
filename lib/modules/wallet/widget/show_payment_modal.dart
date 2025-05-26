@@ -200,24 +200,40 @@ Widget _buildDetailRow(String title, String value, {bool isBold = false}) {
 // Fungsi untuk membangun baris detail transaksi dengan gambar (untuk bank)
 Widget _buildDetailRowWithImage(
     String title, String? imageUrl, String? bankName) {
+  final isGoPay = (bankName?.toLowerCase().contains("gopay") ?? false);
+
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text(title,
-          style: AppTextStyles.textStyleNormal.copyWith(
-            color: AppColors.greyColor,
-          )),
+      Text(
+        title,
+        style: AppTextStyles.textStyleNormal.copyWith(
+          color: AppColors.greyColor,
+        ),
+      ),
       imageUrl != null && imageUrl.isNotEmpty
-          ? Image.network(
-              imageUrl,
-              height: 40,
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Image.network(
+                  imageUrl,
+                  height: 40,
+                ),
+                if (isGoPay)
+                  Text(
+                    bankName ?? '',
+                    style: AppTextStyles.textStyleNormal,
+                  ),
+              ],
             )
           : Text(
               bankName != null && bankName.isNotEmpty
                   ? bankName
                   : "Metode pembayaran belum dipilih",
-              style: const TextStyle(
-                  fontSize: 14, fontStyle: FontStyle.italic, color: Colors.red),
+              style: AppTextStyles.textStyleNormal.copyWith(
+                color: AppColors.redColor,
+              ),
             ),
     ],
   );

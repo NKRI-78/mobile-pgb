@@ -38,29 +38,52 @@ class EventDetailCubit extends Cubit<EventDetailState> {
     }
   }
 
-  Future<void> toggleJoinStatus(BuildContext context) async {
+  Future<void> joinEvent(BuildContext context) async {
+    // Cegah join ulang
+    if (state.isJoined) return;
+
     try {
       await repo.jointEvent(idEvent: state.idEvent.toString());
 
-      final newStatus = !state.isJoined;
-
-      emit(state.copyWith(isJoined: newStatus));
+      emit(state.copyWith(isJoined: true));
 
       ShowSnackbar.snackbar(
         context,
-        newStatus
-            ? "Berhasil bergabung dengan event"
-            : "Berhasil keluar dari event",
+        "Berhasil bergabung dengan event",
         isSuccess: true,
       );
     } catch (e) {
       ShowSnackbar.snackbar(
         context,
-        "Gagal mengubah status event",
+        "Gagal bergabung dengan event",
         isSuccess: false,
       );
     }
   }
+
+  // Future<void> toggleJoinStatus(BuildContext context) async {
+  //   try {
+  //     await repo.jointEvent(idEvent: state.idEvent.toString());
+
+  //     final newStatus = !state.isJoined;
+
+  //     emit(state.copyWith(isJoined: newStatus));
+
+  //     ShowSnackbar.snackbar(
+  //       context,
+  //       newStatus
+  //           ? "Berhasil bergabung dengan event"
+  //           : "Berhasil keluar dari event",
+  //       isSuccess: true,
+  //     );
+  //   } catch (e) {
+  //     ShowSnackbar.snackbar(
+  //       context,
+  //       "Gagal mengubah status event",
+  //       isSuccess: false,
+  //     );
+  //   }
+  // }
 
   @override
   Future<void> close() {

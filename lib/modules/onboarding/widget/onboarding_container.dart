@@ -26,7 +26,7 @@ class OnboardingContainer extends StatelessWidget {
     // double screenWidth = MediaQuery.of(context).size.width;
 
     // Menentukan tinggi kontainer agar responsif
-    double containerHeight = screenHeight * 0.4;
+    double containerHeight = screenHeight * 0.38;
     // double containerWidth = screenWidth * 0.9;
 
     return SizedBox(
@@ -80,7 +80,7 @@ class OnboardingContainer extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: currentIndex == index
                             ? AppColors.secondaryColor
-                            : AppColors.greyColor,
+                            : AppColors.greyColor.withValues(alpha: 0.4),
                         borderRadius: BorderRadius.circular(6),
                       ),
                     ),

@@ -74,15 +74,16 @@ class EventDetailView extends StatelessWidget {
             child: state.loading
                 ? SizedBox.shrink()
                 : CustomButton(
-                    onPressed: () async {
-                      await context
-                          .read<EventDetailCubit>()
-                          .toggleJoinStatus(context);
-                    },
-                    text: state.isJoined ? "Unjoin" : "Join",
-                    backgroundColour: state.isJoined
-                        ? AppColors.redColor
-                        : AppColors.secondaryColor,
+                    onPressed: state.isJoined
+                        ? null
+                        : () async {
+                            await context
+                                .read<EventDetailCubit>()
+                                .joinEvent(context);
+                          },
+                    text: state.isJoined ? "Sudah Bergabung" : "Bergabung",
+                    backgroundColour:
+                        state.isJoined ? Colors.grey : AppColors.secondaryColor,
                     textColour: AppColors.whiteColor,
                   ),
           ),

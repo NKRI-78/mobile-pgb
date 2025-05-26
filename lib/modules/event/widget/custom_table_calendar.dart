@@ -163,21 +163,12 @@ class _CustomTableCalendarState extends State<CustomTableCalendar> {
             markerBuilder: (context, date, events) {
               if (events.isNotEmpty) {
                 return Positioned(
-                  right: 3,
-                  bottom: -1,
-                  child: Container(
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      color: AppColors.whiteColor,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Text(
-                      '${events.length}',
-                      style: AppTextStyles.textStyleNormal.copyWith(
-                        color: AppColors.blackColor,
-                        fontSize: 8,
-                      ),
-                    ),
+                  right: 4,
+                  top: 2,
+                  child: Icon(
+                    Icons.star_border_outlined,
+                    color: AppColors.yellowColor,
+                    size: 12,
                   ),
                 );
               }

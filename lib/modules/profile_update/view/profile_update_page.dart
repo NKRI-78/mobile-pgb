@@ -233,7 +233,7 @@ class _ImagePickerBottomSheet extends StatelessWidget {
     return Wrap(
       children: [
         ListTile(
-          leading: Icon(Icons.image, color: AppColors.buttonBlueColor),
+          leading: Icon(Icons.image, color: AppColors.secondaryColor),
           title: Text("Pilih dari Galeri"),
           onTap: () => _pickImage(context, ImageSource.gallery),
         ),
