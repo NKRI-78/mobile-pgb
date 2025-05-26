@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:mobile_pgb/misc/api_url.dart';
-import 'package:mobile_pgb/misc/http_client.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/misc/pagination.dart';
-import 'package:mobile_pgb/repositories/oder_repository/models/need_riview_model.dart';
-import 'package:mobile_pgb/repositories/oder_repository/models/order_model.dart';
-import 'package:mobile_pgb/repositories/oder_repository/models/tracking_model.dart';
-import 'package:mobile_pgb/repositories/oder_repository/models/waiting_payment_model.dart';
+import '../../misc/api_url.dart';
+import '../../misc/http_client.dart';
+import '../../misc/injections.dart';
+import '../../misc/pagination.dart';
+import 'models/need_riview_model.dart';
+import 'models/order_model.dart';
+import 'models/tracking_model.dart';
+import 'models/waiting_payment_model.dart';
 
 class OrderRepository {
   String get order => '${MyApi.baseUrl}/api/v1/order';
@@ -20,7 +20,8 @@ class OrderRepository {
   Future<PaginationModel<OrderModel>> getOrderStatus(
       {String status = "", int page = 0}) async {
     try {
-      final res = await http.get(Uri.parse('$order/user/my-order?page=$page&status=$status'));
+      final res = await http
+          .get(Uri.parse('$order/user/my-order?page=$page&status=$status'));
       print('$order/user/my-order?page=$page&status=$status');
       final json = jsonDecode(res.body);
       if (res.statusCode == 200) {
@@ -28,8 +29,7 @@ class OrderRepository {
         var list = (json['data']['data'] as List)
             .map((e) => OrderModel.fromJson(e))
             .toList();
-        return PaginationModel<OrderModel>(
-            pagination: pagination, list: list);
+        return PaginationModel<OrderModel>(pagination: pagination, list: list);
       } else {
         throw json['message'] ?? "Terjadi kesalahan";
       }
@@ -39,7 +39,6 @@ class OrderRepository {
   }
 
   Future<List<WaitingPaymentModel>> getPayment() async {
-
     try {
       final res = await http.get(Uri.parse(payment));
 
@@ -70,7 +69,7 @@ class OrderRepository {
       }
     } on SocketException {
       throw "Terjadi kesalahan jaringan";
-    } catch(e) {
+    } catch (e) {
       rethrow;
     }
   }
@@ -90,7 +89,7 @@ class OrderRepository {
       }
     } on SocketException {
       throw "Terjadi kesalahan jaringan";
-    } catch(e) {
+    } catch (e) {
       rethrow;
     }
   }
@@ -103,15 +102,18 @@ class OrderRepository {
   }) async {
     try {
       final body = jsonEncode({
-        "message": message, 
+        "message": message,
         "rating": rating,
         "images": images,
       });
       debugPrint(body);
       debugPrint('$order/user/rating/$idOrder');
 
-      final res = await http.post(Uri.parse('$order/user/rating/$idOrder'), body: body, headers: {'Content-Type': 'application/json',});
-      
+      final res = await http
+          .post(Uri.parse('$order/user/rating/$idOrder'), body: body, headers: {
+        'Content-Type': 'application/json',
+      });
+
       debugPrint(res.body);
 
       final json = jsonDecode(res.body);
@@ -125,5 +127,4 @@ class OrderRepository {
       rethrow;
     }
   }
-  
 }

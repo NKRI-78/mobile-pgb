@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/misc/snackbar.dart';
-import 'package:mobile_pgb/modules/list_address/cubit/list_address_cubit.dart';
-import 'package:mobile_pgb/repositories/checkout_repository/checkout_repository.dart';
-import 'package:mobile_pgb/repositories/checkout_repository/models/detail_address_model.dart';
-import 'package:mobile_pgb/widgets/map/custom_select_location.dart';
+import '../../../misc/injections.dart';
+import '../../../misc/snackbar.dart';
+import '../../list_address/cubit/list_address_cubit.dart';
+import '../../../repositories/checkout_repository/checkout_repository.dart';
+import '../../../repositories/checkout_repository/models/detail_address_model.dart';
+import '../../../widgets/map/custom_select_location.dart';
 
 part 'update_shipping_address_state.dart';
 
@@ -23,16 +23,15 @@ class UpdateShippingAddressCubit extends Cubit<UpdateShippingAddressState> {
 
   CheckoutRepository repo = CheckoutRepository();
 
-   bool submissionValidation({
-    required String name,
-    required String phone,
-    required String label,
-    required String city,
-    required String postalCode,
-    required String district,
-    required String province,
-    required String currentAddress
-  }) {
+  bool submissionValidation(
+      {required String name,
+      required String phone,
+      required String label,
+      required String city,
+      required String postalCode,
+      required String district,
+      required String province,
+      required String currentAddress}) {
     if (name == "") {
       throw 'Harap Masukkan Nama Penerima';
     } else if (phone.length < 10) {
@@ -73,11 +72,11 @@ class UpdateShippingAddressCubit extends Cubit<UpdateShippingAddressState> {
         currentAddress: detailAddress.address?.detailAddress ?? "",
         loading: false,
       ));
-    }on SocketException {
+    } on SocketException {
       throw "Terjadi kesalahan jaringan";
-    } catch(e) {
+    } catch (e) {
       rethrow;
-    }  finally {
+    } finally {
       emit(state.copyWith(loading: false));
     }
   }
@@ -86,42 +85,32 @@ class UpdateShippingAddressCubit extends Cubit<UpdateShippingAddressState> {
     emit(newState);
   }
 
-  Future<void> updateCurrentPositionCheckIn(BuildContext context, double lat, double lng) async {
+  Future<void> updateCurrentPositionCheckIn(
+      BuildContext context, double lat, double lng) async {
     try {
-      googleMapCheckIn?.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(
-            target: LatLng(lat, lng),
-            zoom: 15.0
-          )
-        )
-      );
-    } catch(e, stacktrace) {
+      googleMapCheckIn?.animateCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(lat, lng), zoom: 15.0)));
+    } catch (e, stacktrace) {
       debugPrint(stacktrace.toString());
     }
   }
 
   void setAreaCurrent(GoogleMapController mapController) async {
     Geolocator.requestPermission();
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.low);
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark place = placemarks[0];
-    
 
     emit(state.copyWith(
-      latitude: position.latitude, 
+      latitude: position.latitude,
       longitude: position.longitude,
       // currentAddress: "${place.thoroughfare} ${place.subThoroughfare} ${place.locality}, ${place.postalCode}"
     ));
     print("Lat cubit ${state.latitude}");
-    mapController.animateCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: LatLng(state.latitude, state.longitude),
-          zoom: 15.0
-        )
-      )
-    );
+    mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target: LatLng(state.latitude, state.longitude), zoom: 15.0)));
 
     // mapController.moveCamera(CameraUpdate.newLatLng(LatLng(position.latitude, position.longitude)));
     // mapController.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(state.latitude, state.longitude), zoom: 15.0,)));
@@ -148,13 +137,12 @@ class UpdateShippingAddressCubit extends Cubit<UpdateShippingAddressState> {
     ));
   }
 
-  Future<void> submit({
-    required BuildContext context,
-    required String name,
-    required String phoneNumber,
-    required String label,
-    required String currentAddress
-  }) async {
+  Future<void> submit(
+      {required BuildContext context,
+      required String name,
+      required String phoneNumber,
+      required String label,
+      required String currentAddress}) async {
     try {
       emit(state.copyWith(loading: true));
       final bool isClear = submissionValidation(
@@ -167,7 +155,7 @@ class UpdateShippingAddressCubit extends Cubit<UpdateShippingAddressState> {
         postalCode: state.postalCode,
         province: state.province,
       );
-      if(isClear){
+      if (isClear) {
         await repo.updateAddress(
           id: state.idAddress,
           name: name,
@@ -186,7 +174,9 @@ class UpdateShippingAddressCubit extends Cubit<UpdateShippingAddressState> {
       }
       Future.delayed(Duration.zero, () {
         Navigator.pop(context);
-        ShowSnackbar.snackbar(context, "Berhasil ${state.idAddress == null ? "Tambah" : "Ubah"} alamat", isSuccess: true);
+        ShowSnackbar.snackbar(context,
+            "Berhasil ${state.idAddress == null ? "Tambah" : "Ubah"} alamat",
+            isSuccess: true);
         getIt<ListAddressCubit>().refreshAddress();
       });
     } catch (e) {

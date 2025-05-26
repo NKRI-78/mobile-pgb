@@ -28,146 +28,151 @@ class _CardReplyState extends State<CardReply> {
     final userId = getIt<AppBloc>().state.user?.id;
     final user = widget.comment?.user;
     return BlocBuilder<ForumDetailCubit, ForumDetailState>(
-        builder: (context, state) {
-      return Padding(
-        key: GlobalObjectKey(widget.comment?.id ?? 0),
-        padding: const EdgeInsets.only(bottom: 5, top: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: InkWell(
-                      onTap: () {},
-                      child: ImageAvatar(
-                          image: widget.comment?.user?.profile.avatarLink ?? "",
-                          radius: 18)),
-                ),
-                Expanded(
-                    flex: 4,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0, vertical: 8),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(15)),
-                              color: widget.comment?.id == state.lastIdComment
-                                  ? AppColors.secondaryColor
-                                  : AppColors.greyColor.withOpacity(0.3)),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    flex: 5,
-                                    child: Text(
-                                      user?.profile == null
-                                          ? user?.profile.fullname ?? ""
-                                          : user?.profile.fullname ?? "",
-                                      style: TextStyle(
-                                          color: widget.comment?.id ==
-                                                  state.lastIdComment
-                                              ? AppColors.whiteColor
-                                              : AppColors.blackColor,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold),
+      builder: (context, state) {
+        return Padding(
+          key: GlobalObjectKey(widget.comment?.id ?? 0),
+          padding: const EdgeInsets.only(bottom: 5, top: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: InkWell(
+                        onTap: () {},
+                        child: ImageAvatar(
+                            image:
+                                widget.comment?.user?.profile.avatarLink ?? "",
+                            radius: 18)),
+                  ),
+                  Expanded(
+                      flex: 4,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 8),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(15)),
+                                color: widget.comment?.id == state.lastIdComment
+                                    ? AppColors.secondaryColor
+                                    : AppColors.greyColor.withOpacity(0.3)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      flex: 5,
+                                      child: Text(
+                                        user?.profile == null
+                                            ? user?.profile.fullname ?? ""
+                                            : user?.profile.fullname ?? "",
+                                        style: TextStyle(
+                                            color: widget.comment?.id ==
+                                                    state.lastIdComment
+                                                ? AppColors.whiteColor
+                                                : AppColors.blackColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    width: 16,
-                                  ),
-                                ],
+                                    const SizedBox(
+                                      width: 16,
+                                    ),
+                                  ],
+                                ),
+                                DetectText(
+                                    text: widget.comment?.comment ?? "",
+                                    colorText: widget.comment?.id ==
+                                            state.lastIdComment
+                                        ? AppColors.whiteColor
+                                        : AppColors.blackColor),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                timeago.format(
+                                  widget.comment!.createdAt != null
+                                      ? DateTime.parse(
+                                          widget.comment!.createdAt!)
+                                      : DateTime.now(),
+                                  locale: 'id',
+                                ),
+                                style: const TextStyle(
+                                  color: AppColors.greyColor,
+                                  fontSize: 12,
+                                ),
                               ),
-                              DetectText(
-                                  text: widget.comment?.comment ?? "",
-                                  colorText:
-                                      widget.comment?.id == state.lastIdComment
-                                          ? AppColors.whiteColor
-                                          : AppColors.blackColor),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    int commentId = 0;
+                                    commentId = widget.comment?.commentId ?? 0;
+                                    FocusScope.of(context)
+                                        .requestFocus(widget.focusNode);
+                                    SystemChannels.textInput
+                                        .invokeMethod("TextInput.show");
+
+                                    if ((widget.comment?.userId ?? 0) ==
+                                        userId) {
+                                      commentKey
+                                          .currentState!.controller!.text = "";
+                                    } else {
+                                      final mentionName = user?.username ??
+                                          user?.profile.fullname
+                                              .split(' ')
+                                              .first ??
+                                          '';
+                                      commentKey.currentState!.controller!
+                                          .text = "@$mentionName ";
+                                    }
+
+                                    var cubit =
+                                        context.read<ForumDetailCubit>();
+                                    cubit.copyState(
+                                        newState: cubit.state.copyWith(
+                                      commentId: commentId,
+                                    ));
+                                    debugPrint("Id Comment ${state.commentId}");
+                                  });
+                                },
+                                child: const Text(
+                                  "Balas",
+                                  style: TextStyle(
+                                      color: AppColors.greyColor,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w800),
+                                ),
+                              ),
                             ],
                           ),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              timeago.format(
-                                widget.comment!.createdAt != null
-                                    ? DateTime.parse(widget.comment!.createdAt!)
-                                    : DateTime.now(),
-                                locale: 'id',
-                              ),
-                              style: const TextStyle(
-                                color: AppColors.greyColor,
-                                fontSize: 12,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  int commentId = 0;
-                                  commentId = widget.comment?.commentId ?? 0;
-                                  FocusScope.of(context)
-                                      .requestFocus(widget.focusNode);
-                                  SystemChannels.textInput
-                                      .invokeMethod("TextInput.show");
-
-                                  if ((widget.comment?.userId ?? 0) == userId) {
-                                    commentKey.currentState!.controller!.text =
-                                        "";
-                                  } else {
-                                    final mentionName = user?.username ??
-                                        user?.profile.fullname
-                                            .split(' ')
-                                            .first ??
-                                        '';
-                                    commentKey.currentState!.controller!.text =
-                                        "@$mentionName ";
-                                  }
-
-                                  var cubit = context.read<ForumDetailCubit>();
-                                  cubit.copyState(
-                                      newState: cubit.state.copyWith(
-                                    commentId: commentId,
-                                  ));
-                                  debugPrint("Id Comment ${state.commentId}");
-                                });
-                              },
-                              child: const Text(
-                                "Balas",
-                                style: TextStyle(
-                                    color: AppColors.greyColor,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w800),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    )),
-              ],
-            ),
-          ],
-        ),
-      );
-    });
+                        ],
+                      )),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

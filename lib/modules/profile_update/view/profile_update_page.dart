@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile_pgb/misc/snackbar.dart';
-import 'package:mobile_pgb/misc/theme.dart';
-import 'package:mobile_pgb/modules/profile_update/cubit/profile_update_cubit.dart';
-import 'package:mobile_pgb/widgets/button/custom_button.dart';
+import '../../../misc/snackbar.dart';
+import '../../../misc/theme.dart';
+import '../cubit/profile_update_cubit.dart';
+import '../../../widgets/button/custom_button.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';

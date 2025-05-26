@@ -138,20 +138,15 @@ class ForumListSection extends StatelessWidget {
             // Komentar Forum
             forums.forumComment!.isEmpty
                 ? Container()
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: forums.forumComment!
-                        .map(
-                          (e) => InkWell(
-                              onTap: () {
-                                ForumDetailRoute(idForum: e.forumId.toString())
-                                    .go(context);
-                              },
-                              child: CommentForum(
-                                comment: e,
-                              )),
-                        )
-                        .toList(),
+                : InkWell(
+                    onTap: () {
+                      ForumDetailRoute(
+                        idForum: forums.forumComment!.first.forumId.toString(),
+                      ).go(context);
+                    },
+                    child: CommentForum(
+                      comment: forums.forumComment!.first,
+                    ),
                   ),
 
             // Divider

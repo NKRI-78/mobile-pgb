@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mobile_pgb/misc/http_client.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/repositories/google_map_api_repository/src/models/place_autocomplete.dart';
+import '../../../misc/http_client.dart';
+import '../../../misc/injections.dart';
+import 'models/place_autocomplete.dart';
 
 class GoogleMapApiRepository {
   GoogleMapApiRepository();

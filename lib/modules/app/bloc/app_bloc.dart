@@ -4,8 +4,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mobile_pgb/repositories/cart_repository/cart_repository.dart';
-import 'package:mobile_pgb/repositories/cart_repository/models/cart_count_model.dart';
+import '../../../repositories/cart_repository/cart_repository.dart';
+import '../../../repositories/cart_repository/models/cart_count_model.dart';
 import '../../../misc/http_client.dart';
 import '../../../misc/injections.dart';
 import '../../../repositories/auth_repository/models/user_model.dart';
@@ -24,6 +24,7 @@ part 'app_state.dart';
 class AppBloc extends HydratedBloc<AppEvent, AppState> {
   AppBloc() : super(AppInitial()) {
     on<InitialAppData>(_onInitialAppData);
+    on<FinishOnboarding>(_onFinishOnboarding);
     on<SetUserLogout>(_onSetUserLogout);
     on<SetUserData>(_onSetUserData);
     on<GetBadgeNotif>(_onGetBadgeNotif);
@@ -55,6 +56,11 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     add(GetBadgeNotif());
     add(GetProfileData());
     //
+  }
+
+  FutureOr<void> _onFinishOnboarding(
+      FinishOnboarding event, Emitter<AppState> emit) {
+    emit(state.copyWith(alreadyOnboarding: true));
   }
 
   FutureOr<void> _onSetUserData(SetUserData event, Emitter<AppState> emit) {

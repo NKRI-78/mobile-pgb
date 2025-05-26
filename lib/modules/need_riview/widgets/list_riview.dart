@@ -3,13 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/misc/colors.dart';
-import 'package:mobile_pgb/misc/snackbar.dart';
-import 'package:mobile_pgb/misc/theme.dart';
-import 'package:mobile_pgb/modules/need_riview/cubit/need_riview_cubit.dart';
-import 'package:mobile_pgb/repositories/oder_repository/models/need_riview_model.dart';
-import 'package:mobile_pgb/widgets/button/custom_button.dart';
-import 'package:mobile_pgb/widgets/image/image_card.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/snackbar.dart';
+import '../../../misc/theme.dart';
+import '../cubit/need_riview_cubit.dart';
+import '../../../repositories/oder_repository/models/need_riview_model.dart';
+import '../../../widgets/button/custom_button.dart';
+import '../../../widgets/image/image_card.dart';
 
 class ListRiview extends StatelessWidget {
   const ListRiview({super.key, this.e});
@@ -73,7 +73,9 @@ class ListRiview extends StatelessWidget {
               filledIcon: Icons.star,
               emptyIcon: Icons.star_border,
               onRatingChanged: (value) {
-                context.read<NeedRiviewCubit>().updateRating(e?.id.toString() ?? "0", value.toInt());
+                context
+                    .read<NeedRiviewCubit>()
+                    .updateRating(e?.id.toString() ?? "0", value.toInt());
               },
               initialRating: 0,
               maxRating: 5,
@@ -101,7 +103,9 @@ class ListRiview extends StatelessWidget {
                     maxLines: 5,
                     cursorColor: AppColors.blackColor,
                     onChanged: (value) {
-                      context.read<NeedRiviewCubit>().setMessage(e?.id.toString() ?? "", value);
+                      context
+                          .read<NeedRiviewCubit>()
+                          .setMessage(e?.id.toString() ?? "", value);
                     },
                     keyboardType: TextInputType.text,
                     inputFormatters: [
@@ -112,7 +116,8 @@ class ListRiview extends StatelessWidget {
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 12.0, horizontal: 15.0),
                       isDense: true,
-                      hintStyle: TextStyle(color: AppColors.greyColor.withValues(alpha: 0.8)),
+                      hintStyle: TextStyle(
+                          color: AppColors.greyColor.withValues(alpha: 0.8)),
                       focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey, width: 0.5),
                       ),
@@ -130,19 +135,22 @@ class ListRiview extends StatelessWidget {
                   final file = entry.value;
                   return Stack(
                     children: [
-                      Image.file(file, width: 100, height: 100, fit: BoxFit.cover),
+                      Image.file(file,
+                          width: 100, height: 100, fit: BoxFit.cover),
                       Positioned(
                         top: 10,
                         right: 10,
                         child: GestureDetector(
-                          onTap: () => context.read<NeedRiviewCubit>().removeImage(e?.id.toString() ?? "0", 'gallery', index),
+                          onTap: () => context
+                              .read<NeedRiviewCubit>()
+                              .removeImage(
+                                  e?.id.toString() ?? "0", 'gallery', index),
                           child: Container(
-                            decoration: const BoxDecoration(
-                              color: AppColors.redColor,
-                              shape: BoxShape.circle
-                            ),
-                            child: const Icon(Icons.close, size: 20, color: AppColors.primaryColor)
-                          ),
+                              decoration: const BoxDecoration(
+                                  color: AppColors.redColor,
+                                  shape: BoxShape.circle),
+                              child: const Icon(Icons.close,
+                                  size: 20, color: AppColors.primaryColor)),
                         ),
                       )
                     ],
@@ -150,7 +158,9 @@ class ListRiview extends StatelessWidget {
                 }),
                 if (files.length < 3)
                   GestureDetector(
-                    onTap: () => context.read<NeedRiviewCubit>().uploadImg(context, e?.id.toString() ?? "0", 'gallery', max: 3),
+                    onTap: () => context.read<NeedRiviewCubit>().uploadImg(
+                        context, e?.id.toString() ?? "0", 'gallery',
+                        max: 3),
                     child: Container(
                       width: 100,
                       height: 100,
@@ -160,25 +170,30 @@ class ListRiview extends StatelessWidget {
                   ),
               ],
             ),
-
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
-              child:  CustomButton(
-                  onPressed: st.loadingSubmit ? null : () {
-                    if (rating == null || rating == 0) {
-                      ShowSnackbar.snackbar(context,"Rating bintang harus diisi", isSuccess: false);
-                    } else {
-                      try {
-                        if (context.mounted) {
-                          context.read<NeedRiviewCubit>().userRating(e?.id.toString() ?? "", context);
-                        }
-                      } catch (e) {
-                        if (context.mounted) {
-                          ShowSnackbar.snackbar(context, e.toString(), isSuccess: false);
-                        }
-                      }
-                    }
-                  },
+              child: CustomButton(
+                  onPressed: st.loadingSubmit
+                      ? null
+                      : () {
+                          if (rating == null || rating == 0) {
+                            ShowSnackbar.snackbar(
+                                context, "Rating bintang harus diisi",
+                                isSuccess: false);
+                          } else {
+                            try {
+                              if (context.mounted) {
+                                context.read<NeedRiviewCubit>().userRating(
+                                    e?.id.toString() ?? "", context);
+                              }
+                            } catch (e) {
+                              if (context.mounted) {
+                                ShowSnackbar.snackbar(context, e.toString(),
+                                    isSuccess: false);
+                              }
+                            }
+                          }
+                        },
                   backgroundColour: AppColors.secondaryColor,
                   textColour: AppColors.whiteColor,
                   text: "Beri Penilaian"),

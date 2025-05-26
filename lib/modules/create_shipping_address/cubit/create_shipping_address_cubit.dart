@@ -6,15 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mobile_pgb/misc/colors.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/misc/snackbar.dart';
-import 'package:mobile_pgb/modules/checkout/cubit/checkout_cubit.dart';
-import 'package:mobile_pgb/modules/list_address/cubit/list_address_cubit.dart';
-import 'package:mobile_pgb/repositories/checkout_repository/checkout_repository.dart';
-import 'package:mobile_pgb/repositories/checkout_repository/models/detail_address_model.dart';
-import 'package:mobile_pgb/repositories/list_address_repository/list_address_repository.dart';
-import 'package:mobile_pgb/widgets/map/custom_select_location.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
+import '../../../misc/snackbar.dart';
+import '../../checkout/cubit/checkout_cubit.dart';
+import '../../list_address/cubit/list_address_cubit.dart';
+import '../../../repositories/checkout_repository/checkout_repository.dart';
+import '../../../repositories/checkout_repository/models/detail_address_model.dart';
+import '../../../repositories/list_address_repository/list_address_repository.dart';
+import '../../../widgets/map/custom_select_location.dart';
 
 part 'create_shipping_address_state.dart';
 
@@ -31,16 +31,15 @@ class CreateShippingAddressCubit extends Cubit<CreateShippingAddressState> {
     emit(newState);
   }
 
-  bool submissionValidation({
-    required String name,
-    required String phone,
-    required String label,
-    required String city,
-    required String postalCode,
-    required String district,
-    required String province,
-    required String currentAddress
-  }) {
+  bool submissionValidation(
+      {required String name,
+      required String phone,
+      required String label,
+      required String city,
+      required String postalCode,
+      required String district,
+      required String province,
+      required String currentAddress}) {
     if (name == "") {
       throw 'Harap Masukkan Nama Penerima';
     } else if (phone.length < 10) {
@@ -62,42 +61,32 @@ class CreateShippingAddressCubit extends Cubit<CreateShippingAddressState> {
     return true;
   }
 
-  Future<void> updateCurrentPositionCheckIn(BuildContext context, double lat, double lng) async {
+  Future<void> updateCurrentPositionCheckIn(
+      BuildContext context, double lat, double lng) async {
     try {
-      googleMapCheckIn?.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(
-            target: LatLng(lat, lng),
-            zoom: 15.0
-          )
-        )
-      );
-    } catch(e, stacktrace) {
+      googleMapCheckIn?.animateCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(lat, lng), zoom: 15.0)));
+    } catch (e, stacktrace) {
       debugPrint(stacktrace.toString());
     }
   }
 
   void setAreaCurrent(GoogleMapController mapController) async {
     Geolocator.requestPermission();
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.low);
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark place = placemarks[0];
-    
 
     emit(state.copyWith(
-      latitude: position.latitude, 
-      longitude: position.longitude,
-      currentAddress: "${place.thoroughfare} ${place.subThoroughfare} ${place.locality}, ${place.postalCode}"
-    ));
+        latitude: position.latitude,
+        longitude: position.longitude,
+        currentAddress:
+            "${place.thoroughfare} ${place.subThoroughfare} ${place.locality}, ${place.postalCode}"));
     print("Lat cubit ${state.latitude}");
-    mapController.animateCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: LatLng(state.latitude, state.longitude),
-          zoom: 15.0
-        )
-      )
-    );
+    mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target: LatLng(state.latitude, state.longitude), zoom: 15.0)));
 
     // mapController.moveCamera(CameraUpdate.newLatLng(LatLng(position.latitude, position.longitude)));
     // mapController.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(state.latitude, state.longitude), zoom: 15.0,)));
@@ -140,7 +129,7 @@ class CreateShippingAddressCubit extends Cubit<CreateShippingAddressState> {
         postalCode: state.postalCode,
         province: state.province,
       );
-      if(isClear){
+      if (isClear) {
         idNewAddress = await repo.createAddress(
           name: state.nameAddress,
           phoneNumber: state.phoneNumber,
@@ -155,13 +144,14 @@ class CreateShippingAddressCubit extends Cubit<CreateShippingAddressState> {
           postalCode: state.postalCode,
           subDistrict: state.subDistrict,
         );
-      } 
+      }
 
       await addressRepo.selectMainAddress(idNewAddress.toString());
 
       Future.delayed(Duration.zero, () {
         Navigator.pop(context);
-        ShowSnackbar.snackbar(context, "Berhasil Tambah alamat", isSuccess: true);
+        ShowSnackbar.snackbar(context, "Berhasil Tambah alamat",
+            isSuccess: true);
         getIt<ListAddressCubit>().refreshAddress();
         getIt<CheckoutCubit>().getShippingMain();
       });

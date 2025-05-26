@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/snackbar.dart';
 import '../../../repositories/auth_repository/auth_repository.dart';
+import '../../../repositories/event_repository/models/event_model.dart';
 import '../../../router/builder.dart';
 import '../model/extrack_ktp_model.dart';
 
@@ -134,6 +135,7 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
           villageUnit: state.ktpModel?.villageUnit,
         ),
       );
+      // emit(state.copyWith(user: user, token: token));
 
       if (context.mounted) {
         RegisterOtpRoute(

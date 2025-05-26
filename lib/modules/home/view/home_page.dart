@@ -44,6 +44,7 @@ class HomeView extends StatelessWidget {
 
         return BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
+            print("CEK USER ${appState.user}");
             print("CEK EMAIL VERIF ${isVerified}");
             return Scaffold(
               backgroundColor: AppColors.primaryColor,

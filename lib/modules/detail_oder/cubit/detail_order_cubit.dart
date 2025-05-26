@@ -5,10 +5,10 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile_pgb/misc/snackbar.dart';
-import 'package:mobile_pgb/repositories/create_forum_repository/create_forum_repository.dart';
-import 'package:mobile_pgb/repositories/detail_order_repository/detail_order_repository.dart';
-import 'package:mobile_pgb/repositories/detail_order_repository/models/detail_order_model.dart';
+import '../../../misc/snackbar.dart';
+import '../../../repositories/create_forum_repository/create_forum_repository.dart';
+import '../../../repositories/detail_order_repository/detail_order_repository.dart';
+import '../../../repositories/detail_order_repository/models/detail_order_model.dart';
 import 'package:multi_image_picker_plus/multi_image_picker_plus.dart';
 import 'package:photo_manager/photo_manager.dart';
 
@@ -36,7 +36,10 @@ class DetailOrderCubit extends Cubit<DetailOrderState> {
     try {
       emit(state.copyWith(loading: true));
       final detailOrder = await repo.getDetailOrder(productId);
-      emit(state.copyWith(detailOrder: detailOrder, initIndex: initIndex, idOrder: int.parse(productId)));
+      emit(state.copyWith(
+          detailOrder: detailOrder,
+          initIndex: initIndex,
+          idOrder: int.parse(productId)));
     } on SocketException {
       throw "Terjadi kesalahan jaringan";
     } finally {
@@ -61,28 +64,28 @@ class DetailOrderCubit extends Cubit<DetailOrderState> {
   }
 
   Future<void> uploadImg(BuildContext context, String produkId) async {
-  ImageSource? imageSource = await showDialog<ImageSource>(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: const Text("Choose Image"),
-      actions: [
-        TextButton(
-          child: const Text("Camera"),
-          onPressed: () => Navigator.pop(context, ImageSource.camera),
-        ),
-        TextButton(
-          child: const Text("Gallery"),
-          onPressed: () => Navigator.pop(context, ImageSource.gallery),
-        ),
-      ],
-    ),
-  );
+    ImageSource? imageSource = await showDialog<ImageSource>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Choose Image"),
+        actions: [
+          TextButton(
+            child: const Text("Camera"),
+            onPressed: () => Navigator.pop(context, ImageSource.camera),
+          ),
+          TextButton(
+            child: const Text("Gallery"),
+            onPressed: () => Navigator.pop(context, ImageSource.gallery),
+          ),
+        ],
+      ),
+    );
 
-  if (imageSource == null) return;
+    if (imageSource == null) return;
 
-  final updatedMap = Map<String, List<File>>.from(state.pickedFile);
+    final updatedMap = Map<String, List<File>>.from(state.pickedFile);
 
-  if (imageSource == ImageSource.camera) {
+    if (imageSource == ImageSource.camera) {
       final XFile? xf = await ImagePicker().pickImage(
         source: ImageSource.camera,
         imageQuality: 80,
@@ -109,7 +112,8 @@ class DetailOrderCubit extends Cubit<DetailOrderState> {
         onlyAll: true,
       );
 
-      List<AssetEntity> photos = await albums.first.getAssetListPaged(page: 0, size: 100);
+      List<AssetEntity> photos =
+          await albums.first.getAssetListPaged(page: 0, size: 100);
 
       // Tampilkan dialog untuk memilih beberapa gambar
       final selectedAssets = await showDialog<List<AssetEntity>>(
@@ -120,12 +124,16 @@ class DetailOrderCubit extends Cubit<DetailOrderState> {
             return SimpleDialogOption(
               onPressed: () => Navigator.pop(ctx, [asset]),
               child: FutureBuilder<Uint8List?>(
-                future: asset.thumbnailDataWithSize(const ThumbnailSize(100, 100)),
+                future:
+                    asset.thumbnailDataWithSize(const ThumbnailSize(100, 100)),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return Image.memory(snapshot.data!, height: 80, fit: BoxFit.cover);
+                    return Image.memory(snapshot.data!,
+                        height: 80, fit: BoxFit.cover);
                   } else {
-                    return const SizedBox(height: 80, child: Center(child: CircularProgressIndicator()));
+                    return const SizedBox(
+                        height: 80,
+                        child: Center(child: CircularProgressIndicator()));
                   }
                 },
               ),
@@ -150,13 +158,13 @@ class DetailOrderCubit extends Cubit<DetailOrderState> {
     }
   }
 
-  Future<void> userRating(String idOrder,  BuildContext context) async {
+  Future<void> userRating(String idOrder, BuildContext context) async {
     try {
- 
       print("Id Order : $idOrder");
       final imageFiles = state.pickedFile[idOrder] ?? [];
       print("File Image : $imageFiles");
-      final linkImage = await repoForum.postMedia(folder: "images", media: imageFiles);
+      final linkImage =
+          await repoForum.postMedia(folder: "images", media: imageFiles);
       print("Link Image : $linkImage");
       final remaplink = linkImage.map((link) => link.toString()).toList();
 
@@ -168,10 +176,11 @@ class DetailOrderCubit extends Cubit<DetailOrderState> {
         message: state.message,
         rating: state.rating,
       );
-      
-      if(context.mounted){
+
+      if (context.mounted) {
         // Navigator.pop(context);
-        ShowSnackbar.snackbar(context, "Berhasil memberikan rating", isSuccess: true);
+        ShowSnackbar.snackbar(context, "Berhasil memberikan rating",
+            isSuccess: true);
       }
 
       emit(state.copyWith(loading: true));

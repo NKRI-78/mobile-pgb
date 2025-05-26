@@ -1,11 +1,10 @@
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/misc/api_url.dart';
-import 'package:mobile_pgb/misc/colors.dart';
-import 'package:mobile_pgb/misc/http_client.dart';
-import 'package:mobile_pgb/misc/injections.dart';
+import '../../misc/api_url.dart';
+import '../../misc/colors.dart';
+import '../../misc/http_client.dart';
+import '../../misc/injections.dart';
 
 class CustomSelectLocationWidget extends StatefulWidget {
   const CustomSelectLocationWidget({
@@ -89,7 +88,7 @@ class _CustomSelectLocationWidgetState
           .toList();
       setState(() {});
     } catch (e) {
-///
+      ///
     }
   }
 
@@ -124,7 +123,7 @@ class _CustomSelectLocationWidgetState
   void fetchSubDistrict(String name) async {
     try {
       var res = await client.post(
-         Uri.parse( "${MyApi.baseUrl}/api/v1/administration/subdistricts"),
+          Uri.parse("${MyApi.baseUrl}/api/v1/administration/subdistricts"),
           body: {"district_name": name});
 
       subDistricts = (jsonDecode(res.body)['data'] as List)

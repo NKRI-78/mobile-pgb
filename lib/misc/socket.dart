@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:mobile_pgb/misc/api_url.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/modules/app/bloc/app_bloc.dart';
+import 'api_url.dart';
+import 'injections.dart';
+import '../modules/app/bloc/app_bloc.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:socket_io_client/socket_io_client.dart';
 
@@ -17,7 +17,7 @@ class SocketServices with ChangeNotifier, DiagnosticableTreeMixin {
 
   void setStateConnectionIndicator(ConnectionIndicator connectionIndicators) {
     _connectionIndicator = connectionIndicators;
-    
+
     Future.delayed(Duration.zero, () => notifyListeners());
   }
 
@@ -26,23 +26,22 @@ class SocketServices with ChangeNotifier, DiagnosticableTreeMixin {
 
     Future.delayed(Duration.zero, () => notifyListeners());
   }
-  
 
   init({String? myTokenLogin}) async {
-    String  token = getIt<AppBloc>().state.token;
+    String token = getIt<AppBloc>().state.token;
     debugPrint("Token : $token");
-  
+
     socket = IO.io(
         MyApi.baseUrlSocket,
-        OptionBuilder().setTransports(['websocket']) // for Flutter or Dart VM
-          .setExtraHeaders({
-          'Authorization': token}) // optional
-          .disableAutoConnect()
-          .enableForceNew()
-          .enableForceNewConnection()
-          .build());
+        OptionBuilder()
+            .setTransports(['websocket']) // for Flutter or Dart VM
+            .setExtraHeaders({'Authorization': token}) // optional
+            .disableAutoConnect()
+            .enableForceNew()
+            .enableForceNewConnection()
+            .build());
 
-           socket?.connect();
+    socket?.connect();
 
     socket?.onConnect((_) {
       setStateConnectionIndicator(ConnectionIndicator.yellow);
@@ -62,20 +61,20 @@ class SocketServices with ChangeNotifier, DiagnosticableTreeMixin {
       /// rejoin global init if have
     });
 
-    socket?.on('listen:confirmcase', (data) async {
-    });
+    socket?.on('listen:confirmcase', (data) async {});
 
-    socket?.onDisconnect((_)  {
+    socket?.onDisconnect((_) {
       setStateConnectionIndicator(ConnectionIndicator.red);
       isConnected = false;
       print('disconnect');
     });
 
-    socket?.onError((_)  
-    {
+    socket?.onError((_) {
       setStateConnectionIndicator(ConnectionIndicator.red);
       isConnected = false;
-      print('error sockect : $_',);
+      print(
+        'error sockect : $_',
+      );
     });
   }
 
@@ -94,10 +93,7 @@ class SocketServices with ChangeNotifier, DiagnosticableTreeMixin {
     setStateConnectionIndicator(ConnectionIndicator.red);
     isConnected = false;
   }
-  
 
-
-  
   /// Makes `Counter` readable inside the devtools by listing all of its properties
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {

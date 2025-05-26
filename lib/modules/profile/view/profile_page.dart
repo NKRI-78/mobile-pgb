@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallery_saver_plus/gallery_saver.dart';
-import 'package:mobile_pgb/router/builder.dart';
+import '../../../router/builder.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 

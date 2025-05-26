@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobile_pgb/misc/colors.dart';
-import 'package:mobile_pgb/misc/snackbar.dart';
-import 'package:mobile_pgb/misc/theme.dart';
-import 'package:mobile_pgb/repositories/payment_repository/models/payment_model.dart';
-import 'package:mobile_pgb/widgets/image/image_card.dart';
+import '../../../../misc/colors.dart';
+import '../../../../misc/snackbar.dart';
+import '../../../../misc/theme.dart';
+import '../../../../repositories/payment_repository/models/payment_model.dart';
+import '../../../../widgets/image/image_card.dart';
 
 class VirtualAccountMethodWidgetv2 extends StatelessWidget {
   const VirtualAccountMethodWidgetv2({super.key, required this.payment});
@@ -17,10 +17,10 @@ class VirtualAccountMethodWidgetv2 extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 5),
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       decoration: BoxDecoration(
-        color: AppColors.whiteColor,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppColors.blackColor.withValues(alpha: 0.10))
-      ),
+          color: AppColors.whiteColor,
+          borderRadius: BorderRadius.circular(10),
+          border:
+              Border.all(color: AppColors.blackColor.withValues(alpha: 0.10))),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -39,7 +39,7 @@ class VirtualAccountMethodWidgetv2 extends StatelessWidget {
                   ),
                 ),
                 ImageCard(
-                  image: payment.logoUrl ?? "-", 
+                  image: payment.logoUrl ?? "-",
                   radius: 0,
                   width: 45,
                   height: 45,
@@ -47,7 +47,11 @@ class VirtualAccountMethodWidgetv2 extends StatelessWidget {
               ],
             ),
           ),
-          Divider(color: AppColors.blackColor.withValues(alpha: 0.10), thickness: 2, height: 5,),
+          Divider(
+            color: AppColors.blackColor.withValues(alpha: 0.10),
+            thickness: 2,
+            height: 5,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
@@ -61,31 +65,33 @@ class VirtualAccountMethodWidgetv2 extends StatelessWidget {
                     const Text(
                       'Nomor Virtual Account',
                       style: TextStyle(
-                        color: AppColors.blackColor,
-                        fontSize: fontSizeDefault,
-                        fontWeight: FontWeight.bold
-                      ),
+                          color: AppColors.blackColor,
+                          fontSize: fontSizeDefault,
+                          fontWeight: FontWeight.bold),
                     ),
                     Text(
                       payment.data?['vaNumber'] ?? '',
                       style: const TextStyle(
-                        color: AppColors.blackColor,
-                        fontSize: fontSizeDefault,
-                        fontWeight: FontWeight.bold
-                      ),
+                          color: AppColors.blackColor,
+                          fontSize: fontSizeDefault,
+                          fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
                 InkWell(
                   onTap: () async {
                     try {
-                      await Clipboard.setData(ClipboardData(text: payment.data?['vaNumber'] ?? ''));
+                      await Clipboard.setData(
+                          ClipboardData(text: payment.data?['vaNumber'] ?? ''));
                       if (context.mounted) {
-                        ShowSnackbar.snackbar(context, "Berhasil menyalin nomor VA", isSuccess: true);
+                        ShowSnackbar.snackbar(
+                            context, "Berhasil menyalin nomor VA",
+                            isSuccess: true);
                       }
                     } catch (e) {
                       if (context.mounted) {
-                        ShowSnackbar.snackbar(context, "Gagal menyalin $e", isSuccess: false);
+                        ShowSnackbar.snackbar(context, "Gagal menyalin $e",
+                            isSuccess: false);
                       }
                     }
                   },

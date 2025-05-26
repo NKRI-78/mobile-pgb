@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:mobile_pgb/misc/navigation.dart';
+import '../misc/navigation.dart';
 
 import '../modules/app/bloc/app_bloc.dart';
 import 'builder.dart';
@@ -9,7 +9,9 @@ class MyRouter {
     return GoRouter(
       navigatorKey: navigatorKey,
       routes: $appRoutes,
-      initialLocation: HomeRoute().location,
+      initialLocation: app.state.alreadyOnboarding
+          ? HomeRoute().location
+          : OnboardingRoute().location,
     );
   }
 }

@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/misc/api_url.dart';
-import 'package:mobile_pgb/misc/http_client.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/modules/app/models/badges_order_model.dart';
-import 'package:mobile_pgb/repositories/app_repository/model/setting_model.dart';
+import '../../misc/api_url.dart';
+import '../../misc/http_client.dart';
+import '../../misc/injections.dart';
+import '../../modules/app/models/badges_order_model.dart';
+import 'model/setting_model.dart';
 
 class AppRepository {
   String get settings => '${MyApi.baseUrl}/api/v1/settings';
@@ -54,8 +54,7 @@ class AppRepository {
       debugPrint(res.body);
       final json = jsonDecode(res.body);
       if (res.statusCode == 200) {
-        
-        return  BadgesOrderModel.fromJson(json['data']);
+        return BadgesOrderModel.fromJson(json['data']);
       } else {
         throw json['message'] ?? "Terjadi kesalahan";
       }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/misc/text_style.dart';
-import 'package:mobile_pgb/widgets/button/custom_button.dart';
+import '../../../misc/text_style.dart';
+import '../../../widgets/button/custom_button.dart';
 import '../../../misc/colors.dart';
 import '../../register_akun/model/extrack_ktp_model.dart';
 import '../cubit/register_change_cubit.dart';

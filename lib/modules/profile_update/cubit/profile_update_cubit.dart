@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/router/builder.dart';
+import '../../../router/builder.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/snackbar.dart';
 import '../../../repositories/auth_repository/auth_repository.dart';

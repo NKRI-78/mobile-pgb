@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/misc/colors.dart';
-import 'package:mobile_pgb/misc/price_currency%20copy.dart';
-import 'package:mobile_pgb/misc/theme.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/price_currency%20copy.dart';
+import '../../../misc/theme.dart';
 
 class TopUpSection extends StatelessWidget {
-  const TopUpSection({super.key, required this.priceTopUp, required this.feeBank});
+  const TopUpSection(
+      {super.key, required this.priceTopUp, required this.feeBank});
 
   final double priceTopUp;
   final double feeBank;
@@ -29,7 +30,8 @@ class TopUpSection extends StatelessWidget {
                   color: AppColors.blackColor,
                 ),
               ),
-              Text('Top Up Saldo ${Price.currencyNoSymbol(priceTopUp)}',
+              Text(
+                'Top Up Saldo ${Price.currencyNoSymbol(priceTopUp)}',
                 style: const TextStyle(
                   fontSize: fontSizeDefault,
                   color: AppColors.blackColor,
