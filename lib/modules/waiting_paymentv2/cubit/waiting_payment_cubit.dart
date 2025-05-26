@@ -9,6 +9,7 @@ import 'package:mobile_pgb/misc/injections.dart';
 import 'package:mobile_pgb/misc/snackbar.dart';
 import 'package:mobile_pgb/misc/socket.dart';
 import 'package:mobile_pgb/modules/app/bloc/app_bloc.dart';
+import 'package:mobile_pgb/modules/notification/cubit/notification_cubit.dart';
 import 'package:mobile_pgb/repositories/payment_repository/models/payment_model.dart';
 import 'package:mobile_pgb/repositories/payment_repository/payment_repository.dart';
 
@@ -71,6 +72,7 @@ class WaitingPaymentCubit extends Cubit<WaitingPaymentState> {
   Future<void> close() {
     services.socket?.off('payment:success');
     getIt<AppBloc>().add(InitialAppData());
+    getIt<NotificationCubit>().fetchNotification();
     // getIt<NotificationCubit>().changeNotification(state.tabIndex == 0 ? "SOS" : state.tabIndex == 1 ? "PAYMENT_EXPIRE,WAITING_PAYMENT,PAYMENT_SUCCESS" : state.tabIndex == 3 ? "BROADCAST,FORUM" : "");
     return super.close();
   }

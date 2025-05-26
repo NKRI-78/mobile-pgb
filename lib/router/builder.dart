@@ -7,6 +7,7 @@ import 'package:mobile_pgb/modules/detail_oder/view/detail_order.dart';
 import 'package:mobile_pgb/modules/detail_product/view/detail_product_page.dart';
 import 'package:mobile_pgb/modules/event/view/event_page.dart';
 import 'package:mobile_pgb/modules/list_address/view/list_address_page.dart';
+import 'package:mobile_pgb/modules/membernear/view/membernear_page.dart';
 import 'package:mobile_pgb/modules/need_riview/views/need_riview_page.dart';
 import 'package:mobile_pgb/modules/order/view/order_page.dart';
 import 'package:mobile_pgb/modules/profile/view/profile_page.dart';
@@ -43,7 +44,6 @@ import '../modules/register_ktp/view/register_ktp_page.dart';
 import '../modules/register_otp/view/register_otp_page.dart';
 import '../modules/settings/view/settings_page.dart';
 import '../modules/sos/view/sos_detail_page.dart';
-import '../modules/waiting_payment/view/waiting_payment_page.dart';
 import '../modules/wallet/view/wallet_page.dart';
 import '../modules/webview/webview.dart';
 import '../widgets/pages/about/about_us_page.dart';
@@ -68,7 +68,6 @@ part 'builder.g.dart';
   TypedGoRoute<ProfileRoute>(path: 'profile'),
   TypedGoRoute<SettingsRoute>(path: 'settings'),
   TypedGoRoute<PpobPaymentRoute>(path: 'ppob-payment'),
-  TypedGoRoute<WaitingPaymentRoute>(path: 'waiting-payment'),
   TypedGoRoute<PpobRoute>(path: 'ppob', routes: [
     TypedGoRoute<WalletRoute>(path: 'wallet'),
   ]),
@@ -125,6 +124,7 @@ part 'builder.g.dart';
     ]),
   ]),
   TypedGoRoute<NeedRiviewRoute>(path: "need-riview"),
+  TypedGoRoute<MemberNearRoute>(path: "membernear"),
 ])
 class HomeRoute extends GoRouteData {
   @override
@@ -275,18 +275,6 @@ class PpobPaymentRoute extends GoRouteData {
       nameProduct: nameProduct,
       logoChannel: logoChannel,
       paymentExpire: paymentExpire,
-    );
-  }
-}
-
-class WaitingPaymentRoute extends GoRouteData {
-  final String id;
-
-  WaitingPaymentRoute({required this.id});
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return WaitingPaymentPage(
-      id: id,
     );
   }
 }
@@ -728,6 +716,25 @@ class ShowMoreTestimoniRoute extends GoRouteData {
         idProduct: idProduct,
         reviews: $extra,
       ),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: animation.drive(
+            Tween(begin: const Offset(1.0, 0.0), end: Offset.zero)
+                .chain(CurveTween(curve: Curves.easeInOut)),
+          ),
+          child: child,
+        );
+      },
+    );
+  }
+}
+
+class MemberNearRoute extends GoRouteData {
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return CustomTransitionPage(
+      key: state.pageKey,
+      child: MemberNearPage(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return SlideTransition(
           position: animation.drive(

@@ -120,7 +120,7 @@ class CustomMenu extends StatelessWidget {
           EventRoute().go(context);
           break;
         case 2:
-          // MEMBER NEAR
+          MemberNearRoute().go(context);
           break;
         case 3:
           PpobRoute().go(context);
