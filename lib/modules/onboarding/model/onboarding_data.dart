@@ -5,46 +5,46 @@ final List<Map<String, dynamic>> onboardingContent = [
   {
     'title': [
       TextSpan(
-        text: 'TITLE ',
+        text: 'Payment ',
         style: AppTextStyles.buttonTextBlue,
       ),
       TextSpan(
-        text: 'SATU',
-        style: AppTextStyles.textStyleBold,
+        text: 'Point Online Bank',
+        style: AppTextStyles.buttonTextBlue1,
       ),
     ],
     'description':
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tortor mauris, condimentum et neque eu, tempor posuere augue. Aliquam erat volutpat. Vestibulum semper purus cursus nisi fermentum imperdiet. Vivamus eu congue augue, ut dignissim neque. Curabitur ornare sodales cursus. Ut rutrum accumsan ex eget dignissim. Duis porttitor interdum efficitur. Suspendisse potenti.',
-    'image': 'assets/images/logo_transparant.png',
+        'Satu Aplikasi, Banyak Kemudahan untuk Kader dan Pengurus Partai Kelola kebutuhan pembayaran harian partai dengan cepat, aman, dan efisien - semua dalam satu aplikasi.',
+    'image': 'assets/images/onboarding_1.png',
   },
   {
     'title': [
       TextSpan(
-        text: 'TITLE ',
+        text: 'Fitur ',
         style: AppTextStyles.buttonTextBlue,
       ),
       TextSpan(
-        text: 'DUA',
-        style: AppTextStyles.textStyleBold,
+        text: 'Forum',
+        style: AppTextStyles.buttonTextBlue1,
       ),
     ],
     'description':
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tortor mauris, condimentum et neque eu, tempor posuere augue. Aliquam erat volutpat. Vestibulum semper purus cursus nisi fermentum imperdiet. Vivamus eu congue augue, ut dignissim neque. Curabitur ornare sodales cursus. Ut rutrum accumsan ex eget dignissim. Duis porttitor interdum efficitur. Suspendisse potenti.',
-    'image': 'assets/images/logo_transparant.png',
+        'Fitur Forum,  memungkinkan seluruh Anggota di Partai Gema Bangsa untuk berkomunikasi, berdiskusi, dan berbagi informasi secara langsung melalui aplikasi.',
+    'image': 'assets/images/onboarding_2.png',
   },
   {
     'title': [
       TextSpan(
-        text: 'TITLE ',
+        text: 'Fitur ',
         style: AppTextStyles.buttonTextBlue,
       ),
       TextSpan(
-        text: 'TIGA',
-        style: AppTextStyles.textStyleBold,
+        text: 'Panic Button',
+        style: AppTextStyles.buttonTextBlue1,
       ),
     ],
     'description':
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tortor mauris, condimentum et neque eu, tempor posuere augue. Aliquam erat volutpat. Vestibulum semper purus cursus nisi fermentum imperdiet. Vivamus eu congue augue, ut dignissim neque. Curabitur ornare sodales cursus. Ut rutrum accumsan ex eget dignissim. Duis porttitor interdum efficitur. Suspendisse potenti.',
-    'image': 'assets/images/logo_transparant.png',
+        'Fitur Panic Button dirancang untuk memberikan keamanan ekstra bagi anggota dalam situasi darurat. Dengan sekali tekan, Anggota dapat langsung mengirimkan sinyal bantuan ke Anggota lainnya secara real time.',
+    'image': 'assets/images/onboarding_3.png',
   },
 ];

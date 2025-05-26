@@ -32,12 +32,12 @@ class OnboardingPageView extends StatelessWidget {
     return Stack(
       children: [
         Positioned(
-          top: MediaQuery.of(context).size.height * 0.15,
+          top: MediaQuery.of(context).size.height * 0.10,
           left: 0,
           right: 0,
           child: Image.asset(
             image,
-            height: 150,
+            height: 300,
           ),
         ),
         Positioned(

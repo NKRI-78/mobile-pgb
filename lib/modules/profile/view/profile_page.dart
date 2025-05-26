@@ -34,8 +34,21 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
+
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  CardSide _cardSide = CardSide.front;
+
+  void _updateCardSide(CardSide side) {
+    setState(() {
+      _cardSide = side;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +87,9 @@ class ProfileView extends StatelessWidget {
                       child: Column(
                         children: [
                           CustomCardProfile(
+                            isForExport: false,
+                            cardSide: _cardSide,
+                            onCardSideChanged: _updateCardSide,
                             noKta: state.profile?.profile?.kta ?? '-',
                             nama: state.profile?.profile?.fullname ?? '-',
                             tempatTglLahir:

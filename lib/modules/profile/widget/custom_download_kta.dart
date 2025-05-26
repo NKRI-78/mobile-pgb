@@ -6,11 +6,12 @@ class CustomDownloadKta extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: SizedBox(
         child: ElevatedButton.icon(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white70,
+            backgroundColor: AppColors.greyColor.withValues(alpha: 0.5),
+            foregroundColor: AppColors.blackColor,
             elevation: 1,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
@@ -52,9 +53,14 @@ class CustomDownloadKta extends StatelessWidget {
           icon: Icon(
             Icons.download_outlined,
             size: 20,
-            color: AppColors.blackColor,
+            color: AppColors.whiteColor,
           ),
-          label: Text('Download KTA', style: AppTextStyles.textStyleNormal),
+          label: Text(
+            'Download KTA',
+            style: AppTextStyles.textStyleNormal.copyWith(
+              color: AppColors.whiteColor,
+            ),
+          ),
         ),
       ),
     );
