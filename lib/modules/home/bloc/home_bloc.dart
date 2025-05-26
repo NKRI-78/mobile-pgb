@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -26,6 +29,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     on<HomeNavigate>(_onHomeNavigate);
     on<HomeCopyState>(_onHomeCopyState);
     on<LoadProfile>(_onLoadProfile);
+    on<SetFcm>(_onSetFcm);
   }
 
   @override
@@ -103,6 +107,28 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       BannerModel? data = await homeRepo.getBanner();
 
       emit(state.copyWith(banner: data));
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  Future<void> _onSetFcm(SetFcm event, Emitter<HomeState> emit) async {
+    try {
+      if (Platform.isIOS) {
+        await Future<void>.delayed(
+          const Duration(
+            seconds: 3,
+          ),
+        );
+        print("hit fcm");
+        var apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+
+        print('APNS Token: $apnsToken');
+      }
+      final token = await FirebaseMessaging.instance.getToken();
+
+      await homeRepo.setFcm(token ?? '');
+      debugPrint("Set FCM Success");
     } catch (e) {
       debugPrint(e.toString());
     }

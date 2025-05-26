@@ -60,8 +60,9 @@ class _ListProductState extends State<ListProduct> {
                 height: 110,
                 margin: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
-                  color: AppColors.blackColor.withAlpha((0.10 * 255).round()),
-                  borderRadius: BorderRadius.circular(8)
+                  color: e.product?.stock == 0 ? AppColors.whiteColor.withValues(alpha: 0.5) : AppColors.whiteColor.withValues(alpha: 1),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: e.product?.stock == 0 ? AppColors.greyColor : AppColors.blackColor, width: e.product?.stock == 0 ? 0.5 : 2)
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -92,7 +93,7 @@ class _ListProductState extends State<ListProduct> {
                                       );
                                     });
                                   },
-                                  activeColor: Colors.red,
+                                  activeColor: AppColors.secondaryColor,
                                   checkColor: Colors.white,
                                 ),
                                 ImageCard(
@@ -118,11 +119,11 @@ class _ListProductState extends State<ListProduct> {
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              e.product?.name ?? "",
+                                               e.product?.name ?? "",
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                color: AppColors.blackColor,
+                                              style: TextStyle(
+                                                color: e.product?.stock == 0 ? AppColors.blackColor.withValues(alpha: 0.5) : AppColors.blackColor,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: fontSizeDefault
                                               ),
@@ -141,16 +142,16 @@ class _ListProductState extends State<ListProduct> {
                                                 children: [
                                                 Text(
                                                 e.product?.stock == 0 ? "Stock Habis" : 'Stock : ${e.product?.stock}',
-                                                style: const TextStyle(
-                                                  color: AppColors.greyColor,
+                                                style: TextStyle(
+                                                  color: e.product?.stock == 0 ?  AppColors.redColor : AppColors.blackColor,
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: fontSizeSmall
                                                 ),
                                               ),
                                               Text(
                                                 '${Price.currency(e.price?.toDouble() ?? 0)}',
-                                                style: const TextStyle(
-                                                  color: AppColors.blackColor,
+                                                style: TextStyle(
+                                                  color: e.product?.stock == 0 ? AppColors.blackColor.withValues(alpha: 0.5) : AppColors.blackColor,
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: fontSizeSmall
                                                 ),
@@ -165,25 +166,11 @@ class _ListProductState extends State<ListProduct> {
                                         onPressed: () async {
                                           await context.read<CartCubit>().deleteCart(e.product?.id.toString() ?? "");
                                         }, 
-                                        child: const Row(
-                                          mainAxisAlignment: MainAxisAlignment.end,
-                                          crossAxisAlignment: CrossAxisAlignment.end,
-                                          children: [
-                                            Icon(
-                                              Icons.delete,
-                                              color: AppColors.secondaryColor,
-                                              size: 20,
-                                            ),
-                                            Text(
-                                              "Hapus",
-                                              style: TextStyle(
-                                                wordSpacing: 10,
-                                                color: AppColors.secondaryColor,
-                                                fontSize: 12
-                                              ),
-                                            ),
-                                          ],
-                                        )
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: AppColors.secondaryColor,
+                                          size: 28,
+                                        ),
                                       ) : 
                                       
                                       CustomCartStepper(

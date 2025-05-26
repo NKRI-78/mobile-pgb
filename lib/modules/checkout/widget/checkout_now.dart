@@ -151,12 +151,15 @@ class _CheckoutNowState extends State<CheckoutNow> {
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // const Expanded(
-                        //     flex: 4,
-                        //     child: Icon(
-                        //       Icons.delivery_dining,
-                        //       color: AppColors.blackColor,
-                        //     )),
+                        state.shippings?[state.checkoutNow?.data?.store?.id.toString()] == null ? 
+                        const SizedBox.shrink() : Image.asset(
+                            "assets/icons/logo-jne.png",
+                          width: 40,
+                          height: 40,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
                         Expanded(
                             flex: 12,
                             child: Text(

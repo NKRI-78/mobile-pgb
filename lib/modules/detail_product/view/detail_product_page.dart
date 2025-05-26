@@ -59,76 +59,76 @@ class _DetailProductViewState extends State<DetailProductView> {
         final data = state.detail?.data;
         return Scaffold(
           backgroundColor: AppColors.primaryColor,
-          bottomNavigationBar: state.loading
-              ? null
-              : Padding(
-                  padding: const EdgeInsets.only(
-                    bottom: 10,
-                    left: 10,
-                    right: 10,
+          bottomNavigationBar: state.loading ? null : Container(
+              padding: const EdgeInsets.only(
+                bottom: 10,
+                left: 10,
+                right: 10,
+              ),
+              width: double.infinity,
+              height: 50,
+              color: Colors.transparent,
+              child: data?.stock == 0 ? Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: AppColors.redColor,
+                    borderRadius: BorderRadius.circular(12)
                   ),
-                  child: data?.stock == 0
-                      ? Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: AppColors.redColor,
-                              borderRadius: BorderRadius.circular(6)),
-                          child: const Text(
-                            "Uppss, coba cek lagi nanti ya",
-                            textScaler: TextScaler.noScaling,
-                            style: TextStyle(
-                              fontSize: fontSizeDefault,
-                              color: AppColors.whiteColor,
-                              fontWeight: FontWeight.bold,
-                            ),
+                  child: const Text(
+                    "Mohon Maaf Saat Ini Barang Belum Tersedia",
+                    textScaler: TextScaler.noScaling,
+                    style: TextStyle(
+                      fontSize: fontSizeDefault,
+                      color: AppColors.whiteColor,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ) : Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: CustomButton(
+                      radius: 12,
+                      onPressed: () {
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(32)),
                           ),
-                        )
-                      : Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: CustomButton(
-                                radius: 12,
-                                onPressed: () {
-                                  showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(32)),
-                                    ),
-                                    context: context,
-                                    builder: (BuildContext context) => Padding(
-                                      padding:
-                                          MediaQuery.of(context).viewInsets,
-                                      child: ModalBottom(data: data),
-                                    ),
-                                  );
-                                },
-                                text: '+ Keranjang',
-                                backgroundColour: AppColors.blackColor,
-                                textColour: AppColors.whiteColor,
+                          context: context,
+                          builder: (BuildContext context) => Padding(
+                            padding:
+                                MediaQuery.of(context).viewInsets,
+                            child: ModalBottom(data: data),
+                          ),
+                        );
+                      },
+                      text: '+ Keranjang',
+                      backgroundColour: AppColors.blackColor,
+                      textColour: AppColors.whiteColor,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    flex: 1,
+                    child: CustomButton(
+                      radius: 12,
+                      onPressed: () {
+                        CheckoutRoute(
+                          from: "NOW",
+                          qty: "1",
+                          productId: data?.id.toString() ?? "",
+                        ).push(context);
+                      },
+                      text: 'Beli Sekarang',
+                      backgroundColour: AppColors.secondaryColor,
+                      textColour: AppColors.whiteColor,
+                    ),
+                  ),
+                ],
                               ),
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              flex: 1,
-                              child: CustomButton(
-                                radius: 12,
-                                onPressed: () {
-                                  CheckoutRoute(
-                                    from: "NOW",
-                                    qty: "1",
-                                    productId: data?.id.toString() ?? "",
-                                  ).push(context);
-                                },
-                                text: 'Beli Sekarang',
-                                backgroundColour: AppColors.secondaryColor,
-                                textColour: AppColors.whiteColor,
-                              ),
-                            ),
-                          ],
-                        ),
-                ),
+            ),
           body: state.loading
               ? const CustomLoadingPage()
               : state.detail?.data == null
