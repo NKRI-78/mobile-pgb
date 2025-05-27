@@ -10,7 +10,11 @@ class CustomCardProfile extends StatefulWidget {
   final String tempatTglLahir;
   final String agama;
   final String alamat;
+  final String rtRw;
+  final String kelurahan;
+  final String kecamatan;
   final String fotoPath;
+  final String createAt;
   final bool isForExport;
   final CardSide cardSide;
   final ValueChanged<CardSide> onCardSideChanged;
@@ -26,6 +30,10 @@ class CustomCardProfile extends StatefulWidget {
     required this.cardSide,
     required this.onCardSideChanged,
     this.isForExport = false,
+    required this.rtRw,
+    required this.kelurahan,
+    required this.kecamatan,
+    required this.createAt,
   });
 
   @override
@@ -84,7 +92,7 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
   Widget _buildCardOnly(bool isFront) {
     final isSmall = MediaQuery.of(context).size.width < 350;
     final imageWidth = isSmall ? 65.0 : 70.0;
-    final imageHeight = isSmall ? 80.0 : 90.0;
+    final imageHeight = isSmall ? 70.0 : 75.0;
 
     return Card(
       color: Colors.transparent,
@@ -93,7 +101,7 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
       clipBehavior: Clip.antiAlias,
       child: Container(
         width: double.infinity,
-        height: 200,
+        height: MediaQuery.of(context).size.width * 0.55,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(isFront
@@ -105,77 +113,121 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
         child: isFront
             ? Stack(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 25),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(top: 60),
-                          width: imageWidth,
-                          height: imageHeight,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            image: DecorationImage(
-                              image: widget.fotoPath.startsWith('http')
-                                  ? NetworkImage(widget.fotoPath)
-                                  : AssetImage(widget.fotoPath)
-                                      as ImageProvider,
-                              fit: BoxFit.cover,
-                            ),
+                  Positioned.fill(
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.only(top: 60, left: 15, right: 25),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(top: 10),
+                                width: imageWidth,
+                                height: imageHeight,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6),
+                                  image: DecorationImage(
+                                    image: widget.fotoPath.startsWith('http')
+                                        ? NetworkImage(widget.fotoPath)
+                                        : AssetImage(widget.fotoPath)
+                                            as ImageProvider,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                'Reg.Date:',
+                                style: AppTextStyles.textStyleNormal.copyWith(
+                                  fontSize: 6,
+                                  color: AppColors.greyColor,
+                                ),
+                              ),
+                              Text(
+                                DateHelper.parseDate(widget.createAt),
+                                style: AppTextStyles.textStyleNormal.copyWith(
+                                  fontSize: 6,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 40.0),
+                          const SizedBox(width: 10),
+                          Expanded(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                InfoLine(
-                                    label: 'No. KTA               ',
-                                    value: widget.noKta),
-                                InfoLine(
-                                    label: 'Nama                   ',
-                                    value: widget.nama),
-                                InfoLine(
-                                    label: 'Tempat/Tgl Lahir',
-                                    value: widget.tempatTglLahir),
-                                InfoLine(
-                                    label: 'Agama                 ',
-                                    value: widget.agama),
-                                InfoLine(
-                                    label: 'Alamat                 ',
-                                    value: widget.alamat),
+                                Text(
+                                  widget.noKta,
+                                  style: AppTextStyles.textStyleBold.copyWith(
+                                    color: AppColors.blackColor,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                                Text(
+                                  widget.nama,
+                                  style: AppTextStyles.textStyleBold.copyWith(
+                                    color: AppColors.blackColor,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  widget.tempatTglLahir,
+                                  style: AppTextStyles.textStyleNormal.copyWith(
+                                    color: AppColors.greyColor,
+                                    fontSize: 8,
+                                  ),
+                                ),
+                                Text(
+                                  widget.alamat,
+                                  style: AppTextStyles.textStyleNormal.copyWith(
+                                    color: AppColors.greyColor,
+                                    fontSize: 8,
+                                  ),
+                                ),
+                                Text(
+                                  widget.rtRw,
+                                  style: AppTextStyles.textStyleNormal.copyWith(
+                                    color: AppColors.greyColor,
+                                    fontSize: 8,
+                                  ),
+                                ),
+                                Text(
+                                  widget.kelurahan,
+                                  style: AppTextStyles.textStyleNormal.copyWith(
+                                    color: AppColors.greyColor,
+                                    fontSize: 8,
+                                  ),
+                                ),
+                                Text(
+                                  widget.kecamatan,
+                                  style: AppTextStyles.textStyleNormal.copyWith(
+                                    color: AppColors.greyColor,
+                                    fontSize: 8,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   Positioned(
-                    bottom: 10,
-                    right: 10,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.whiteColor,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(width: 2),
-                        ),
-                        padding: const EdgeInsets.all(4),
-                        child: BarcodeWidget(
-                          barcode: Barcode.qrCode(),
-                          data: widget.noKta,
-                          width: 40,
-                          height: 40,
-                          drawText: false,
-                          backgroundColor: AppColors.primaryColor,
-                        ),
-                      ),
+                    bottom: 20,
+                    right: 20,
+                    child: BarcodeWidget(
+                      color: AppColors.buttonBlueColor,
+                      barcode: Barcode.qrCode(),
+                      data: widget.noKta,
+                      width: 50,
+                      height: 50,
+                      drawText: false,
                     ),
                   ),
                 ],
@@ -219,45 +271,6 @@ class _CardSideButton extends StatelessWidget {
           color: AppColors.whiteColor,
         ),
       ),
-    );
-  }
-}
-
-class InfoLine extends StatelessWidget {
-  final String label;
-  final String value;
-
-  const InfoLine({
-    super.key,
-    required this.label,
-    required this.value,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          width: 70,
-          child: Text(
-            '$label :',
-            style: AppTextStyles.textStyleNormal.copyWith(
-              color: AppColors.blackColor,
-              fontSize: 7,
-            ),
-          ),
-        ),
-        Expanded(
-          child: Text(
-            value,
-            style: AppTextStyles.textStyleNormal.copyWith(
-              color: AppColors.blackColor,
-              fontSize: 7,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

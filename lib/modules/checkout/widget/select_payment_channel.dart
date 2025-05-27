@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_pgb/misc/text_style.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/price_currency.dart';
 import '../../../misc/theme.dart';
@@ -31,14 +32,13 @@ class SelectPaymentChannel extends StatelessWidget {
                     ),
                     onPressed: () => Navigator.pop(context),
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Text(
                       "Pilih Metode Pembayaran",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: fontSizeSmall,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.blackColor),
+                      style: AppTextStyles.textStyleBold.copyWith(
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 25),

@@ -11,6 +11,7 @@ class ShopState extends Equatable {
   final Set<int> selectedIds;
   final double scrollP;
   final int tabIndex;
+  final String searchQuery;
 
   const ShopState({
     this.category = const [],
@@ -22,20 +23,22 @@ class ShopState extends Equatable {
     this.selectedIds = const {},
     this.scrollP = 0,
     this.tabIndex = 0,
+    this.searchQuery = '',
   });
 
   @override
   List<Object?> get props => [
-    category, 
-    product, 
-    pagination, 
-    nexPageProduct,
-    idCategory, 
-    loading,
-    selectedIds,
-    scrollP,
-    tabIndex,
-  ];
+        category,
+        product,
+        pagination,
+        nexPageProduct,
+        idCategory,
+        loading,
+        selectedIds,
+        scrollP,
+        tabIndex,
+        searchQuery,
+      ];
 
   ShopState copyWith({
     List<CategoryModel>? category,
@@ -47,6 +50,7 @@ class ShopState extends Equatable {
     Set<int>? selectedIds,
     double? scrollP,
     int? tabIndex,
+    String? searchQuery,
   }) {
     return ShopState(
       category: category ?? this.category,
@@ -54,10 +58,11 @@ class ShopState extends Equatable {
       pagination: pagination ?? this.pagination,
       loading: loading ?? this.loading,
       nexPageProduct: nexPageProduct ?? this.nexPageProduct,
-      idCategory: idCategory ?? this.idCategory, 
+      idCategory: idCategory ?? this.idCategory,
       selectedIds: selectedIds ?? this.selectedIds,
       scrollP: scrollP ?? this.scrollP,
       tabIndex: tabIndex ?? this.tabIndex,
+      searchQuery: searchQuery ?? this.searchQuery,
     );
   }
 }

@@ -82,14 +82,59 @@ class ShopRepository {
     }
   }
 
-  Future<PaginationModel<ProductModel>> getProductOfficial(
-      {int? idCategory, int page = 0}) async {
-    try {
-      final res = await http.get(Uri.parse(
-          '$shop/getProducts?${idCategory == null || idCategory == 0 ? "" : "category_id=$idCategory"}&page=$page'));
+  // Future<PaginationModel<ProductModel>> getProductOfficial(
+  //     {int? idCategory, int page = 0}) async {
+  //   try {
+  //     final res = await http.get(Uri.parse(
+  //         '$shop/getProducts?${idCategory == null || idCategory == 0 ? "" : "category_id=$idCategory"}&page=$page'));
 
-      print(
-          'Url : $shop/getProducts?${idCategory == null ? "" : "category_id=$idCategory"}&page=$page');
+  //     print(
+  //         'Url : $shop/getProducts?${idCategory == null ? "" : "category_id=$idCategory"}&page=$page');
+  //     print(res.body);
+  //     print("Status : ${res.statusCode}");
+
+  //     final json = jsonDecode(res.body);
+  //     if (res.statusCode == 200) {
+  //       var pagination = Pagination.fromJson(json['data']);
+  //       var list = (json['data']['data'] as List)
+  //           .map((e) => ProductModel.fromJson(e))
+  //           .toList();
+  //       print("Pagination : ${jsonEncode(pagination)}");
+  //       return PaginationModel<ProductModel>(
+  //           pagination: pagination, list: list);
+  //     } else {
+  //       throw json['message'] ?? "Terjadi kesalahan";
+  //     }
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
+  Future<PaginationModel<ProductModel>> getProductOfficial({
+    int? idCategory,
+    int page = 1,
+    String? searchQuery,
+  }) async {
+    try {
+      // Buat list query param
+      final queryParameters = <String, String>{};
+
+      if (idCategory != null && idCategory != 0) {
+        queryParameters['category_id'] = idCategory.toString();
+      }
+
+      queryParameters['page'] = page.toString();
+
+      if (searchQuery != null && searchQuery.isNotEmpty) {
+        queryParameters['search'] = searchQuery;
+      }
+
+      // Buat Uri dengan query parameter yang benar
+      final uri = Uri.parse(shop + '/getProducts')
+          .replace(queryParameters: queryParameters);
+
+      final res = await http.get(uri);
+
+      print('Url : $uri');
       print(res.body);
       print("Status : ${res.statusCode}");
 

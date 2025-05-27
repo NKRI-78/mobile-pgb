@@ -24,6 +24,7 @@ class ShopBloc extends HydratedBloc<ShopEvent, ShopState> {
     on<ChangeProduct>(_onChangeProduct);
     on<ToggleSelection>(_onToggleSelection);
     on<CopyState>(_onCopyState);
+    on<SearchProduct>(_onSearchProduct);
   }
 
   ShopRepository repo = ShopRepository();
@@ -61,15 +62,24 @@ class ShopBloc extends HydratedBloc<ShopEvent, ShopState> {
       GetProduct event, Emitter<ShopState> emit) async {
     try {
       emit(state.copyWith(loading: true));
-      PaginationModel<ProductModel> data = await repo.getProductOfficial();
-      print("Hit Product");
+      final data = await repo.getProductOfficial(idCategory: event.idCategory);
+
+      List<ProductModel> filteredProducts = data.list;
+
+      if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
+        final queryLower = event.searchQuery!.toLowerCase();
+        filteredProducts = data.list.where((product) {
+          return product.name?.toLowerCase().contains(queryLower) ?? false;
+        }).toList();
+      }
+
       emit(state.copyWith(
-        product: data.list,
+        product: filteredProducts,
         nexPageProduct: data.pagination.currentPage,
-        loading: false,
         pagination: data.pagination,
+        loading: false,
+        searchQuery: event.searchQuery ?? '',
       ));
-      print("State Paging : ${data.pagination.currentPage}");
     } catch (e) {
       rethrow;
     } finally {
@@ -136,23 +146,18 @@ class ShopBloc extends HydratedBloc<ShopEvent, ShopState> {
   FutureOr<void> _onChangeProduct(
       ChangeProduct event, Emitter<ShopState> emit) async {
     try {
-      emit(state.copyWith(loading: true));
-
-      print("Refresh kategori id: ${event.idCategory}");
+      emit(state.copyWith(loading: true, searchQuery: '')); // reset searchQuery
 
       var value = await repo.getProductOfficial(idCategory: event.idCategory);
 
       emit(state.copyWith(
         idCategory: event.idCategory,
         product: value.list,
-        loading: false,
         pagination: value.pagination,
+        loading: false,
+        searchQuery: '',
       ));
-
-      print("==== After Emit - State.idCategory: ${state.idCategory} ====");
-      print("======== [END DEBUGGING] ========");
     } catch (e) {
-      print("Error: $e");
       rethrow;
     }
   }
@@ -182,5 +187,39 @@ class ShopBloc extends HydratedBloc<ShopEvent, ShopState> {
 
   FutureOr<void> _onCopyState(CopyState event, Emitter<ShopState> emit) {
     emit(event.newState);
+  }
+
+  FutureOr<void> _onSearchProduct(
+      SearchProduct event, Emitter<ShopState> emit) async {
+    final query = event.query.toLowerCase();
+
+    // Kalau query kosong, tampilkan produk original (atau reset)
+    if (query.isEmpty) {
+      // Ambil produk original dari API (atau pakai produk di state)
+      try {
+        emit(state.copyWith(loading: true, searchQuery: ''));
+        final data =
+            await repo.getProductOfficial(idCategory: state.idCategory);
+        emit(state.copyWith(
+          product: data.list,
+          pagination: data.pagination,
+          nexPageProduct: data.pagination.currentPage,
+          loading: false,
+          searchQuery: '',
+        ));
+      } catch (_) {
+        emit(state.copyWith(loading: false));
+      }
+    } else {
+      // Filter produk di local state.product (yang sudah di-fetch)
+      final filtered = state.product.where((product) {
+        return product.name?.toLowerCase().contains(query) ?? false;
+      }).toList();
+
+      emit(state.copyWith(
+        product: filtered,
+        searchQuery: query,
+      ));
+    }
   }
 }

@@ -11,13 +11,15 @@ import 'package:mobile_pgb/misc/injections.dart';
 import 'package:mobile_pgb/misc/modal.dart';
 import 'package:mobile_pgb/modules/membernear/bloc/membernear_bloc.dart';
 import 'package:mobile_pgb/widgets/image/image_avatar.dart';
-import 'package:mobile_pgb/widgets/pages/empty_page.dart';
 import 'package:mobile_pgb/widgets/pages/loading_page.dart';
+
+import '../../../misc/text_style.dart';
 
 part '../widgets/_maps.dart';
 part '../widgets/_list_user.dart';
 part '../widgets/_membernear_header.dart';
 part '../widgets/_membernear_botton_header.dart';
+part '../widgets/_empt_page_location.dart';
 
 class MemberNearPage extends StatelessWidget {
   const MemberNearPage({super.key});
@@ -25,9 +27,7 @@ class MemberNearPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: getIt<MemberNearBloc>(),
-      child: const MemberNearView()
-    );
+        value: getIt<MemberNearBloc>(), child: const MemberNearView());
   }
 }
 
@@ -38,39 +38,38 @@ class MemberNearView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
-      body: BlocBuilder<MemberNearBloc, MemberNearState>(
-        builder: (context, st) {
-          debugPrint("view Grap Lat: ${st.latitude}");
-          debugPrint("view Grap Long: ${st.longitude}");
-          return CustomScrollView(
-            physics: ScrollPhysics(),
-            slivers: [
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Stack(
-                  fit: StackFit.loose,
-                  clipBehavior: Clip.none,
-                  children: [
-                    _Maps(latitude: st.latitude, longitude: st.longitude, markers: st.markers ?? const [],),
-                    const Align(
-                      alignment: Alignment.bottomCenter,
-                      child: _ListUser()
-                    ),
-                    const Align(
+      body:
+          BlocBuilder<MemberNearBloc, MemberNearState>(builder: (context, st) {
+        debugPrint("view Grap Lat: ${st.latitude}");
+        debugPrint("view Grap Long: ${st.longitude}");
+        return CustomScrollView(
+          physics: ScrollPhysics(),
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Stack(
+                fit: StackFit.loose,
+                clipBehavior: Clip.none,
+                children: [
+                  _Maps(
+                    latitude: st.latitude,
+                    longitude: st.longitude,
+                    markers: st.markers ?? const [],
+                  ),
+                  const Align(
+                      alignment: Alignment.bottomCenter, child: _ListUser()),
+                  const Align(
                       alignment: Alignment.topCenter,
-                      child: _MemberNearHeader()
-                    ),
-                    const Align(
+                      child: _MemberNearHeader()),
+                  const Align(
                       alignment: Alignment.topLeft,
-                      child: _MemberNearBottonHeader()
-                    ),
-                  ],
-                ),
+                      child: _MemberNearBottonHeader()),
+                ],
               ),
-            ],
-          );
-        }
-      ),
+            ),
+          ],
+        );
+      }),
     );
   }
 }

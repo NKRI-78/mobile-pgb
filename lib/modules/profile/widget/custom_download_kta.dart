@@ -10,7 +10,7 @@ class CustomDownloadKta extends StatelessWidget {
       child: SizedBox(
         child: ElevatedButton.icon(
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.greyColor.withValues(alpha: 0.5),
+            backgroundColor: AppColors.secondaryColor,
             foregroundColor: AppColors.blackColor,
             elevation: 1,
             shape: RoundedRectangleBorder(

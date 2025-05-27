@@ -19,12 +19,12 @@ class _MemberNearHeader extends StatelessWidget {
               color: AppColors.secondaryColor,
               borderRadius: BorderRadius.all(Radius.circular(8)),
             ),
-            child: const Text(
-              "Dimans?",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 20, color: AppColors.whiteColor, fontWeight: FontWeight.bold),
-            ),
+            child: Text("Member Near",
+                textAlign: TextAlign.center,
+                style: AppTextStyles.textStyleBold.copyWith(
+                  color: AppColors.whiteColor,
+                  fontSize: 16,
+                )),
           ),
         ],
       ),
