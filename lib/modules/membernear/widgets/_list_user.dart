@@ -11,7 +11,7 @@ class _ListUser extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(35), topRight: Radius.circular(35)),
-            color: AppColors.primaryColor,
+            color: AppColors.whiteColor,
             border: Border.all(color: AppColors.blackColor, width: 2)),
         width: double.infinity,
         height: 300.0,
@@ -24,7 +24,7 @@ class _ListUser extends StatelessWidget {
                 ? const CustomLoadingPage()
                 : (st.memberNearModel?.data != null &&
                         st.memberNearModel!.data!.isEmpty)
-                    ? const EmptyPage(msg: "Tidak ada member disekitar")
+                    ? EmptyLocation(msg: "Tidak ada member disekitar anda")
                     : GridView.builder(
                         padding: const EdgeInsets.symmetric(
                             vertical: 30, horizontal: 20),

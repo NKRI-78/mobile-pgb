@@ -106,13 +106,13 @@ class RegisterKtpCubit extends Cubit<RegisterKtpState> {
         ShowSnackbar.snackbar(
           isSuccess: false,
           context,
-          "NIK terdaftar di sistem, silakan cek kembali data Anda",
+          "Saat ini KTP Anda sudah terdaftar, silakan login",
         );
       } else {
         ShowSnackbar.snackbar(
           isSuccess: true,
           context,
-          "KTP Anda telah terverifikasi",
+          "KTP Anda telah terverifikasi, silakan lanjutkan pendaftaran akun.",
         );
         RegisterAkunRoute(
           $extra: ExtrackKtpModel(

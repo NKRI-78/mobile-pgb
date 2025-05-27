@@ -27,7 +27,9 @@ class CustomName extends StatelessWidget {
             children: [
               Flexible(
                 child: Text(
-                  isLoggedIn ? 'Hello, $fullname' : 'Selamat Datang,',
+                  isLoggedIn
+                      ? 'Hello, ${formatFullname(fullname ?? '')}'
+                      : 'Selamat Datang,',
                   style: AppTextStyles.textStyleBold.copyWith(
                     fontSize: 16,
                   ),
@@ -37,10 +39,25 @@ class CustomName extends StatelessWidget {
                 ),
               ),
               isLoggedIn
-                  ? Text(
-                      'Saldo e-Wallet',
-                      style: AppTextStyles.textStyleNormal.copyWith(
-                        color: AppColors.greyColor,
+                  ? ElevatedButton(
+                      onPressed: () {
+                        WalletRoute().push(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        backgroundColor: AppColors.secondaryColor,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        minimumSize: Size(0, 30),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                      ),
+                      child: Text(
+                        'Saldo e-Wallet',
+                        style: AppTextStyles.textStyleNormal.copyWith(
+                          color: AppColors.whiteColor,
+                        ),
                       ),
                     )
                   : ElevatedButton.icon(
@@ -91,5 +108,15 @@ class CustomName extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String formatFullname(String name) {
+    return name
+        .toLowerCase()
+        .split(' ')
+        .map((word) => word.isNotEmpty
+            ? '${word[0].toUpperCase()}${word.substring(1)}'
+            : '')
+        .join(' ');
   }
 }

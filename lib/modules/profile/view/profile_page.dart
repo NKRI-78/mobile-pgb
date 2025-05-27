@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallery_saver_plus/gallery_saver.dart';
+import '../../../misc/date_helper.dart';
 import '../../../router/builder.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:barcode_widget/barcode_widget.dart';
@@ -90,15 +91,20 @@ class _ProfileViewState extends State<ProfileView> {
                             isForExport: false,
                             cardSide: _cardSide,
                             onCardSideChanged: _updateCardSide,
+                            createAt: state.profile?.profile?.createdAt ?? '-',
                             noKta: state.profile?.profile?.kta ?? '-',
                             nama: state.profile?.profile?.fullname ?? '-',
                             tempatTglLahir:
                                 state.profile?.profile?.birthPlaceAndDate ??
                                     '-',
                             agama: state.profile?.profile?.religion ?? '-',
-                            alamat:
+                            alamat: state.profile?.profile?.address ?? '-',
+                            rtRw: state.profile?.profile?.villageUnit ?? '-',
+                            kelurahan:
                                 state.profile?.profile?.administrativeVillage ??
                                     '-',
+                            kecamatan:
+                                state.profile?.profile?.subDistrict ?? '-',
                             fotoPath: state.profile?.profile?.avatarLink ??
                                 imageDefaultUser,
                           ),

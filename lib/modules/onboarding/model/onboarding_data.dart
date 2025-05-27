@@ -14,7 +14,7 @@ final List<Map<String, dynamic>> onboardingContent = [
       ),
     ],
     'description':
-        'Satu Aplikasi, Banyak Kemudahan untuk Kader dan Pengurus Partai Kelola kebutuhan pembayaran harian partai dengan cepat, aman, dan efisien - semua dalam satu aplikasi.',
+        'Semua pembayaran partai kini lebih mudah! Dengan fitur PPOB, kamu bisa beli pulsa, dan lainnya langsung dari aplikasi - praktis, cepat, dan terpercaya.',
     'image': 'assets/images/onboarding_1.png',
   },
   {
@@ -29,7 +29,7 @@ final List<Map<String, dynamic>> onboardingContent = [
       ),
     ],
     'description':
-        'Fitur Forum,  memungkinkan seluruh Anggota di Partai Gema Bangsa untuk berkomunikasi, berdiskusi, dan berbagi informasi secara langsung melalui aplikasi.',
+        'Fitur Forum, memudahkan seluruh Anggota di Partai Gema Bangsa untuk berkomunikasi, berdiskusi, dan berbagi informasi secara langsung melalui aplikasi.',
     'image': 'assets/images/onboarding_2.png',
   },
   {
@@ -44,7 +44,7 @@ final List<Map<String, dynamic>> onboardingContent = [
       ),
     ],
     'description':
-        'Fitur Panic Button dirancang untuk memberikan keamanan ekstra bagi anggota dalam situasi darurat. Dengan sekali tekan, Anggota dapat langsung mengirimkan sinyal bantuan ke Anggota lainnya secara real time.',
+        'Fitur panic button dapat memudahkan anggota dalam memberikan informasi situasi darurat dengan sekali tekan, Anggota dapat langsung mengirimkan sinyal bantuan ke Anggota lainnya secara real time.',
     'image': 'assets/images/onboarding_3.png',
   },
 ];
