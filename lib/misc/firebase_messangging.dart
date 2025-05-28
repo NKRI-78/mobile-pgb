@@ -61,8 +61,8 @@ Future<void> setupFlutterNotifications() async {
   }
 
   channel = const AndroidNotificationChannel(
-    'machandais_notif', // id
-    'Machandais Notification', // title
+    'pgb_notif', // id
+    'pgb Notification', // title
     description:
         'This channel is used for important notifications.', // description
     importance: Importance.high,
@@ -108,7 +108,6 @@ Future<void> setupFlutterNotifications() async {
     onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
   );
 }
-
 
 void onDidReceiveLocalNotification(
     int id, String? title, String? body, String? payload) async {

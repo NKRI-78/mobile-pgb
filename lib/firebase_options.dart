@@ -53,34 +53,29 @@ class DefaultFirebaseOptions {
     messagingSenderId: '406099696497',
     projectId: 'flutterfire-e2e-tests',
     authDomain: 'flutterfire-e2e-tests.firebaseapp.com',
-    databaseURL: 'https://flutterfire-e2e-tests-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://flutterfire-e2e-tests-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'flutterfire-e2e-tests.appspot.com',
     measurementId: 'G-JN95N1JV2E',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDqoy-bs-uAUsQfeLEgjpATvM9lZ3OSdHg',
-    appId: '1:224199405058:android:a357695f5d9071e9eb411b',
+    appId: '1:224199405058:android:9ab0f6df46200ae5eb411b',
     messagingSenderId: '224199405058',
     projectId: 'koperasi-yamaha',
-    // databaseURL:
-    //     'https://flutterfire-e2e-tests-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'koperasi-yamaha.appspot.com',
+    storageBucket: 'koperasi-yamaha.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyB9SKBSTW1LR9Tlfd5wFQNB6_acyQWksyI',
-    appId: '1:224199405058:ios:9e9e6c4716e97e90eb411b',
+    appId: '1:224199405058:ios:586d6819e4706ea3eb411b',
     messagingSenderId: '224199405058',
     projectId: 'koperasi-yamaha',
-    // databaseURL:
-    //     'https://flutterfire-e2e-tests-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'koperasi-yamaha.appspot.com',
-    androidClientId:
-        '224199405058-1in8g856jc8oamc44oq420q13o31lgp7.apps.googleusercontent.com',
-    iosClientId:
-        '224199405058-pdc7gifikifcstehdslfl2frdnmdo346.apps.googleusercontent.com',
-    iosBundleId: 'com.langitdigital78.machandais',
+    storageBucket: 'koperasi-yamaha.firebasestorage.app',
+    androidClientId: '224199405058-1in8g856jc8oamc44oq420q13o31lgp7.apps.googleusercontent.com',
+    iosClientId: '224199405058-3dqngt21ibd0ibrqu90b757lrkc23i1o.apps.googleusercontent.com',
+    iosBundleId: 'com.example.mobilePgb',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
