@@ -76,10 +76,7 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     Emitter<AppState> emit,
   ) async {
     try {
-      getIt<BaseNetworkClient>().removeTokenFromHeader();
-      await clear();
-      emit(AppInitial());
-      // repoHome.setFcm('');
+      repoHome.setFcm('');
       emit(state.logout());
       getIt<ProfileCubit>().emit(ProfileState());
       getIt<HomeBloc>().add(HomeNavigate(0));

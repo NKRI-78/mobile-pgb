@@ -53,6 +53,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     await _fetchNews(emit, isRefresh: true);
 
     await fetchBanner(emit);
+    add(SetFcm());
 
     emit(state.copyWith(isLoading: false));
   }
