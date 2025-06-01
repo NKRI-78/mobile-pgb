@@ -2,6 +2,17 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
 class DateHelper {
+  static String formatToDayMonthYear(String dateStr) {
+    try {
+      final date = DateTime.parse(dateStr);
+      return '${date.day.toString().padLeft(2, '0')}-'
+          '${date.month.toString().padLeft(2, '0')}-'
+          '${date.year}';
+    } catch (e) {
+      return '-';
+    }
+  }
+
   static String formatDate(DateTime formatDate) {
     initializeDateFormatting("id");
     return DateFormat.yMMMMEEEEd("id").format(formatDate);

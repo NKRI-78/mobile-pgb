@@ -10,7 +10,7 @@ import 'package:mobile_pgb/router/builder.dart';
 
 class FirebaseMessagingMisc {
   static Future<void> init() async {
-    FirebaseMessaging.instance.requestPermission();
+    // FirebaseMessaging.instance.requestPermission();
     FirebaseMessaging.instance.getInitialMessage().then(
       (message) async {
         debugPrint('Pasklik');

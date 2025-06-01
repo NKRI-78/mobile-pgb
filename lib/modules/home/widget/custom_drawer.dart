@@ -60,29 +60,41 @@ class CustomEndDrawer extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  OutlinedButton(
-                    onPressed: () {
-                      OrderRoute(initIndex: 0).go(context);
-                      GoRouter.of(context).pop();
+                  BlocBuilder<AppBloc, AppState>(
+                    bloc: getIt<AppBloc>(),
+                    builder: (context, state) {
+                      if (state.user != null) {
+                        return Column(
+                          children: [
+                            OutlinedButton(
+                              onPressed: () {
+                                OrderRoute(initIndex: 0).go(context);
+                                GoRouter.of(context).pop();
+                              },
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                side: const BorderSide(color: Colors.white),
+                                minimumSize: const Size.fromHeight(48),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: Text(
+                                'Pesanan Saya',
+                                style: AppTextStyles.textStyleNormal.copyWith(
+                                  fontSize: 14,
+                                  color: AppColors.whiteColor,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                          ],
+                        );
+                      }
+                      return const SizedBox.shrink();
                     },
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      side: const BorderSide(
-                        color: Colors.white,
-                      ),
-                      minimumSize: const Size.fromHeight(48),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: Text(
-                      'Pesanan Saya',
-                      style: AppTextStyles.textStyleNormal.copyWith(
-                        fontSize: 14,
-                        color: AppColors.whiteColor,
-                      ),
-                    ),
                   ),
+
                   const SizedBox(height: 20),
                   // OutlinedButton(
                   //   onPressed: () {

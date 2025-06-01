@@ -1,20 +1,16 @@
 part of '../view/profile_page.dart';
 
-final GlobalKey _ktaKey = GlobalKey();
-
-enum CardSide { front, back }
-
 class CustomCardProfile extends StatefulWidget {
-  final String noKta;
-  final String nama;
-  final String tempatTglLahir;
-  final String agama;
-  final String alamat;
-  final String rtRw;
-  final String kelurahan;
-  final String kecamatan;
-  final String fotoPath;
-  final String createAt;
+  final String noKta,
+      nama,
+      tempatTglLahir,
+      agama,
+      alamat,
+      rtRw,
+      kelurahan,
+      kecamatan,
+      fotoPath,
+      createAt;
   final bool isForExport;
   final CardSide cardSide;
   final ValueChanged<CardSide> onCardSideChanged;
@@ -50,9 +46,7 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
   }
 
   void _toggleCardSide(CardSide side) {
-    setState(() {
-      _cardSide = side;
-    });
+    setState(() => _cardSide = side);
     widget.onCardSideChanged(side);
   }
 
@@ -80,11 +74,7 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
             ],
           ),
         const SizedBox(height: 12),
-        // Hanya bagian kartu yang dibungkus RepaintBoundary saat export
-        RepaintBoundary(
-          key: widget.isForExport ? _ktaKey : _ktaKey, // bisa disederhanakan
-          child: _buildCardOnly(isFront),
-        ),
+        _buildCardOnly(isFront)
       ],
     );
   }
@@ -147,7 +137,8 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
                                 ),
                               ),
                               Text(
-                                DateHelper.parseDate(widget.createAt),
+                                DateHelper.formatToDayMonthYear(
+                                    widget.createAt),
                                 style: AppTextStyles.textStyleNormal.copyWith(
                                   fontSize: 6,
                                   fontWeight: FontWeight.bold,
@@ -161,56 +152,38 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  widget.noKta,
-                                  style: AppTextStyles.textStyleBold.copyWith(
-                                    color: AppColors.blackColor,
-                                    fontSize: 10,
-                                  ),
-                                ),
-                                Text(
-                                  widget.nama,
-                                  style: AppTextStyles.textStyleBold.copyWith(
-                                    color: AppColors.blackColor,
-                                    fontSize: 10,
-                                  ),
-                                ),
+                                Text(widget.noKta,
+                                    style: AppTextStyles.textStyleBold
+                                        .copyWith(fontSize: 10)),
+                                Text(widget.nama,
+                                    style: AppTextStyles.textStyleBold
+                                        .copyWith(fontSize: 10)),
                                 const SizedBox(height: 5),
-                                Text(
-                                  widget.tempatTglLahir,
-                                  style: AppTextStyles.textStyleNormal.copyWith(
-                                    color: AppColors.greyColor,
-                                    fontSize: 8,
-                                  ),
-                                ),
-                                Text(
-                                  widget.alamat,
-                                  style: AppTextStyles.textStyleNormal.copyWith(
-                                    color: AppColors.greyColor,
-                                    fontSize: 8,
-                                  ),
-                                ),
-                                Text(
-                                  widget.rtRw,
-                                  style: AppTextStyles.textStyleNormal.copyWith(
-                                    color: AppColors.greyColor,
-                                    fontSize: 8,
-                                  ),
-                                ),
-                                Text(
-                                  widget.kelurahan,
-                                  style: AppTextStyles.textStyleNormal.copyWith(
-                                    color: AppColors.greyColor,
-                                    fontSize: 8,
-                                  ),
-                                ),
-                                Text(
-                                  widget.kecamatan,
-                                  style: AppTextStyles.textStyleNormal.copyWith(
-                                    color: AppColors.greyColor,
-                                    fontSize: 8,
-                                  ),
-                                ),
+                                Text(widget.tempatTglLahir,
+                                    style: AppTextStyles.textStyleNormal
+                                        .copyWith(
+                                            fontSize: 8,
+                                            color: AppColors.greyColor)),
+                                Text(widget.alamat,
+                                    style: AppTextStyles.textStyleNormal
+                                        .copyWith(
+                                            fontSize: 8,
+                                            color: AppColors.greyColor)),
+                                Text(widget.rtRw,
+                                    style: AppTextStyles.textStyleNormal
+                                        .copyWith(
+                                            fontSize: 8,
+                                            color: AppColors.greyColor)),
+                                Text(widget.kelurahan,
+                                    style: AppTextStyles.textStyleNormal
+                                        .copyWith(
+                                            fontSize: 8,
+                                            color: AppColors.greyColor)),
+                                Text(widget.kecamatan,
+                                    style: AppTextStyles.textStyleNormal
+                                        .copyWith(
+                                            fontSize: 8,
+                                            color: AppColors.greyColor)),
                               ],
                             ),
                           ),
@@ -219,12 +192,13 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
                     ),
                   ),
                   Positioned(
-                    bottom: 20,
-                    right: 20,
+                    bottom: 15,
+                    right: 15,
                     child: BarcodeWidget(
                       color: AppColors.buttonBlueColor,
                       barcode: Barcode.qrCode(),
-                      data: widget.noKta,
+                      data:
+                          'http://membership-card.langitdigital78.com/membership-card/${widget.noKta}',
                       width: 50,
                       height: 50,
                       drawText: false,
@@ -243,11 +217,8 @@ class _CardSideButton extends StatelessWidget {
   final bool isSelected;
   final VoidCallback onTap;
 
-  const _CardSideButton({
-    required this.text,
-    required this.isSelected,
-    required this.onTap,
-  });
+  const _CardSideButton(
+      {required this.text, required this.isSelected, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -257,20 +228,15 @@ class _CardSideButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         backgroundColor: isSelected
             ? AppColors.secondaryColor
-            : AppColors.greyColor.withValues(alpha: 0.8),
+            : AppColors.greyColor.withAlpha(200),
         foregroundColor:
             isSelected ? AppColors.whiteColor : AppColors.blackColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
       onPressed: onTap,
-      child: Text(
-        text,
-        style: AppTextStyles.textStyleNormal.copyWith(
-          color: AppColors.whiteColor,
-        ),
-      ),
+      child: Text(text,
+          style: AppTextStyles.textStyleNormal
+              .copyWith(color: AppColors.whiteColor)),
     );
   }
 }

@@ -37,6 +37,21 @@ class _CustomFieldSectionState extends State<CustomFieldSection> {
     _debounce = Timer(const Duration(milliseconds: 500), () {
       String nomor = _normalizePhoneNumber(widget.controller.text.trim());
 
+      if (nomor.length < 10) {
+        if (_errorMessage != "Nomor minimal 10 digit") {
+          setState(() {
+            _errorMessage = "Nomor minimal 10 digit";
+          });
+        }
+        return; // Stop di sini, tidak fetch prefix
+      } else {
+        if (_errorMessage != null) {
+          setState(() {
+            _errorMessage = null;
+          });
+        }
+      }
+
       if (widget.controller.text != nomor) {
         widget.controller.text = nomor;
         widget.controller.selection = TextSelection.fromPosition(

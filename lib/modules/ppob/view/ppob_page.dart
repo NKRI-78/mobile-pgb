@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_pgb/widgets/pages/loading_page.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -109,21 +110,17 @@ class _PpobViewState extends State<PpobView> {
         BlocBuilder<PpobCubit, PpobState>(
           builder: (context, state) {
             if (state.isLoading) {
-              return const Center(
-                heightFactor: 5,
-                child:
-                    CircularProgressIndicator(color: AppColors.secondaryColor),
-              );
+              return CustomLoadingPage();
             } else if (state.isSuccess == true && state.pulsaData.isNotEmpty) {
               return CustomListPulsaDataSection(
                 pulsaData: state.pulsaData,
                 onSelected: _onPulsaDataSelected,
               );
             } else if (state.isSuccess == false) {
-              return const Center(
+              return Center(
                 child: Text(
                   "Terjadi kesalahan",
-                  style: TextStyle(color: Colors.red),
+                  style: AppTextStyles.textStyleBold,
                 ),
               );
             }
