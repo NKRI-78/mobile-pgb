@@ -29,6 +29,23 @@ class ProfileRepository {
     }
   }
 
+  Future<ProfileModel> previewKta({required String kta}) async {
+    try {
+      final response = await http.get(Uri.parse('$profile/preview-kta/$kta'));
+
+      debugPrint(response.body);
+      final json = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        return ProfileModel.fromJson(json['data']);
+      } else {
+        throw "Gagal mengambil preview KTA";
+      }
+    } catch (e) {
+      throw "Terjadi kesalahan saat mengambil preview KTA: $e";
+    }
+  }
+
   Future<void> updateProfile({
     String avatarLink = '',
     String fullname = '',

@@ -1,5 +1,7 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_pgb/misc/colors.dart';
+import 'package:mobile_pgb/widgets/pages/loading_page.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import '../../../misc/download_manager.dart';
@@ -71,6 +73,12 @@ class _DetailVideoPlayerState extends State<DetailVideoPlayer> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         iconTheme: const IconThemeData(color: Colors.white),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {
@@ -79,7 +87,10 @@ class _DetailVideoPlayerState extends State<DetailVideoPlayer> {
               }
             },
             color: Colors.white,
-            icon: const Icon(Icons.more_vert, color: Colors.white),
+            icon: const Icon(
+              Icons.more_vert,
+              color: Colors.white,
+            ),
             itemBuilder: (context) => [
               const PopupMenuItem(
                 value: 'download',
@@ -105,16 +116,15 @@ class _DetailVideoPlayerState extends State<DetailVideoPlayer> {
           }
         },
         child: Center(
-          child: _chewieController != null &&
-                  _chewieController!.videoPlayerController.value.isInitialized
-              ? AspectRatio(
-                  aspectRatio: _videoController.value.aspectRatio,
-                  child: Chewie(controller: _chewieController!),
-                )
-              : const CircularProgressIndicator(
-                  color: Colors.white,
-                ),
-        ),
+            child: _chewieController != null &&
+                    _chewieController!.videoPlayerController.value.isInitialized
+                ? AspectRatio(
+                    aspectRatio: _videoController.value.aspectRatio,
+                    child: Chewie(controller: _chewieController!),
+                  )
+                : CustomLoadingPage(
+                    color: AppColors.whiteColor,
+                  )),
       ),
     );
   }

@@ -4,6 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:cunning_document_scanner/cunning_document_scanner.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_pgb/misc/register_akun_extra.dart';
+import 'package:mobile_pgb/modules/app/models/user_google_model.dart';
 
 import '../../../misc/injections.dart';
 import '../../../misc/snackbar.dart';
@@ -57,8 +59,8 @@ class RegisterKtpCubit extends Cubit<RegisterKtpState> {
     }
   }
 
-  Future<void> scanKtp() async {
-    emit(state.copyWith(loading: true));
+  Future<void> scanKtp({UserGoogleModel? userGoogle}) async {
+    emit(state.copyWith(loading: true, userGoogleModel: userGoogle));
 
     try {
       final images = await CunningDocumentScanner.getPictures(
@@ -114,24 +116,38 @@ class RegisterKtpCubit extends Cubit<RegisterKtpState> {
           context,
           "KTP Anda telah terverifikasi, silakan lanjutkan pendaftaran akun.",
         );
-        RegisterAkunRoute(
-          $extra: ExtrackKtpModel(
-            fullname: state.nama,
-            nik: nik,
-            address: state.alamat,
-            birthPlaceAndDate: state.ttl,
-            gender: state.jenisKelamin,
-            bloodType: state.golDarah,
-            administrativeVillage: state.kelDesa,
-            villageUnit: state.rtRw,
-            subDistrict: state.kecamatan,
-            religion: state.agama,
-            maritalStatus: state.statusPerkawinan,
-            occupation: state.pekerjaan,
-            citizenship: state.kewarganegaraan,
-            validUntil: state.berlakuHingga,
-          ),
-        ).go(context);
+        final extractKtp = ExtrackKtpModel(
+          fullname: state.nama,
+          nik: nik,
+          address: state.alamat,
+          birthPlaceAndDate: state.ttl,
+          gender: state.jenisKelamin,
+          bloodType: state.golDarah,
+          administrativeVillage: state.kelDesa,
+          villageUnit: state.rtRw,
+          subDistrict: state.kecamatan,
+          religion: state.agama,
+          maritalStatus: state.statusPerkawinan,
+          occupation: state.pekerjaan,
+          citizenship: state.kewarganegaraan,
+          validUntil: state.berlakuHingga,
+        );
+        final userGoogle = UserGoogleModel(
+          action: state.userGoogleModel?.action,
+          avatar: state.userGoogleModel?.avatar,
+          email: state.userGoogleModel?.email,
+          name: state.userGoogleModel?.name,
+          oauthId: state.userGoogleModel?.oauthId,
+        );
+
+        final extra = RegisterAkunExtra(
+          extrackKtp: extractKtp,
+          userGoogle: userGoogle,
+        );
+        RegisterAkunRoute($extra: extra).push(context);
+
+        print("CEK${extra.extrackKtp}");
+        print("CEK${extra.userGoogle}");
       }
     } catch (e, stack) {
       debugPrint('Gagal check NIK: $e');

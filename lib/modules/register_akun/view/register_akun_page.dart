@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_pgb/modules/app/models/user_google_model.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
@@ -12,31 +13,33 @@ import '../widget/customfield_foto.dart';
 class RegisterAkunPage extends StatelessWidget {
   const RegisterAkunPage({
     super.key,
-    required this.extrackKtp,
+    this.extrackKtp,
+    this.userGoogle,
   });
 
-  final ExtrackKtpModel extrackKtp;
+  final ExtrackKtpModel? extrackKtp;
+  final UserGoogleModel? userGoogle;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<RegisterAkunCubit>(
-      create: (context) => RegisterAkunCubit()..init(extrackKtp),
-      child: RegisterAkunView(
-        extrackKtp: extrackKtp,
-      ),
+      create: (context) => RegisterAkunCubit()
+        ..init(extrackKtp: extrackKtp, userGoogle: userGoogle),
+      child: RegisterAkunView(),
     );
   }
 }
 
 class RegisterAkunView extends StatelessWidget {
-  const RegisterAkunView({super.key, required this.extrackKtp});
-
-  final ExtrackKtpModel extrackKtp;
+  const RegisterAkunView({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterAkunCubit, RegisterAkunState>(
       builder: (context, state) {
+        // print("CEK EMAIL${state.email}");
         return Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(

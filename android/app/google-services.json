@@ -446,6 +446,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "224199405058-09p9pme27jarblvourffjp9of7jqvoi4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.langitdigital78.mobile_pgb",
+            "certificate_hash": "212450370ea7776e3f4158848880345b99a14c33"
+          }
+        },
+        {
           "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
           "client_type": 3
         }

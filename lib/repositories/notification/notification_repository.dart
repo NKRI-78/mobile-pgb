@@ -60,12 +60,22 @@ class NotificationRepository {
 
   Future<NotificationCountModel> getBadgesNotif() async {
     try {
-      final res = await http.get(Uri.parse('$notif/getUnreadCount'));
-
+      final res = await http.get(Uri.parse(notif));
       debugPrint(res.body);
       final json = jsonDecode(res.body);
+
       if (res.statusCode == 200) {
-        return NotificationCountModel.fromJson(json['data']);
+        final List data = json['data']['data'];
+
+        // Filter unread dan bukan FORUM, FORUM_COMMENT
+        final filtered = data.where((item) {
+          final isUnread = item['read_at'] == null;
+          final type = item['type'];
+          return isUnread &&
+              ['NEWS', 'SOS', 'BROADCAST', 'PAYMENT'].contains(type);
+        }).toList();
+
+        return NotificationCountModel(unreadCount: filtered.length);
       } else {
         throw json['message'] ?? "Terjadi kesalahan";
       }

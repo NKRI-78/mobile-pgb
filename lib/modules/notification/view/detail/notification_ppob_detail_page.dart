@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_pgb/widgets/pages/loading_page.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 
 import '../../../../misc/colors.dart';
@@ -43,11 +44,7 @@ class _NotificationPpobDetailViewState
       builder: (context, state) {
         if (state.loading || state.detailv2 == null) {
           return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(
-                color: AppColors.secondaryColor,
-              ),
-            ),
+            body: Center(child: CustomLoadingPage()),
           );
         }
         return Scaffold(

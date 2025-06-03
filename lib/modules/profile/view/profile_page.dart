@@ -23,6 +23,11 @@ part '../widget/custom_card_profile.dart';
 part '../widget/custom_data_profile.dart';
 part '../widget/custom_download_kta.dart';
 
+final GlobalKey _ktaFrontKey = GlobalKey();
+final GlobalKey _ktaBackKey = GlobalKey();
+
+enum CardSide { front, back }
+
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
@@ -30,7 +35,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: getIt<ProfileCubit>()..getProfile(),
-      child: ProfileView(),
+      child: const ProfileView(),
     );
   }
 }
@@ -43,13 +48,14 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  CardSide _cardSide = CardSide.front;
+  final PageController _pageController = PageController(viewportFraction: 1);
+  // CardSide _cardSide = CardSide.front;
 
-  void _updateCardSide(CardSide side) {
-    setState(() {
-      _cardSide = side;
-    });
-  }
+  // void _updateCardSide(CardSide side) {
+  //   setState(() {
+  //     _cardSide = side;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -60,55 +66,126 @@ class _ProfileViewState extends State<ProfileView> {
           extendBodyBehindAppBar: true,
           appBar: AppBar(
             surfaceTintColor: Colors.transparent,
-            title: Text(
-              'Profile',
-              style: AppTextStyles.textStyleBold.copyWith(),
-            ),
+            title: Text('Profile', style: AppTextStyles.textStyleBold),
             centerTitle: true,
             backgroundColor: Colors.transparent,
             elevation: 0,
             leading: IconButton(
-              icon: const Icon(
-                Icons.arrow_back_ios_new,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              icon: const Icon(Icons.arrow_back_ios_new),
+              onPressed: () => Navigator.pop(context),
             ),
           ),
           body: AnimatedSwitcher(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             child: state.isLoading
-                ? Center(
-                    child: CustomLoadingPage(),
-                  )
+                ? const Center(child: CustomLoadingPage())
                 : SafeArea(
                     child: SingleChildScrollView(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       child: Column(
                         children: [
-                          CustomCardProfile(
-                            isForExport: false,
-                            cardSide: _cardSide,
-                            onCardSideChanged: _updateCardSide,
-                            createAt: state.profile?.profile?.createdAt ?? '-',
-                            noKta: state.profile?.profile?.kta ?? '-',
-                            nama: state.profile?.profile?.fullname ?? '-',
-                            tempatTglLahir:
-                                state.profile?.profile?.birthPlaceAndDate ??
-                                    '-',
-                            agama: state.profile?.profile?.religion ?? '-',
-                            alamat: state.profile?.profile?.address ?? '-',
-                            rtRw: state.profile?.profile?.villageUnit ?? '-',
-                            kelurahan:
-                                state.profile?.profile?.administrativeVillage ??
-                                    '-',
-                            kecamatan:
-                                state.profile?.profile?.subDistrict ?? '-',
-                            fotoPath: state.profile?.profile?.avatarLink ??
-                                imageDefaultUser,
+                          Column(
+                            children: [
+                              LayoutBuilder(
+                                builder: (context, constraints) {
+                                  final width = constraints.maxWidth;
+                                  final height = width * 0.70;
+
+                                  return SizedBox(
+                                    height: height,
+                                    child: PageView(
+                                      controller: _pageController,
+                                      children: [
+                                        RepaintBoundary(
+                                          key: _ktaFrontKey,
+                                          child: CustomCardProfile(
+                                            isForExport: true,
+                                            cardSide: CardSide.front,
+                                            onCardSideChanged: (_) {},
+                                            createAt: state.profile?.profile
+                                                    ?.createdAt ??
+                                                '-',
+                                            noKta:
+                                                state.profile?.profile?.kta ??
+                                                    '-',
+                                            nama: state.profile?.profile
+                                                    ?.fullname ??
+                                                '-',
+                                            tempatTglLahir: state
+                                                    .profile
+                                                    ?.profile
+                                                    ?.birthPlaceAndDate ??
+                                                '-',
+                                            agama: state.profile?.profile
+                                                    ?.religion ??
+                                                '-',
+                                            alamat: state.profile?.profile
+                                                    ?.address ??
+                                                '-',
+                                            rtRw: state.profile?.profile
+                                                    ?.villageUnit ??
+                                                '-',
+                                            kelurahan: state.profile?.profile
+                                                    ?.administrativeVillage ??
+                                                '-',
+                                            kecamatan: state.profile?.profile
+                                                    ?.subDistrict ??
+                                                '-',
+                                            fotoPath: state.profile?.profile
+                                                    ?.avatarLink ??
+                                                imageDefaultUser,
+                                          ),
+                                        ),
+                                        RepaintBoundary(
+                                          key: _ktaBackKey,
+                                          child: CustomCardProfile(
+                                            isForExport: true,
+                                            cardSide: CardSide.back,
+                                            onCardSideChanged: (_) {},
+                                            createAt: state.profile?.profile
+                                                    ?.createdAt ??
+                                                '-',
+                                            noKta:
+                                                state.profile?.profile?.kta ??
+                                                    '-',
+                                            nama: state.profile?.profile
+                                                    ?.fullname ??
+                                                '-',
+                                            tempatTglLahir: state
+                                                    .profile
+                                                    ?.profile
+                                                    ?.birthPlaceAndDate ??
+                                                '-',
+                                            agama: state.profile?.profile
+                                                    ?.religion ??
+                                                '-',
+                                            alamat: state.profile?.profile
+                                                    ?.address ??
+                                                '-',
+                                            rtRw: state.profile?.profile
+                                                    ?.villageUnit ??
+                                                '-',
+                                            kelurahan: state.profile?.profile
+                                                    ?.administrativeVillage ??
+                                                '-',
+                                            kecamatan: state.profile?.profile
+                                                    ?.subDistrict ??
+                                                '-',
+                                            fotoPath: state.profile?.profile
+                                                    ?.avatarLink ??
+                                                imageDefaultUser,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
                           ),
-                          CustomDownloadKta(),
+                          CustomDownloadKta(
+                            controller: _pageController,
+                          ),
                           CustomDataProfile(
                             email: state.profile?.email ?? '',
                             nama: state.profile?.profile?.fullname ?? '',
@@ -120,13 +197,12 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
           ),
           bottomNavigationBar: state.isLoading
-              ? SizedBox.shrink()
+              ? const SizedBox.shrink()
               : SafeArea(
-                  minimum: EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                  minimum:
+                      const EdgeInsets.only(left: 16, right: 16, bottom: 16),
                   child: CustomButton(
-                    onPressed: () {
-                      ProfileUpdateRoute().go(context);
-                    },
+                    onPressed: () => ProfileUpdateRoute().go(context),
                     text: "Edit",
                     backgroundColour: AppColors.secondaryColor,
                     textColour: AppColors.buttonWhiteColor,

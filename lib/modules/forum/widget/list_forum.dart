@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_pgb/misc/snackbar.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/modal.dart';
@@ -47,12 +48,10 @@ class ForumListSection extends StatelessWidget {
                           .read<ForumCubit>()
                           .deleteForum(idForum: forums.id.toString());
                       Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Postingan berhasil dihapus!'),
-                          backgroundColor: AppColors.secondaryColor,
-                          duration: Duration(seconds: 2),
-                        ),
+                      ShowSnackbar.snackbar(
+                        context,
+                        "Postingan berhasil dihapus!",
+                        isSuccess: true,
                       );
                     },
                     locationImage: 'assets/icons/delete-icon.png',
@@ -64,12 +63,10 @@ class ForumListSection extends StatelessWidget {
                     showCancelButton: true,
                     onPressed: () async {
                       Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Postingan berhasil dilaporkan!'),
-                          backgroundColor: AppColors.secondaryColor,
-                          duration: Duration(seconds: 2),
-                        ),
+                      ShowSnackbar.snackbar(
+                        context,
+                        "Postingan berhasil dilaporkan!",
+                        isSuccess: true,
                       );
                     },
                     locationImage: 'assets/icons/delete-icon.png',

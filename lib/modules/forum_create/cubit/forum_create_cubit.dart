@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../misc/colors.dart';
 import '../../../misc/snackbar.dart';
 import '../../../repositories/forum_repository/forum_repository.dart';
 import 'package:multi_image_picker_plus/multi_image_picker_plus.dart';
@@ -94,14 +93,10 @@ class ForumCreateCubit extends Cubit<ForumCreateState> {
       debugPrint("Error: $e");
 
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: AppColors.secondaryColor,
-            content: Text(
-              e.toString(),
-              style: const TextStyle(color: Colors.white),
-            ),
-          ),
+        ShowSnackbar.snackbar(
+          context,
+          e.toString(),
+          isSuccess: true,
         );
       }
     } finally {
@@ -204,51 +199,104 @@ class ForumCreateCubit extends Cubit<ForumCreateState> {
     }
   }
 
+  // Future<void> uploadVid(BuildContext context) async {
+  //   FilePickerResult? result = await FilePicker.platform.pickFiles(
+  //       type: FileType.custom,
+  //       allowedExtensions: [
+  //         'mp4',
+  //         'avi',
+  //         'mkv',
+  //         'mov',
+  //         '3gp',
+  //         'wmv',
+  //         'flv',
+  //         'mpeg',
+  //         'mpg',
+  //         'webm'
+  //       ],
+  //       allowMultiple: false,
+  //       withData: false,
+  //       withReadStream: true,
+  //       onFileLoading: (FilePickerStatus filePickerStatus) {});
+  //   List<File> newVideo = [];
+  //   if (result != null) {
+  //     File vf = File(result.files.single.path!);
+  //     int sizeInBytes = vf.lengthSync();
+  //     double sizeInMb = sizeInBytes / (1024 * 1024);
+  //     debugPrint('Ukuran ${sizeInMb.toString()}');
+  //     if (sizeInMb > 200) {
+  //       Future.delayed(Duration.zero, () {
+  //         ShowSnackbar.snackbar(
+  //           context,
+  //           "Video Maksimal 200 MB",
+  //           isSuccess: false,
+  //         );
+  //       });
+  //       return;
+  //     }
+  //     newVideo.add(File(vf.path));
+  //     // emit(state.copyWith(pickedFile: pickedFile));
+  //     videoFileThumbnail = await VideoCompressV2.getByteThumbnail(vf.path);
+  //     videoSize = filesize(sizeInBytes, 0);
+  //     emit(state.copyWith(
+  //         pickedFile: newVideo,
+  //         feedType: "video",
+  //         videoFileThumbnail: videoFileThumbnail,
+  //         fileSize: videoSize));
+  //   }
+  // }
   Future<void> uploadVid(BuildContext context) async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: [
-          'mp4',
-          'avi',
-          'mkv',
-          'mov',
-          '3gp',
-          'wmv',
-          'flv',
-          'mpeg',
-          'mpg',
-          'webm'
+    ImageSource? videoSource = await showDialog<ImageSource>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Pilih Video"),
+        actions: [
+          TextButton(
+            child: const Text("Camera"),
+            onPressed: () => Navigator.pop(context, ImageSource.camera),
+          ),
+          TextButton(
+            child: const Text("Gallery"),
+            onPressed: () => Navigator.pop(context, ImageSource.gallery),
+          ),
         ],
-        allowMultiple: false,
-        withData: false,
-        withReadStream: true,
-        onFileLoading: (FilePickerStatus filePickerStatus) {});
-    List<File> newVideo = [];
-    if (result != null) {
-      File vf = File(result.files.single.path!);
-      int sizeInBytes = vf.lengthSync();
-      double sizeInMb = sizeInBytes / (1024 * 1024);
-      debugPrint('Ukuran ${sizeInMb.toString()}');
-      if (sizeInMb > 200) {
-        Future.delayed(Duration.zero, () {
-          ShowSnackbar.snackbar(
-            context,
-            "Video Maksimal 200 MB",
-            isSuccess: false,
-          );
-        });
-        return;
+      ),
+    );
+
+    if (videoSource == null) return;
+
+    final XFile? pickedVideo = await ImagePicker().pickVideo(
+      source: videoSource,
+      maxDuration: const Duration(minutes: 10),
+    );
+
+    if (pickedVideo == null) return;
+
+    File videoFile = File(pickedVideo.path);
+    int sizeInBytes = videoFile.lengthSync();
+    double sizeInMb = sizeInBytes / (1024 * 1024);
+
+    if (sizeInMb > 200) {
+      if (context.mounted) {
+        ShowSnackbar.snackbar(
+          context,
+          "Video Maksimal 200 MB",
+          isSuccess: false,
+        );
       }
-      newVideo.add(File(vf.path));
-      // emit(state.copyWith(pickedFile: pickedFile));
-      videoFileThumbnail = await VideoCompressV2.getByteThumbnail(vf.path);
-      videoSize = filesize(sizeInBytes, 0);
-      emit(state.copyWith(
-          pickedFile: newVideo,
-          feedType: "video",
-          videoFileThumbnail: videoFileThumbnail,
-          fileSize: videoSize));
+      return;
     }
+
+    final Uint8List? thumbnail =
+        await VideoCompressV2.getByteThumbnail(videoFile.path);
+    final String videoSizeStr = filesize(sizeInBytes, 0);
+
+    emit(state.copyWith(
+      pickedFile: [videoFile],
+      feedType: "video",
+      videoFileThumbnail: thumbnail,
+      fileSize: videoSizeStr,
+    ));
   }
 
   Future<void> uploadDoc(BuildContext context) async {

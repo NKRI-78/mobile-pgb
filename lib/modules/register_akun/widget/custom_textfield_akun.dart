@@ -30,15 +30,21 @@ class _FieldEmail extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterAkunCubit, RegisterAkunState>(
       builder: (context, state) {
+        final isGoogleLogin = state.userGoogle != null;
+        final email = isGoogleLogin ? state.userGoogle!.email : state.email;
+
         return _buildTextFormField(
           label: 'Alamat Email',
-          initialValue: state.email,
+          initialValue: email,
           keyboardType: TextInputType.emailAddress,
           onChanged: (value) {
-            var cubit = context.read<RegisterAkunCubit>();
-            cubit.copyState(newState: cubit.state.copyWith(email: value));
+            if (isGoogleLogin) {
+              var cubit = context.read<RegisterAkunCubit>();
+              cubit.copyState(newState: cubit.state.copyWith(email: value));
+            }
           },
           inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
+          readOnly: isGoogleLogin ? false : true,
         );
       },
     );
@@ -113,6 +119,7 @@ Widget _buildTextFormField({
   String? initialValue,
   List<TextInputFormatter>? inputFormatters,
   int? maxLength,
+  bool readOnly = false,
 }) {
   return Padding(
     padding: EdgeInsets.only(bottom: 12),
@@ -130,6 +137,7 @@ Widget _buildTextFormField({
           keyboardType: keyboardType,
           onChanged: onChanged,
           inputFormatters: inputFormatters,
+          readOnly: readOnly,
           decoration: InputDecoration(
             labelText: label,
             labelStyle: AppTextStyles.textStyleNormal.copyWith(

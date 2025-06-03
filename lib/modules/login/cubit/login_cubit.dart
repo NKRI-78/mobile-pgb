@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_pgb/misc/register_akun_extra.dart';
 
 import '../../../misc/injections.dart';
 import '../../../misc/snackbar.dart';
 import '../../../repositories/auth_repository/auth_repository.dart';
 import '../../../router/builder.dart';
 import '../../app/bloc/app_bloc.dart';
-import '../../register_akun/model/extrack_ktp_model.dart';
 
 part 'login_state.dart';
 
@@ -44,7 +44,7 @@ class LoginCubit extends Cubit<LoginState> {
         return;
       }
       RegisterOtpRoute(
-        $extra: ExtrackKtpModel(),
+        $extra: RegisterAkunExtra(),
         email: state.email,
         isLogin: true,
       ).push(context);
