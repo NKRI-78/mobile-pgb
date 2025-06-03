@@ -1045,25 +1045,29 @@ extension $LupaPasswordChangeRouteExtension on LupaPasswordChangeRoute {
 }
 
 extension $RegisterKtpRouteExtension on RegisterKtpRoute {
-  static RegisterKtpRoute _fromState(GoRouterState state) => RegisterKtpRoute();
+  static RegisterKtpRoute _fromState(GoRouterState state) => RegisterKtpRoute(
+        $extra: state.extra as RegisterAkunExtra,
+      );
 
   String get location => GoRouteData.$location(
         '/home/register/register-ktp',
       );
 
-  void go(BuildContext context) => context.go(location);
+  void go(BuildContext context) => context.go(location, extra: $extra);
 
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+  Future<T?> push<T>(BuildContext context) =>
+      context.push<T>(location, extra: $extra);
 
   void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
+      context.pushReplacement(location, extra: $extra);
 
-  void replace(BuildContext context) => context.replace(location);
+  void replace(BuildContext context) =>
+      context.replace(location, extra: $extra);
 }
 
 extension $RegisterAkunRouteExtension on RegisterAkunRoute {
   static RegisterAkunRoute _fromState(GoRouterState state) => RegisterAkunRoute(
-        $extra: state.extra as ExtrackKtpModel,
+        $extra: state.extra as RegisterAkunExtra,
       );
 
   String get location => GoRouteData.$location(
@@ -1086,7 +1090,7 @@ extension $RegisterOtpRouteExtension on RegisterOtpRoute {
   static RegisterOtpRoute _fromState(GoRouterState state) => RegisterOtpRoute(
         email: state.uri.queryParameters['email']!,
         isLogin: _$boolConverter(state.uri.queryParameters['is-login']!)!,
-        $extra: state.extra as ExtrackKtpModel,
+        $extra: state.extra as RegisterAkunExtra,
       );
 
   String get location => GoRouteData.$location(
@@ -1114,7 +1118,7 @@ extension $RegisterChangeRouteExtension on RegisterChangeRoute {
       RegisterChangeRoute(
         isLogin: _$boolConverter(state.uri.queryParameters['is-login']!)!,
         email: state.uri.queryParameters['email']!,
-        $extra: state.extra as ExtrackKtpModel,
+        $extra: state.extra as RegisterAkunExtra,
       );
 
   String get location => GoRouteData.$location(

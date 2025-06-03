@@ -169,9 +169,11 @@ class AuthRepository {
     String email = '',
     String phone = '',
     String password = '',
+    String oAuth = "",
     ExtrackKtpModel? ktpModel,
   }) async {
     try {
+      print("Oauth : $oAuth");
       final response = await http.post(Uri.parse('$auth/register'), body: {
         'email': email,
         'password': password,
@@ -191,6 +193,7 @@ class AuthRepository {
         'citizenship': ktpModel?.citizenship ?? '',
         'blood_type': ktpModel?.bloodType ?? '',
         'valid_until': ktpModel?.validUntil ?? '',
+        'oauth_id': oAuth,
       });
 
       final json = jsonDecode(response.body);
@@ -208,61 +211,6 @@ class AuthRepository {
       rethrow;
     }
   }
-
-  // Future<(UserModel, String)> registerAkun({
-  //   String email = '',
-  //   String phone = '',
-  //   String password = '',
-  //   ExtrackKtpModel? ktpModel,
-  // }) async {
-  //   try {
-  //     final response = await http.post(Uri.parse('$auth/register'), body: {
-  //       'email': email,
-  //       'password': password,
-  //       'phone': phone,
-  //       'address': ktpModel?.address ?? '',
-  //       'name': ktpModel?.fullname ?? '',
-  //       'gender': ktpModel?.translateGender,
-  //       'nik': ktpModel?.nik ?? '',
-  //       'avatar_link': ktpModel?.avatarLink ?? '',
-  //       'birth_place_and_date': ktpModel?.birthPlaceAndDate ?? '',
-  //       'village_unit': ktpModel?.villageUnit ?? '',
-  //       'administrative_village': ktpModel?.administrativeVillage ?? '',
-  //       'sub_district': ktpModel?.subDistrict ?? '',
-  //       'religion': ktpModel?.religion ?? '',
-  //       'marital_status': ktpModel?.maritalStatus ?? '',
-  //       'occupation': ktpModel?.occupation ?? '',
-  //       'citizenship': ktpModel?.citizenship ?? '',
-  //       'blood_type': ktpModel?.bloodType ?? '',
-  //       'valid_until': ktpModel?.validUntil ?? '',
-  //     });
-
-  //     final json = jsonDecode(response.body);
-
-  //     if (response.statusCode == 200) {
-  //       final data = json['data'];
-
-  //       if (data == null) throw "Response 'data' is null";
-
-  //       final user = UserModel.fromJson(data as Map<String, dynamic>);
-  //       final token = data['token'] as String?;
-
-  //       if (token == null) throw "Token tidak ditemukan";
-
-  //       return (user, token);
-  //     } else if (response.statusCode == 400) {
-  //       throw json['message'] ?? "Terjadi kesalahan";
-  //     } else {
-  //       throw "Terjadi kesalahan tidak terduga (${response.statusCode})";
-  //     }
-  //   } on SocketException {
-  //     throw "Terjadi Kesalahan Jaringan";
-  //   } on TimeoutException {
-  //     throw "Koneksi internet lambat, periksa jaringan Anda";
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
 
   Future<LoggedIn?> verifyOtp(
       String email, String verificationCode, VerifyEmailType type) async {

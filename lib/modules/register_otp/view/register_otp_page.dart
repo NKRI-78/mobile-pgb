@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../../misc/colors.dart';
+import '../../../misc/register_akun_extra.dart';
 import '../../../misc/text_style.dart';
 import '../../../router/builder.dart';
-import '../../register_akun/model/extrack_ktp_model.dart';
 import '../cubit/register_otp_cubit.dart';
 
 class RegisterOtpPage extends StatelessWidget {
@@ -14,27 +14,23 @@ class RegisterOtpPage extends StatelessWidget {
       {super.key,
       required this.email,
       required this.isLogin,
-      required this.extrackKtp});
+      required this.akunExtra});
 
   final String email;
   final bool isLogin;
-  final ExtrackKtpModel extrackKtp;
+  final RegisterAkunExtra akunExtra;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<RegisterOtpCubit>(
       create: (context) => RegisterOtpCubit(isLogin)..init(email),
-      child: RegisterOtpView(
-        extrackKtp: extrackKtp,
-      ),
+      child: RegisterOtpView(),
     );
   }
 }
 
 class RegisterOtpView extends StatelessWidget {
-  const RegisterOtpView({super.key, required this.extrackKtp});
-
-  final ExtrackKtpModel extrackKtp;
+  const RegisterOtpView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +126,7 @@ class RegisterOtpView extends StatelessWidget {
                                             await RegisterChangeRoute(
                                           isLogin: true,
                                           email: state.email,
-                                          $extra: extrackKtp,
+                                          $extra: RegisterAkunExtra(),
                                         ).push(context);
                                         if (result != null && context.mounted) {
                                           context

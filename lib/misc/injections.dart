@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import '../modules/register/cubit/register_cubit.dart';
 import 'socket.dart';
 import '../modules/cart/cubit/cart_cubit.dart';
 import '../modules/checkout/cubit/checkout_cubit.dart';
@@ -73,6 +74,7 @@ class MyInjection {
     getIt.registerLazySingleton<ForumDetailCubit>(() => ForumDetailCubit());
     getIt.registerLazySingleton<RegisterChangeCubit>(
         () => RegisterChangeCubit());
+    getIt.registerLazySingleton<RegisterCubit>(() => RegisterCubit());
     // REPO
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
     getIt.registerLazySingleton<HomeRepository>(() => HomeRepository());

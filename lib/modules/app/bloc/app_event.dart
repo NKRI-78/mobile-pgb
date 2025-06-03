@@ -25,3 +25,9 @@ final class SetUserData extends AppEvent {
 
   const SetUserData({required this.user, required this.token});
 }
+
+final class SetUserGoogle extends AppEvent {
+  final UserGoogleModel userGoogle;
+
+  const SetUserGoogle({required this.userGoogle});
+}

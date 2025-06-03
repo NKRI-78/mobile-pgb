@@ -12,6 +12,7 @@ class RegisterAkunState extends Equatable {
   final String passwordConfirm;
   final File? fileImage;
   final ExtrackKtpModel? ktpModel;
+  final UserGoogleModel? userGoogle;
 
   const RegisterAkunState({
     this.token = '',
@@ -25,6 +26,7 @@ class RegisterAkunState extends Equatable {
     this.passwordConfirm = '',
     this.fileImage,
     this.ktpModel,
+    this.userGoogle,
   });
 
   @override
@@ -40,6 +42,7 @@ class RegisterAkunState extends Equatable {
         ktpModel,
         user,
         token,
+        userGoogle,
       ];
 
   RegisterAkunState copyWith({
@@ -54,6 +57,7 @@ class RegisterAkunState extends Equatable {
     String? passwordConfirm,
     ValueGetter<File?>? fileImage,
     ExtrackKtpModel? ktpModel,
+    UserGoogleModel? userGoogle,
   }) {
     return RegisterAkunState(
       token: token ?? this.token,
@@ -68,6 +72,7 @@ class RegisterAkunState extends Equatable {
       passwordConfirm: passwordConfirm ?? this.passwordConfirm,
       fileImage: fileImage != null ? fileImage() : this.fileImage,
       ktpModel: ktpModel ?? this.ktpModel,
+      userGoogle: userGoogle ?? this.userGoogle,
     );
   }
 }

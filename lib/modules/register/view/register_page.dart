@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_pgb/misc/register_akun_extra.dart';
+import 'package:mobile_pgb/modules/register/cubit/register_cubit.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
@@ -10,7 +13,10 @@ class RegisterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const RegisterView();
+    return BlocProvider(
+      create: (context) => RegisterCubit(),
+      child: const RegisterView(),
+    );
   }
 }
 
@@ -111,7 +117,11 @@ class RegisterView extends StatelessWidget {
                         text: "Sign Up With Google",
                         backgroundColour: AppColors.whiteColor,
                         textColour: AppColors.blackColor,
-                        onPressed: () {},
+                        onPressed: () {
+                          context
+                              .read<RegisterCubit>()
+                              .loginWithGoogle(context);
+                        },
                       ),
                     ],
                   ),
@@ -208,9 +218,12 @@ class RegisterView extends StatelessWidget {
                                 ),
                               ),
                               onPressed: () {
+                                // final oauthId =
+                                //     context.read<RegisterCubit>().state.oauthId;
                                 Navigator.of(dialogContext).pop();
 
-                                RegisterKtpRoute().go(context);
+                                RegisterKtpRoute($extra: RegisterAkunExtra())
+                                    .go(context);
                               },
                               child: Text(
                                 'Lanjutkan',

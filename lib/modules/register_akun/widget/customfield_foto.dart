@@ -29,18 +29,30 @@ class CustomfieldFoto extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: Colors.white, width: 1),
                 ),
-                child: state.fileImage != null
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.file(state.fileImage!,
-                            fit: BoxFit.cover, width: 100, height: 100),
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.camera_alt, color: Colors.white, size: 30),
-                        ],
-                      ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: state.fileImage != null
+                      ? Image.file(
+                          state.fileImage!,
+                          fit: BoxFit.cover,
+                          width: 100,
+                          height: 100,
+                        )
+                      : (state.userGoogle?.avatar != null
+                          ? Image.network(
+                              state.userGoogle!.avatar.toString(),
+                              fit: BoxFit.cover,
+                              width: 100,
+                              height: 100,
+                            )
+                          : Container(
+                              color: Colors.transparent,
+                              child: Center(
+                                child: Icon(Icons.camera_alt,
+                                    color: Colors.white, size: 30),
+                              ),
+                            )),
+                ),
               ),
             ),
             SizedBox(width: 12),
@@ -91,15 +103,22 @@ class _ImagePickerBottomSheet extends StatelessWidget {
           title: Text("Gunakan Kamera"),
           onTap: () => _pickImage(context, ImageSource.camera),
         ),
-        if (context.read<RegisterAkunCubit>().state.fileImage != null)
+        if (context.read<RegisterAkunCubit>().state.fileImage != null ||
+            context.read<RegisterAkunCubit>().state.userGoogle?.avatar != null)
           ListTile(
             leading: Icon(Icons.delete, color: AppColors.redColor),
             title: Text("Hapus Foto"),
             onTap: () {
-              context.read<RegisterAkunCubit>().copyState(
-                  newState: context.read<RegisterAkunCubit>().state.copyWith(
-                        fileImage: () => null,
-                      ));
+              final cubit = context.read<RegisterAkunCubit>();
+              final state = cubit.state;
+
+              cubit.copyState(
+                newState: state.copyWith(
+                  fileImage: () => null,
+                  userGoogle: state.userGoogle?.copyWith(avatar: null),
+                ),
+              );
+
               Navigator.pop(context);
             },
           ),

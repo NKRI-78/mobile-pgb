@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../misc/register_akun_extra.dart';
 import '../../../misc/text_style.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../misc/colors.dart';
-import '../../register_akun/model/extrack_ktp_model.dart';
 import '../cubit/register_change_cubit.dart';
 
 part '../widget/_field_email.dart';
@@ -13,13 +13,13 @@ class RegisterChangePage extends StatelessWidget {
   const RegisterChangePage({
     super.key,
     required this.email,
-    required this.extrackKtp,
+    required this.akunExtra,
     required this.isLogin,
   });
 
   final String email;
   final bool isLogin;
-  final ExtrackKtpModel extrackKtp;
+  final RegisterAkunExtra akunExtra;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,6 @@ class RegisterChangePage extends StatelessWidget {
       create: (context) => RegisterChangeCubit(),
       child: RegisterChangeView(
         email: email,
-        extrackKtp: extrackKtp,
         isLogin: isLogin,
       ),
     );
@@ -38,13 +37,11 @@ class RegisterChangeView extends StatelessWidget {
   const RegisterChangeView({
     super.key,
     required this.email,
-    required this.extrackKtp,
     required this.isLogin,
   });
 
   final String email;
   final bool isLogin;
-  final ExtrackKtpModel extrackKtp;
 
   @override
   Widget build(BuildContext context) {

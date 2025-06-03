@@ -5,6 +5,7 @@ class RegisterKtpState extends Equatable {
   final List<String> imagePaths;
   final String? ktpImagePath;
   final Map<String, dynamic>? extractedData;
+  final UserGoogleModel? userGoogleModel;
   final String? error;
   //
   final String nik;
@@ -27,6 +28,7 @@ class RegisterKtpState extends Equatable {
     this.imagePaths = const [],
     this.ktpImagePath,
     this.extractedData,
+    this.userGoogleModel,
     this.error,
     //
     this.nik = '',
@@ -51,6 +53,7 @@ class RegisterKtpState extends Equatable {
         imagePaths,
         ktpImagePath,
         extractedData,
+        userGoogleModel,
         error,
         //
         nik,
@@ -74,6 +77,7 @@ class RegisterKtpState extends Equatable {
     List<String>? imagePaths,
     String? ktpImagePath,
     Map<String, dynamic>? extractedData,
+    UserGoogleModel? userGoogleModel,
     String? error,
     //
     String? nik,
@@ -96,6 +100,7 @@ class RegisterKtpState extends Equatable {
       imagePaths: imagePaths ?? this.imagePaths,
       ktpImagePath: ktpImagePath ?? this.ktpImagePath,
       extractedData: extractedData ?? this.extractedData,
+      userGoogleModel: userGoogleModel ?? this.userGoogleModel,
       error: error,
       //
       nik: nik ?? this.nik,

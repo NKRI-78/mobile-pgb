@@ -27,6 +27,7 @@ ShopState _$ShopStateFromJson(Map<String, dynamic> json) => ShopState(
           const {},
       scrollP: (json['scrollP'] as num?)?.toDouble() ?? 0,
       tabIndex: (json['tabIndex'] as num?)?.toInt() ?? 0,
+      searchQuery: json['searchQuery'] as String? ?? '',
     );
 
 Map<String, dynamic> _$ShopStateToJson(ShopState instance) => <String, dynamic>{
@@ -39,4 +40,5 @@ Map<String, dynamic> _$ShopStateToJson(ShopState instance) => <String, dynamic>{
       'selectedIds': instance.selectedIds.toList(),
       'scrollP': instance.scrollP,
       'tabIndex': instance.tabIndex,
+      'searchQuery': instance.searchQuery,
     };

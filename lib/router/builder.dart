@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_pgb/misc/register_akun_extra.dart';
 import '../modules/cart/view/cart_page.dart';
 import '../modules/checkout/view/checkout_page.dart';
 import '../modules/create_shipping_address/view/create_address_page.dart';
@@ -40,7 +41,6 @@ import '../modules/ppob/view/ppob_page.dart';
 import '../modules/ppob/view/ppob_waiting_payment_page.dart';
 import '../modules/profile_update/view/profile_update_page.dart';
 import '../modules/register/view/register_page.dart';
-import '../modules/register_akun/model/extrack_ktp_model.dart';
 import '../modules/register_akun/view/register_akun_page.dart';
 import '../modules/register_change/view/register_change_page.dart';
 import '../modules/register_ktp/view/register_ktp_page.dart';
@@ -109,19 +109,14 @@ class OnboardingRoute extends GoRouteData {
   TypedGoRoute<CartRoute>(path: 'cart'),
   TypedGoRoute<SosRoute>(path: 'sos'),
   TypedGoRoute<RegisterRoute>(path: 'register', routes: [
-    TypedGoRoute<LoginRoute>(
-      path: 'login',
-      routes: [
-        TypedGoRoute<LupaPasswordRoute>(path: 'lupa-password', routes: [
-          TypedGoRoute<LupaPasswordOtpRoute>(
-              path: 'lupa-password-otp',
-              routes: [
-                TypedGoRoute<LupaPasswordChangeRoute>(
-                    path: 'lupa-password-change'),
-              ])
-        ]),
-      ],
-    ),
+    TypedGoRoute<LoginRoute>(path: 'login', routes: [
+      TypedGoRoute<LupaPasswordRoute>(path: 'lupa-password', routes: [
+        TypedGoRoute<LupaPasswordOtpRoute>(path: 'lupa-password-otp', routes: [
+          TypedGoRoute<LupaPasswordChangeRoute>(path: 'lupa-password-change'),
+        ])
+      ])
+    ]),
+    // TypedGoRoute<RegisterGoogleRoute>(path: 'register-google'),
     TypedGoRoute<RegisterKtpRoute>(path: 'register-ktp', routes: [
       TypedGoRoute<RegisterAkunRoute>(path: 'register-akun', routes: [
         TypedGoRoute<RegisterOtpRoute>(path: 'register-otp', routes: [
@@ -438,21 +433,30 @@ class LupaPasswordChangeRoute extends GoRouteData {
 }
 
 class RegisterKtpRoute extends GoRouteData {
+  final RegisterAkunExtra $extra;
+
+  RegisterKtpRoute({
+    required this.$extra,
+  });
+
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const RegisterKtpPage();
+    return RegisterKtpPage(userGoogle: $extra.userGoogle);
   }
 }
 
 class RegisterAkunRoute extends GoRouteData {
-  final ExtrackKtpModel $extra;
+  final RegisterAkunExtra $extra;
 
-  RegisterAkunRoute({required this.$extra});
+  RegisterAkunRoute({
+    required this.$extra,
+  });
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return RegisterAkunPage(
-      extrackKtp: $extra,
+      userGoogle: $extra.userGoogle,
+      extrackKtp: $extra.extrackKtp!,
     );
   }
 }
@@ -460,7 +464,7 @@ class RegisterAkunRoute extends GoRouteData {
 class RegisterOtpRoute extends GoRouteData {
   final String email;
   final bool isLogin;
-  final ExtrackKtpModel $extra;
+  final RegisterAkunExtra $extra;
 
   RegisterOtpRoute({
     required this.$extra,
@@ -472,14 +476,14 @@ class RegisterOtpRoute extends GoRouteData {
     return RegisterOtpPage(
       isLogin: isLogin,
       email: email,
-      extrackKtp: $extra,
+      akunExtra: $extra,
     );
   }
 }
 
 class RegisterChangeRoute extends GoRouteData {
   final String email;
-  final ExtrackKtpModel $extra;
+  final RegisterAkunExtra $extra;
 
   final bool isLogin;
 
@@ -493,7 +497,7 @@ class RegisterChangeRoute extends GoRouteData {
     return RegisterChangePage(
       isLogin: isLogin,
       email: email,
-      extrackKtp: $extra,
+      akunExtra: $extra,
     );
   }
 }
