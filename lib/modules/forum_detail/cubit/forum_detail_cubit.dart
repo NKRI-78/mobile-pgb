@@ -9,7 +9,6 @@ import '../../../misc/injections.dart';
 import '../../../misc/snackbar.dart';
 import '../../../repositories/forum_repository/forum_repository.dart';
 import '../../../repositories/forum_repository/models/forum_detail_model.dart';
-import '../../../repositories/forum_repository/models/forums_model.dart';
 import '../../../repositories/profile_repository/models/profile_model.dart';
 import '../../../repositories/profile_repository/profile_repository.dart';
 import '../../../router/builder.dart';
@@ -97,6 +96,18 @@ class ForumDetailCubit extends Cubit<ForumDetailState> {
 
       final detailForum = await repo.getDetailForum(idForum);
 
+      final newReply = Replies(
+        id: idNewComment,
+        comment: state.inputComment,
+        user: detailForum?.user,
+        createdAt: DateTime.now().toIso8601String(),
+      );
+
+      final parentCommentId = state.replyTargetCommentId;
+      if (parentCommentId != null) {
+        addPendingReply(parentCommentId, newReply);
+      }
+
       emit(state.copyWith(
           detailForum: detailForum,
           idForum: idForum,
@@ -152,5 +163,53 @@ class ForumDetailCubit extends Cubit<ForumDetailState> {
     } catch (e) {
       rethrow;
     }
+  }
+
+  void addPendingReply(String commentId, Replies newReply) {
+    final currentPending = state.pendingReplies[commentId] ?? [];
+    emit(state.copyWith(
+      pendingReplies: {
+        ...state.pendingReplies,
+        commentId: [...currentPending, newReply],
+      },
+    ));
+  }
+
+  void showMore(String commentId, int totalReplies) {
+    final currentShown = state.getShownCount(commentId);
+
+    if (currentShown >= totalReplies) {
+      emit(state.copyWith(
+        shownReplies: {
+          ...?state.shownReplies,
+          commentId: 0,
+        },
+        pendingReplies: {
+          ...state.pendingReplies,
+          commentId: [],
+        },
+      ));
+    } else {
+      final newShown = (currentShown + 5).clamp(0, totalReplies);
+      emit(state.copyWith(
+        shownReplies: {
+          ...?state.shownReplies,
+          commentId: newShown,
+        },
+        pendingReplies: {
+          ...state.pendingReplies,
+          commentId: [],
+        },
+      ));
+    }
+  }
+
+  void setReplyTargetCommentId(String commentId) {
+    emit(state.copyWith(replyTargetCommentId: commentId));
+  }
+
+
+  int getShownCount(String commentId) {
+    return state.getShownCount(commentId);
   }
 }

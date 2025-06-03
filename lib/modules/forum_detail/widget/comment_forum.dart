@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_pgb/repositories/forum_repository/models/forum_detail_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
-import '../../../repositories/forum_repository/models/forums_model.dart';
 import '../../../widgets/detect_text/detect_text.dart';
 import '../../../widgets/image/image_avatar.dart';
 import '../../app/bloc/app_bloc.dart';
@@ -31,6 +31,13 @@ class _CommentForumState extends State<CommentForum> {
     final userId = getIt<AppBloc>().state.user?.id;
     return BlocBuilder<ForumDetailCubit, ForumDetailState>(
       builder: (context, state) {
+        final replies = widget.comment.replies ?? [];
+        final shownCount = state.getShownCount(widget.comment.id.toString());
+        final totalReplies = replies.length;
+        final pending = state.getPending(widget.comment.id.toString());
+
+        final displayedReplies = replies.take(shownCount).toList();
+
         return Container(
           key: GlobalObjectKey(widget.comment.id ?? 0),
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -47,8 +54,8 @@ class _CommentForumState extends State<CommentForum> {
                         onTap: () {},
                         child: ImageAvatar(
                             image: user?.profile == null
-                                ? user?.profile.avatarLink ?? ""
-                                : user?.profile.avatarLink ?? "",
+                                ? user?.profile?.avatarLink ?? ""
+                                : user?.profile?.avatarLink ?? "",
                             radius: 18)),
                   ),
                   Expanded(
@@ -77,8 +84,8 @@ class _CommentForumState extends State<CommentForum> {
                                       flex: 5,
                                       child: Text(
                                         user?.profile == null
-                                            ? user?.profile.fullname ?? ""
-                                            : user?.profile.fullname ?? "",
+                                            ? user?.profile?.fullname ?? ""
+                                            : user?.profile?.fullname ?? "",
                                         style: TextStyle(
                                             color: widget.comment.id ==
                                                     state.lastIdComment
@@ -138,8 +145,8 @@ class _CommentForumState extends State<CommentForum> {
                                           .currentState!.controller!.text = "";
                                     } else {
                                       final mentionName = user?.username ??
-                                          user?.profile.fullname
-                                              .split(' ')
+                                          user?.profile?.fullname
+                                              ?.split(' ')
                                               .first ??
                                           '';
                                       commentKey.currentState!.controller!
@@ -148,6 +155,8 @@ class _CommentForumState extends State<CommentForum> {
 
                                     var cubit =
                                         context.read<ForumDetailCubit>();
+                                    // Simpan target balasan
+                                    cubit.setReplyTargetCommentId(commentId.toString());
                                     cubit.copyState(
                                         newState: cubit.state.copyWith(
                                       commentId: commentId,
@@ -169,18 +178,60 @@ class _CommentForumState extends State<CommentForum> {
                       )),
                 ],
               ),
-              ListView.builder(
-                padding: const EdgeInsets.only(left: 50),
-                physics: const ScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: widget.comment.replies?.length ?? 0,
-                itemBuilder: (context, index) {
-                  return CardReply(
+              // Balasan baru yang belum masuk daftar utama
+              ...pending.map((reply) => CardReply(
                     focusNode: widget.focusNode,
-                    comment: widget.comment.replies![index],
-                  );
-                },
-              ),
+                    comment: reply,
+                  )),
+
+              // Balasan yang dimunculkan dari daftar utama
+              ...displayedReplies.map((reply) => CardReply(
+                    focusNode: widget.focusNode,
+                    comment: reply,
+                  )),
+
+              if (shownCount < replies.length)
+                GestureDetector(
+                  onTap: () {
+                    context.read<ForumDetailCubit>().showMore(
+                          widget.comment.id.toString(),
+                          replies.length,
+                        );
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 65, top: 8),
+                    child: Text(
+                      'Lihat balasan lainnya (${totalReplies - shownCount})',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ),
+                ),
+                //  if (shownCount > 0)
+                // InkWell(
+                //   onTap: () {
+                //     context.read<ForumDetailCubit>().showMore(widget.comment.id.toString(), 0);
+                //   },
+                //   child: const Padding(
+                //     padding: EdgeInsets.only(left: 65, top: 8),
+                //     child: Text(
+                //       'Sembunyikan balasan',
+                //       style: TextStyle(color: Colors.blue),
+                //     ),
+                //   ),
+                // ),
+                if (shownCount >= totalReplies && totalReplies > 5)
+                GestureDetector(
+                  onTap: () {
+                    context.read<ForumDetailCubit>().showMore(widget.comment.id.toString(), totalReplies);
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(left: 65, top: 8),
+                    child: Text(
+                      'Sembunyikan balasan',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ),
+                ),
             ],
           ),
         );

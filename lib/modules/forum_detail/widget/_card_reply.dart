@@ -1,172 +1,142 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_pgb/repositories/forum_repository/models/forum_detail_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
-import '../../../repositories/forum_repository/models/forums_model.dart';
 import '../../../widgets/detect_text/detect_text.dart';
 import '../../../widgets/image/image_avatar.dart';
 import '../../app/bloc/app_bloc.dart';
 import '../cubit/forum_detail_cubit.dart';
 import '../view/forum_detail_page.dart';
 
-class CardReply extends StatefulWidget {
+class CardReply extends StatelessWidget {
   const CardReply({super.key, this.comment, required this.focusNode});
 
   final Replies? comment;
   final FocusNode focusNode;
 
   @override
-  State<CardReply> createState() => _CardReplyState();
-}
-
-class _CardReplyState extends State<CardReply> {
-  @override
   Widget build(BuildContext context) {
     final userId = getIt<AppBloc>().state.user?.id;
-    final user = widget.comment?.user;
+    final user = comment?.user;
+
     return BlocBuilder<ForumDetailCubit, ForumDetailState>(
       builder: (context, state) {
+        final isHighlighted = comment?.id == state.lastIdComment;
+
         return Padding(
-          key: GlobalObjectKey(widget.comment?.id ?? 0),
-          padding: const EdgeInsets.only(bottom: 5, top: 20),
+          key: GlobalObjectKey(comment?.id ?? 0),
+          padding: const EdgeInsets.only(left: 65, bottom: 5, top: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    flex: 1,
-                    child: InkWell(
-                        onTap: () {},
-                        child: ImageAvatar(
-                            image:
-                                widget.comment?.user?.profile.avatarLink ?? "",
-                            radius: 18)),
+                  // Avatar
+                  ImageAvatar(
+                    image: user?.profile?.avatarLink ?? "",
+                    radius: 18,
                   ),
+                  const SizedBox(width: 10),
+                  // Bubble
                   Expanded(
-                      flex: 4,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0, vertical: 8),
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(15)),
-                                color: widget.comment?.id == state.lastIdComment
-                                    ? AppColors.secondaryColor
-                                    : AppColors.greyColor.withOpacity(0.3)),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                      flex: 5,
-                                      child: Text(
-                                        user?.profile == null
-                                            ? user?.profile.fullname ?? ""
-                                            : user?.profile.fullname ?? "",
-                                        style: TextStyle(
-                                            color: widget.comment?.id ==
-                                                    state.lastIdComment
-                                                ? AppColors.whiteColor
-                                                : AppColors.blackColor,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 16,
-                                    ),
-                                  ],
-                                ),
-                                DetectText(
-                                    text: widget.comment?.comment ?? "",
-                                    colorText: widget.comment?.id ==
-                                            state.lastIdComment
-                                        ? AppColors.whiteColor
-                                        : AppColors.blackColor),
-                              ],
-                            ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: isHighlighted
+                                ? AppColors.secondaryColor
+                                : AppColors.greyColor.withOpacity(0.3),
                           ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Row(
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                timeago.format(
-                                  widget.comment!.createdAt != null
-                                      ? DateTime.parse(
-                                          widget.comment!.createdAt!)
-                                      : DateTime.now(),
-                                  locale: 'id',
-                                ),
-                                style: const TextStyle(
-                                  color: AppColors.greyColor,
-                                  fontSize: 12,
+                                user?.profile?.fullname ?? "",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: isHighlighted
+                                      ? AppColors.whiteColor
+                                      : AppColors.blackColor,
                                 ),
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    int commentId = 0;
-                                    commentId = widget.comment?.commentId ?? 0;
-                                    FocusScope.of(context)
-                                        .requestFocus(widget.focusNode);
-                                    SystemChannels.textInput
-                                        .invokeMethod("TextInput.show");
-
-                                    if ((widget.comment?.userId ?? 0) ==
-                                        userId) {
-                                      commentKey
-                                          .currentState!.controller!.text = "";
-                                    } else {
-                                      final mentionName = user?.username ??
-                                          user?.profile.fullname
-                                              .split(' ')
-                                              .first ??
-                                          '';
-                                      commentKey.currentState!.controller!
-                                          .text = "@$mentionName ";
-                                    }
-
-                                    var cubit =
-                                        context.read<ForumDetailCubit>();
-                                    cubit.copyState(
-                                        newState: cubit.state.copyWith(
-                                      commentId: commentId,
-                                    ));
-                                    debugPrint("Id Comment ${state.commentId}");
-                                  });
-                                },
-                                child: const Text(
-                                  "Balas",
-                                  style: TextStyle(
-                                      color: AppColors.greyColor,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w800),
-                                ),
+                              const SizedBox(height: 4),
+                              DetectText(
+                                text: comment?.comment ?? "",
+                                colorText: isHighlighted
+                                    ? AppColors.whiteColor
+                                    : AppColors.blackColor,
                               ),
                             ],
                           ),
-                        ],
-                      )),
+                        ),
+                        const SizedBox(height: 5),
+                        Row(
+                          children: [
+                            Text(
+                              timeago.format(
+                                comment?.createdAt != null
+                                    ? DateTime.parse(comment!.createdAt!)
+                                    : DateTime.now(),
+                                locale: 'id',
+                              ),
+                              style: const TextStyle(
+                                color: AppColors.greyColor,
+                                fontSize: 12,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            InkWell(
+                              onTap: () {
+                                FocusScope.of(context)
+                                    .requestFocus(focusNode);
+                                SystemChannels.textInput
+                                    .invokeMethod("TextInput.show");
+
+                                // Prefill reply input
+                                if ((comment?.userId ?? 0) == userId) {
+                                  commentKey.currentState?.controller?.text = "";
+                                } else {
+                                  final mention = user?.username ??
+                                      user?.profile?.fullname
+                                          ?.split(' ')
+                                          .first;
+                                  commentKey.currentState?.controller?.text =
+                                      "@$mention ";
+                                }
+
+                                // Set parent comment ID
+                                context.read<ForumDetailCubit>().copyState(
+                                      newState: context
+                                          .read<ForumDetailCubit>()
+                                          .state
+                                          .copyWith(
+                                              commentId: comment?.commentId ??
+                                                  0),
+                                    );
+                              },
+                              child: const Text(
+                                "Balas",
+                                style: TextStyle(
+                                  color: AppColors.greyColor,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ],

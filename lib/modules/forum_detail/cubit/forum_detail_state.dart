@@ -12,6 +12,9 @@ class ForumDetailState extends Equatable {
   final int commentId;
   final int? lastIdComment;
   final ForumComment? comment;
+  final Map<String, int>? shownReplies;
+  final Map<String, List<Replies>> pendingReplies;
+  final String? replyTargetCommentId; // ➜ Tambahan
 
   const ForumDetailState({
     this.comment,
@@ -25,6 +28,9 @@ class ForumDetailState extends Equatable {
     this.idOrder = 0,
     this.commentId = 0,
     this.lastIdComment = 0,
+    this.shownReplies,
+    this.pendingReplies = const {},
+    this.replyTargetCommentId = "",
   });
 
   @override
@@ -39,7 +45,10 @@ class ForumDetailState extends Equatable {
         idOrder,
         commentId,
         lastIdComment,
-        comment
+        comment,
+        shownReplies,
+        pendingReplies,
+        replyTargetCommentId,
       ];
 
   ForumDetailState copyWith({
@@ -54,6 +63,9 @@ class ForumDetailState extends Equatable {
     int? idOrder,
     int? commentId,
     int? lastIdComment,
+    Map<String, int>? shownReplies,
+    Map<String, List<Replies>>? pendingReplies,
+    String? replyTargetCommentId,
   }) {
     return ForumDetailState(
       comment: comment ?? this.comment,
@@ -67,6 +79,12 @@ class ForumDetailState extends Equatable {
       idOrder: idOrder ?? this.idOrder,
       commentId: commentId ?? this.commentId,
       lastIdComment: lastIdComment ?? this.lastIdComment,
+      shownReplies: shownReplies ?? this.shownReplies,
+      pendingReplies: pendingReplies ?? this.pendingReplies,
+      replyTargetCommentId: replyTargetCommentId ?? this.replyTargetCommentId,
     );
   }
+
+  int getShownCount(String commentId) => shownReplies?[commentId] ?? 0;
+  List<Replies> getPending(String commentId) => pendingReplies[commentId] ?? [];
 }
