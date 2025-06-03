@@ -105,6 +105,7 @@ class InputComment extends StatelessWidget {
                                     cubit.copyState(
                                         newState: cubit.state
                                             .copyWith(inputComment: ""));
+                                            
                                     return;
                                   } else {
                                     await context
@@ -113,7 +114,6 @@ class InputComment extends StatelessWidget {
                                             context, idForum.toString(), gk);
                                     commentKey.currentState!.controller!.text =
                                         "";
-                                    // ignore: use_build_context_synchronously
                                     var cubit =
                                         context.read<ForumDetailCubit>();
                                     cubit.copyState(

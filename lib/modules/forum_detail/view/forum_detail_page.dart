@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_pgb/repositories/forum_repository/models/forums_model.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/modal.dart';
 import '../../../misc/text_style.dart';
 import '../../../repositories/forum_repository/models/forum_detail_model.dart';
-import '../../../repositories/forum_repository/models/forums_model.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/detect_text/detect_text.dart';
 import '../../../widgets/image/image_avatar.dart';
@@ -48,7 +48,7 @@ class ForumDetailView extends StatefulWidget {
   State<ForumDetailView> createState() => _ForumDetailViewState();
 }
 
-class _ForumDetailViewState extends State<ForumDetailView> {
+class _ForumDetailViewState extends State<ForumDetailView> with TickerProviderStateMixin {
   late FocusNode myFocusNode;
 
   @override
