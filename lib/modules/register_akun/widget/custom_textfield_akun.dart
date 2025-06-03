@@ -30,7 +30,7 @@ class _FieldEmail extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterAkunCubit, RegisterAkunState>(
       builder: (context, state) {
-        final isGoogleLogin = state.userGoogle != null;
+        final isGoogleLogin = state.userGoogle?.oauthId != null;
         final email = isGoogleLogin ? state.userGoogle!.email : state.email;
 
         return _buildTextFormField(
@@ -44,7 +44,7 @@ class _FieldEmail extends StatelessWidget {
             }
           },
           inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
-          readOnly: isGoogleLogin ? false : true,
+          readOnly: isGoogleLogin,
         );
       },
     );
