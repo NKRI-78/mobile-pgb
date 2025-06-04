@@ -84,13 +84,13 @@ class _CommentForumState extends State<CommentForum> {
                                       flex: 5,
                                       child: Text(
                                         user?.profile == null
-                                            ? user?.profile?.fullname ?? ""
+                                            ? "Akun Terhapus"
                                             : user?.profile?.fullname ?? "",
                                         style: TextStyle(
                                             color: widget.comment.id ==
                                                     state.lastIdComment
                                                 ? AppColors.whiteColor
-                                                : AppColors.blackColor,
+                                                : user?.profile == null ? AppColors.redColor : AppColors.blackColor,
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -184,12 +184,13 @@ class _CommentForumState extends State<CommentForum> {
                     comment: reply,
                   )),
 
-              // Balasan yang dimunculkan dari daftar utama
+              // Balasan yang ditampilkan
               ...displayedReplies.map((reply) => CardReply(
                     focusNode: widget.focusNode,
                     comment: reply,
                   )),
 
+              // Tombol "Lihat balasan lainnya" jika masih ada sisa balasan
               if (shownCount < replies.length)
                 GestureDetector(
                   onTap: () {
@@ -199,30 +200,19 @@ class _CommentForumState extends State<CommentForum> {
                         );
                   },
                   child: Padding(
-                    padding: EdgeInsets.only(left: 65, top: 8),
+                    padding: const EdgeInsets.only(left: 65, top: 8),
                     child: Text(
                       'Lihat balasan lainnya (${totalReplies - shownCount})',
-                      style: TextStyle(color: Colors.blue),
+                      style: const TextStyle(color: Colors.blue),
                     ),
                   ),
                 ),
-                //  if (shownCount > 0)
-                // InkWell(
-                //   onTap: () {
-                //     context.read<ForumDetailCubit>().showMore(widget.comment.id.toString(), 0);
-                //   },
-                //   child: const Padding(
-                //     padding: EdgeInsets.only(left: 65, top: 8),
-                //     child: Text(
-                //       'Sembunyikan balasan',
-                //       style: TextStyle(color: Colors.blue),
-                //     ),
-                //   ),
-                // ),
-                if (shownCount >= totalReplies && totalReplies > 5)
+
+              // Tampilkan "Sembunyikan balasan" jika ada balasan yang ditampilkan
+              if (shownCount > 0)
                 GestureDetector(
                   onTap: () {
-                    context.read<ForumDetailCubit>().showMore(widget.comment.id.toString(), totalReplies);
+                    context.read<ForumDetailCubit>().showMore(widget.comment.id.toString(), 0);
                   },
                   child: const Padding(
                     padding: EdgeInsets.only(left: 65, top: 8),
@@ -232,6 +222,7 @@ class _CommentForumState extends State<CommentForum> {
                     ),
                   ),
                 ),
+
             ],
           ),
         );

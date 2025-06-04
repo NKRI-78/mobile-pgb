@@ -5,6 +5,7 @@ class ButtonArrow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLoggedIn = getIt<AppBloc>().state.user != null;
     return BlocBuilder<AppBloc, AppState>(
       builder: (context, state) {
         return Padding(
@@ -61,7 +62,7 @@ class ButtonArrow extends StatelessWidget {
                         color: AppColors.whiteColor,
                       ),
                       onPressed: () {
-                        CartRoute().push(context);
+                        isLoggedIn ?  CartRoute().push(context) : RegisterRoute().push(context);
                       },
                     ),
                   ),

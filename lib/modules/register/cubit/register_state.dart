@@ -4,7 +4,7 @@ class RegisterState extends Equatable {
   final bool isLoading;
   final String? token;
   final String? errorMessage;
-  final User? user;
+  final UserModel? user;
   final String? oauthId;
 
   const RegisterState({
@@ -19,7 +19,7 @@ class RegisterState extends Equatable {
     bool? isLoading,
     String? token,
     String? errorMessage,
-    User? user,
+    UserModel? user,
     String? oauthId,
   }) {
     return RegisterState(

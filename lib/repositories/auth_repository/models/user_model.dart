@@ -1,4 +1,4 @@
-class User {
+class UserModel {
   int? id;
   String? username;
   String? email;
@@ -17,7 +17,7 @@ class User {
   String? token;
   String? refreshToken;
 
-  User(
+  UserModel(
       {this.id,
       this.username,
       this.email,
@@ -36,7 +36,7 @@ class User {
       this.token,
       this.refreshToken});
 
-  User.fromJson(Map<String, dynamic> json) {
+  UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     username = json['username'];
     email = json['email'];
@@ -81,8 +81,8 @@ class User {
     return data;
   }
 
-  User copyWith({Profile? profile}) {
-    return User(
+  UserModel copyWith({Profile? profile}) {
+    return UserModel(
         id: id,
         username: username,
         latitude: latitude,

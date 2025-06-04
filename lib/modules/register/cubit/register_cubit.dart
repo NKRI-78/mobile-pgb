@@ -67,7 +67,7 @@ class RegisterCubit extends Cubit<RegisterState> {
         if (userMap == null) {
           throw Exception("User data is missing");
         }
-        final user = User.fromJson(userMap);
+        final user = UserModel.fromJson(userMap);
 
         // Simpan ke AppBloc (pastikan getIt sudah terdaftar AppBloc)
         getIt<AppBloc>().add(SetUserData(token: token, user: user));

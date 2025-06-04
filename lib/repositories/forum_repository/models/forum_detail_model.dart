@@ -1,3 +1,5 @@
+import 'package:mobile_pgb/repositories/auth_repository/models/user_model.dart';
+
 class ForumDetailModel {
   int? id;
   String? description;
@@ -46,26 +48,26 @@ class ForumDetailModel {
     if (json['forum_comment'] != null) {
       forumComment = <ForumComment>[];
       json['forum_comment'].forEach((v) {
-        forumComment!.add(new ForumComment.fromJson(v));
+        forumComment!.add(ForumComment.fromJson(v));
       });
     }
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
     if (json['forum_media'] != null) {
       forumMedia = <ForumMedia>[];
       json['forum_media'].forEach((v) {
-        forumMedia!.add(new ForumMedia.fromJson(v));
+        forumMedia!.add(ForumMedia.fromJson(v));
       });
     }
     if (json['forum_likes'] != null) {
       forumLikes = <ForumLikes>[];
       json['forum_likes'].forEach((v) {
-        forumLikes!.add(new ForumLikes.fromJson(v));
+        forumLikes!.add(ForumLikes.fromJson(v));
       });
     }
     if (json['forumComments'] != null) {
       forumComments = <ForumComments>[];
       json['forumComments'].forEach((v) {
-        forumComments!.add(new ForumComments.fromJson(v));
+        forumComments!.add(ForumComments.fromJson(v));
       });
     }
     likeCount = json['likeCount'];
@@ -74,35 +76,35 @@ class ForumDetailModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['description'] = this.description;
-    data['user_id'] = this.userId;
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    if (this.forumComment != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['description'] = description;
+    data['user_id'] = userId;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (forumComment != null) {
       data['forum_comment'] =
-          this.forumComment!.map((v) => v.toJson()).toList();
+          forumComment!.map((v) => v.toJson()).toList();
     }
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
-    if (this.forumMedia != null) {
-      data['forum_media'] = this.forumMedia!.map((v) => v.toJson()).toList();
+    if (forumMedia != null) {
+      data['forum_media'] = forumMedia!.map((v) => v.toJson()).toList();
     }
-    if (this.forumLikes != null) {
-      data['forum_likes'] = this.forumLikes!.map((v) => v.toJson()).toList();
+    if (forumLikes != null) {
+      data['forum_likes'] = forumLikes!.map((v) => v.toJson()).toList();
     }
-    if (this.forumComments != null) {
+    if (forumComments != null) {
       data['forumComments'] =
-          this.forumComments!.map((v) => v.toJson()).toList();
+          forumComments!.map((v) => v.toJson()).toList();
     }
-    data['likeCount'] = this.likeCount;
-    data['isLike'] = this.isLike;
-    data['commentCount'] = this.commentCount;
+    data['likeCount'] = likeCount;
+    data['isLike'] = isLike;
+    data['commentCount'] = commentCount;
     return data;
   }
 }
@@ -140,30 +142,30 @@ class ForumComment {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
     if (json['replies'] != null) {
       replies = <Replies>[];
       json['replies'].forEach((v) {
-        replies!.add(new Replies.fromJson(v));
+        replies!.add(Replies.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['comment'] = this.comment;
-    data['user_id'] = this.userId;
-    data['forum_id'] = this.forumId;
-    data['comment_id'] = this.commentId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['comment'] = comment;
+    data['user_id'] = userId;
+    data['forum_id'] = forumId;
+    data['comment_id'] = commentId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
-    if (this.replies != null) {
-      data['replies'] = this.replies!.map((v) => v.toJson()).toList();
+    if (replies != null) {
+      data['replies'] = replies!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -173,7 +175,7 @@ class User {
   String? phone;
   String? email;
   String? username;
-  Profile? profile;
+  ProfileUser? profile;
 
   User({this.phone, this.email, this.username, this.profile});
 
@@ -182,22 +184,22 @@ class User {
     email = json['email'];
     username = json['username'];
     profile =
-        json['profile'] != null ? new Profile.fromJson(json['profile']) : null;
+        json['profile'] != null ? ProfileUser.fromJson(json['profile']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['phone'] = this.phone;
-    data['email'] = this.email;
-    data['username'] = this.username;
-    if (this.profile != null) {
-      data['profile'] = this.profile!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['phone'] = phone;
+    data['email'] = email;
+    data['username'] = username;
+    if (profile != null) {
+      data['profile'] = profile!.toJson();
     }
     return data;
   }
 }
 
-class Profile {
+class ProfileUser {
   int? id;
   String? fullname;
   String? kta;
@@ -219,7 +221,7 @@ class Profile {
   String? createdAt;
   String? updatedAt;
 
-  Profile(
+  ProfileUser(
       {this.id,
       this.fullname,
       this.kta,
@@ -241,7 +243,7 @@ class Profile {
       this.createdAt,
       this.updatedAt});
 
-  Profile.fromJson(Map<String, dynamic> json) {
+  ProfileUser.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     fullname = json['fullname'];
     kta = json['kta'];
@@ -265,27 +267,27 @@ class Profile {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['fullname'] = this.fullname;
-    data['kta'] = this.kta;
-    data['avatar_link'] = this.avatarLink;
-    data['address'] = this.address;
-    data['gender'] = this.gender;
-    data['nik'] = this.nik;
-    data['birth_place_and_date'] = this.birthPlaceAndDate;
-    data['village_unit'] = this.villageUnit;
-    data['administrative_village'] = this.administrativeVillage;
-    data['sub_district'] = this.subDistrict;
-    data['religion'] = this.religion;
-    data['marital_status'] = this.maritalStatus;
-    data['occupation'] = this.occupation;
-    data['citizenship'] = this.citizenship;
-    data['blood_type'] = this.bloodType;
-    data['valid_until'] = this.validUntil;
-    data['user_id'] = this.userId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['fullname'] = fullname;
+    data['kta'] = kta;
+    data['avatar_link'] = avatarLink;
+    data['address'] = address;
+    data['gender'] = gender;
+    data['nik'] = nik;
+    data['birth_place_and_date'] = birthPlaceAndDate;
+    data['village_unit'] = villageUnit;
+    data['administrative_village'] = administrativeVillage;
+    data['sub_district'] = subDistrict;
+    data['religion'] = religion;
+    data['marital_status'] = maritalStatus;
+    data['occupation'] = occupation;
+    data['citizenship'] = citizenship;
+    data['blood_type'] = bloodType;
+    data['valid_until'] = validUntil;
+    data['user_id'] = userId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
@@ -321,21 +323,68 @@ class Replies {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['comment'] = this.comment;
-    data['user_id'] = this.userId;
-    data['forum_id'] = this.forumId;
-    data['comment_id'] = this.commentId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['comment'] = comment;
+    data['user_id'] = userId;
+    data['forum_id'] = forumId;
+    data['comment_id'] = commentId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (user != null) {
+      data['user'] = user!.toJson();
+    }
+    return data;
+  }
+}
+
+class RepliesComment {
+  int? id;
+  String? comment;
+  int? userId;
+  int? forumId;
+  int? commentId;
+  String? createdAt;
+  String? updatedAt;
+  UserModel? user;
+
+  RepliesComment(
+      {this.id,
+      this.comment,
+      this.userId,
+      this.forumId,
+      this.commentId,
+      this.createdAt,
+      this.updatedAt,
+      this.user});
+
+  RepliesComment.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    comment = json['comment'];
+    userId = json['user_id'];
+    forumId = json['forum_id'];
+    commentId = json['comment_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    user = json['user'] != null ? UserModel.fromJson(json['user']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['comment'] = comment;
+    data['user_id'] = userId;
+    data['forum_id'] = forumId;
+    data['comment_id'] = commentId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
     return data;
   }
@@ -367,13 +416,13 @@ class ForumMedia {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['link'] = this.link;
-    data['type'] = this.type;
-    data['forum_id'] = this.forumId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['link'] = link;
+    data['type'] = type;
+    data['forum_id'] = forumId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
@@ -400,18 +449,18 @@ class ForumLikes {
     forumId = json['forum_id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['forum_id'] = this.forumId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['forum_id'] = forumId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
     return data;
   }
@@ -456,11 +505,11 @@ class ForumComments {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
     if (json['replies'] != null) {
       replies = <Replies>[];
       json['replies'].forEach((v) {
-        replies!.add(new Replies.fromJson(v));
+        replies!.add(Replies.fromJson(v));
       });
     }
     likeCount = json['likeCount'];
@@ -468,23 +517,23 @@ class ForumComments {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['comment'] = this.comment;
-    data['user_id'] = this.userId;
-    data['forum_id'] = this.forumId;
-    data['comment_id'] = this.commentId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['comment'] = comment;
+    data['user_id'] = userId;
+    data['forum_id'] = forumId;
+    data['comment_id'] = commentId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
-    if (this.replies != null) {
-      data['replies'] = this.replies!.map((v) => v.toJson()).toList();
+    if (replies != null) {
+      data['replies'] = replies!.map((v) => v.toJson()).toList();
     }
-    data['likeCount'] = this.likeCount;
-    data['isLike'] = this.isLike;
+    data['likeCount'] = likeCount;
+    data['isLike'] = isLike;
     return data;
   }
 }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_pgb/modules/app/bloc/app_bloc.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -95,11 +96,20 @@ class ForumDetailCubit extends Cubit<ForumDetailState> {
       }
 
       final detailForum = await repo.getDetailForum(idForum);
-
+      final app = getIt<AppBloc>();
       final newReply = Replies(
         id: idNewComment,
         comment: state.inputComment,
-        user: detailForum?.user,
+        user: User(
+          email: app.state.profile?.email ?? "" ,
+          phone: app.state.profile?.phone ?? "",
+          profile: ProfileUser(
+            fullname: app.state.profile?.profile?.fullname,
+            avatarLink:  app.state.profile?.profile?.avatarLink,
+            userId: app.state.user?.id,
+            id: app.state.profile?.profile?.id,
+          ),
+        ),
         createdAt: DateTime.now().toIso8601String(),
       );
 
@@ -111,7 +121,8 @@ class ForumDetailCubit extends Cubit<ForumDetailState> {
       emit(state.copyWith(
           detailForum: detailForum,
           idForum: idForum,
-          lastIdComment: idNewComment));
+          lastIdComment: idNewComment,
+          replyTargetCommentId: ""));
 
       await Future.delayed(const Duration(milliseconds: 100));
       Scrollable.ensureVisible(

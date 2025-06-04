@@ -3,7 +3,7 @@ part of 'app_bloc.dart';
 @JsonSerializable()
 final class AppState extends Equatable {
   final String token;
-  final User? user;
+  final UserModel? user;
   final CartCountModel? badgeCart;
   final ProfileModel? profile;
   final bool loadingNotif;
@@ -45,7 +45,7 @@ final class AppState extends Equatable {
 
   AppState copyWith({
     String? token,
-    User? user,
+    UserModel? user,
     bool? loadingNotif,
     CartCountModel? badgeCart,
     ProfileModel? profile,

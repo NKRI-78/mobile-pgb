@@ -10,7 +10,7 @@ AppState _$AppStateFromJson(Map<String, dynamic> json) => AppState(
       token: json['token'] as String? ?? '',
       user: json['user'] == null
           ? null
-          : User.fromJson(json['user'] as Map<String, dynamic>),
+          : UserModel.fromJson(json['user'] as Map<String, dynamic>),
       loadingNotif: json['loadingNotif'] as bool? ?? false,
       badgeCart: json['badgeCart'] == null
           ? null
