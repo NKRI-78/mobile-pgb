@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/misc/register_akun_extra.dart';
-import 'package:mobile_pgb/modules/register/cubit/register_cubit.dart';
+import '../../../misc/register_akun_extra.dart';
+import '../cubit/register_cubit.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_pgb/repositories/forum_repository/models/forums_model.dart';
+import '../../../repositories/forum_repository/models/forums_model.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/modal.dart';

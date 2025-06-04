@@ -72,23 +72,6 @@ class ShowSnackbar {
                           ),
                         ),
                       ),
-                      Container(
-                        width: 32,
-                        height: 32,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.2),
-                          shape: BoxShape.circle,
-                        ),
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.close,
-                            size: 18,
-                            color: textColor,
-                          ),
-                          padding: EdgeInsets.zero,
-                          onPressed: () => overlayEntry.remove(),
-                        ),
-                      ),
                     ],
                   ),
                 ),

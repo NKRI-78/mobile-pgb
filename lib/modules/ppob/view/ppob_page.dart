@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_pgb/widgets/pages/loading_page.dart';
+import '../../../widgets/pages/loading_page.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';

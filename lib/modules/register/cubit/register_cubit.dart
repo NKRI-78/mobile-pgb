@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:http/http.dart' as ht;
-import 'package:mobile_pgb/misc/register_akun_extra.dart';
-import 'package:mobile_pgb/modules/app/models/user_google_model.dart';
-import 'package:mobile_pgb/repositories/auth_repository/models/user_model.dart';
+import '../../../misc/register_akun_extra.dart';
+import '../../app/models/user_google_model.dart';
+import '../../../repositories/auth_repository/models/user_model.dart';
 
 import '../../../misc/injections.dart';
 import '../../../misc/snackbar.dart';

@@ -4,8 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:cunning_document_scanner/cunning_document_scanner.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/misc/register_akun_extra.dart';
-import 'package:mobile_pgb/modules/app/models/user_google_model.dart';
+import '../../../misc/register_akun_extra.dart';
+import '../../app/models/user_google_model.dart';
 
 import '../../../misc/injections.dart';
 import '../../../misc/snackbar.dart';

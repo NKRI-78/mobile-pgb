@@ -10,7 +10,7 @@ import '../../../misc/socket.dart';
 import '../../app/bloc/app_bloc.dart';
 import '../../../repositories/payment_repository/models/payment_model.dart';
 import '../../../repositories/payment_repository/payment_repository.dart';
-import 'package:mobile_pgb/modules/notification/cubit/notification_cubit.dart';
+import '../../notification/cubit/notification_cubit.dart';
 
 part 'waiting_payment_state.dart';
 

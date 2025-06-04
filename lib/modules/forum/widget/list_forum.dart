@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/misc/snackbar.dart';
+import '../../../misc/snackbar.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/modal.dart';

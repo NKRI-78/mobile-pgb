@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/repositories/forum_repository/models/forum_detail_model.dart';
+import '../../../repositories/forum_repository/models/forum_detail_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../misc/colors.dart';
@@ -97,19 +97,17 @@ class CardReply extends StatelessWidget {
                             const SizedBox(width: 10),
                             InkWell(
                               onTap: () {
-                                FocusScope.of(context)
-                                    .requestFocus(focusNode);
+                                FocusScope.of(context).requestFocus(focusNode);
                                 SystemChannels.textInput
                                     .invokeMethod("TextInput.show");
 
                                 // Prefill reply input
                                 if ((comment?.userId ?? 0) == userId) {
-                                  commentKey.currentState?.controller?.text = "";
+                                  commentKey.currentState?.controller?.text =
+                                      "";
                                 } else {
                                   final mention = user?.username ??
-                                      user?.profile?.fullname
-                                          ?.split(' ')
-                                          .first;
+                                      user?.profile?.fullname?.split(' ').first;
                                   commentKey.currentState?.controller?.text =
                                       "@$mention ";
                                 }
@@ -125,8 +123,8 @@ class CardReply extends StatelessWidget {
                                           .read<ForumDetailCubit>()
                                           .state
                                           .copyWith(
-                                              commentId: comment?.commentId ??
-                                                  0),
+                                              commentId:
+                                                  comment?.commentId ?? 0),
                                     );
                               },
                               child: const Text(

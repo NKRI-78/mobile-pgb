@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_pgb/misc/snackbar.dart';
-import 'package:mobile_pgb/widgets/pages/loading_page.dart';
+import '../../misc/snackbar.dart';
+import '../pages/loading_page.dart';
 
 import '../../misc/colors.dart';
 import '../../misc/text_style.dart';

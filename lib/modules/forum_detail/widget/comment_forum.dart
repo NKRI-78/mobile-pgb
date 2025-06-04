@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/repositories/forum_repository/models/forum_detail_model.dart';
+import '../../../repositories/forum_repository/models/forum_detail_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../misc/colors.dart';
@@ -90,7 +90,9 @@ class _CommentForumState extends State<CommentForum> {
                                             color: widget.comment.id ==
                                                     state.lastIdComment
                                                 ? AppColors.whiteColor
-                                                : user?.profile == null ? AppColors.redColor : AppColors.blackColor,
+                                                : user?.profile == null
+                                                    ? AppColors.redColor
+                                                    : AppColors.blackColor,
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -156,7 +158,8 @@ class _CommentForumState extends State<CommentForum> {
                                     var cubit =
                                         context.read<ForumDetailCubit>();
                                     // Simpan target balasan
-                                    cubit.setReplyTargetCommentId(commentId.toString());
+                                    cubit.setReplyTargetCommentId(
+                                        commentId.toString());
                                     cubit.copyState(
                                         newState: cubit.state.copyWith(
                                       commentId: commentId,
@@ -212,7 +215,9 @@ class _CommentForumState extends State<CommentForum> {
               if (shownCount > 0)
                 GestureDetector(
                   onTap: () {
-                    context.read<ForumDetailCubit>().showMore(widget.comment.id.toString(), 0);
+                    context
+                        .read<ForumDetailCubit>()
+                        .showMore(widget.comment.id.toString(), 0);
                   },
                   child: const Padding(
                     padding: EdgeInsets.only(left: 65, top: 8),
@@ -222,7 +227,6 @@ class _CommentForumState extends State<CommentForum> {
                     ),
                   ),
                 ),
-
             ],
           ),
         );

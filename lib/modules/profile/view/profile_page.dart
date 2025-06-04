@@ -56,6 +56,7 @@ class _ProfileViewState extends State<ProfileView> {
   //     _cardSide = side;
   //   });
   // }
+  int _currentPage = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -95,6 +96,11 @@ class _ProfileViewState extends State<ProfileView> {
                                     height: height,
                                     child: PageView(
                                       controller: _pageController,
+                                      onPageChanged: (index) {
+                                        setState(() {
+                                          _currentPage = index;
+                                        });
+                                      },
                                       children: [
                                         RepaintBoundary(
                                           key: _ktaFrontKey,
@@ -180,6 +186,26 @@ class _ProfileViewState extends State<ProfileView> {
                                     ),
                                   );
                                 },
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: List.generate(2, (index) {
+                                  final isActive = _currentPage == index;
+                                  return AnimatedContainer(
+                                    duration: const Duration(milliseconds: 200),
+                                    margin: const EdgeInsets.symmetric(
+                                      horizontal: 4,
+                                    ),
+                                    width: isActive ? 10 : 8,
+                                    height: isActive ? 10 : 8,
+                                    decoration: BoxDecoration(
+                                      color: isActive
+                                          ? AppColors.secondaryColor
+                                          : AppColors.greyColor,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  );
+                                }),
                               ),
                             ],
                           ),

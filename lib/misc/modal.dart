@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 import 'colors.dart';
 import 'text_style.dart';
 import 'theme.dart';
-import 'package:mobile_pgb/misc/snackbar.dart';
-import 'package:mobile_pgb/repositories/membernear_repository/models/membernear_model.dart';
+import 'snackbar.dart';
+import '../repositories/membernear_repository/models/membernear_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 enum BackgroundConfirmModal {
@@ -160,116 +160,119 @@ class GeneralModal {
   static Future<void> showModalMemberNearDetail(
       BuildContext context, MemberNearData membernear) {
     return showModalBottomSheet(
-      isScrollControlled: true,
-      barrierColor: Colors.transparent,
-      backgroundColor: Colors.transparent,
-      elevation: 0.0,
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      context: context,
-      builder: (BuildContext context) {
-        String resultText = (membernear.distance.toString().length < 4)
-            ? membernear.distance.toString()
-            : membernear.distance.toString().substring(0, 4);
-        return Container(
-          height: 420.0,
-          decoration: const BoxDecoration(color: Colors.transparent),
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 370.0,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [
-                            AppColors.greyColor,
-                            AppColors.greyColor.withValues(alpha: 0.5),
-                          ],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter),
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(20.0),
-                          topRight: Radius.circular(20.0))),
+        isScrollControlled: true,
+        barrierColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        context: context,
+        builder: (BuildContext context) {
+          String resultText = (membernear.distance.toString().length < 4)
+              ? membernear.distance.toString()
+              : membernear.distance.toString().substring(0, 4);
+          return Container(
+            height: 420.0,
+            decoration: const BoxDecoration(color: Colors.transparent),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 370.0,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [
+                              AppColors.greyColor,
+                              AppColors.greyColor.withValues(alpha: 0.5),
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter),
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(20.0),
+                            topRight: Radius.circular(20.0))),
+                  ),
                 ),
-              ),
-              Align(
-                  alignment: Alignment.topCenter,
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        maxRadius: 50.0,
-                        backgroundImage: NetworkImage(
-                          (membernear.linkAvatar?.isEmpty ?? true)
-                              ? "https://i.ibb.co.com/vxkjJQD/Png-Item-1503945.png"
-                              : membernear.linkAvatar!,
+                Align(
+                    alignment: Alignment.topCenter,
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          maxRadius: 50.0,
+                          backgroundImage: NetworkImage(
+                            (membernear.linkAvatar?.isEmpty ?? true)
+                                ? "https://i.ibb.co.com/vxkjJQD/Png-Item-1503945.png"
+                                : membernear.linkAvatar!,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Text(membernear.fullname ?? "",
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.visible,
-                            style: const TextStyle(
-                                fontSize: fontSizeOverLarge,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.blackColor)),
-                      ),
-                      const SizedBox(height: 8.0),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Text(
-                            "${membernear.clubName} ( ${membernear.clubShortName} )",
-                            overflow: TextOverflow.visible,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontSize: fontSizeDefault,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.blackColor)),
-                      ),
-                      const SizedBox(height: 8.0),
-                      Text('$resultText KM',
-                          maxLines: 1,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: fontSizeDefault,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.blackColor,
-                          )),
-                      const SizedBox(height: 50.0),
-                      ElevatedButton.icon(
-                        onPressed: () async {
-                          await openWhatsApp(membernear, context);
-                        },
-                        icon: const Icon(Icons.chat),
-                        label: const Text(
-                          'Hubungi melalui WhatsApp',
-                          style: TextStyle(color: AppColors.blackColor),
+                        const SizedBox(height: 10.0),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Text(membernear.fullname ?? "",
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.visible,
+                              style: const TextStyle(
+                                  fontSize: fontSizeOverLarge,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.blackColor)),
                         ),
-                      ),
-                    ],
-                  )),
-            ],
-          ),
-        );
-      }
-    );
+                        const SizedBox(height: 8.0),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Text(
+                              "${membernear.clubName} ( ${membernear.clubShortName} )",
+                              overflow: TextOverflow.visible,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  fontSize: fontSizeDefault,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.blackColor)),
+                        ),
+                        const SizedBox(height: 8.0),
+                        Text('$resultText KM',
+                            maxLines: 1,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: fontSizeDefault,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.blackColor,
+                            )),
+                        const SizedBox(height: 50.0),
+                        ElevatedButton.icon(
+                          onPressed: () async {
+                            await openWhatsApp(membernear, context);
+                          },
+                          icon: const Icon(Icons.chat),
+                          label: const Text(
+                            'Hubungi melalui WhatsApp',
+                            style: TextStyle(color: AppColors.blackColor),
+                          ),
+                        ),
+                      ],
+                    )),
+              ],
+            ),
+          );
+        });
   }
 }
-  Future<void> openWhatsApp(MemberNearData membernear, BuildContext context) async {
-    debugPrint("Number IS ; 62${membernear.phone?.substring(1)}");
-    final url = Platform.isIOS
-        ? "whatsapp://send?phone=62${membernear.phone?.substring(1)}"
-        : "https://wa.me/62${membernear.phone?.substring(1)}";
-    final uri = Uri.parse(url);
 
-    if (!await launchUrl(uri)) {
-      // ignore: use_build_context_synchronously
-      Navigator.pop(context);
-      // ignore: use_build_context_synchronously
-      ShowSnackbar.snackbar(
-          // ignore: use_build_context_synchronously
-          context, 'Nomor ini tidak bisa dihubungi', isSuccess: false);
-    }
+Future<void> openWhatsApp(
+    MemberNearData membernear, BuildContext context) async {
+  debugPrint("Number IS ; 62${membernear.phone?.substring(1)}");
+  final url = Platform.isIOS
+      ? "whatsapp://send?phone=62${membernear.phone?.substring(1)}"
+      : "https://wa.me/62${membernear.phone?.substring(1)}";
+  final uri = Uri.parse(url);
+
+  if (!await launchUrl(uri)) {
+    // ignore: use_build_context_synchronously
+    Navigator.pop(context);
+    // ignore: use_build_context_synchronously
+    ShowSnackbar.snackbar(
+        // ignore: use_build_context_synchronously
+        context,
+        'Nomor ini tidak bisa dihubungi',
+        isSuccess: false);
   }
+}

@@ -3,11 +3,12 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
 class MarkerIcon {
@@ -23,9 +24,14 @@ class MarkerIcon {
     final ui.Codec codec = await ui.instantiateImageCodec(imageUint8List);
     final ui.FrameInfo imageFI = await codec.getNextFrame();
 
-    paintImage(canvas: canvas, rect: Rect.fromLTWH(0, 0, width.toDouble(), height.toDouble()), image: imageFI.image);
+    paintImage(
+        canvas: canvas,
+        rect: Rect.fromLTWH(0, 0, width.toDouble(), height.toDouble()),
+        image: imageFI.image);
 
-    final image = await pictureRecorder.endRecording().toImage(width.toInt(), (height).toInt());
+    final image = await pictureRecorder
+        .endRecording()
+        .toImage(width.toInt(), (height).toInt());
     final data = await image.toByteData(format: ui.ImageByteFormat.png);
     return BitmapDescriptor.fromBytes(data!.buffer.asUint8List());
   }
@@ -54,7 +60,8 @@ class MarkerIcon {
     TextPainter painter = TextPainter(textDirection: TextDirection.ltr);
     painter.text = TextSpan(
       text: text,
-      style: TextStyle(fontSize: fontSize, color: fontColor, fontWeight: fontWeight),
+      style: TextStyle(
+          fontSize: fontSize, color: fontColor, fontWeight: fontWeight),
     );
 
     canvas.clipPath(clipPath);
@@ -66,12 +73,18 @@ class MarkerIcon {
         fit: BoxFit.contain,
         alignment: Alignment.center,
         canvas: canvas,
-        rect: Rect.fromLTWH(0, 0, size.width.toDouble(), size.height.toDouble()),
+        rect:
+            Rect.fromLTWH(0, 0, size.width.toDouble(), size.height.toDouble()),
         image: imageFI.image);
     painter.layout();
-    painter.paint(canvas, Offset((size.width * 0.5) - painter.width * 0.5, (size.height * .5) - painter.height * 0.5));
+    painter.paint(
+        canvas,
+        Offset((size.width * 0.5) - painter.width * 0.5,
+            (size.height * .5) - painter.height * 0.5));
 
-    final image = await pictureRecorder.endRecording().toImage(size.width.toInt(), (size.height).toInt());
+    final image = await pictureRecorder
+        .endRecording()
+        .toImage(size.width.toInt(), (size.height).toInt());
     final data = await image.toByteData(format: ui.ImageByteFormat.png);
     return BitmapDescriptor.fromBytes(data!.buffer.asUint8List());
   }
@@ -91,7 +104,8 @@ class MarkerIcon {
 
     canvas.drawRRect(
         RRect.fromRectAndCorners(
-          Rect.fromLTWH(0.0, 0.0, size.width.toDouble(), size.height.toDouble()),
+          Rect.fromLTWH(
+              0.0, 0.0, size.width.toDouble(), size.height.toDouble()),
           topLeft: radius,
           topRight: radius,
           bottomLeft: radius,
@@ -102,19 +116,26 @@ class MarkerIcon {
     TextPainter painter = TextPainter(textDirection: TextDirection.ltr);
     painter.text = TextSpan(
       text: text,
-      style: TextStyle(fontSize: fontSize, color: fontColor, fontWeight: fontWeight),
+      style: TextStyle(
+          fontSize: fontSize, color: fontColor, fontWeight: fontWeight),
     );
 
     painter.layout();
-    painter.paint(canvas, Offset((size.width * 0.5) - painter.width * 0.5, (size.height * .5) - painter.height * 0.5));
+    painter.paint(
+        canvas,
+        Offset((size.width * 0.5) - painter.width * 0.5,
+            (size.height * .5) - painter.height * 0.5));
 
-    final img = await pictureRecorder.endRecording().toImage(size.width.toInt(), size.height.toInt());
+    final img = await pictureRecorder
+        .endRecording()
+        .toImage(size.width.toInt(), size.height.toInt());
     final data = await img.toByteData(format: ui.ImageByteFormat.png);
 
     return BitmapDescriptor.fromBytes(data!.buffer.asUint8List());
   }
 
-  static Future<BitmapDescriptor> downloadResizePicture({required String url, int imageSize = 50}) async {
+  static Future<BitmapDescriptor> downloadResizePicture(
+      {required String url, int imageSize = 50}) async {
     final File imageFile = await DefaultCacheManager().getSingleFile(url);
     final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(pictureRecorder);
@@ -122,8 +143,12 @@ class MarkerIcon {
     final ui.Codec codec = await ui.instantiateImageCodec(imageUint8List);
     final ui.FrameInfo imageFI = await codec.getNextFrame();
     paintImage(
-        canvas: canvas, rect: Rect.fromLTWH(0, 0, imageSize.toDouble(), imageSize.toDouble()), image: imageFI.image);
-    final image = await pictureRecorder.endRecording().toImage(imageSize, (imageSize * 1.1).toInt());
+        canvas: canvas,
+        rect: Rect.fromLTWH(0, 0, imageSize.toDouble(), imageSize.toDouble()),
+        image: imageFI.image);
+    final image = await pictureRecorder
+        .endRecording()
+        .toImage(imageSize, (imageSize * 1.1).toInt());
     final data = await image.toByteData(format: ui.ImageByteFormat.png);
     return BitmapDescriptor.fromBytes(data!.buffer.asUint8List());
   }
@@ -138,16 +163,17 @@ class MarkerIcon {
     try {
       final http.Response response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
-      return await _resizeCircle(
-        response.bodyBytes,
-        size: size,
-        addBorder: addBorder,
-        borderColor: borderColor,
-        borderSize: borderSize,
-      );
+        return await _resizeCircle(
+          response.bodyBytes,
+          size: size,
+          addBorder: addBorder,
+          borderColor: borderColor,
+          borderSize: borderSize,
+        );
       } else {
         print('⚠️ Image not found. Using fallback image.');
-        return await _getFallbackImage(size, addBorder, borderColor, borderSize);
+        return await _getFallbackImage(
+            size, addBorder, borderColor, borderSize);
       }
     } catch (e) {
       print('❌ Error loading image for marker: $e');
@@ -170,44 +196,46 @@ class MarkerIcon {
         return BitmapDescriptor.defaultMarker;
       }
     }
-    }
+  }
 
-    static Future<BitmapDescriptor> _getFallbackImage(
-  int size,
-  bool addBorder,
-  Color borderColor,
-  double borderSize,
-) async {
-  final fallbackUrl = "https://i.ibb.co/vxkjJQD/Png-Item-1503945.png"; // ✅ URL valid
+  static Future<BitmapDescriptor> _getFallbackImage(
+    int size,
+    bool addBorder,
+    Color borderColor,
+    double borderSize,
+  ) async {
+    final fallbackUrl =
+        "https://i.ibb.co/vxkjJQD/Png-Item-1503945.png"; // ✅ URL valid
 
-  try {
-    final response = await http.get(Uri.parse(fallbackUrl));
-    if (response.statusCode == 200) {
-      return await _resizeCircle(
-        response.bodyBytes,
-        size: size,
-        addBorder: addBorder,
-        borderColor: borderColor,
-        borderSize: borderSize,
-      );
-    } else {
-      print('❌ Fallback image failed to load too.');
+    try {
+      final response = await http.get(Uri.parse(fallbackUrl));
+      if (response.statusCode == 200) {
+        return await _resizeCircle(
+          response.bodyBytes,
+          size: size,
+          addBorder: addBorder,
+          borderColor: borderColor,
+          borderSize: borderSize,
+        );
+      } else {
+        print('❌ Fallback image failed to load too.');
+        return BitmapDescriptor.defaultMarker;
+      }
+    } catch (e) {
+      print('❌ Error loading fallback image: $e');
       return BitmapDescriptor.defaultMarker;
     }
-  } catch (e) {
-    print('❌ Error loading fallback image: $e');
-    return BitmapDescriptor.defaultMarker;
   }
-}
 
-    static Future<BitmapDescriptor>  _resizeCircle(
+  static Future<BitmapDescriptor> _resizeCircle(
     Uint8List imageBytes, {
     required int size,
     required bool addBorder,
     required Color borderColor,
     required double borderSize,
   }) async {
-    final codec = await ui.instantiateImageCodec(imageBytes, targetWidth: size, targetHeight: size);
+    final codec = await ui.instantiateImageCodec(imageBytes,
+        targetWidth: size, targetHeight: size);
     final frame = await codec.getNextFrame();
     final ui.Image originalImage = frame.image;
 
@@ -228,7 +256,8 @@ class MarkerIcon {
       canvas.drawCircle(center, radius, paint);
     }
 
-    paint.shader = ImageShader(originalImage, TileMode.clamp, TileMode.clamp, Matrix4.identity().storage);
+    paint.shader = ImageShader(originalImage, TileMode.clamp, TileMode.clamp,
+        Matrix4.identity().storage);
     canvas.drawCircle(center, radius - (addBorder ? borderSize : 0), paint);
 
     final picture = recorder.endRecording();
@@ -240,13 +269,15 @@ class MarkerIcon {
   }
 
   static Future<BitmapDescriptor> widgetToIcon(GlobalKey globalKey) async {
-    RenderRepaintBoundary boundary = globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary;
+    RenderRepaintBoundary boundary =
+        globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary;
     ui.Image image = await boundary.toImage();
     ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     return BitmapDescriptor.fromBytes(byteData!.buffer.asUint8List());
   }
 
-  static Future<BitmapDescriptor> markerFromIcon(IconData icon, Color color, double size) async {
+  static Future<BitmapDescriptor> markerFromIcon(
+      IconData icon, Color color, double size) async {
     final pictureRecorder = ui.PictureRecorder();
     final canvas = Canvas(pictureRecorder);
     final textPainter = TextPainter(textDirection: TextDirection.ltr);

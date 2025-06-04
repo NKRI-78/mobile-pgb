@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mobile_pgb/misc/colors.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/misc/modal.dart';
-import 'package:mobile_pgb/modules/membernear/bloc/membernear_bloc.dart';
-import 'package:mobile_pgb/widgets/image/image_avatar.dart';
-import 'package:mobile_pgb/widgets/pages/loading_page.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
+import '../../../misc/modal.dart';
+import '../bloc/membernear_bloc.dart';
+import '../../../widgets/image/image_avatar.dart';
+import '../../../widgets/pages/loading_page.dart';
 
 import '../../../misc/text_style.dart';
 

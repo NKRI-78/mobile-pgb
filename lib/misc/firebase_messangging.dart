@@ -4,9 +4,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:mobile_pgb/firebase_options.dart';
-import 'package:mobile_pgb/misc/navigation.dart';
-import 'package:mobile_pgb/router/builder.dart';
+import '../firebase_options.dart';
+import 'navigation.dart';
+import '../router/builder.dart';
 
 class FirebaseMessagingMisc {
   static Future<void> init() async {

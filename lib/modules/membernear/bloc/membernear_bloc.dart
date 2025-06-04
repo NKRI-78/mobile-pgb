@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:mobile_pgb/misc/colors.dart';
-import 'package:mobile_pgb/misc/marker_icon.dart';
-import 'package:mobile_pgb/misc/modal.dart';
-import 'package:mobile_pgb/repositories/membernear_repository/membernear_repository.dart';
-import 'package:mobile_pgb/repositories/membernear_repository/models/membernear_model.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/marker_icon.dart';
+import '../../../misc/modal.dart';
+import '../../../repositories/membernear_repository/membernear_repository.dart';
+import '../../../repositories/membernear_repository/models/membernear_model.dart';
 
 part 'membernear_event.dart';
 part 'membernear_state.dart';

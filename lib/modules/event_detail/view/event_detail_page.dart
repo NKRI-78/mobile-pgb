@@ -12,6 +12,7 @@ import '../../../misc/text_style.dart';
 import '../../../misc/theme.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/photo_view/custom_fullscreen_preview.dart';
+import '../../app/bloc/app_bloc.dart';
 import '../cubit/event_detail_cubit.dart';
 
 part '../widget/custom_deskripsi_detail_event.dart';
@@ -75,21 +76,32 @@ class EventDetailView extends StatelessWidget {
           ),
           bottomNavigationBar: Padding(
             padding: const EdgeInsets.all(10),
-            child: state.loading
-                ? SizedBox.shrink()
-                : CustomButton(
-                    onPressed: state.isJoined
-                        ? null
-                        : () async {
-                            isLoggedIn ?  await context
-                                .read<EventDetailCubit>()
-                                .joinEvent(context) : RegisterRoute().push(context);
-                          },
-                    text: state.isJoined ? "Sudah Bergabung" : "Bergabung",
-                    backgroundColour:
-                        state.isJoined ? Colors.grey : AppColors.secondaryColor,
-                    textColour: AppColors.whiteColor,
-                  ),
+            child: Builder(
+              builder: (context) {
+                // Cek apakah user sudah login
+                final isLoggedIn = context.select<AppBloc, bool>(
+                  (bloc) => bloc.state.isLoggedIn,
+                );
+
+                if (state.loading || !isLoggedIn) {
+                  return const SizedBox.shrink();
+                }
+
+                return CustomButton(
+                  onPressed: state.isJoined
+                      ? null
+                      : () async {
+                          await context
+                              .read<EventDetailCubit>()
+                              .joinEvent(context);
+                        },
+                  text: state.isJoined ? "Sudah Bergabung" : "Bergabung",
+                  backgroundColour:
+                      state.isJoined ? Colors.grey : AppColors.secondaryColor,
+                  textColour: AppColors.whiteColor,
+                );
+              },
+            ),
           ),
         );
       },

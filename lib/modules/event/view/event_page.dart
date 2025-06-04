@@ -100,8 +100,7 @@ class _EventViewState extends State<EventView> {
                     children: const [
                       Center(
                         child: EmptyPage(
-                          msg:
-                              'Gagal memuat Event\nkembali lagi untuk merefresh..',
+                          msg: 'Gagal memuat Event',
                         ),
                       ),
                     ],

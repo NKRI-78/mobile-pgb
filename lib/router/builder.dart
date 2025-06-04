@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_pgb/misc/register_akun_extra.dart';
+import '../misc/register_akun_extra.dart';
 import '../modules/cart/view/cart_page.dart';
 import '../modules/checkout/view/checkout_page.dart';
 import '../modules/create_shipping_address/view/create_address_page.dart';
@@ -20,7 +20,7 @@ import '../modules/waiting_paymentv2/view/waiting_payment_page.dart';
 import '../repositories/oder_repository/models/tracking_model.dart';
 import '../repositories/shop_repository/models/detail_product_model.dart';
 import '../widgets/pages/page_detail_proof_shipping.dart';
-import 'package:mobile_pgb/modules/membernear/view/membernear_page.dart';
+import '../modules/membernear/view/membernear_page.dart';
 
 import '../modules/event_detail/view/event_detail_page.dart';
 import '../modules/forum/view/forum_page.dart';
