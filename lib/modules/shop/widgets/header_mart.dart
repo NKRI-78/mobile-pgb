@@ -33,6 +33,7 @@ class _HeaderMartState extends State<HeaderMart> {
       },
       child: BlocBuilder<AppBloc, AppState>(
         builder: (context, state) {
+          final isLoggedIn = getIt<AppBloc>().state.user != null;
           return SliverList(
             delegate: SliverChildListDelegate([
               Container(
@@ -78,7 +79,7 @@ class _HeaderMartState extends State<HeaderMart> {
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: IconButton(
-                            onPressed: () => CartRoute().push(context),
+                            onPressed: () => isLoggedIn ?  CartRoute().push(context) : RegisterRoute().push(context),
                             icon: Badges.Badge(
                               position: Badges.BadgePosition.topEnd(
                                   end: -13, top: -13),

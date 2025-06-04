@@ -12,7 +12,7 @@ import '../../modules/register_akun/model/extrack_ktp_model.dart';
 import 'models/user_model.dart';
 
 class LoggedIn {
-  final User user;
+  final UserModel user;
   final String token;
 
   LoggedIn({
@@ -142,7 +142,7 @@ class AuthRepository {
               message: json['message'] ?? "Terjadi kesalahan");
         }
         return LoggedIn(
-          user: User.fromJson(
+          user: UserModel.fromJson(
             json['data'],
           ),
           token: json['data']['token'],
@@ -230,7 +230,7 @@ class AuthRepository {
         }
         return LoggedIn(
           token: json['data']['token'],
-          user: User.fromJson(
+          user: UserModel.fromJson(
             json['data'],
           ),
         );

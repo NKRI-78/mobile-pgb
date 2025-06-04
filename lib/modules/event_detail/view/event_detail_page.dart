@@ -2,6 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_pgb/misc/injections.dart';
+import 'package:mobile_pgb/modules/app/bloc/app_bloc.dart';
+import 'package:mobile_pgb/router/builder.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../misc/colors.dart';
@@ -43,6 +46,7 @@ class EventDetailView extends StatelessWidget {
         final imageUrl = eventData?.imageUrl?.isNotEmpty == true
             ? eventData?.imageUrl
             : null;
+        final isLoggedIn = getIt<AppBloc>().state.user != null;
         return Scaffold(
           appBar: AppBar(
             surfaceTintColor: Colors.transparent,
@@ -77,9 +81,9 @@ class EventDetailView extends StatelessWidget {
                     onPressed: state.isJoined
                         ? null
                         : () async {
-                            await context
+                            isLoggedIn ?  await context
                                 .read<EventDetailCubit>()
-                                .joinEvent(context);
+                                .joinEvent(context) : RegisterRoute().push(context);
                           },
                     text: state.isJoined ? "Sudah Bergabung" : "Bergabung",
                     backgroundColour:

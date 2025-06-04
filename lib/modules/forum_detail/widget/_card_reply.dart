@@ -53,20 +53,21 @@ class CardReply extends StatelessWidget {
                             borderRadius: BorderRadius.circular(15),
                             color: isHighlighted
                                 ? AppColors.secondaryColor
-                                : AppColors.greyColor.withOpacity(0.3),
+                                : AppColors.greyColor.withValues(alpha: 0.3),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                user?.profile?.fullname ?? "",
+                                user?.profile == null
+                                    ? "Akun Terhapus"
+                                    : user?.profile?.fullname ?? "",
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                  color: isHighlighted
-                                      ? AppColors.whiteColor
-                                      : AppColors.blackColor,
-                                ),
+                                    color: isHighlighted
+                                        ? AppColors.whiteColor
+                                        : user?.profile == null ? AppColors.redColor : AppColors.blackColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(height: 4),
                               DetectText(
@@ -112,7 +113,12 @@ class CardReply extends StatelessWidget {
                                   commentKey.currentState?.controller?.text =
                                       "@$mention ";
                                 }
-
+                                print("ID user : ${comment?.userId}");
+                                print("ID user : $userId");
+                                var cubit =
+                                    context.read<ForumDetailCubit>();
+                                // Simpan target balasan
+                                cubit.setReplyTargetCommentId(comment?.commentId.toString() ?? "0");
                                 // Set parent comment ID
                                 context.read<ForumDetailCubit>().copyState(
                                       newState: context

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_pgb/misc/injections.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 import '../../../misc/theme.dart';
@@ -41,12 +42,12 @@ class ShopView extends StatelessWidget {
           onNotification: (notification) {
             if (notification.metrics.axis == Axis.vertical) {
               context.read<ShopBloc>().add(
-                    CopyState(
-                      newState: context.read<ShopBloc>().state.copyWith(
-                            scrollP: notification.metrics.pixels,
-                          ),
-                    ),
-                  );
+                CopyState(
+                  newState: context.read<ShopBloc>().state.copyWith(
+                        scrollP: notification.metrics.pixels,
+                      ),
+                ),
+              );
             }
             return true; // pastikan return true jika ingin terus menerima notifikasi scroll
           },
@@ -67,8 +68,6 @@ class ShopView extends StatelessWidget {
                 (state.pagination?.totalPages ?? 1),
             enablePullDown: true,
             onLoading: () async {
-              print("Scroll");
-              print("Pagination Next : ${state.nexPageProduct}");
               context.read<ShopBloc>().add(LoadMoreProduct());
             },
             child: CustomScrollView(

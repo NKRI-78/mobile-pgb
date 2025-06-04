@@ -57,6 +57,7 @@ class _DetailProductViewState extends State<DetailProductView> {
     return BlocBuilder<DetailProductCubit, DetailProductState>(
       builder: (context, state) {
         final data = state.detail?.data;
+        final isLoggedIn = getIt<AppBloc>().state.user != null;
         return Scaffold(
           backgroundColor: AppColors.primaryColor,
           bottomNavigationBar: state.loading ? null : Container(
@@ -90,6 +91,7 @@ class _DetailProductViewState extends State<DetailProductView> {
                     child: CustomButton(
                       radius: 12,
                       onPressed: () {
+                        isLoggedIn ? 
                         showModalBottomSheet(
                           isScrollControlled: true,
                           shape: const RoundedRectangleBorder(
@@ -102,7 +104,7 @@ class _DetailProductViewState extends State<DetailProductView> {
                                 MediaQuery.of(context).viewInsets,
                             child: ModalBottom(data: data),
                           ),
-                        );
+                        ) : RegisterRoute().push(context);
                       },
                       text: '+ Keranjang',
                       backgroundColour: AppColors.blackColor,
@@ -115,11 +117,11 @@ class _DetailProductViewState extends State<DetailProductView> {
                     child: CustomButton(
                       radius: 12,
                       onPressed: () {
-                        CheckoutRoute(
+                        isLoggedIn ? CheckoutRoute(
                           from: "NOW",
                           qty: "1",
                           productId: data?.id.toString() ?? "",
-                        ).push(context);
+                        ).push(context) : RegisterRoute().push(context);
                       },
                       text: 'Beli Sekarang',
                       backgroundColour: AppColors.secondaryColor,
