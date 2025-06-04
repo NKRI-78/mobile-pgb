@@ -31,21 +31,22 @@ class _FieldEmail extends StatelessWidget {
     return BlocBuilder<RegisterAkunCubit, RegisterAkunState>(
       builder: (context, state) {
         final isGoogleLogin = state.userGoogle?.oauthId != null;
-        final email = isGoogleLogin ? state.userGoogle!.email : state.email;
+        final email =
+            isGoogleLogin ? state.userGoogle?.email ?? '' : state.email;
 
         return _buildTextFormField(
-          label: 'Alamat Email',
-          initialValue: email,
-          keyboardType: TextInputType.emailAddress,
-          onChanged: (value) {
-            if (isGoogleLogin) {
-              var cubit = context.read<RegisterAkunCubit>();
-              cubit.copyState(newState: cubit.state.copyWith(email: value));
-            }
-          },
-          inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
-          readOnly: isGoogleLogin,
-        );
+            label: 'Alamat Email',
+            initialValue: email,
+            keyboardType: TextInputType.emailAddress,
+            onChanged: (value) {
+              if (!isGoogleLogin) {
+                var cubit = context.read<RegisterAkunCubit>();
+                cubit.copyState(newState: cubit.state.copyWith(email: value));
+              }
+            },
+            inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
+            readOnly: isGoogleLogin,
+            textColor: isGoogleLogin ? Colors.red : AppColors.whiteColor);
       },
     );
   }
@@ -120,6 +121,7 @@ Widget _buildTextFormField({
   List<TextInputFormatter>? inputFormatters,
   int? maxLength,
   bool readOnly = false,
+  Color? textColor,
 }) {
   return Padding(
     padding: EdgeInsets.only(bottom: 12),
@@ -151,7 +153,7 @@ Widget _buildTextFormField({
             ),
           ),
           style: AppTextStyles.textStyleNormal.copyWith(
-            color: AppColors.whiteColor,
+            color: textColor ?? AppColors.whiteColor,
           ),
         ),
       ),

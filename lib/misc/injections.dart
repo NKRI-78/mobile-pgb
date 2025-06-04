@@ -7,7 +7,7 @@ import '../modules/detail_product/cubit/detail_product_cubit.dart';
 import '../modules/list_address/cubit/list_address_cubit.dart';
 import '../modules/need_riview/cubit/need_riview_cubit.dart';
 import '../repositories/shop_repository/shop_repository.dart';
-import 'package:mobile_pgb/modules/membernear/bloc/membernear_bloc.dart';
+import '../modules/membernear/bloc/membernear_bloc.dart';
 import '../modules/forum/cubit/forum_cubit.dart';
 import '../modules/forum_detail/cubit/forum_detail_cubit.dart';
 import '../modules/register_change/cubit/register_change_cubit.dart';

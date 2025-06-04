@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/modules/app/models/user_google_model.dart';
+import '../../app/models/user_google_model.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
@@ -40,6 +40,7 @@ class RegisterAkunView extends StatelessWidget {
     return BlocBuilder<RegisterAkunCubit, RegisterAkunState>(
       builder: (context, state) {
         print("CEK EMAIL${state.email}");
+        print("CEK EMAIL GOOGLE ${state.userGoogle?.email}");
         return Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(

@@ -100,7 +100,10 @@ class CustomMenu extends StatelessWidget {
   void _navigateToPage(BuildContext context, int index) {
     final isLoggedIn = getIt<AppBloc>().state.user != null;
 
-    // Media dan About bisa diakses tanpa login
+    if (index == 1) {
+      EventRoute().go(context);
+      return;
+    }
     if (index == 4) {
       MediaRoute().go(context);
       return;
@@ -109,15 +112,10 @@ class CustomMenu extends StatelessWidget {
       AboutRoute().go(context);
       return;
     }
-
-    // Semua menu lainnya wajib login
     if (isLoggedIn) {
       switch (index) {
         case 0:
           ShopRoute().go(context);
-          break;
-        case 1:
-          EventRoute().go(context);
           break;
         case 2:
           MemberNearRoute().go(context);

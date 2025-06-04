@@ -74,7 +74,15 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
             ],
           ),
         const SizedBox(height: 12),
-        _buildCardOnly(isFront)
+        _buildCardOnly(isFront),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: [
+        //     _Dot(isActive: isFront),
+        //     const SizedBox(width: 6),
+        //     _Dot(isActive: !isFront),
+        //   ],
+        // ),
       ],
     );
   }
@@ -211,6 +219,25 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
     );
   }
 }
+
+// class _Dot extends StatelessWidget {
+//   final bool isActive;
+
+//   const _Dot({required this.isActive});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return AnimatedContainer(
+//       duration: const Duration(milliseconds: 300),
+//       width: isActive ? 12 : 8,
+//       height: isActive ? 12 : 8,
+//       decoration: BoxDecoration(
+//         color: isActive ? AppColors.secondaryColor : AppColors.greyColor,
+//         shape: BoxShape.circle,
+//       ),
+//     );
+//   }
+// }
 
 class _CardSideButton extends StatelessWidget {
   final String text;

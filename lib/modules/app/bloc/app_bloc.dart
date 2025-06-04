@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mobile_pgb/modules/app/models/user_google_model.dart';
+import '../models/user_google_model.dart';
 import '../../../repositories/cart_repository/cart_repository.dart';
 import '../../../repositories/cart_repository/models/cart_count_model.dart';
 import '../../../misc/http_client.dart';

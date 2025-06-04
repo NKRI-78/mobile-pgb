@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/repositories/forum_repository/models/forum_detail_model.dart';
+import '../../../repositories/forum_repository/models/forum_detail_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../misc/colors.dart';
@@ -156,7 +156,8 @@ class _CommentForumState extends State<CommentForum> {
                                     var cubit =
                                         context.read<ForumDetailCubit>();
                                     // Simpan target balasan
-                                    cubit.setReplyTargetCommentId(commentId.toString());
+                                    cubit.setReplyTargetCommentId(
+                                        commentId.toString());
                                     cubit.copyState(
                                         newState: cubit.state.copyWith(
                                       commentId: commentId,
@@ -206,23 +207,25 @@ class _CommentForumState extends State<CommentForum> {
                     ),
                   ),
                 ),
-                //  if (shownCount > 0)
-                // InkWell(
-                //   onTap: () {
-                //     context.read<ForumDetailCubit>().showMore(widget.comment.id.toString(), 0);
-                //   },
-                //   child: const Padding(
-                //     padding: EdgeInsets.only(left: 65, top: 8),
-                //     child: Text(
-                //       'Sembunyikan balasan',
-                //       style: TextStyle(color: Colors.blue),
-                //     ),
-                //   ),
-                // ),
-                if (shownCount >= totalReplies && totalReplies > 5)
+              //  if (shownCount > 0)
+              // InkWell(
+              //   onTap: () {
+              //     context.read<ForumDetailCubit>().showMore(widget.comment.id.toString(), 0);
+              //   },
+              //   child: const Padding(
+              //     padding: EdgeInsets.only(left: 65, top: 8),
+              //     child: Text(
+              //       'Sembunyikan balasan',
+              //       style: TextStyle(color: Colors.blue),
+              //     ),
+              //   ),
+              // ),
+              if (shownCount >= totalReplies && totalReplies > 5)
                 GestureDetector(
                   onTap: () {
-                    context.read<ForumDetailCubit>().showMore(widget.comment.id.toString(), totalReplies);
+                    context
+                        .read<ForumDetailCubit>()
+                        .showMore(widget.comment.id.toString(), totalReplies);
                   },
                   child: const Padding(
                     padding: EdgeInsets.only(left: 65, top: 8),

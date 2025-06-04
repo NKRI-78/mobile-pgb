@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/misc/firebase_messangging.dart';
+import '../../../misc/firebase_messangging.dart';
 
 import '../../../misc/injections.dart';
 import '../../../misc/theme.dart';
