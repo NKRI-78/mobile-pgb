@@ -24,12 +24,12 @@ final List<Map<String, dynamic>> onboardingContent = [
         style: AppTextStyles.buttonTextBlue,
       ),
       TextSpan(
-        text: 'Forum',
+        text: 'Interaksi',
         style: AppTextStyles.buttonTextBlue1,
       ),
     ],
     'description':
-        'Fitur Forum, memudahkan seluruh Anggota di Partai Gema Bangsa untuk berkomunikasi, berdiskusi, dan berbagi informasi secara langsung melalui aplikasi.',
+        'Fitur Interaksi, memudahkan seluruh Anggota di Partai Gema Bangsa untuk berkomunikasi, berdiskusi, dan berbagi informasi secara langsung melalui aplikasi.',
     'image': 'assets/images/onboarding_2.png',
   },
   {

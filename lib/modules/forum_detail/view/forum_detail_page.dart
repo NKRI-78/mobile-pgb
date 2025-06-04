@@ -48,7 +48,8 @@ class ForumDetailView extends StatefulWidget {
   State<ForumDetailView> createState() => _ForumDetailViewState();
 }
 
-class _ForumDetailViewState extends State<ForumDetailView> with TickerProviderStateMixin {
+class _ForumDetailViewState extends State<ForumDetailView>
+    with TickerProviderStateMixin {
   late FocusNode myFocusNode;
 
   @override
@@ -65,7 +66,7 @@ class _ForumDetailViewState extends State<ForumDetailView> with TickerProviderSt
           child: Scaffold(
             appBar: AppBar(
               title: Text(
-                "Detail Forum",
+                "Detail Interaksi",
                 style: AppTextStyles.textStyleBold,
               ),
               centerTitle: true,

@@ -25,7 +25,7 @@ class CustomBanner extends StatelessWidget {
 
           return CarouselSlider.builder(
             options: CarouselOptions(
-              height: 180,
+              height: 200,
               autoPlay: true,
               enlargeCenterPage: true,
               viewportFraction: 1,

@@ -38,7 +38,7 @@ class ForumCreateView extends StatelessWidget {
         surfaceTintColor: Colors.transparent,
         toolbarHeight: 80,
         title: Text(
-          'Create Forum',
+          'Create Interaksi',
           style: AppTextStyles.textStyleBold,
         ),
         centerTitle: true,

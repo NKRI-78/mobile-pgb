@@ -39,7 +39,7 @@ class RegisterAkunView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterAkunCubit, RegisterAkunState>(
       builder: (context, state) {
-        // print("CEK EMAIL${state.email}");
+        print("CEK EMAIL${state.email}");
         return Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(

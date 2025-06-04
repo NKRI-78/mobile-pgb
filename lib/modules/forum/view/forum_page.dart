@@ -31,7 +31,7 @@ class ForumView extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: Text("Forum", style: AppTextStyles.textStyleBold),
+            title: Text("Interaksi", style: AppTextStyles.textStyleBold),
             centerTitle: true,
             toolbarHeight: 80,
             elevation: 0,

@@ -23,14 +23,28 @@ class RegisterCubit extends Cubit<RegisterState> {
     try {
       emit(state.copyWith(isLoading: true, errorMessage: null));
 
+      // Trigger login Google
       final googleUser = await GoogleSignIn().signIn();
-      final googleAuth = await googleUser?.authentication;
 
-      if (googleAuth?.accessToken == null) {
-        throw Exception("");
+      // Jika user batal login (tekan back), googleUser akan null
+      if (googleUser == null) {
+        emit(state.copyWith(isLoading: false));
+        return;
       }
 
-      final accessToken = googleAuth!.accessToken;
+      final googleAuth = await googleUser.authentication;
+
+      if (googleAuth.accessToken == null) {
+        ShowSnackbar.snackbar(
+          isSuccess: false,
+          context,
+          "Gagal mendapatkan token akses Google",
+        );
+        emit(state.copyWith(isLoading: false));
+        return;
+      }
+
+      final accessToken = googleAuth.accessToken;
 
       print("Access Token: $accessToken");
 
@@ -73,7 +87,6 @@ class RegisterCubit extends Cubit<RegisterState> {
 
         if (message.toLowerCase().contains('user not found') &&
             action == 'REGISTER') {
-          // final dataGoogle = jsonData['data'];
           final UserGoogleModel dataGoogle =
               UserGoogleModel.fromJson(jsonData['data']);
           final RegisterAkunExtra akunExtra =
@@ -82,8 +95,11 @@ class RegisterCubit extends Cubit<RegisterState> {
           if (!context.mounted) return;
           RegisterKtpRoute($extra: akunExtra).push(context);
         } else {
-          throw Exception(
-            "Login gagal Terjadi kesalahan saat login",
+          // Jika bukan kondisi REGISTER, bisa tampilkan pesan error umum
+          ShowSnackbar.snackbar(
+            isSuccess: false,
+            context,
+            message.isNotEmpty ? message : "Terjadi kesalahan saat login",
           );
         }
       }
