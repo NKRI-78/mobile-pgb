@@ -37,11 +37,13 @@ class ButtonArrow extends StatelessWidget {
                     state.badgeCart == null || state.badgeCart?.totalItem == 0
                         ? false
                         : true,
-                badgeStyle: const Badges.BadgeStyle(padding: EdgeInsets.all(4)),
+                badgeStyle: Badges.BadgeStyle(
+                  padding: EdgeInsets.all(5)
+                ),
                 badgeContent: Text(
                   state.loadingNotif ? '..' : '${state.badgeCart?.totalItem}',
                   style: const TextStyle(
-                    fontSize: fontSizeExtraSmall,
+                    fontSize: fontSizeDefault,
                     color: Colors.white,
                   ),
                 ),

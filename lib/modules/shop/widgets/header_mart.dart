@@ -77,21 +77,18 @@ class _HeaderMartState extends State<HeaderMart> {
                               ? CartRoute().push(context)
                               : RegisterRoute().push(context),
                           icon: Badges.Badge(
-                            position:
-                                Badges.BadgePosition.topEnd(end: -13, top: -13),
-                            showBadge: state.badgeCart == null ||
-                                    state.badgeCart?.totalItem == 0
-                                ? false
-                                : true,
-                            badgeStyle: const Badges.BadgeStyle(
-                              padding: EdgeInsets.all(4),
+                            position: Badges.BadgePosition.topEnd(),
+                            showBadge:
+                                state.badgeCart == null || state.badgeCart?.totalItem == 0
+                                    ? false
+                                    : true,
+                            badgeStyle: Badges.BadgeStyle(
+                              padding: EdgeInsets.all(5)
                             ),
                             badgeContent: Text(
-                              state.loadingNotif
-                                  ? '..'
-                                  : '${state.badgeCart?.totalItem ?? 0}',
+                              state.loadingNotif ? '..' : '${state.badgeCart?.totalItem}',
                               style: const TextStyle(
-                                fontSize: fontSizeExtraSmall,
+                                fontSize: fontSizeDefault,
                                 color: Colors.white,
                               ),
                             ),

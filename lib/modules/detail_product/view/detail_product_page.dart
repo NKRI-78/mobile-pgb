@@ -3,6 +3,7 @@ import 'package:cart_stepper/cart_stepper.dart';
 import 'package:badges/badges.dart' as Badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_pgb/widgets/pages/page_full_screen_gallery.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/custom_cart_stepper.dart';
 import '../../../misc/injections.dart';
@@ -151,15 +152,15 @@ class _DetailProductViewState extends State<DetailProductView> {
                                   .entries
                                   .map((e) => InkWell(
                                         onTap: () {
-                                          // Navigator.push(context, MaterialPageRoute(
-                                          //   builder: (_) => FullscreenGallery(
-                                          //     images: data.pictures?.map((media) => media.link)
-                                          //     .whereType<String>()
-                                          //     .toList() ?? [],
-                                          //     initialIndex: e.key,
-                                          //     stock: data.stock,
-                                          //   ),
-                                          // ));
+                                          Navigator.push(context, MaterialPageRoute(
+                                            builder: (_) => FullscreenGallery(
+                                              images: data.pictures?.map((media) => media.link)
+                                              .whereType<String>()
+                                              .toList() ?? [],
+                                              initialIndex: e.key,
+                                              stock: data.stock,
+                                            ),
+                                          ));
                                         },
                                         child: Stack(
                                           children: [

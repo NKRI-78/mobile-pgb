@@ -123,19 +123,20 @@ class HomeView extends StatelessWidget {
                     BlocBuilder<AppBloc, AppState>(
                       builder: (context, state) {
                         return Badges.Badge(
-                          position: Badges.BadgePosition.topEnd(end: 5, top: 0),
-                          showBadge: state.badges?.unreadCount == null ||
-                                  state.badges?.unreadCount == 0
-                              ? false
-                              : true,
-                          badgeStyle: const Badges.BadgeStyle(
-                              padding: EdgeInsets.all(5)),
+                          position: Badges.BadgePosition.topEnd(end: 2, top: 0),
+                          showBadge:
+                              state.badgeCart == null || state.badgeCart?.totalItem == 0
+                                  ? false
+                                  : true,
+                          badgeStyle: Badges.BadgeStyle(
+                            padding: EdgeInsets.all(5)
+                          ),
                           badgeContent: Text(
-                            state.loadingNotif
-                                ? '..'
-                                : '${state.badges?.unreadCount}',
+                            state.loadingNotif ? '..' : '${state.badgeCart?.totalItem}',
                             style: const TextStyle(
-                                fontSize: 10, color: Colors.white),
+                              fontSize: fontSizeSmall,
+                              color: Colors.white,
+                            ),
                           ),
                           child: IconButton(
                             icon: Icon(
