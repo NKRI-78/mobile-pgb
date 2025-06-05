@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/modules/app/bloc/app_bloc.dart';
+import '../../app/bloc/app_bloc.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -101,11 +101,11 @@ class ForumDetailCubit extends Cubit<ForumDetailState> {
         id: idNewComment,
         comment: state.inputComment,
         user: User(
-          email: app.state.profile?.email ?? "" ,
+          email: app.state.profile?.email ?? "",
           phone: app.state.profile?.phone ?? "",
           profile: ProfileUser(
             fullname: app.state.profile?.profile?.fullname,
-            avatarLink:  app.state.profile?.profile?.avatarLink,
+            avatarLink: app.state.profile?.profile?.avatarLink,
             userId: app.state.user?.id,
             id: app.state.profile?.profile?.id,
           ),
@@ -218,7 +218,6 @@ class ForumDetailCubit extends Cubit<ForumDetailState> {
   void setReplyTargetCommentId(String commentId) {
     emit(state.copyWith(replyTargetCommentId: commentId));
   }
-
 
   int getShownCount(String commentId) {
     return state.getShownCount(commentId);

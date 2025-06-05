@@ -46,7 +46,8 @@ class _FieldEmail extends StatelessWidget {
             },
             inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
             readOnly: isGoogleLogin,
-            textColor: isGoogleLogin ? Colors.red : AppColors.whiteColor);
+            textColor:
+                isGoogleLogin ? AppColors.greyColor : AppColors.whiteColor);
       },
     );
   }
@@ -154,6 +155,9 @@ Widget _buildTextFormField({
           ),
           style: AppTextStyles.textStyleNormal.copyWith(
             color: textColor ?? AppColors.whiteColor,
+            fontWeight: textColor == AppColors.greyColor
+                ? FontWeight.bold
+                : FontWeight.normal,
           ),
         ),
       ),

@@ -18,55 +18,56 @@ class ButtonArrow extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 30,
-                  height: 30,
-                  decoration: const BoxDecoration(
-                    color: AppColors.blackColor,
-                    shape: BoxShape.circle
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: AppColors.greyColor.withValues(alpha: 0.5),
+                    shape: BoxShape.circle,
                   ),
-                  child: Image.asset(
-                    "assets/icons/back-icon.png",
-                    color: AppColors.primaryColor,
+                  child: const Icon(
+                    Icons.arrow_back_ios_new,
+                    size: 20,
+                    color: AppColors.whiteColor,
                   ),
                 ),
               ),
               Badges.Badge(
-                  position: Badges.BadgePosition.topEnd(),
-                  showBadge: state.badgeCart == null ||
-                          state.badgeCart?.totalItem == 0
-                      ? false
-                      : true,
-                  badgeStyle: const Badges.BadgeStyle(padding: EdgeInsets.all(4)),
-                  badgeContent: Text(
-                    state.loadingNotif
-                        ? '..'
-                        : '${state.badgeCart?.totalItem}',
-                    style: const TextStyle(
-                      fontSize: fontSizeExtraSmall,
-                      color: Colors.white,
-                    ),
-                  ),
-                  child: Container(
-                    key: _cartKey,
-                    clipBehavior: Clip.hardEdge,
-                    height: 30,
-                    width: 30,
-                    decoration: BoxDecoration(
-                      color: AppColors.blackColor,
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.shopping_cart_outlined,
-                        size: 15,
-                        color: AppColors.whiteColor,
-                      ),
-                      onPressed: () {
-                        isLoggedIn ?  CartRoute().push(context) : RegisterRoute().push(context);
-                      },
-                    ),
+                position: Badges.BadgePosition.topEnd(),
+                showBadge:
+                    state.badgeCart == null || state.badgeCart?.totalItem == 0
+                        ? false
+                        : true,
+                badgeStyle: const Badges.BadgeStyle(padding: EdgeInsets.all(4)),
+                badgeContent: Text(
+                  state.loadingNotif ? '..' : '${state.badgeCart?.totalItem}',
+                  style: const TextStyle(
+                    fontSize: fontSizeExtraSmall,
+                    color: Colors.white,
                   ),
                 ),
+                child: Container(
+                  key: _cartKey,
+                  clipBehavior: Clip.hardEdge,
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: AppColors.greyColor.withValues(alpha: 0.5),
+                    shape: BoxShape.circle,
+                  ),
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.shopping_cart_outlined,
+                      size: 22,
+                      color: AppColors.whiteColor,
+                    ),
+                    onPressed: () {
+                      isLoggedIn
+                          ? CartRoute().push(context)
+                          : RegisterRoute().push(context);
+                    },
+                  ),
+                ),
+              ),
             ],
           ),
         );

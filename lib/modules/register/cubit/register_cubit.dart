@@ -3,16 +3,16 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:http/http.dart' as ht;
-import '../../../misc/register_akun_extra.dart';
-import '../../app/models/user_google_model.dart';
-import '../../../repositories/auth_repository/models/user_model.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 import '../../../misc/injections.dart';
+import '../../../misc/register_akun_extra.dart';
 import '../../../misc/snackbar.dart';
+import '../../../repositories/auth_repository/models/user_model.dart';
 import '../../../router/builder.dart';
 import '../../app/bloc/app_bloc.dart';
+import '../../app/models/user_google_model.dart';
 
 part 'register_state.dart';
 

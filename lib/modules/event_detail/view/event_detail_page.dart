@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/modules/app/bloc/app_bloc.dart';
-import 'package:mobile_pgb/router/builder.dart';
+import '../../../misc/injections.dart';
+import '../../app/bloc/app_bloc.dart';
+import '../../../router/builder.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../misc/colors.dart';

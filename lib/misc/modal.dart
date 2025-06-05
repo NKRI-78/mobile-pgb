@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../repositories/membernear_repository/models/membernear_model.dart';
 import 'colors.dart';
+import 'snackbar.dart';
 import 'text_style.dart';
 import 'theme.dart';
-import 'snackbar.dart';
-import '../repositories/membernear_repository/models/membernear_model.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 enum BackgroundConfirmModal {
   confirmDelete,

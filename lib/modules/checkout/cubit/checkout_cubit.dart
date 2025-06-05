@@ -5,10 +5,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/snackbar.dart';
-import '../widget/cost_shipping.dart';
-import '../widget/select_payment_channel.dart';
 import '../../../repositories/checkout_repository/checkout_repository.dart';
 import '../../../repositories/checkout_repository/models/checkout_detail_model.dart';
 import '../../../repositories/checkout_repository/models/checkout_detail_new_model.dart';
@@ -16,6 +15,8 @@ import '../../../repositories/checkout_repository/models/cost_item_model_v2.dart
 import '../../../repositories/checkout_repository/models/main_shipping_model.dart';
 import '../../../repositories/checkout_repository/models/payment_channel_model.dart';
 import '../../../widgets/map/custom_select_location.dart';
+import '../widget/cost_shipping.dart';
+import '../widget/select_payment_channel.dart';
 
 part 'checkout_state.dart';
 

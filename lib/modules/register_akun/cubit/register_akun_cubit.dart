@@ -92,13 +92,15 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
       final isGoogleLogin = state.userGoogle?.oauthId != null;
 
       final email = isGoogleLogin ? state.userGoogle!.email : state.email;
-      final avatar = isGoogleLogin ? state.userGoogle!.avatar : null;
+      // final avatar = isGoogleLogin ? state.userGoogle!.avatar : null;
 
-      // Validasi Foto (jika bukan dari Google, harus upload manual)
-      if (!isGoogleLogin && state.fileImage == null) {
+      // Validasi Foto
+      if (state.fileImage == null) {
         ShowSnackbar.snackbar(
           context,
-          "Harap masukan foto",
+          isGoogleLogin
+              ? "Harap unggah ulang foto yang menampilkan wajah Anda"
+              : "Harap masukkan foto",
           isSuccess: false,
         );
         emit(state.copyWith(isLoading: false));
@@ -120,13 +122,18 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
       }
 
       // Upload foto jika bukan dari Google
-      String imageUrl = avatar ?? "";
-      if (avatar == null || avatar.isEmpty) {
-        final linkImage =
-            await repo.postMedia(folder: "images", media: state.fileImage!);
-        print(linkImage);
-        imageUrl = linkImage.first['url']; // gunakan hasil upload
-      }
+      // String imageUrl = avatar ?? "";
+      // if (avatar == null || avatar.isEmpty) {
+      //   final linkImage =
+      //       await repo.postMedia(folder: "images", media: state.fileImage!);
+      //   print(linkImage);
+      //   imageUrl = linkImage.first['url']; // gunakan hasil upload
+      // }
+      // Upload foto (wajib upload ulang meskipun dari Google)
+      final uploaded =
+          await repo.postMedia(folder: "images", media: state.fileImage!);
+      print(uploaded);
+      String imageUrl = uploaded.first['url'];
 
       await repo.registerAkun(
         email: email ?? '',

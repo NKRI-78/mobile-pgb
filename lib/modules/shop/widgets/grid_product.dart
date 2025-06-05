@@ -30,11 +30,11 @@ class GridProduct extends StatelessWidget {
                     ? ""
                     : data.pictures?.first.link ?? "",
                 radius: 15,
-                height: 148,
+                height: 160,
                 width: double.infinity,
               )),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -61,11 +61,6 @@ class GridProduct extends StatelessWidget {
                         maxLines: 1,
                         style: AppTextStyles.textStyleNormal,
                       ),
-                      // const Icon(
-                      //   Icons.favorite_border,
-                      //   size: 14,
-                      //   color: whiteColor,
-                      // )
                     ],
                   ),
                 )

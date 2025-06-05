@@ -1,4 +1,4 @@
-import 'package:mobile_pgb/repositories/auth_repository/models/user_model.dart';
+import '../../auth_repository/models/user_model.dart';
 
 class ForumDetailModel {
   int? id;
@@ -86,8 +86,7 @@ class ForumDetailModel {
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
     if (forumComment != null) {
-      data['forum_comment'] =
-          forumComment!.map((v) => v.toJson()).toList();
+      data['forum_comment'] = forumComment!.map((v) => v.toJson()).toList();
     }
     if (user != null) {
       data['user'] = user!.toJson();
@@ -99,8 +98,7 @@ class ForumDetailModel {
       data['forum_likes'] = forumLikes!.map((v) => v.toJson()).toList();
     }
     if (forumComments != null) {
-      data['forumComments'] =
-          forumComments!.map((v) => v.toJson()).toList();
+      data['forumComments'] = forumComments!.map((v) => v.toJson()).toList();
     }
     data['likeCount'] = likeCount;
     data['isLike'] = isLike;

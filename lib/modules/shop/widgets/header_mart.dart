@@ -51,14 +51,15 @@ class _HeaderMartState extends State<HeaderMart> {
                         IconButton(
                           onPressed: () => GoRouter.of(context).pop(),
                           icon: Container(
-                            width: 35,
-                            height: 35,
-                            decoration: const BoxDecoration(
-                              color: AppColors.blackColor,
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: AppColors.greyColor.withValues(alpha: 0.5),
                               shape: BoxShape.circle,
                             ),
-                            child: Image.asset(
-                              "assets/icons/back-icon.png",
+                            child: const Icon(
+                              Icons.arrow_back_ios_new,
+                              size: 20,
                               color: AppColors.whiteColor,
                             ),
                           ),
@@ -71,37 +72,40 @@ class _HeaderMartState extends State<HeaderMart> {
                                 )),
                           ),
                         ),
-                        Container(
-                          height: 35,
-                          width: 35,
-                          decoration: BoxDecoration(
-                            color: AppColors.blackColor,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: IconButton(
-                            onPressed: () => isLoggedIn ?  CartRoute().push(context) : RegisterRoute().push(context),
-                            icon: Badges.Badge(
-                              position: Badges.BadgePosition.topEnd(
-                                  end: -13, top: -13),
-                              showBadge: state.badgeCart == null ||
-                                      state.badgeCart?.totalItem == 0
-                                  ? false
-                                  : true,
-                              badgeStyle: const Badges.BadgeStyle(
-                                padding: EdgeInsets.all(4),
+                        IconButton(
+                          onPressed: () => isLoggedIn
+                              ? CartRoute().push(context)
+                              : RegisterRoute().push(context),
+                          icon: Badges.Badge(
+                            position:
+                                Badges.BadgePosition.topEnd(end: -13, top: -13),
+                            showBadge: state.badgeCart == null ||
+                                    state.badgeCart?.totalItem == 0
+                                ? false
+                                : true,
+                            badgeStyle: const Badges.BadgeStyle(
+                              padding: EdgeInsets.all(4),
+                            ),
+                            badgeContent: Text(
+                              state.loadingNotif
+                                  ? '..'
+                                  : '${state.badgeCart?.totalItem ?? 0}',
+                              style: const TextStyle(
+                                fontSize: fontSizeExtraSmall,
+                                color: Colors.white,
                               ),
-                              badgeContent: Text(
-                                state.loadingNotif
-                                    ? '..'
-                                    : '${state.badgeCart?.totalItem ?? 0}',
-                                style: const TextStyle(
-                                  fontSize: fontSizeExtraSmall,
-                                  color: Colors.white,
-                                ),
+                            ),
+                            child: Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color:
+                                    AppColors.greyColor.withValues(alpha: 0.5),
+                                shape: BoxShape.circle,
                               ),
                               child: const Icon(
                                 Icons.shopping_cart_outlined,
-                                size: 16,
+                                size: 22,
                                 color: AppColors.whiteColor,
                               ),
                             ),

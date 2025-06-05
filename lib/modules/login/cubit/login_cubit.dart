@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../misc/register_akun_extra.dart';
 
 import '../../../misc/injections.dart';
+import '../../../misc/register_akun_extra.dart';
 import '../../../misc/snackbar.dart';
 import '../../../repositories/auth_repository/auth_repository.dart';
 import '../../../router/builder.dart';

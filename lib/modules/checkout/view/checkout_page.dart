@@ -1,15 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/price_currency.dart';
 import '../../../misc/snackbar.dart';
 import '../../../misc/theme.dart';
-import '../cubit/checkout_cubit.dart';
-import '../widget/card_address.dart';
 import '../../../repositories/checkout_repository/models/checkout_detail_model.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/button/custom_button.dart';
@@ -18,9 +15,11 @@ import '../../../widgets/image/image_avatar.dart';
 import '../../../widgets/image/image_card.dart';
 import '../../../widgets/pages/empty_page.dart';
 import '../../../widgets/pages/loading_page.dart';
+import '../cubit/checkout_cubit.dart';
+import '../widget/card_address.dart';
 
-part '../widget/list_checkout.dart';
 part '../widget/checkout_now.dart';
+part '../widget/list_checkout.dart';
 
 class CheckoutPage extends StatelessWidget {
   const CheckoutPage({super.key, this.from = "", this.qty, this.productId});
