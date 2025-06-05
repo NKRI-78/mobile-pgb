@@ -256,7 +256,7 @@ class _ModalBottomViewState extends State<ModalBottomView>  with TickerProviderS
                             const Text(
                               "Jumlah",
                               style: TextStyle(
-                                color: AppColors.whiteColor,
+                                color: AppColors.blackColor,
                                 fontWeight: FontWeight.bold,
                                 fontSize: fontSizeDefault
                               ),

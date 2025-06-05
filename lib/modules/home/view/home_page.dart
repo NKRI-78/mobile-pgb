@@ -23,7 +23,16 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: getIt<HomeBloc>()..add(HomeInit(context: context)),
-      child: HomeView(),
+      child: BlocListener<HomeBloc, HomeState>(
+        listenWhen: (previous, current) => current.isLoading ==false,
+        listener: (context, state) {
+          print("DATA PROFILE : ${state.profile}");
+          if (state.profile == null) {
+            context.read<AppBloc>().add(SetUserLogout());
+            RegisterRoute().go(context);
+          }
+        },
+        child: const HomeView()),
     );
   }
 }
