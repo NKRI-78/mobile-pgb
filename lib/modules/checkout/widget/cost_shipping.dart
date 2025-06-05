@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_pgb/misc/helper.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/price_currency.dart';
 import '../../../misc/theme.dart';
@@ -20,41 +21,73 @@ class CostShipping extends StatelessWidget {
           return grams / 1000;
         }
 
+        const Map<String, String> serviceDisplayMap = {
+          'REG': 'Reguler',
+          'JTR': 'JNE Trucking Reguler',
+          'JTR<130': 'JNE Trucking < 130 kg',
+          'JTR>130': 'JNE Trucking > 130 kg',
+          'JTR>200': 'JNE Trucking > 200 kg',
+          'CTC': 'City Courier',
+          'CTCYES': 'City Courier YES',
+          'CTCSPS': 'City Courier SPS',
+        };
+
+        String getServiceDisplayName(String code) {
+          return serviceDisplayMap[code] ?? code; // fallback ke kode asli kalau tidak dikenali
+        }
+
         print(weight);
         return Scaffold(
           body: ListView(
             shrinkWrap: true,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: RichText(
-                    textScaler: const TextScaler.linear(1.5),
-                    textAlign: TextAlign.left,
-                    text: TextSpan(children: [
-                      WidgetSpan(
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Image.asset(
-                              "assets/icons/close-icon-ractangle.png",
-                              width: 20,
-                              height: 20,
-                              color: AppColors.blackColor,
+                padding: const EdgeInsets.symmetric(vertical: 10,),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    RichText(
+                        textScaler: const TextScaler.linear(1.5),
+                        textAlign: TextAlign.left,
+                        text: TextSpan(children: [
+                          WidgetSpan(
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                child: Image.asset(
+                                  "assets/icons/close-icon-ractangle.png",
+                                  width: 20,
+                                  height: 20,
+                                  color: AppColors.blackColor,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      const TextSpan(
-                          text: "Pilih Pengiriman",
-                          style: TextStyle(
-                              color: AppColors.blackColor,
-                              fontSize: fontSizeLarge,
-                              fontWeight: FontWeight.bold))
-                    ])),
+                          const TextSpan(
+                              text: "Pilih Pengiriman",
+                              style: TextStyle(
+                                  color: AppColors.blackColor,
+                                  fontSize: fontSizeLarge,
+                                  fontWeight: FontWeight.bold))
+                        ])),
+                  ],
+                ),
               ),
+              // Container(
+              //   width: double.infinity,
+              //   height: 50,
+              //   margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              //   decoration: BoxDecoration(
+              //     border: Border.all(color: AppColors.greyColor, width: 5, strokeAlign: 1)
+              //   ),
+              //   child: Text(
+              //     "Berat ${gramsToKilograms(double.parse(weight))} kg"
+              //   ),
+              // ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,7 +95,7 @@ class CostShipping extends StatelessWidget {
                     .map((e) => InkWell(
                           onTap: () {
                             context.read<CheckoutCubit>().setCourier(
-                                  e.serviceDisplay ?? "",
+                                  getServiceDisplayName(e.serviceDisplay ?? ""),
                                   e.price ?? "",
                                   "${e.etdFrom} - ${e.etdThru}",
                                   idStore,
@@ -99,7 +132,7 @@ class CostShipping extends StatelessWidget {
                                               text: TextSpan(children: [
                                             TextSpan(
                                                 text:
-                                                    '${e.serviceDisplay} ( ${Price.currency(int.parse(e.price ?? "0").toDouble())} )',
+                                                    '${getServiceDisplayName(e.serviceDisplay ?? "")} ( ${Price.currency(int.parse(e.price ?? "0").toDouble())} )',
                                                 style: const TextStyle(
                                                     color: AppColors.blackColor,
                                                     fontSize: fontSizeLarge,
@@ -123,8 +156,7 @@ class CostShipping extends StatelessWidget {
                                                         fontWeight:
                                                             FontWeight.bold)),
                                                 TextSpan(
-                                                    text:
-                                                        '${e.etdFrom} - ${e.etdThru}  Hari',
+                                                    text: Helper.getEstimatedDateRange(e.etdFrom ?? "0", e.etdThru ?? "0"),
                                                     style: const TextStyle(
                                                         color: AppColors
                                                             .blackColor,

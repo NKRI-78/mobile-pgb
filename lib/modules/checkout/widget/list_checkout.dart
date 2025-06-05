@@ -30,6 +30,8 @@ class _ListCheckoutState extends State<ListCheckout> {
             0.0;
 
         double total = totalPrice + totalCost;
+        String from = state.shippings?[widget.cart.id.toString()]['etd'].toString().split("-")[0].trim() ?? "0";
+        String thru = state.shippings?[widget.cart.id.toString()]['etd'].toString().split("-")[1].trim() ?? "0";
         print(state.shippings);
         return Container(
           decoration: BoxDecoration(
@@ -185,7 +187,7 @@ class _ListCheckoutState extends State<ListCheckout> {
                           child: Text(
                             state.shippings?[widget.cart.id.toString()] == null
                                 ? 'PILIH PENGIRIMAN'
-                                : '${state.shippings![widget.cart.id.toString()]['service']} | ${Price.currency(int.parse(state.shippings![widget.cart.id.toString()]['cost'].toString()).toDouble())} ( ${state.shippings![widget.cart.id.toString()]['etd']} Hari )',
+                                : '${state.shippings![widget.cart.id.toString()]['service']} | ${Price.currency(int.parse(state.shippings![widget.cart.id.toString()]['cost'].toString()).toDouble())} \nEstimasi tiba ${Helper.getEstimatedDateRange(from, thru)}',
                             style: const TextStyle(
                                 fontSize: fontSizeSmall,
                                 fontWeight: FontWeight.bold,

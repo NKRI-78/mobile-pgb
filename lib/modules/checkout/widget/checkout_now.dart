@@ -16,6 +16,8 @@ class _CheckoutNowState extends State<CheckoutNow> {
     return BlocBuilder<CheckoutCubit, CheckoutState>(
       builder: (context, state) {
         print("Shipping : ${state.shippings}");
+        String from = state.shippings?[state.checkoutNow?.data?.store?.id.toString()]['etd'].toString().split("-")[0].trim() ?? "0";
+        String thru = state.shippings?[state.checkoutNow?.data?.store?.id.toString()]['etd'].toString().split("-")[1].trim() ?? "0";
         return Container(
           decoration: BoxDecoration(
               color: AppColors.whiteColor,
@@ -170,7 +172,7 @@ class _CheckoutNowState extends State<CheckoutNow> {
                                               .toString()] ==
                                           null
                                       ? 'PILIH PENGIRIMAN'
-                                      : '${state.shippings![state.checkoutNow?.data?.store?.id.toString()]['service']} | ${Price.currency(int.parse(state.shippings![state.checkoutNow?.data?.store?.id.toString()]['cost'].toString()).toDouble())} ( ${state.shippings![state.checkoutNow?.data?.store?.id.toString()]['etd']} Hari )',
+                                      : '${state.shippings![state.checkoutNow?.data?.store?.id.toString()]['service']} | ${Price.currency(int.parse(state.shippings![state.checkoutNow?.data?.store?.id.toString()]['cost'].toString()).toDouble())} \nEstimasi tiba ${Helper.getEstimatedDateRange(from, thru)}',
                               style: const TextStyle(
                                   fontSize: fontSizeSmall,
                                   fontWeight: FontWeight.bold,

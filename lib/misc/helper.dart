@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -26,6 +27,36 @@ class Helper {
 
     var status = await Permission.storage.request();
     return status.isGranted;
+  }
+
+  static String getEstimatedDateRange(String etdFrom, String etdThru) {
+    final now = DateTime.now();
+    final fromDays = int.tryParse(etdFrom) ?? 0;
+    final thruDays = int.tryParse(etdThru) ?? 0;
+
+    final fromDate = now.add(Duration(days: fromDays));
+    final thruDate = now.add(Duration(days: thruDays));
+
+    final fromFormatted = DateFormat("d MMMM", "id_ID").format(fromDate);
+    final thruFormatted = DateFormat("d MMMM", "id_ID").format(thruDate);
+
+    final fromOnlyDay = int.tryParse(DateFormat("d", "id_ID").format(fromDate));
+    final nowDate = int.tryParse(DateFormat("d", "id_ID").format(now));
+
+
+    if ((fromOnlyDay ?? 0) - (nowDate ?? 0) == 0){
+      return "hari ini";
+    }
+
+    if((fromOnlyDay ?? 0) - (nowDate ?? 0) == 1 && fromDays == thruDays){
+      return "besok";
+    }
+
+    if((fromOnlyDay ?? 0) - (nowDate ?? 0) == 1){
+      return "besok - $thruFormatted";
+    }
+
+    return "$fromFormatted - $thruFormatted";
   }
 
   // Future<void> saveToGalleryWithAlbum() async {
