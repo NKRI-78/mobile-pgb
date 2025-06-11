@@ -66,7 +66,7 @@ class NewsDetailView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildImageCard(context, imageUrl),
+                _buildImageCard(context, imageUrl, state.loading),
                 const SizedBox(height: 10),
                 state.loading
                     ? _buildLoadingContent()
@@ -146,7 +146,8 @@ class NewsDetailView extends StatelessWidget {
     return sanitized;
   }
 
-  Widget _buildImageCard(BuildContext context, String? imageUrl) {
+  Widget _buildImageCard(
+      BuildContext context, String? imageUrl, bool isLoading) {
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(
@@ -154,23 +155,26 @@ class NewsDetailView extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16.0),
-        child: imageUrl != null
-            ? GestureDetector(
-                onTap: () => _showFullImage(context, imageUrl),
-                child: Hero(
-                  tag: imageUrl,
-                  child: CachedNetworkImage(
-                    imageUrl: imageUrl,
-                    width: double.infinity,
-                    height: 200,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => _buildShimmerPlaceholder(),
-                    errorWidget: (context, url, error) =>
-                        _buildErrorPlaceholder(),
-                  ),
-                ),
-              )
-            : _buildErrorPlaceholder(),
+        child: isLoading
+            ? _buildShimmerPlaceholder(height: 200, withMargin: false)
+            : (imageUrl != null
+                ? GestureDetector(
+                    onTap: () => _showFullImage(context, imageUrl),
+                    child: Hero(
+                      tag: imageUrl,
+                      child: CachedNetworkImage(
+                        imageUrl: imageUrl,
+                        width: double.infinity,
+                        height: 200,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => _buildShimmerPlaceholder(
+                            height: 200, withMargin: false),
+                        errorWidget: (context, url, error) =>
+                            _buildErrorImageBanner(),
+                      ),
+                    ),
+                  )
+                : _buildErrorImageBanner()),
       ),
     );
   }
@@ -184,20 +188,21 @@ class NewsDetailView extends StatelessWidget {
     );
   }
 
-  Widget _buildShimmerPlaceholder() {
+  Widget _buildShimmerPlaceholder(
+      {double height = 20, bool withMargin = true}) {
     return Shimmer.fromColors(
       baseColor: Colors.grey[300]!,
       highlightColor: Colors.grey[200]!,
       child: Container(
         width: double.infinity,
-        height: 20,
+        height: height,
         color: Colors.white,
-        margin: const EdgeInsets.only(bottom: 10),
+        margin: withMargin ? const EdgeInsets.only(bottom: 10) : null, // ←
       ),
     );
   }
 
-  Widget _buildErrorPlaceholder() {
+  Widget _buildErrorImageBanner() {
     return Container(
       width: double.infinity,
       height: 200,

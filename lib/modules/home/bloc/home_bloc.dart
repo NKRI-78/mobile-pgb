@@ -44,17 +44,15 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
   void _onHomeInit(HomeInit event, Emitter<HomeState> emit) async {
     emit(state.copyWith(isLoading: true));
-
-    if (getIt<AppBloc>().state.isLoggedIn) {
-      add(LoadProfile());
-      await determinePosition(event.context!);
-    }
-    getIt<AppBloc>().add(InitialAppData());
     await _fetchNews(emit, isRefresh: true);
-
     await fetchBanner(emit);
     add(SetFcm());
 
+    if (getIt<AppBloc>().state.isLoggedIn) {
+      add(LoadProfile());
+      determinePosition(event.context!);
+    }
+    getIt<AppBloc>().add(InitialAppData());
     emit(state.copyWith(isLoading: false));
   }
 
