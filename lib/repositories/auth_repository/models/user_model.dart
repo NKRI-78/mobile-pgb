@@ -41,8 +41,11 @@ class UserModel {
     username = json['username'];
     email = json['email'];
     phone = json['phone'];
-    latitude = (json['latitude'] as num?)?.toDouble();
-    longitude = (json['longitude'] as num?)?.toDouble();
+    latitude =
+        json['latitude'] != null ? (json['latitude'] as num).toDouble() : null;
+    longitude = json['longitude'] != null
+        ? (json['longitude'] as num).toDouble()
+        : null;
     otp = json['otp'];
     emailVerified = json['email_verified'];
     fcmToken = json['fcm_token'];

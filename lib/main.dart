@@ -6,6 +6,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:upgrader/upgrader.dart';
 
 import 'firebase_options.dart';
 import 'misc/firebase_messangging.dart';
@@ -34,6 +35,7 @@ void main() async {
   if (!kIsWeb) {
     await setupFlutterNotifications();
   }
+  if (kDebugMode) await Upgrader.clearSavedSettings();
 
   runApp(const App());
 }

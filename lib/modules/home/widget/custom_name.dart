@@ -45,10 +45,10 @@ class CustomName extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 2),
                         backgroundColor: AppColors.secondaryColor,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        minimumSize: Size(0, 30),
+                        minimumSize: Size(0, 25),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(6),
                         ),
@@ -72,10 +72,10 @@ class CustomName extends StatelessWidget {
                       label: Text("Login"),
                       style: ElevatedButton.styleFrom(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 2),
                         backgroundColor: AppColors.secondaryColor,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        minimumSize: Size(0, 30),
+                        minimumSize: Size(0, 25),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(6),
                         ),
@@ -86,6 +86,7 @@ class CustomName extends StatelessWidget {
                     ),
             ],
           ),
+          SizedBox(height: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

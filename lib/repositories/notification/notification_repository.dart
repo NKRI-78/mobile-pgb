@@ -67,12 +67,14 @@ class NotificationRepository {
       if (res.statusCode == 200) {
         final List data = json['data']['data'];
 
-        // Filter unread dan bukan FORUM, FORUM_COMMENT
+        // Filter unread dan yang type-nya: NEWS, SOS, BROADCAST, atau ada kata "PAYMENT"
         final filtered = data.where((item) {
           final isUnread = item['read_at'] == null;
-          final type = item['type'];
+          final type = (item['type'] as String?)?.toUpperCase() ?? '';
           return isUnread &&
-              ['NEWS', 'SOS', 'BROADCAST', 'PAYMENT'].contains(type);
+              (type == 'SOS' ||
+                  type == 'BROADCAST' ||
+                  type.contains('PAYMENT'));
         }).toList();
 
         return NotificationCountModel(unreadCount: filtered.length);

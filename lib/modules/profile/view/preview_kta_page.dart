@@ -135,7 +135,6 @@ class _PreviewKtaPageState extends State<PreviewKtaPage> {
                     createAt: widget.createAt,
                   ),
                 ),
-                const SizedBox(height: 32),
               ],
             ),
           ),

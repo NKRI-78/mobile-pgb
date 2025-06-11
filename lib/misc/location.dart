@@ -6,116 +6,133 @@ import 'colors.dart';
 import 'text_style.dart';
 
 Future<Position> determinePosition(BuildContext context) async {
-  bool serviceEnabled;
-  LocationPermission permission;
+  bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
 
-  // Cek apakah layanan lokasi aktif
-  serviceEnabled = await Geolocator.isLocationServiceEnabled();
   if (!serviceEnabled) {
-    return Future.error('Location services are disabled.');
+    await showGpsDialog(context);
+    return Future.error('Layanan lokasi (GPS) tidak aktif.');
   }
 
-  permission = await Geolocator.checkPermission();
+  LocationPermission permission = await Geolocator.checkPermission();
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+  }
 
   if (permission == LocationPermission.denied) {
-    // Permintaan pertama
-    permission = await Geolocator.requestPermission();
-
-    if (permission == LocationPermission.denied) {
-      // Permintaan kedua jika user menolak pertama kali
-      permission = await Geolocator.requestPermission();
-
-      if (permission == LocationPermission.denied) {
-        // Jika user menolak lagi, tampilkan dialog ke pengaturan
-        showPermissionDialog(context);
-        return Future.error('Location permissions are permanently denied');
-      }
-    }
+    await showPermissionDialog(context);
+    return Future.error('Izin lokasi ditolak.');
   }
 
   if (permission == LocationPermission.deniedForever) {
-    // Jika user langsung menolak selamanya, tampilkan dialog
-    showPermissionDialog(context);
-    return Future.error('Location permissions are permanently denied');
+    await showPermissionDialog(context);
+    return Future.error('Izin lokasi ditolak secara permanen.');
   }
 
-  // Izin diberikan, ambil lokasi pengguna
   return await Geolocator.getCurrentPosition(
     desiredAccuracy: LocationAccuracy.bestForNavigation,
   );
 }
 
-void showPermissionDialog(BuildContext context) {
-  showDialog(
+/// Dialog untuk meminta user mengaktifkan layanan GPS
+Future<void> showGpsDialog(BuildContext context) async {
+  return showDialog(
     context: context,
     barrierDismissible: false,
-    builder: (context) {
-      return WillPopScope(
-        onWillPop: () async {
-          return false;
-        },
-        child: AlertDialog(
-          title: Text(
-            textAlign: TextAlign.center,
-            'Izin Lokasi Diperlukan!',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              color: Colors.black87,
-            ),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.location_on_rounded,
-                size: 60,
-                color: AppColors.secondaryColor,
-              ),
-              Text(
-                'Izin lokasi diperlukan agar aplikasi dapat berfungsi dengan baik. '
-                'Harap aktifkan izin lokasi di pengaturan aplikasi.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black54,
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-              child: Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    openAppSettings();
-                    Navigator.of(context).pop();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.secondaryColor,
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                    textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  child: FittedBox(
-                    child: Text(
-                      'Ke Pengaturan',
-                      style: AppTextStyles.textStyleBold.copyWith(
-                        color: AppColors.whiteColor,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+    builder: (context) => WillPopScope(
+      onWillPop: () async => false, // <- Ini yang memblokir tombol back
+      child: AlertDialog(
+        title: Text(
+          'GPS Tidak Aktif',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.gps_off, size: 60, color: AppColors.secondaryColor),
+            SizedBox(height: 10),
+            Text(
+              'Harap aktifkan layanan lokasi (GPS) untuk melanjutkan.',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14, color: Colors.black54),
             ),
           ],
         ),
-      );
-    },
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  Geolocator.openLocationSettings();
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.secondaryColor,
+                ),
+                child: Text(
+                  'Buka Pengaturan',
+                  style:
+                      AppTextStyles.textStyleBold.copyWith(color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+/// Dialog untuk meminta user memberikan izin lokasi
+Future<void> showPermissionDialog(BuildContext context) async {
+  return showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) => WillPopScope(
+      onWillPop: () async => false, // <- Ini yang memblokir tombol back
+      child: AlertDialog(
+        title: Text(
+          'Izin Lokasi Diperlukan!',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.location_on_rounded,
+                size: 60, color: AppColors.secondaryColor),
+            SizedBox(height: 10),
+            Text(
+              'Izin lokasi diperlukan agar aplikasi dapat berfungsi dengan baik. '
+              'Harap aktifkan izin lokasi di pengaturan aplikasi.',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14, color: Colors.black54),
+            ),
+          ],
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  openAppSettings(); // from permission_handler
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.secondaryColor,
+                ),
+                child: Text(
+                  'Buka Pengaturan',
+                  style:
+                      AppTextStyles.textStyleBold.copyWith(color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
   );
 }
