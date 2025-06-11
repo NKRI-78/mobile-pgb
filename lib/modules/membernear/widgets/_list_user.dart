@@ -22,8 +22,8 @@ class _ListUser extends StatelessWidget {
             // ignore: prefer_is_empty
             st.loading
                 ? const CustomLoadingPage()
-                : (st.memberNearModel?.data != null &&
-                        st.memberNearModel!.data!.isEmpty)
+                : (st.memberNearData != null &&
+                        st.memberNearData!.isEmpty)
                     ? EmptyLocation(msg: "Tidak ada member disekitar anda")
                     : GridView.builder(
                         padding: const EdgeInsets.symmetric(
@@ -35,9 +35,9 @@ class _ListUser extends StatelessWidget {
                           mainAxisSpacing: 20.0,
                         ),
                         physics: const AlwaysScrollableScrollPhysics(),
-                        itemCount: st.memberNearModel?.data?.length ?? 0,
+                        itemCount: st.memberNearData?.length ?? 0,
                         itemBuilder: (context, index) {
-                          final data = st.memberNearModel!.data![index];
+                          final data = st.memberNearData![index];
                           String resultText =
                               (data.distance.toString().length < 4)
                                   ? data.distance.toString()
@@ -63,7 +63,7 @@ class _ListUser extends StatelessWidget {
                                         width: double.infinity,
                                         height: 80,
                                         decoration: const BoxDecoration(
-                                            color: AppColors.greyColor,
+                                            color: AppColors.secondaryColor,
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(15))),
                                         margin: const EdgeInsets.only(
@@ -79,12 +79,17 @@ class _ListUser extends StatelessWidget {
                                               padding: const EdgeInsets.only(
                                                   top: 25),
                                               child: Text(
-                                                data.fullname?.split(' ')[0] ??
+                                                data.profile?.fullname?.split(' ')[0] ??
                                                     "",
                                                 maxLines: 2,
                                                 textAlign: TextAlign.center,
                                                 softWrap: true,
                                                 overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  color: AppColors.whiteColor,
+                                                  fontSize: fontSizeDefault,
+                                                  fontWeight: FontWeight.bold
+                                                ),
                                               ),
                                             ),
                                             SizedBox(
@@ -93,6 +98,11 @@ class _ListUser extends StatelessWidget {
                                                 '$resultText KM',
                                                 maxLines: 1,
                                                 textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: AppColors.whiteColor,
+                                                  fontSize: fontSizeSmall,
+                                                  fontWeight: FontWeight.bold
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -103,10 +113,10 @@ class _ListUser extends StatelessWidget {
                                         right: 0,
                                         left: 0,
                                         child: ImageAvatar(
-                                          image: (data.linkAvatar?.isEmpty ??
+                                          image: (data.profile?.avatarLink?.isEmpty ??
                                                   true)
                                               ? "https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png"
-                                              : data.linkAvatar!,
+                                              : data.profile?.avatarLink ?? "",
                                           radius: 20,
                                         ),
                                       ),

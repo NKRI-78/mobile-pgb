@@ -107,7 +107,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                 child: Image.asset(
                   'assets/icons/about.png',
                   fit: BoxFit.contain,
-                  height: 35,
+                  height: 50,
                 ),
               ),
               Expanded(
@@ -125,17 +125,17 @@ class _WebViewScreenState extends State<WebViewScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text(
-                      widget.url.contains(RegExp(r'^(http|https)://'))
-                          ? widget.url
-                          : "https://${widget.url}",
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: AppColors.greyColor,
-                        fontSize: 12,
-                      ),
-                    ),
+                    // Text(
+                    //   widget.url.contains(RegExp(r'^(http|https)://'))
+                    //       ? widget.url
+                    //       : "https://${widget.url}",
+                    //   maxLines: 1,
+                    //   overflow: TextOverflow.ellipsis,
+                    //   style: const TextStyle(
+                    //     color: AppColors.greyColor,
+                    //     fontSize: 12,
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
