@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
 import '../../../misc/location.dart';
@@ -54,6 +55,10 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
     await fetchBanner(emit);
     add(SetFcm());
+
+    await Future.wait([
+      setLastLocation(emit),
+    ]);
 
     emit(state.copyWith(isLoading: false));
   }
@@ -130,6 +135,19 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
       await homeRepo.setFcm(token ?? '');
       debugPrint("Set FCM Success");
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  Future<void> setLastLocation(Emitter<HomeState> emit) async {
+    try {
+      Geolocator.requestPermission();
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.low);
+      debugPrint("Lat ${position.latitude}");
+      debugPrint("Long ${position.longitude}");
+      await homeRepo.setLastLocatin(position.longitude, position.latitude);
     } catch (e) {
       debugPrint(e.toString());
     }

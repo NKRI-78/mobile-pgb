@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_pgb/modules/app/bloc/app_bloc.dart';
 
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
@@ -76,6 +77,28 @@ class HomeRepository {
       }
     } on SocketException {
       throw "Terjadi kesalahan jaringan";
+    }
+  }
+  Future<void> setLastLocatin(double longitude, double latitude) async {
+    try {
+      final res =
+          await http.post(Uri.parse('$profile/set-last-location'), body: {
+        'latitude': latitude.toString(),
+        'longitude': longitude.toString(),
+      }, headers: {
+        HttpHeaders.authorizationHeader:
+            'Bearer ${getIt<AppBloc>().state.token}'
+      });
+
+      debugPrint('Data FCM  : ${res.body}');
+
+      if (res.statusCode == 200) {
+        return;
+      } else {
+        throw "error api";
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 }

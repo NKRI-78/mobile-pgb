@@ -181,13 +181,14 @@ class GeneralModal {
                   child: Container(
                     height: 370.0,
                     decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            colors: [
-                              AppColors.greyColor,
-                              AppColors.greyColor.withValues(alpha: 0.5),
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter),
+                        // gradient: LinearGradient(
+                        //     colors: [
+                        //       AppColors.blueColor,
+                        //       AppColors.whiteColor.withValues(alpha: 0.5),
+                        //     ],
+                        //     begin: Alignment.topCenter,
+                        //     end: Alignment.bottomCenter),
+                        color: AppColors.secondaryColor,
                         borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(20.0),
                             topRight: Radius.circular(20.0))),
@@ -200,33 +201,33 @@ class GeneralModal {
                         CircleAvatar(
                           maxRadius: 50.0,
                           backgroundImage: NetworkImage(
-                            (membernear.linkAvatar?.isEmpty ?? true)
+                            (membernear.profile?.avatarLink?.isEmpty ?? true)
                                 ? "https://i.ibb.co.com/vxkjJQD/Png-Item-1503945.png"
-                                : membernear.linkAvatar!,
+                                : membernear.profile?.avatarLink ?? "",
                           ),
                         ),
                         const SizedBox(height: 10.0),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Text(membernear.fullname ?? "",
+                          child: Text(membernear.profile?.fullname ?? "",
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.visible,
                               style: const TextStyle(
                                   fontSize: fontSizeOverLarge,
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.blackColor)),
+                                  color: AppColors.whiteColor)),
                         ),
                         const SizedBox(height: 8.0),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Text(
-                              "${membernear.clubName} ( ${membernear.clubShortName} )",
+                              "${membernear.profile?.kta}",
                               overflow: TextOverflow.visible,
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                   fontSize: fontSizeDefault,
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.blackColor)),
+                                  color: AppColors.whiteColor)),
                         ),
                         const SizedBox(height: 8.0),
                         Text('$resultText KM',
@@ -235,7 +236,7 @@ class GeneralModal {
                             style: const TextStyle(
                               fontSize: fontSizeDefault,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.blackColor,
+                              color: AppColors.whiteColor,
                             )),
                         const SizedBox(height: 50.0),
                         ElevatedButton.icon(

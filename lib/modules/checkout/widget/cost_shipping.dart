@@ -22,14 +22,14 @@ class CostShipping extends StatelessWidget {
         }
 
         const Map<String, String> serviceDisplayMap = {
-          'REG': 'Reguler',
+          'REG': 'JNE Reguler',
           'JTR': 'JNE Trucking Reguler',
           'JTR<130': 'JNE Trucking < 130 kg',
           'JTR>130': 'JNE Trucking > 130 kg',
           'JTR>200': 'JNE Trucking > 200 kg',
-          'CTC': 'City Courier',
-          'CTCYES': 'City Courier YES',
-          'CTCSPS': 'City Courier SPS',
+          'CTC': 'JNE Reguler',
+          'CTCYES': 'JNE Reguler YES',
+          'CTCSPS': 'JNE Reguler OKE',
         };
 
         String getServiceDisplayName(String code) {

@@ -3,8 +3,8 @@ class UserModel {
   String? username;
   String? email;
   String? phone;
-  int? latitude;
-  int? longitude;
+  double? latitude;
+  double? longitude;
   String? otp;
   String? emailVerified;
   String? fcmToken;
@@ -41,8 +41,8 @@ class UserModel {
     username = json['username'];
     email = json['email'];
     phone = json['phone'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
+    latitude = (json['latitude'] as num?)?.toDouble();
+    longitude = (json['longitude'] as num?)?.toDouble();
     otp = json['otp'];
     emailVerified = json['email_verified'];
     fcmToken = json['fcm_token'];

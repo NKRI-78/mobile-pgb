@@ -9,14 +9,14 @@ class MemberNearModel {
     if (json['data'] != null) {
       data = <MemberNearData>[];
       json['data'].forEach((v) {
-        data!.add(MemberNearData.fromJson(v));
+        data!.add(new MemberNearData.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['message'] = message;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['message'] = this.message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -25,110 +25,138 @@ class MemberNearModel {
 }
 
 class MemberNearData {
-  String? id;
+  int? id;
   String? email;
-  String? username;
+  double? latitude;
+  double? longitude;
   String? phone;
-  int? status;
-  int? role;
-  int? otp;
-  String? password;
-  int? balance;
-  String? verifiedEmail;
-  double? lastLat;
-  double? lastLng;
-  String? fcm;
-  String? createdAt;
-  String? updatedAt;
-  String? deletedAt;
-  int? storeId;
-  String? fullname;
-  String? linkAvatar;
-  String? profileAddress;
-  String? tigerYear;
-  String? clubName;
-  String? clubShortName;
-  double? distance;
+  Profile? profile;
+  int? distance;
 
   MemberNearData(
       {this.id,
       this.email,
-      this.username,
+      this.latitude,
+      this.longitude,
       this.phone,
-      this.status,
-      this.role,
-      this.otp,
-      this.password,
-      this.balance,
-      this.verifiedEmail,
-      this.lastLat,
-      this.lastLng,
-      this.fcm,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.storeId,
-      this.fullname,
-      this.linkAvatar,
-      this.profileAddress,
-      this.tigerYear,
-      this.clubName,
-      this.clubShortName,
+      this.profile,
       this.distance});
 
   MemberNearData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     email = json['email'];
-    username = json['username'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
     phone = json['phone'];
-    status = json['status'];
-    role = json['role'];
-    otp = json['otp'];
-    password = json['password'];
-    balance = json['balance'];
-    verifiedEmail = json['verified_email'];
-    lastLat = json['last_lat'];
-    lastLng = json['last_lng'];
-    fcm = json['fcm'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
-    storeId = json['store_id'];
-    fullname = json['fullname'];
-    linkAvatar = json['link_avatar'];
-    profileAddress = json['profile_address'];
-    tigerYear = json['tiger_year'];
-    clubName = json['club_name'];
-    clubShortName = json['club_short_name'];
-    distance = (json['distance'] as num?)?.toDouble();
+    profile =
+        json['profile'] != null ? new Profile.fromJson(json['profile']) : null;
+    distance = json['distance'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['email'] = email;
-    data['username'] = username;
-    data['phone'] = phone;
-    data['status'] = status;
-    data['role'] = role;
-    data['otp'] = otp;
-    data['password'] = password;
-    data['balance'] = balance;
-    data['verified_email'] = verifiedEmail;
-    data['last_lat'] = lastLat;
-    data['last_lng'] = lastLng;
-    data['fcm'] = fcm;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['deleted_at'] = deletedAt;
-    data['store_id'] = storeId;
-    data['fullname'] = fullname;
-    data['link_avatar'] = linkAvatar;
-    data['profile_address'] = profileAddress;
-    data['tiger_year'] = tigerYear;
-    data['club_name'] = clubName;
-    data['club_short_name'] = clubShortName;
-    data['distance'] = distance;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['email'] = this.email;
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
+    data['phone'] = this.phone;
+    if (this.profile != null) {
+      data['profile'] = this.profile!.toJson();
+    }
+    data['distance'] = this.distance;
+    return data;
+  }
+}
+
+class Profile {
+  int? id;
+  String? fullname;
+  String? kta;
+  String? avatarLink;
+  String? address;
+  String? gender;
+  String? nik;
+  String? birthPlaceAndDate;
+  String? villageUnit;
+  String? administrativeVillage;
+  String? subDistrict;
+  String? religion;
+  String? maritalStatus;
+  String? occupation;
+  String? citizenship;
+  String? bloodType;
+  String? validUntil;
+  int? userId;
+  String? createdAt;
+  String? updatedAt;
+
+  Profile(
+      {this.id,
+      this.fullname,
+      this.kta,
+      this.avatarLink,
+      this.address,
+      this.gender,
+      this.nik,
+      this.birthPlaceAndDate,
+      this.villageUnit,
+      this.administrativeVillage,
+      this.subDistrict,
+      this.religion,
+      this.maritalStatus,
+      this.occupation,
+      this.citizenship,
+      this.bloodType,
+      this.validUntil,
+      this.userId,
+      this.createdAt,
+      this.updatedAt});
+
+  Profile.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    fullname = json['fullname'];
+    kta = json['kta'];
+    avatarLink = json['avatar_link'];
+    address = json['address'];
+    gender = json['gender'];
+    nik = json['nik'];
+    birthPlaceAndDate = json['birth_place_and_date'];
+    villageUnit = json['village_unit'];
+    administrativeVillage = json['administrative_village'];
+    subDistrict = json['sub_district'];
+    religion = json['religion'];
+    maritalStatus = json['marital_status'];
+    occupation = json['occupation'];
+    citizenship = json['citizenship'];
+    bloodType = json['blood_type'];
+    validUntil = json['valid_until'];
+    userId = json['user_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['fullname'] = this.fullname;
+    data['kta'] = this.kta;
+    data['avatar_link'] = this.avatarLink;
+    data['address'] = this.address;
+    data['gender'] = this.gender;
+    data['nik'] = this.nik;
+    data['birth_place_and_date'] = this.birthPlaceAndDate;
+    data['village_unit'] = this.villageUnit;
+    data['administrative_village'] = this.administrativeVillage;
+    data['sub_district'] = this.subDistrict;
+    data['religion'] = this.religion;
+    data['marital_status'] = this.maritalStatus;
+    data['occupation'] = this.occupation;
+    data['citizenship'] = this.citizenship;
+    data['blood_type'] = this.bloodType;
+    data['valid_until'] = this.validUntil;
+    data['user_id'] = this.userId;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
     return data;
   }
 }

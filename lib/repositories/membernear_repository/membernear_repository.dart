@@ -19,6 +19,7 @@ class MemberNearRepository {
         'latitude': latitude,
         'longitude': longitude,
       };
+      print("Body : $body");
       final res = await http.post(Uri.parse(membernear), body: body);
 
       debugPrint("Member near data :  ${res.body}");

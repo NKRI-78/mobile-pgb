@@ -21,6 +21,26 @@ class FirebaseMessagingMisc {
           WaitingPaymentV2Route(id: message?.data['id'] ?? "0")
               .push(myNavigatorKey.currentContext!);
         }
+        if (myNavigatorKey.currentContext != null &&
+            message?.data['type'] == "SOS") {
+          NotificationDetailRoute(idNotif: int.parse(message?.data['id'] ?? "0"))
+              .push(myNavigatorKey.currentContext!);
+        }
+        if (myNavigatorKey.currentContext != null &&
+            message?.data['type'] == "BROADCAST") {
+          NotificationDetailRoute(idNotif: int.parse(message?.data['id'] ?? "0"))
+              .push(myNavigatorKey.currentContext!);
+        }
+        if (myNavigatorKey.currentContext != null &&
+            message?.data['type'] == "FORUM") {
+          ForumDetailRoute(idForum: message?.data['id'] ?? "0")
+              .push(myNavigatorKey.currentContext!);
+        }
+        if (myNavigatorKey.currentContext != null &&
+            message?.data['type'] == "EVENT") {
+          EventDetailRoute(idEvent: int.parse(message?.data['id'] ?? "0"))
+              .push(myNavigatorKey.currentContext!);
+        }
       },
     );
 
@@ -33,6 +53,26 @@ class FirebaseMessagingMisc {
       if (myNavigatorKey.currentContext != null &&
           message.data['type'] == "PAYMENT") {
         WaitingPaymentV2Route(id: message.data['id'] ?? "0")
+            .push(myNavigatorKey.currentContext!);
+      }
+      if (myNavigatorKey.currentContext != null &&
+          message.data['type'] == "SOS") {
+        NotificationDetailRoute(idNotif: int.parse(message.data['id'] ?? "0"))
+            .push(myNavigatorKey.currentContext!);
+      }
+      if (myNavigatorKey.currentContext != null &&
+          message.data['type'] == "BROADCAST") {
+        NotificationDetailRoute(idNotif: int.parse(message.data['id'] ?? "0"))
+            .push(myNavigatorKey.currentContext!);
+      }
+      if (myNavigatorKey.currentContext != null &&
+          message.data['type'] == "FORUM") {
+        ForumDetailRoute(idForum: message.data['id'] ?? "0")
+            .push(myNavigatorKey.currentContext!);
+      }
+      if (myNavigatorKey.currentContext != null &&
+          message.data['type'] == "EVENT") {
+        EventDetailRoute(idEvent: int.parse(message.data['id'] ?? "0"))
             .push(myNavigatorKey.currentContext!);
       }
     });
@@ -121,6 +161,22 @@ void onDidReceiveNotificationResponse(
     debugPrint("Test comment id ${json.decode(payload!)}");
     if (json.decode(payload)['type'] == "PAYMENT") {
       WaitingPaymentV2Route(id: json.decode(payload)['id'])
+          .push(myNavigatorKey.currentContext!);
+    }
+    if (json.decode(payload)['type'] == "SOS") {
+      NotificationDetailRoute(idNotif: int.parse(json.decode(payload)['id']))
+          .push(myNavigatorKey.currentContext!);
+    }
+    if (json.decode(payload)['type'] == "BROADCAST") {
+      NotificationDetailRoute(idNotif: int.parse(json.decode(payload)['id']))
+          .push(myNavigatorKey.currentContext!);
+    }
+    if (json.decode(payload)['type'] == "FORUM") {
+      ForumDetailRoute(idForum: json.decode(payload)['id'])
+          .push(myNavigatorKey.currentContext!);
+    }
+    if (json.decode(payload)['type'] == "EVENT") {
+      EventDetailRoute(idEvent: int.parse(json.decode(payload)['id']))
           .push(myNavigatorKey.currentContext!);
     }
   }
