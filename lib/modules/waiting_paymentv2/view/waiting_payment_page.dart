@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/router/builder.dart';
-import 'package:mobile_pgb/widgets/button/custom_button.dart';
+import '../../../router/builder.dart';
+import '../../../widgets/button/custom_button.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/date_helper.dart';
 import '../../../misc/price_currency.dart';
@@ -213,27 +213,39 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
                                                 )
                                               : QrMethodWidgetV2(
                                                   payment: state.payment!),
-                                      howToUseUrl == null ? Container() : Container(
-                                        margin: const EdgeInsets.symmetric(
-                                            vertical: 5),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 15, vertical: 10),
-                                        decoration: BoxDecoration(
-                                            color: AppColors.whiteColor,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                                color: AppColors.blackColor
-                                                    .withValues(alpha: 0.10))),
-                                        child: CustomButton(
-                                          onPressed: () {
-                                            WebViewRoute(url: '${state.payment?.data?['channel']['howToUseUrl']}?va=${state.payment?.data?['vaNumber']}&amount=${state.payment?.totalPrice}' , title: "").push(context);
-                                          },
-                                          text: "Lihat Cara Pembayaran", 
-                                          backgroundColour: AppColors.secondaryColor, 
-                                          textColour: AppColors.primaryColor
-                                        ),
-                                      ),
+                                      howToUseUrl == null
+                                          ? Container()
+                                          : Container(
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 5),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 15,
+                                                      vertical: 10),
+                                              decoration: BoxDecoration(
+                                                  color: AppColors.whiteColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  border: Border.all(
+                                                      color: AppColors
+                                                          .blackColor
+                                                          .withValues(
+                                                              alpha: 0.10))),
+                                              child: CustomButton(
+                                                  onPressed: () {
+                                                    WebViewRoute(
+                                                            url:
+                                                                '${state.payment?.data?['channel']['howToUseUrl']}?va=${state.payment?.data?['vaNumber']}&amount=${state.payment?.totalPrice}',
+                                                            title: "")
+                                                        .push(context);
+                                                  },
+                                                  text: "Lihat Cara Pembayaran",
+                                                  backgroundColour:
+                                                      AppColors.secondaryColor,
+                                                  textColour:
+                                                      AppColors.primaryColor),
+                                            ),
                                       Container(
                                         margin: const EdgeInsets.symmetric(
                                             vertical: 5),

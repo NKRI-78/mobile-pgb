@@ -45,12 +45,16 @@ class MemberNearData {
   MemberNearData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     email = json['email'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
+    latitude =
+        json['latitude'] != null ? (json['latitude'] as num).toDouble() : null;
+    longitude = json['longitude'] != null
+        ? (json['longitude'] as num).toDouble()
+        : null;
     phone = json['phone'];
     profile =
         json['profile'] != null ? Profile.fromJson(json['profile']) : null;
-    distance = (json['distance'] as num?)?.toDouble();
+    distance =
+        json['distance'] != null ? (json['distance'] as num).toDouble() : null;
   }
 
   Map<String, dynamic> toJson() {

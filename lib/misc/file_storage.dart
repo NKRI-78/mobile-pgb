@@ -61,7 +61,20 @@ class FileStorage {
 
   static Future<String> getFileFromAsset(
       String filename, BuildContext context, bool isExistFile) async {
-    final path = await getProperDirectory(filename);
+    String path = await getProperDirectory(filename);
+
+    // Tambahan untuk menyimpan DOC/PDF ke Documents khusus Android
+    if (Platform.isAndroid &&
+        (filename.toLowerCase().endsWith('.pdf') ||
+            filename.toLowerCase().endsWith('.doc') ||
+            filename.toLowerCase().endsWith('.docx'))) {
+      path = '/storage/emulated/0/Documents/PGB-MOBILE';
+      final folder = Directory(path);
+      if (!await folder.exists()) {
+        await folder.create(recursive: true);
+      }
+    }
+
     final filePath = '$path/$filename';
 
     debugPrint('Filename : $filePath');
@@ -117,25 +130,29 @@ class FileStorage {
   }
 
   static Future<File> saveFileUrl(Uint8List bytes, String filename) async {
-    final path = await getProperDirectory(filename);
+    String path = await getProperDirectory(filename);
+
+    // ⬇⬇ Untuk PDF/DOC, arahkan manual ke /Documents/PGB-MOBILE
+    if (Platform.isAndroid &&
+        (filename.toLowerCase().endsWith('.pdf') ||
+            filename.toLowerCase().endsWith('.doc') ||
+            filename.toLowerCase().endsWith('.docx'))) {
+      path = '/storage/emulated/0/Documents/PGB-MOBILE';
+      final folder = Directory(path);
+      if (!await folder.exists()) {
+        await folder.create(recursive: true);
+      }
+    }
+
     final filePath = '$path/$filename';
     final file = File(filePath);
-
     await file.writeAsBytes(bytes);
 
     // Save to gallery if image or video
     if (_isImage(filename)) {
-      final result = await GallerySaver.saveImage(
-        file.path,
-        albumName: 'PGB-MOBILE',
-      );
-      debugPrint("Save image to gallery result: ${result ?? 'null'}");
+      await GallerySaver.saveImage(file.path, albumName: 'PGB-MOBILE');
     } else if (_isVideo(filename)) {
-      final result = await GallerySaver.saveVideo(
-        file.path,
-        albumName: 'PGB-MOBILE',
-      );
-      debugPrint("Save video to gallery result: ${result ?? 'null'}");
+      await GallerySaver.saveVideo(file.path, albumName: 'PGB-MOBILE');
     }
 
     return file;

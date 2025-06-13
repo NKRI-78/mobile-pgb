@@ -2,9 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import '../../../misc/injections.dart';
 import '../../app/bloc/app_bloc.dart';
-import '../../../router/builder.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../misc/colors.dart';
@@ -12,7 +10,6 @@ import '../../../misc/text_style.dart';
 import '../../../misc/theme.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/photo_view/custom_fullscreen_preview.dart';
-import '../../app/bloc/app_bloc.dart';
 import '../cubit/event_detail_cubit.dart';
 
 part '../widget/custom_deskripsi_detail_event.dart';
@@ -47,7 +44,6 @@ class EventDetailView extends StatelessWidget {
         final imageUrl = eventData?.imageUrl?.isNotEmpty == true
             ? eventData?.imageUrl
             : null;
-        final isLoggedIn = getIt<AppBloc>().state.user != null;
         return Scaffold(
           appBar: AppBar(
             surfaceTintColor: Colors.transparent,

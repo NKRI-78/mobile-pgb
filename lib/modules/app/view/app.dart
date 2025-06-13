@@ -34,7 +34,7 @@ class _AppViewState extends State<AppView> {
   final router = MyRouter.init(getIt<AppBloc>());
   final _upgrader = Upgrader(
     countryCode: 'id',
-    debugLogging: true,
+    debugLogging: false,
   );
 
   @override

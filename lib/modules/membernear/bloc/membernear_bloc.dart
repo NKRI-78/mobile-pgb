@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:mobile_pgb/misc/injections.dart';
-import 'package:mobile_pgb/modules/app/bloc/app_bloc.dart';
+import '../../../misc/injections.dart';
+import '../../app/bloc/app_bloc.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/marker_icon.dart';
 import '../../../misc/modal.dart';
@@ -35,16 +33,18 @@ class MemberNearBloc extends Bloc<MemberNearEvent, MemberNearState> {
     final profile = app.state.profile;
 
     emit(state.copyWith(
-        latitude: profile?.latitude ?? 0.0, longitude: profile?.longitude ?? 0.0));
+        latitude: profile?.latitude ?? 0.0,
+        longitude: profile?.longitude ?? 0.0));
 
-    event.mapController.moveCamera(
-        CameraUpdate.newLatLng(LatLng( profile?.latitude ?? 0.0, profile?.longitude ?? 0.0)));
+    event.mapController.moveCamera(CameraUpdate.newLatLng(
+        LatLng(profile?.latitude ?? 0.0, profile?.longitude ?? 0.0)));
 
     MemberNearModel? data = await repo.getMemberNear(
         latitude: profile?.latitude.toString() ?? "0",
         longitude: profile?.longitude.toString() ?? "0");
-    
-    final result = data?.data?.where((r) => r.id != app.state.profile?.id).toList() ?? [];
+
+    final result =
+        data?.data?.where((r) => r.id != app.state.profile?.id).toList() ?? [];
 
     print("Data Result ${result.length}");
     print("Data Result ${app.state.profile?.id}");
@@ -68,8 +68,10 @@ class MemberNearBloc extends Bloc<MemberNearEvent, MemberNearState> {
           infoWindow: InfoWindow(
             title: membernear.profile?.fullname ?? "",
           ),
-          position: LatLng(membernear.latitude ?? 0.0, membernear.longitude ?? 0.0)));
+          position:
+              LatLng(membernear.latitude ?? 0.0, membernear.longitude ?? 0.0)));
     }
-    emit(state.copyWith( markers: newMarkers, memberNearData: nd, loading: false));
+    emit(state.copyWith(
+        markers: newMarkers, memberNearData: nd, loading: false));
   }
 }
