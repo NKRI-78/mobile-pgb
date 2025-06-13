@@ -41,12 +41,9 @@ class HomeView extends StatelessWidget {
     return BlocBuilder<AppBloc, AppState>(
       builder: (context, appState) {
         final bool isLoggedIn = appState.isLoggedIn;
-        // final isVerified = appState.user?.emailVerified != null;
 
         return BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
-            // print("CEK USER ${appState.user}");
-            // print("CEK EMAIL VERIF ${isVerified}");
             return Scaffold(
               backgroundColor: AppColors.primaryColor,
               appBar: PreferredSize(
@@ -131,15 +128,16 @@ class HomeView extends StatelessWidget {
                       builder: (context, state) {
                         return Badges.Badge(
                           position: Badges.BadgePosition.topEnd(end: 2, top: 0),
-                          showBadge:
-                              state.badgeCart == null || state.badgeCart?.totalItem == 0
-                                  ? false
-                                  : true,
-                          badgeStyle: Badges.BadgeStyle(
-                            padding: EdgeInsets.all(5)
-                          ),
+                          showBadge: state.badges?.unreadCount == null ||
+                                  state.badges?.unreadCount == 0
+                              ? false
+                              : true,
+                          badgeStyle:
+                              Badges.BadgeStyle(padding: EdgeInsets.all(5)),
                           badgeContent: Text(
-                            state.loadingNotif ? '..' : '${state.badgeCart?.totalItem}',
+                            state.loadingNotif
+                                ? '..'
+                                : '${state.badges?.unreadCount}',
                             style: const TextStyle(
                               fontSize: fontSizeSmall,
                               color: Colors.white,
@@ -224,6 +222,7 @@ class HomeView extends StatelessWidget {
                           )
                         else
                           ListView.builder(
+                            cacheExtent: 500,
                             padding: EdgeInsets.zero,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),

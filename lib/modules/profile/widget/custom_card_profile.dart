@@ -192,8 +192,8 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
                     ),
                   ),
                   Positioned(
-                    bottom: 15,
-                    right: 15,
+                    bottom: 20,
+                    right: 20,
                     child: BarcodeWidget(
                       color: AppColors.buttonBlueColor,
                       barcode: Barcode.qrCode(),

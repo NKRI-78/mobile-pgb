@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
@@ -59,8 +60,15 @@ class _NewsImage extends StatelessWidget {
         width: 170,
         height: 110,
         fit: BoxFit.cover,
-        placeholder: (context, url) =>
-            const Center(child: CircularProgressIndicator()),
+        placeholder: (context, url) => Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          child: Container(
+            width: 170,
+            height: 110,
+            color: Colors.grey[300],
+          ),
+        ),
         errorWidget: (context, url, error) {
           return Image.asset(
             imageDefaultBanner,
