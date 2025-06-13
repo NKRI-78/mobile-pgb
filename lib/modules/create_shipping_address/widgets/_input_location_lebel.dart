@@ -35,6 +35,49 @@ class _InputLocationLabel extends StatelessWidget {
                   cubit.updateCurrentPositionCheckIn(context, add.latLng.latitude, add.latLng.longitude);
                 }
               }
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(
+              //     builder: (context) {
+              //   return PlacePicker(
+              //     usePinPointingSearch: true,
+              //     apiKey: "AIzaSyBFRpXPf8BXaR22nDvvx2ghBfbUbGGX8N8",
+              //     onPlacePicked: (LocationResult result) {
+              //       debugPrint("Place picked: ${result.formattedAddress}");
+              //       Navigator.of(context).pop();
+              //     },
+              //     enableNearbyPlaces: false,
+              //     showSearchInput: true,
+              //     initialLocation: const LatLng(
+              //       29.378586,
+              //       47.990341,
+              //     ),
+              //     // myLocationEnabled: true,
+              //     // myLocationButtonEnabled: true,
+              //     onMapCreated: (controller) {
+              //       mapController = controller;
+              //     },
+              //     searchInputConfig: const SearchInputConfig(
+              //       padding: EdgeInsets.symmetric(
+              //         horizontal: 16,
+              //         vertical: 8,
+              //       ),
+              //       autofocus: false,
+              //       textDirection: TextDirection.ltr,
+              //     ),
+              //     searchInputDecorationConfig: const SearchInputDecorationConfig(
+              //       hintText: "Search for a building, street or ...",
+              //     ),
+              //     selectedPlaceConfig: SelectedPlaceConfig(
+              //       actionButtonText: "Tetapkan Lokasi",
+              //       contentPadding: EdgeInsets.all(20)
+              //     ),
+              //     // selectedPlaceWidgetBuilder: (ctx, state, result) {
+              //     //   return const SizedBox.shrink();
+              //     // },
+              //     autocompletePlacesSearchRadius: 150,
+              //   );
+              //   },
+              // ));
             },
             child: const Text("Tetapkan Lokasi",
               style: TextStyle(

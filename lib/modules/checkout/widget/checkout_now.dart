@@ -172,7 +172,7 @@ class _CheckoutNowState extends State<CheckoutNow> {
                                               .toString()] ==
                                           null
                                       ? 'PILIH PENGIRIMAN'
-                                      : '${state.shippings![state.checkoutNow?.data?.store?.id.toString()]['service']} | ${Price.currency(int.parse(state.shippings![state.checkoutNow?.data?.store?.id.toString()]['cost'].toString()).toDouble())} \nEstimasi tiba ${Helper.getEstimatedDateRange(from, thru)}',
+                                      : '${state.shippings![state.checkoutNow?.data?.store?.id.toString()]['service_replaced']} | ${Price.currency(int.parse(state.shippings![state.checkoutNow?.data?.store?.id.toString()]['cost'].toString()).toDouble())} \nEstimasi tiba ${Helper.getEstimatedDateRange(from, thru)}',
                               style: const TextStyle(
                                   fontSize: fontSizeSmall,
                                   fontWeight: FontWeight.bold,

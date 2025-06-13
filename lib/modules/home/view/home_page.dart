@@ -1,6 +1,7 @@
 import 'package:badges/badges.dart' as Badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -67,7 +68,22 @@ class HomeView extends StatelessWidget {
                                 RegisterRoute().go(context);
                               }
                             },
-                            child: ClipOval(
+                            child: state.isLoading ? SizedBox(
+                                width: 45,
+                                height: 45,
+                                child: Shimmer.fromColors(
+                                  baseColor: Colors.grey[300]!,
+                                  highlightColor: Colors.white,
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                  ),
+                                ),
+                              ) :  ClipOval(
                               child: isLoggedIn &&
                                       (state.profile?.profile?.avatarLink
                                               ?.isNotEmpty ??
