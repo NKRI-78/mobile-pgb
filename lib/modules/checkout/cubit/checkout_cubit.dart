@@ -332,10 +332,27 @@ class CheckoutCubit extends Cubit<CheckoutState> {
   Future<String> checkoutItem() async {
     try {
       emit(state.copyWith(loading: true));
+      // final body = {
+      //   "from": state.from,
+      //   "payment": state.channel!,
+      //   "shippings": state.shippings!.map((key, value) {
+      //     final newValue = Map<String, dynamic>.from(value);
+      //     newValue.remove('service_replaced');
+      //     return MapEntry(key, newValue);
+      //   }),
+      //   "productId": state.productId,
+      //   "qty": state.qty
+      // };
+      final cleanedShippings = state.shippings!.map((key, value) {
+        final newValue = Map<String, dynamic>.from(value);
+        newValue.remove('service_replaced');
+        return MapEntry(key, newValue);
+      });
+      print("Shipping pressed : $cleanedShippings");
       var paymentNumber = await repo.checkoutItem(
           from: state.from,
           payment: state.channel!,
-          shippings: state.shippings,
+          shippings: cleanedShippings,
           productId: state.productId,
           qty: state.qty);
       emit(state.copyWith(loading: false, shippings: null));
@@ -348,6 +365,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
 
   setCourier(
     String service,
+    String serviceReplaced,
     String cost,
     String etd,
     String storeId,
@@ -361,6 +379,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
           storeId: {
             'code': name,
             'service': service,
+            'service_replaced': serviceReplaced,
             'cost': cost,
             "etd": etd,
             "note": note,
@@ -371,6 +390,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
         state.shippings?[storeId] = {
           'code': name,
           'service': service,
+          'service_replaced': serviceReplaced,
           'cost': cost,
           "etd": etd,
           "note": note,

@@ -90,13 +90,9 @@ class _ListCheckoutState extends State<ListCheckout> {
                                       child: Row(
                                         children: [
                                           ImageCard(
-                                              image: (e.product?.pictures
-                                                          ?.isEmpty ??
-                                                      false)
-                                                  ? ""
-                                                  : e.product?.pictures?.first
-                                                          .link ??
-                                                      "",
+                                              image: (e.product?.pictures?.isEmpty ?? false)
+                                              ? ""
+                                              : e.product?.pictures?.first.link ?? "",
                                               height: 80,
                                               radius: 10,
                                               width: 80,
@@ -187,11 +183,11 @@ class _ListCheckoutState extends State<ListCheckout> {
                           child: Text(
                             state.shippings?[widget.cart.id.toString()] == null
                                 ? 'PILIH PENGIRIMAN'
-                                : '${state.shippings![widget.cart.id.toString()]['service']} | ${Price.currency(int.parse(state.shippings![widget.cart.id.toString()]['cost'].toString()).toDouble())} \nEstimasi tiba ${Helper.getEstimatedDateRange(from, thru)}',
+                                : '${state.shippings![widget.cart.id.toString()]['service_replaced']} | ${Price.currency(int.parse(state.shippings![widget.cart.id.toString()]['cost'].toString()).toDouble())} \nEstimasi tiba ${Helper.getEstimatedDateRange(from, thru)}',
                             style: const TextStyle(
                                 fontSize: fontSizeSmall,
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.blackColor),
+                                color: AppColors.blackColor), 
                           )),
                       const Expanded(
                           flex: 2,

@@ -41,6 +41,11 @@ class FirebaseMessagingMisc {
           EventDetailRoute(idEvent: int.parse(message?.data['id'] ?? "0"))
               .push(myNavigatorKey.currentContext!);
         }
+        if (myNavigatorKey.currentContext != null &&
+            message?.data['type'] == "NEWS") {
+          NewsDetailRoute(newsId: int.parse(message?.data['id'] ?? "0"))
+              .push(myNavigatorKey.currentContext!);
+        }
       },
     );
 
@@ -73,6 +78,11 @@ class FirebaseMessagingMisc {
       if (myNavigatorKey.currentContext != null &&
           message.data['type'] == "EVENT") {
         EventDetailRoute(idEvent: int.parse(message.data['id'] ?? "0"))
+            .push(myNavigatorKey.currentContext!);
+      }
+      if (myNavigatorKey.currentContext != null &&
+          message.data['type'] == "EVENT") {
+        NewsDetailRoute(newsId: int.parse(message.data['id'] ?? "0"))
             .push(myNavigatorKey.currentContext!);
       }
     });
@@ -177,6 +187,10 @@ void onDidReceiveNotificationResponse(
     }
     if (json.decode(payload)['type'] == "EVENT") {
       EventDetailRoute(idEvent: int.parse(json.decode(payload)['id']))
+          .push(myNavigatorKey.currentContext!);
+    }
+    if (json.decode(payload)['type'] == "NEWS") {
+      NewsDetailRoute(newsId: int.parse(json.decode(payload)['id']))
           .push(myNavigatorKey.currentContext!);
     }
   }
