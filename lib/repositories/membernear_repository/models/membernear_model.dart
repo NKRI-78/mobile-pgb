@@ -9,14 +9,14 @@ class MemberNearModel {
     if (json['data'] != null) {
       data = <MemberNearData>[];
       json['data'].forEach((v) {
-        data!.add(new MemberNearData.fromJson(v));
+        data!.add(MemberNearData.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -31,7 +31,7 @@ class MemberNearData {
   double? longitude;
   String? phone;
   Profile? profile;
-  int? distance;
+  double? distance;
 
   MemberNearData(
       {this.id,
@@ -45,25 +45,29 @@ class MemberNearData {
   MemberNearData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     email = json['email'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
+    latitude =
+        json['latitude'] != null ? (json['latitude'] as num).toDouble() : null;
+    longitude = json['longitude'] != null
+        ? (json['longitude'] as num).toDouble()
+        : null;
     phone = json['phone'];
     profile =
-        json['profile'] != null ? new Profile.fromJson(json['profile']) : null;
-    distance = json['distance'];
+        json['profile'] != null ? Profile.fromJson(json['profile']) : null;
+    distance =
+        json['distance'] != null ? (json['distance'] as num).toDouble() : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['email'] = this.email;
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
-    data['phone'] = this.phone;
-    if (this.profile != null) {
-      data['profile'] = this.profile!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['email'] = email;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['phone'] = phone;
+    if (profile != null) {
+      data['profile'] = profile!.toJson();
     }
-    data['distance'] = this.distance;
+    data['distance'] = distance;
     return data;
   }
 }
@@ -136,27 +140,27 @@ class Profile {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['fullname'] = this.fullname;
-    data['kta'] = this.kta;
-    data['avatar_link'] = this.avatarLink;
-    data['address'] = this.address;
-    data['gender'] = this.gender;
-    data['nik'] = this.nik;
-    data['birth_place_and_date'] = this.birthPlaceAndDate;
-    data['village_unit'] = this.villageUnit;
-    data['administrative_village'] = this.administrativeVillage;
-    data['sub_district'] = this.subDistrict;
-    data['religion'] = this.religion;
-    data['marital_status'] = this.maritalStatus;
-    data['occupation'] = this.occupation;
-    data['citizenship'] = this.citizenship;
-    data['blood_type'] = this.bloodType;
-    data['valid_until'] = this.validUntil;
-    data['user_id'] = this.userId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['fullname'] = fullname;
+    data['kta'] = kta;
+    data['avatar_link'] = avatarLink;
+    data['address'] = address;
+    data['gender'] = gender;
+    data['nik'] = nik;
+    data['birth_place_and_date'] = birthPlaceAndDate;
+    data['village_unit'] = villageUnit;
+    data['administrative_village'] = administrativeVillage;
+    data['sub_district'] = subDistrict;
+    data['religion'] = religion;
+    data['marital_status'] = maritalStatus;
+    data['occupation'] = occupation;
+    data['citizenship'] = citizenship;
+    data['blood_type'] = bloodType;
+    data['valid_until'] = validUntil;
+    data['user_id'] = userId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

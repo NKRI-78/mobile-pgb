@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'snackbar.dart';
 import 'package:path/path.dart' as p;
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
@@ -67,6 +68,35 @@ class DownloadHelper {
       if (context.mounted) {
         await FileStorage.getFileFromAsset(filename, context, isExistFile);
       }
+    }
+  }
+
+  static Future<void> downloadQrFromUrl({
+    required BuildContext context,
+    required String url,
+  }) async {
+    try {
+      ProgressDialog pr = ProgressDialog(context: context);
+      pr.show(msg: "Mengunduh QR...", max: 100);
+
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final pngBytes = response.bodyBytes;
+
+        final filename =
+            "qr-${DateFormat('yyyyMMddHHmmss').format(DateTime.now())}.png";
+
+        await FileStorage.saveFileUrl(pngBytes, filename);
+
+        pr.close();
+        ShowSnackbar.snackbar(context, "QR berhasil disimpan ke Galeri",
+            isSuccess: true);
+      } else {
+        pr.close();
+        ShowSnackbar.snackbar(context, "Gagal mengunduh QR", isSuccess: false);
+      }
+    } catch (e) {
+      ShowSnackbar.snackbar(context, "Error: $e", isSuccess: false);
     }
   }
 }

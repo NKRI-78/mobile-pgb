@@ -49,7 +49,7 @@ import '../modules/settings/view/settings_page.dart';
 import '../modules/sos/view/sos_detail_page.dart';
 import '../modules/wallet/view/wallet_page.dart';
 import '../modules/webview/webview.dart';
-import '../widgets/pages/about/about_us_page.dart';
+import '../modules/about/view/about_us_page.dart';
 import '../widgets/pages/media/view/media_page.dart';
 import '../widgets/pages/video/detail_video_player.dart';
 import '../widgets/photo_view/clipped_photo_view.dart';

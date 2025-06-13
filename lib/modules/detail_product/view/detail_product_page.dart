@@ -3,7 +3,7 @@ import 'package:cart_stepper/cart_stepper.dart';
 import 'package:badges/badges.dart' as Badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/widgets/pages/page_full_screen_gallery.dart';
+import '../../../widgets/pages/page_full_screen_gallery.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/custom_cart_stepper.dart';
 import '../../../misc/injections.dart';
@@ -61,77 +61,83 @@ class _DetailProductViewState extends State<DetailProductView> {
         final isLoggedIn = getIt<AppBloc>().state.user != null;
         return Scaffold(
           backgroundColor: AppColors.primaryColor,
-          bottomNavigationBar: state.loading ? null : Container(
-              padding: const EdgeInsets.only(
-                bottom: 10,
-                left: 10,
-                right: 10,
-              ),
-              width: double.infinity,
-              height: 50,
-              color: Colors.transparent,
-              child: data?.stock == 0 ? Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: AppColors.redColor,
-                    borderRadius: BorderRadius.circular(12)
+          bottomNavigationBar: state.loading
+              ? null
+              : Container(
+                  padding: const EdgeInsets.only(
+                    bottom: 10,
+                    left: 10,
+                    right: 10,
                   ),
-                  child: const Text(
-                    "Mohon Maaf Saat Ini Barang Belum Tersedia",
-                    textScaler: TextScaler.noScaling,
-                    style: TextStyle(
-                      fontSize: fontSizeDefault,
-                      color: AppColors.whiteColor,
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
-                ) : Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: CustomButton(
-                      radius: 12,
-                      onPressed: () {
-                        isLoggedIn ? 
-                        showModalBottomSheet(
-                          isScrollControlled: true,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(32)),
+                  width: double.infinity,
+                  height: 50,
+                  color: Colors.transparent,
+                  child: data?.stock == 0
+                      ? Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              color: AppColors.redColor,
+                              borderRadius: BorderRadius.circular(12)),
+                          child: const Text(
+                            "Mohon Maaf Saat Ini Barang Belum Tersedia",
+                            textScaler: TextScaler.noScaling,
+                            style: TextStyle(
+                                fontSize: fontSizeDefault,
+                                color: AppColors.whiteColor,
+                                fontWeight: FontWeight.bold),
                           ),
-                          context: context,
-                          builder: (BuildContext context) => Padding(
-                            padding:
-                                MediaQuery.of(context).viewInsets,
-                            child: ModalBottom(data: data),
-                          ),
-                        ) : RegisterRoute().push(context);
-                      },
-                      text: '+ Keranjang',
-                      backgroundColour: AppColors.blackColor,
-                      textColour: AppColors.whiteColor,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    flex: 1,
-                    child: CustomButton(
-                      radius: 12,
-                      onPressed: () {
-                        isLoggedIn ? CheckoutRoute(
-                          from: "NOW",
-                          qty: "1",
-                          productId: data?.id.toString() ?? "",
-                        ).push(context) : RegisterRoute().push(context);
-                      },
-                      text: 'Beli Sekarang',
-                      backgroundColour: AppColors.secondaryColor,
-                      textColour: AppColors.whiteColor,
-                    ),
-                  ),
-                ],
+                        )
+                      : Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: CustomButton(
+                                radius: 12,
+                                onPressed: () {
+                                  isLoggedIn
+                                      ? showModalBottomSheet(
+                                          isScrollControlled: true,
+                                          shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.vertical(
+                                                top: Radius.circular(32)),
+                                          ),
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              Padding(
+                                            padding: MediaQuery.of(context)
+                                                .viewInsets,
+                                            child: ModalBottom(data: data),
+                                          ),
+                                        )
+                                      : RegisterRoute().push(context);
+                                },
+                                text: '+ Keranjang',
+                                backgroundColour: AppColors.blackColor,
+                                textColour: AppColors.whiteColor,
                               ),
-            ),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              flex: 1,
+                              child: CustomButton(
+                                radius: 12,
+                                onPressed: () {
+                                  isLoggedIn
+                                      ? CheckoutRoute(
+                                          from: "NOW",
+                                          qty: "1",
+                                          productId: data?.id.toString() ?? "",
+                                        ).push(context)
+                                      : RegisterRoute().push(context);
+                                },
+                                text: 'Beli Sekarang',
+                                backgroundColour: AppColors.secondaryColor,
+                                textColour: AppColors.whiteColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                ),
           body: state.loading
               ? const CustomLoadingPage()
               : state.detail?.data == null
@@ -152,15 +158,21 @@ class _DetailProductViewState extends State<DetailProductView> {
                                   .entries
                                   .map((e) => InkWell(
                                         onTap: () {
-                                          Navigator.push(context, MaterialPageRoute(
-                                            builder: (_) => FullscreenGallery(
-                                              images: data.pictures?.map((media) => media.link)
-                                              .whereType<String>()
-                                              .toList() ?? [],
-                                              initialIndex: e.key,
-                                              stock: data.stock,
-                                            ),
-                                          ));
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (_) =>
+                                                    FullscreenGallery(
+                                                  images: data.pictures
+                                                          ?.map((media) =>
+                                                              media.link)
+                                                          .whereType<String>()
+                                                          .toList() ??
+                                                      [],
+                                                  initialIndex: e.key,
+                                                  stock: data.stock,
+                                                ),
+                                              ));
                                         },
                                         child: Stack(
                                           children: [
