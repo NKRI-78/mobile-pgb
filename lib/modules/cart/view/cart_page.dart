@@ -16,7 +16,6 @@ import 'package:mobile_pgb/widgets/image/image_card.dart';
 import 'package:mobile_pgb/widgets/pages/empty_page.dart';
 import 'package:mobile_pgb/widgets/pages/loading_page.dart';
 
-
 part '../widgets/list_product.dart';
 
 class CartPage extends StatelessWidget {
@@ -25,9 +24,8 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<CartCubit>(
-      create: (context) => CartCubit()..fetchCart(context),
-      child: const CartView()
-    );
+        create: (context) => CartCubit()..fetchCart(context),
+        child: const CartView());
   }
 }
 
@@ -43,85 +41,104 @@ class _CartViewState extends State<CartView> {
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CartCubit, CartState>(
-      builder: (context, state) {
-        final total = context.watch<CartCubit>().totalSelectedPrice;
-        final hasSelected = context.watch<CartCubit>().hasSelectedItems;
-        return Scaffold(
-          backgroundColor: AppColors.primaryColor,
-          bottomNavigationBar: state.loading ? null : state.cart.isEmpty ? null : Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            width: double.infinity,
-            height: 80,
-            decoration: BoxDecoration(
-              color: AppColors.whiteColor.withAlpha((0.5 * 255).round()),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                total == 0 ? Container() : RichText(
-                  text: TextSpan(
-                    children: [
-                      const TextSpan(
-                        text: "Total\n",
-                        style: TextStyle(
-                          color: AppColors.blackColor,
-                          fontSize: fontSizeExtraLarge,
-                          fontWeight: FontWeight.bold
-                        )
+    return BlocBuilder<CartCubit, CartState>(builder: (context, state) {
+      final total = context.watch<CartCubit>().totalSelectedPrice;
+      final hasSelected = context.watch<CartCubit>().hasSelectedItems;
+      return Scaffold(
+        backgroundColor: AppColors.primaryColor,
+        bottomNavigationBar: state.loading
+            ? null
+            : state.cart.isEmpty
+                ? null
+                : SafeArea(
+                    top: false,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 10),
+                      decoration: const BoxDecoration(
+                        color: AppColors.whiteColor,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 4,
+                            offset: Offset(0, -2),
+                          ),
+                        ],
                       ),
-                      TextSpan(
-                        text: '${Price.currency(total.toDouble())}',
-                        style: const TextStyle(
-                          color: AppColors.blackColor,
-                          fontSize: fontSizeExtraLarge,
-                          fontWeight: FontWeight.bold
-                        )
-                      )
-                    ]
-                  )
-                ),
-                SizedBox(
-                  width: 150,
-                  height: 50,
-                  child: CustomButton(
-                    backgroundColour: AppColors.secondaryColor,
-                    onPressed: hasSelected ? () {
-                      CheckoutRoute(from: "CART").push(context);
-                    } : null,
-                    text: "Next",
-                    textColour: AppColors.whiteColor,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          total == 0
+                              ? Container()
+                              : RichText(
+                                  text: TextSpan(children: [
+                                  const TextSpan(
+                                      text: "Total\n",
+                                      style: TextStyle(
+                                          color: AppColors.blackColor,
+                                          fontSize: fontSizeExtraLarge,
+                                          fontWeight: FontWeight.bold)),
+                                  TextSpan(
+                                      text:
+                                          '${Price.currency(total.toDouble())}',
+                                      style: const TextStyle(
+                                          color: AppColors.blackColor,
+                                          fontSize: fontSizeExtraLarge,
+                                          fontWeight: FontWeight.bold))
+                                ])),
+                          SizedBox(
+                            width: 150,
+                            height: 50,
+                            child: CustomButton(
+                              backgroundColour: AppColors.secondaryColor,
+                              onPressed: hasSelected
+                                  ? () {
+                                      CheckoutRoute(from: "CART").push(context);
+                                    }
+                                  : null,
+                              text: "Next",
+                              textColour: AppColors.whiteColor,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                   ),
-                )
-              ],
-            ),
-          ),
-          body: RefreshIndicator(
-            onRefresh: () async {
-              await context.read<CartCubit>().fetchCart(context);
-            },
-            child: CustomScrollView(
-              slivers: [
-                const HeaderSection(titleHeader: "Keranjang Saya"),
-                state.loading ? const SliverFillRemaining(
-                  child: Center(child: CustomLoadingPage()),
-                  ) : state.cart.isEmpty ? const SliverFillRemaining(
-                  child: Center(child: EmptyPage(msg: "Keranjang anda kosong"))) : SliverList(
-                    delegate: SliverChildListDelegate([
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: state.cart.map((e) => ListProduct(cart: e,)).toList(),
+        body: RefreshIndicator(
+          onRefresh: () async {
+            await context.read<CartCubit>().fetchCart(context);
+          },
+          child: CustomScrollView(
+            slivers: [
+              const HeaderSection(titleHeader: "Keranjang Saya"),
+              state.loading
+                  ? const SliverFillRemaining(
+                      child: Center(child: CustomLoadingPage()),
                     )
-                ])),
-              ],
-            ),
+                  : state.cart.isEmpty
+                      ? const SliverFillRemaining(
+                          child: Center(
+                              child: EmptyPage(msg: "Keranjang anda kosong")))
+                      : SliverList(
+                          delegate: SliverChildListDelegate([
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: state.cart
+                                .map((e) => ListProduct(
+                                      cart: e,
+                                    ))
+                                .toList(),
+                          )
+                        ])),
+            ],
           ),
-        );
-      }
-    );
+        ),
+      );
+    });
   }
 }

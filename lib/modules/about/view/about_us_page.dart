@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
+import '../../../router/builder.dart';
 import '../cubit/about_cubit.dart';
 import '../../../widgets/pages/loading_page.dart';
 
@@ -62,15 +63,38 @@ class AboutUsView extends StatelessWidget {
                         ),
                         SizedBox(height: 10),
                         Html(
-                          data: state.about?.aboutUs,
+                          data: state.about?.aboutUs ?? '',
                           style: {
-                            "body": Style(
+                            "p": Style(
                               fontSize: FontSize(14),
-                              color: Colors.black,
-                              textAlign: TextAlign.justify,
+                              margin: Margins.only(bottom: 12),
                             ),
+                            "p[style*='margin-left: 2rem']": Style(
+                              margin: Margins.only(left: 20, bottom: 12),
+                            ),
+                            "ul": Style(
+                                margin: Margins.only(bottom: 12, left: 10),
+                                padding: HtmlPaddings.all(0)),
+                            "ol": Style(
+                                margin: Margins.only(bottom: 12, left: 30),
+                                padding: HtmlPaddings.all(0)),
+                            "li": Style(
+                              fontSize: FontSize(14),
+                              margin: Margins.only(bottom: 6, left: 6),
+                            ),
+                            "a": Style(
+                                color: Colors.blue,
+                                textDecoration: TextDecoration.underline),
+                            "strong": Style(fontWeight: FontWeight.bold),
+                          },
+                          onLinkTap: (url, _, __) {
+                            if (url != null) {
+                              WebViewRoute(url: url, title: "PGB-MOBILE")
+                                  .push(context);
+                            }
                           },
                         ),
+                        SizedBox(height: 50),
                       ],
                     ),
                   ),

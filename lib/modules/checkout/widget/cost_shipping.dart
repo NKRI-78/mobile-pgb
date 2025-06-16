@@ -24,9 +24,9 @@ class CostShipping extends StatelessWidget {
         const Map<String, String> serviceDisplayMap = {
           'REG': 'JNE Reguler',
           'JTR': 'JNE Trucking Reguler',
-          'JTR<130': 'JNE Trucking < 130 kg',
-          'JTR>130': 'JNE Trucking > 130 kg',
-          'JTR>200': 'JNE Trucking > 200 kg',
+          'JTR<130': 'JNE Trucking < 130',
+          'JTR>130': 'JNE Trucking > 130',
+          'JTR>200': 'JNE Trucking > 200',
           'CTC': 'JNE Reguler',
           'CTCYES': 'JNE Reguler YES',
           'CTCSPS': 'JNE Reguler OKE',
@@ -100,8 +100,7 @@ class CostShipping extends StatelessWidget {
                           onTap: () {
                             context.read<CheckoutCubit>().setCourier(
                                   e.serviceDisplay ?? "",
-                                  getServiceDisplayName(
-                                  e.serviceDisplay ?? ""),
+                                  getServiceDisplayName(e.serviceDisplay ?? ""),
                                   e.price ?? "",
                                   "${e.etdFrom} - ${e.etdThru}",
                                   idStore,

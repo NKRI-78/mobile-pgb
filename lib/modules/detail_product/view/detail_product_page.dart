@@ -63,28 +63,24 @@ class _DetailProductViewState extends State<DetailProductView> {
           backgroundColor: AppColors.primaryColor,
           bottomNavigationBar: state.loading
               ? null
-              : Container(
-                  padding: const EdgeInsets.only(
-                    bottom: 10,
-                    left: 10,
-                    right: 10,
-                  ),
-                  width: double.infinity,
-                  height: 50,
-                  color: Colors.transparent,
+              : SafeArea(
+                  minimum: const EdgeInsets.all(10),
                   child: data?.stock == 0
                       ? Container(
-                          alignment: Alignment.center,
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 12),
                           decoration: BoxDecoration(
-                              color: AppColors.redColor,
-                              borderRadius: BorderRadius.circular(12)),
+                            color: AppColors.redColor,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                           child: const Text(
                             "Mohon Maaf Saat Ini Barang Belum Tersedia",
-                            textScaler: TextScaler.noScaling,
+                            textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: fontSizeDefault,
-                                color: AppColors.whiteColor,
-                                fontWeight: FontWeight.bold),
+                              fontSize: 14,
+                              color: AppColors.whiteColor,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         )
                       : Row(

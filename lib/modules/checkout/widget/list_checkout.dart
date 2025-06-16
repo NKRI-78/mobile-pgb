@@ -30,8 +30,19 @@ class _ListCheckoutState extends State<ListCheckout> {
             0.0;
 
         double total = totalPrice + totalCost;
-        String from = state.shippings?[widget.cart.id.toString()]['etd'].toString().split("-")[0].trim() ?? "0";
-        String thru = state.shippings?[widget.cart.id.toString()]['etd'].toString().split("-")[1].trim() ?? "0";
+        final shipping = state.shippings?[widget.cart.id.toString()];
+
+        String from = "0";
+        String thru = "0";
+
+        if (shipping != null && shipping['etd'] != null) {
+          final etdParts = shipping['etd'].toString().split("-");
+          if (etdParts.length == 2) {
+            from = etdParts[0].trim();
+            thru = etdParts[1].trim();
+          }
+        }
+
         print(state.shippings);
         return Container(
           decoration: BoxDecoration(
@@ -90,9 +101,13 @@ class _ListCheckoutState extends State<ListCheckout> {
                                       child: Row(
                                         children: [
                                           ImageCard(
-                                              image: (e.product?.pictures?.isEmpty ?? false)
-                                              ? ""
-                                              : e.product?.pictures?.first.link ?? "",
+                                              image: (e.product?.pictures
+                                                          ?.isEmpty ??
+                                                      false)
+                                                  ? ""
+                                                  : e.product?.pictures?.first
+                                                          .link ??
+                                                      "",
                                               height: 80,
                                               radius: 10,
                                               width: 80,
@@ -169,12 +184,13 @@ class _ListCheckoutState extends State<ListCheckout> {
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      state.shippings?[widget.cart.id.toString()] == null ? 
-                      const SizedBox.shrink() : Image.asset(
-                          "assets/icons/logo-jne.png",
-                        width: 40,
-                        height: 40,
-                      ),
+                      state.shippings?[widget.cart.id.toString()] == null
+                          ? const SizedBox.shrink()
+                          : Image.asset(
+                              "assets/icons/logo-jne.png",
+                              width: 40,
+                              height: 40,
+                            ),
                       SizedBox(
                         width: 10,
                       ),
@@ -187,7 +203,7 @@ class _ListCheckoutState extends State<ListCheckout> {
                             style: const TextStyle(
                                 fontSize: fontSizeSmall,
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.blackColor), 
+                                color: AppColors.blackColor),
                           )),
                       const Expanded(
                           flex: 2,

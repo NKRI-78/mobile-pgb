@@ -56,7 +56,6 @@ class QrMethodWidgetV2 extends StatelessWidget {
             image: payment.data?["actions"][0]["url"] ?? "-",
             radius: 10,
             width: double.infinity,
-            height: 300,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,6 +66,7 @@ class QrMethodWidgetV2 extends StatelessWidget {
                   width: double.infinity,
                   margin: const EdgeInsets.symmetric(vertical: 10),
                   child: CustomButton(
+                    radius: 8,
                     backgroundColour: AppColors.secondaryColor,
                     text: "Download QR",
                     textColour: AppColors.whiteColor,
@@ -82,7 +82,7 @@ class QrMethodWidgetV2 extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                width: 5,
+                width: 10,
               ),
               Expanded(
                 child: Container(
