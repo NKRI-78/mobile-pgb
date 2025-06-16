@@ -68,41 +68,44 @@ class HomeView extends StatelessWidget {
                                 RegisterRoute().go(context);
                               }
                             },
-                            child: state.isLoading ? SizedBox(
-                                width: 45,
-                                height: 45,
-                                child: Shimmer.fromColors(
-                                  baseColor: Colors.grey[300]!,
-                                  highlightColor: Colors.white,
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 30,
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey,
-                                      borderRadius: BorderRadius.circular(50),
+                            child: state.isLoading
+                                ? SizedBox(
+                                    width: 45,
+                                    height: 45,
+                                    child: Shimmer.fromColors(
+                                      baseColor: Colors.grey[300]!,
+                                      highlightColor: Colors.white,
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey,
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                        ),
+                                      ),
                                     ),
+                                  )
+                                : ClipOval(
+                                    child: isLoggedIn &&
+                                            (state.profile?.profile?.avatarLink
+                                                    ?.isNotEmpty ??
+                                                false)
+                                        ? FadeInImage.assetNetwork(
+                                            placeholder: imageDefaultUser,
+                                            image: state
+                                                .profile!.profile!.avatarLink!,
+                                            width: 44,
+                                            height: 44,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Image.asset(
+                                            imageDefaultUser,
+                                            width: 44,
+                                            height: 44,
+                                            fit: BoxFit.cover,
+                                          ),
                                   ),
-                                ),
-                              ) :  ClipOval(
-                              child: isLoggedIn &&
-                                      (state.profile?.profile?.avatarLink
-                                              ?.isNotEmpty ??
-                                          false)
-                                  ? FadeInImage.assetNetwork(
-                                      placeholder: imageDefaultUser,
-                                      image:
-                                          state.profile!.profile!.avatarLink!,
-                                      width: 44,
-                                      height: 44,
-                                      fit: BoxFit.cover,
-                                    )
-                                  : Image.asset(
-                                      imageDefaultUser,
-                                      width: 44,
-                                      height: 44,
-                                      fit: BoxFit.cover,
-                                    ),
-                            ),
                           ),
                         ),
                         Center(
@@ -242,7 +245,7 @@ class HomeView extends StatelessWidget {
                               );
                             },
                           ),
-                        // SizedBox(height: 30),
+                        SizedBox(height: 30),
                       ],
                     ),
                   ),

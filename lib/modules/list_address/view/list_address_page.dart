@@ -30,23 +30,31 @@ class ListAddressView extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           backgroundColor: AppColors.primaryColor,
-          bottomNavigationBar: Container(
-            width: double.infinity,
-            height: 60,
-            decoration: const BoxDecoration(
-              color: Colors.transparent,
-            ),
-            child: SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: CustomButton(
-                radius: 0,
-                onPressed: () {
-                  CreateAddressRoute().push(context);
-                },
-                backgroundColour: AppColors.buttonBlueColor,
-                textColour: AppColors.whiteColor,
-                text: "Tambah Alamat",
+          bottomNavigationBar: SafeArea(
+            minimum: const EdgeInsets.all(10),
+            child: DecoratedBox(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 4,
+                    offset: Offset(0, -2),
+                  ),
+                ],
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: CustomButton(
+                  radius: 12,
+                  onPressed: () {
+                    CreateAddressRoute().push(context);
+                  },
+                  backgroundColour: AppColors.buttonBlueColor,
+                  textColour: AppColors.whiteColor,
+                  text: "Tambah Alamat",
+                ),
               ),
             ),
           ),

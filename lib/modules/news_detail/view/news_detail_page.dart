@@ -128,7 +128,7 @@ class NewsDetailView extends StatelessWidget {
           },
           onLinkTap: (url, attrs, element) {
             if (url != null) {
-              WebViewRoute(url: url, title: "GEMA-MOBILE").push(context);
+              WebViewRoute(url: url, title: "PGB-MOBILE").push(context);
             }
           },
         ),
