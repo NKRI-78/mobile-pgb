@@ -71,9 +71,10 @@ class RegisterKtpView extends StatelessWidget {
                     builder: (context, state) {
                       if (state.loading) {
                         return Center(
-                            child: CustomLoadingPage(
-                          color: AppColors.primaryColor,
-                        ));
+                          child: CustomLoadingPage(
+                            color: AppColors.primaryColor,
+                          ),
+                        );
                       }
 
                       return SingleChildScrollView(

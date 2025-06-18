@@ -83,7 +83,7 @@ class DateHelper {
     if (formatDate == null || formatDate.isEmpty) return "-";
     try {
       final date = DateTime.parse(formatDate).toLocal();
-      return DateFormat("dd MMMM yyyy | HH.mm 'WIB'", "id_ID").format(date);
+      return DateFormat("dd MMMM yyyy | HH.mm", "id_ID").format(date);
     } catch (e) {
       return "-";
     }

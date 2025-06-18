@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as httpBase;
@@ -10,6 +11,7 @@ import 'models/checkout_detail_model.dart';
 import 'models/checkout_detail_new_model.dart';
 import 'models/cost_item_model.dart';
 import 'models/cost_item_model_v2.dart';
+import 'models/cost_item_model_v3.dart';
 import 'models/detail_address_model.dart';
 import 'models/main_shipping_model.dart';
 import 'models/payment_channel_model.dart';
@@ -154,6 +156,33 @@ class CheckoutRepository {
       if (res.statusCode == 200) {
         final list = json['data'] as List;
         return list.map((e) => CostItemModelV2.fromJson(e)).toList();
+      }
+
+      return [];
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<CostItemModelV3>> getCostItemV3(
+      {String? weight, String? storeId}) async {
+    try {
+      final res = await http.post(Uri.parse('$cost/v3'), body: {
+        'weight': weight,
+        'storeId': storeId,
+      });
+
+      print(res.body);
+      print("Status : ${res.statusCode}");
+      print("Status : ${{
+        'weight': weight,
+        'storeId': storeId,
+      }}");
+
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        final list = json['data'] as List;
+        return list.map((e) => CostItemModelV3.fromJson(e)).toList();
       }
 
       return [];
@@ -371,7 +400,7 @@ class CheckoutRepository {
       }
       request.headers.addAll(headers);
 
-      print("Request : ${request.body}");
+      log("Request : ${request.body}");
 
       httpBase.StreamedResponse response = await request.send();
       var responseString = await response.stream.bytesToString();

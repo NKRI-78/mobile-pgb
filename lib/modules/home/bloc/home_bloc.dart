@@ -141,7 +141,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
   Future<void> setLastLocation(Emitter<HomeState> emit) async {
     try {
-      Geolocator.requestPermission();
+      // Geolocator.requestPermission();
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.low);
       debugPrint("Lat ${position.latitude}");

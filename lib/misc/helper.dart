@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../modules/checkout/cubit/checkout_cubit.dart';
+
 class Helper {
   static Future<void> openLink(
       {required String url, required BuildContext context}) async {
@@ -31,6 +33,32 @@ class Helper {
 
   static String getEstimatedDateRange(String etdFrom, String etdThru) {
     final now = DateTime.now();
+
+    // Deteksi jika isinya mengandung "hour" atau "jam"
+    final isHours = etdFrom.toLowerCase().contains('jam') ||
+        etdFrom.toLowerCase().contains('hour') ||
+        etdThru.toLowerCase().contains('jam') ||
+        etdThru.toLowerCase().contains('hour');
+
+    // Kalau format jam
+    if (isHours) {
+      // Ambil angka dari etdFrom dan etdThru
+      final fromMatch = RegExp(r'\d+').firstMatch(etdFrom);
+      final thruMatch = RegExp(r'\d+').firstMatch(etdThru);
+
+      final fromHours =
+          fromMatch != null ? int.tryParse(fromMatch.group(0)!) ?? 0 : 0;
+      final thruHours =
+          thruMatch != null ? int.tryParse(thruMatch.group(0)!) ?? 0 : 0;
+
+      if (fromHours == thruHours || thruHours == 0) {
+        return "dalam $fromHours jam";
+      } else {
+        return "dalam $fromHours - $thruHours jam";
+      }
+    }
+
+    // Format normal (hari)
     final fromDays = int.tryParse(etdFrom) ?? 0;
     final thruDays = int.tryParse(etdThru) ?? 0;
 
@@ -43,20 +71,40 @@ class Helper {
     final fromOnlyDay = int.tryParse(DateFormat("d", "id_ID").format(fromDate));
     final nowDate = int.tryParse(DateFormat("d", "id_ID").format(now));
 
-
-    if ((fromOnlyDay ?? 0) - (nowDate ?? 0) == 0){
+    if ((fromOnlyDay ?? 0) - (nowDate ?? 0) == 0) {
       return "hari ini";
     }
 
-    if((fromOnlyDay ?? 0) - (nowDate ?? 0) == 1 && fromDays == thruDays){
+    if ((fromOnlyDay ?? 0) - (nowDate ?? 0) == 1 && fromDays == thruDays) {
       return "besok";
     }
 
-    if((fromOnlyDay ?? 0) - (nowDate ?? 0) == 1){
+    if ((fromOnlyDay ?? 0) - (nowDate ?? 0) == 1) {
       return "besok - $thruFormatted";
     }
 
     return "$fromFormatted - $thruFormatted";
+  }
+
+  static String getCourierLogoUrl(
+      Map<String, dynamic> selectedShipping, CheckoutState state) {
+    final selectedCode = selectedShipping['code'] ?? '';
+    final selectedService = selectedShipping['service'] ?? '';
+
+    for (final item in state.cost) {
+      if (item.code == selectedCode && item.service == selectedService) {
+        return item.logoUrl ?? '';
+      }
+    }
+
+    for (final item in state.costV3) {
+      if (item.courierCode == selectedCode &&
+          item.serviceType == selectedService) {
+        return item.logoUrl ?? '';
+      }
+    }
+
+    return '';
   }
 
   // Future<void> saveToGalleryWithAlbum() async {

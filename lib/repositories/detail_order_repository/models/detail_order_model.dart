@@ -114,9 +114,8 @@ class Data {
       this.shippingAddress});
 
   Data.fromJson(Map<String, dynamic> json) {
-    shipping = json['shipping'] != null
-        ? Shipping.fromJson(json['shipping'])
-        : null;
+    shipping =
+        json['shipping'] != null ? Shipping.fromJson(json['shipping']) : null;
     noTracking = json['no_tracking'];
     storeAddress = json['store_address'] != null
         ? StoreAddress.fromJson(json['store_address'])
@@ -154,7 +153,7 @@ class Shipping {
   Shipping.fromJson(Map<String, dynamic> json) {
     etd = json['etd'];
     code = json['code'];
-    cost = int.parse(json['cost'].toString());
+    cost = int.tryParse(json['cost']?.toString() ?? '') ?? 0;
     note = json['note'];
     service = json['service'];
   }

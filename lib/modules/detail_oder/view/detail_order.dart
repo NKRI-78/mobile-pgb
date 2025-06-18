@@ -202,7 +202,7 @@ class DetailOrderView extends StatelessWidget {
                                                 ),
                                               ),
                                               Text(
-                                                DateHelper.parseDate(state
+                                                DateHelper.formatFullDate(state
                                                         .detailOrder
                                                         ?.createdAt ??
                                                     DateTime.now().toString()),

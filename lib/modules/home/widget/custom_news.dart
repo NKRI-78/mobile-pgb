@@ -93,7 +93,7 @@ class _NewsContent extends StatelessWidget {
     return Expanded(
       flex: 2,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5),
+        padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 3),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
@@ -101,18 +101,19 @@ class _NewsContent extends StatelessWidget {
             Text(
               title,
               style: AppTextStyles.textStyleBold.copyWith(
-                fontSize: 14,
+                fontSize: 13,
               ),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
             SizedBox(
-              height: 5,
+              height: 3,
             ),
             Text(
               content.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ""),
               maxLines: 3,
               style: AppTextStyles.textStyleNormal.copyWith(
+                fontSize: 11,
                 color: AppColors.greyColor,
               ),
               overflow: TextOverflow.ellipsis,

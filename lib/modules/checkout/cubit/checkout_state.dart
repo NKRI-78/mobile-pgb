@@ -4,6 +4,7 @@ class CheckoutState extends Equatable {
   final SelectedAdministration? selectedAdministration;
   final List<CheckoutDetailModel> checkout;
   final List<CostItemModelV2> cost;
+  final List<CostItemModelV3> costV3;
   final List<PaymentChannelModel> channels;
   final PaymentChannelModel? channel;
   final CheckoutDetailNowModel? checkoutNow;
@@ -19,20 +20,20 @@ class CheckoutState extends Equatable {
   final double adminFee;
   final String storeId;
   final bool loading;
-  final bool loadingCost; 
-  final bool loadingCurir; 
-  final bool loadingChannel; 
+  final bool loadingCost;
+  final bool loadingCurir;
+  final bool loadingChannel;
   final Set<String> loadingItems;
   final Map<String, dynamic>? shippings;
-
 
   const CheckoutState({
     this.shippings,
     this.selectedAdministration,
-    this.checkout = const [], 
+    this.checkout = const [],
     this.cost = const [],
-    this.channels = const [], 
-    this.channel, 
+    this.costV3 = const [],
+    this.channels = const [],
+    this.channel,
     this.shipping,
     this.weight = "",
     this.from = "",
@@ -49,64 +50,67 @@ class CheckoutState extends Equatable {
     this.loadingCurir = false,
     this.loadingChannel = false,
     this.loadingItems = const {},
-    this.checkoutNow, 
+    this.checkoutNow,
   });
 
   @override
   List<Object?> get props => [
-    channels, 
-    channel,
-    shippings,
-    selectedAdministration, 
-    cost, 
-    checkout, 
-    shipping, 
-    loading, 
-    weight, 
-    from, 
-    qty, 
-    productId, 
-    totalWeight, 
-    totalPrice, 
-    totalPriceProduct, 
-    totalCost, 
-    adminFee, 
-    storeId,
-    loadingCost,
-    loadingCurir,
-    loadingChannel,
-    checkoutNow,
-  ];
+        channels,
+        channel,
+        shippings,
+        selectedAdministration,
+        cost,
+        costV3,
+        checkout,
+        shipping,
+        loading,
+        weight,
+        from,
+        qty,
+        productId,
+        totalWeight,
+        totalPrice,
+        totalPriceProduct,
+        totalCost,
+        adminFee,
+        storeId,
+        loadingCost,
+        loadingCurir,
+        loadingChannel,
+        checkoutNow,
+      ];
 
-  CheckoutState copyWith({
-    SelectedAdministration? selectedAdministration,
-    List<CheckoutDetailModel>? checkout,
-    List<CostItemModelV2>? cost,
-    List<PaymentChannelModel>? channels,
-    PaymentChannelModel? channel,
-    CheckoutDetailNowModel? checkoutNow,
-    MainShippingModel? shipping,
-    String? weight,
-    String? from,
-    String? qty,
-    String? productId,
-    String? storeId,
-    double? totalWeight,
-    double? totalPrice,
-    double? totalPriceProduct,
-    double? totalCost,
-    double? adminFee,
-    bool? loading,
-    bool? loadingCost,
-    bool? loadingCurir,
-    bool? loadingChannel,
-    Set<String>? loadingItems,
-    Map<String, dynamic>? shippings
-  }) {
+  CheckoutState copyWith(
+      {SelectedAdministration? selectedAdministration,
+      List<CheckoutDetailModel>? checkout,
+      List<CostItemModelV2>? cost,
+      List<CostItemModelV3>? costV3,
+      List<PaymentChannelModel>? channels,
+      PaymentChannelModel? channel,
+      CheckoutDetailNowModel? checkoutNow,
+      MainShippingModel? shipping,
+      String? weight,
+      String? from,
+      String? qty,
+      String? productId,
+      String? storeId,
+      double? totalWeight,
+      double? totalPrice,
+      double? totalPriceProduct,
+      double? totalCost,
+      double? adminFee,
+      bool? loading,
+      bool? loadingCost,
+      bool? loadingCurir,
+      bool? loadingChannel,
+      Set<String>? loadingItems,
+      Map<String, dynamic>? shippings}) {
     return CheckoutState(
-      selectedAdministration: selectedAdministration ?? this.selectedAdministration,
+      selectedAdministration:
+          selectedAdministration ?? this.selectedAdministration,
       checkout: checkout ?? this.checkout,
       cost: cost ?? this.cost,
+      costV3: costV3 ?? this.costV3,
       channels: channels ?? this.channels,
       channel: channel ?? this.channel,
       shipping: shipping ?? this.shipping,

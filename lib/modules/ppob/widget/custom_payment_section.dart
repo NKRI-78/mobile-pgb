@@ -133,61 +133,63 @@ void _customPaymentSection(BuildContext context, List<PulsaDataModel> selected,
                   child: BlocBuilder<PpobCubit, PpobState>(
                     builder: (context, state) {
                       final userId = getIt<AppBloc>().state.user?.id ?? 0;
-                      return CustomButton(
-                        backgroundColour: AppColors.secondaryColor,
-                        textColour: AppColors.whiteColor,
-                        text: state.isLoading ? "" : "Bayar",
-                        onPressed: state.isLoading || state.channel == null
-                            ? null
-                            : () async {
-                                final cubit = context.read<PpobCubit>();
-                                try {
-                                  final response = await cubit.checkoutItem(
-                                      userId.toString(), type, phoneNumber);
+                      return SafeArea(
+                        child: CustomButton(
+                          backgroundColour: AppColors.secondaryColor,
+                          textColour: AppColors.whiteColor,
+                          text: state.isLoading ? "" : "Bayar",
+                          onPressed: state.isLoading || state.channel == null
+                              ? null
+                              : () async {
+                                  final cubit = context.read<PpobCubit>();
+                                  try {
+                                    final response = await cubit.checkoutItem(
+                                        userId.toString(), type, phoneNumber);
 
-                                  if (response != null) {
-                                    final isQRPayment = paymentCode
-                                            .toLowerCase()
-                                            .contains("gopay") ||
-                                        paymentCode
-                                            .toLowerCase()
-                                            .contains("qris");
+                                    if (response != null) {
+                                      final isQRPayment = paymentCode
+                                              .toLowerCase()
+                                              .contains("gopay") ||
+                                          paymentCode
+                                              .toLowerCase()
+                                              .contains("qris");
 
-                                    final expireTime = isQRPayment
-                                        ? DateTime.now()
-                                            .add(const Duration(minutes: 15))
-                                        : DateTime.now()
-                                            .add(const Duration(days: 1));
-                                    PpobPaymentRoute(
-                                      paymentExpire: expireTime,
-                                      paymentAccess:
-                                          response['payment_access'] ?? "-",
-                                      totalPayment: totalAmount,
-                                      paymentCode: paymentCode,
-                                      nameProduct: nameProduct,
-                                      logoChannel: logoChannel,
-                                    ).go(context);
-                                  } else {
-                                    throw Exception(
-                                        "Gagal mendapatkan kode pembayaran.");
+                                      final expireTime = isQRPayment
+                                          ? DateTime.now()
+                                              .add(const Duration(minutes: 15))
+                                          : DateTime.now()
+                                              .add(const Duration(days: 1));
+                                      PpobPaymentRoute(
+                                        paymentExpire: expireTime,
+                                        paymentAccess:
+                                            response['payment_access'] ?? "-",
+                                        totalPayment: totalAmount,
+                                        paymentCode: paymentCode,
+                                        nameProduct: nameProduct,
+                                        logoChannel: logoChannel,
+                                      ).go(context);
+                                    } else {
+                                      throw Exception(
+                                          "Gagal mendapatkan kode pembayaran.");
+                                    }
+                                  } catch (e) {
+                                    ShowSnackbar.snackbar(
+                                      context,
+                                      e.toString(),
+                                      isSuccess: false,
+                                    );
                                   }
-                                } catch (e) {
-                                  ShowSnackbar.snackbar(
-                                    context,
-                                    e.toString(),
-                                    isSuccess: false,
-                                  );
-                                }
-                              },
-                        child: state.isLoading
-                            ? const SizedBox(
-                                height: 24,
-                                width: 24,
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                ),
-                              )
-                            : null,
+                                },
+                          child: state.isLoading
+                              ? const SizedBox(
+                                  height: 24,
+                                  width: 24,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : null,
+                        ),
                       );
                     },
                   ),

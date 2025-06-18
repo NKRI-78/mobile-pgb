@@ -70,8 +70,8 @@ class EventDetailView extends StatelessWidget {
               ],
             ),
           ),
-          bottomNavigationBar: Padding(
-            padding: const EdgeInsets.all(10),
+          bottomNavigationBar: SafeArea(
+            minimum: const EdgeInsets.all(10),
             child: Builder(
               builder: (context) {
                 // Cek apakah user sudah login

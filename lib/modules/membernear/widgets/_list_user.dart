@@ -22,8 +22,7 @@ class _ListUser extends StatelessWidget {
             // ignore: prefer_is_empty
             st.loading
                 ? const CustomLoadingPage()
-                : (st.memberNearData != null &&
-                        st.memberNearData!.isEmpty)
+                : (st.memberNearData != null && st.memberNearData!.isEmpty)
                     ? EmptyLocation(msg: "Tidak ada member disekitar anda")
                     : GridView.builder(
                         padding: const EdgeInsets.symmetric(
@@ -49,9 +48,10 @@ class _ListUser extends StatelessWidget {
                             },
                             child: Container(
                               margin: EdgeInsets.only(
-                                  top: 5.0,
-                                  left: index == 0 ? 6.0 : 5.0,
-                                  right: 5.0),
+                                top: 5.0,
+                                left: index == 0 ? 6.0 : 5.0,
+                                right: 5.0,
+                              ),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -63,9 +63,11 @@ class _ListUser extends StatelessWidget {
                                         width: double.infinity,
                                         height: 80,
                                         decoration: const BoxDecoration(
-                                            color: AppColors.secondaryColor,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(15))),
+                                          color: AppColors.secondaryColor,
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(18),
+                                          ),
+                                        ),
                                         margin: const EdgeInsets.only(
                                           top: 4.0,
                                         ),
@@ -77,19 +79,21 @@ class _ListUser extends StatelessWidget {
                                           children: [
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  top: 25),
+                                                top: 20,
+                                              ),
                                               child: Text(
-                                                data.profile?.fullname?.split(' ')[0] ??
+                                                data.profile?.fullname
+                                                        ?.split(' ')[0] ??
                                                     "",
                                                 maxLines: 2,
                                                 textAlign: TextAlign.center,
                                                 softWrap: true,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
-                                                  color: AppColors.whiteColor,
-                                                  fontSize: fontSizeDefault,
-                                                  fontWeight: FontWeight.bold
-                                                ),
+                                                    color: AppColors.whiteColor,
+                                                    fontSize: fontSizeDefault,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
                                             ),
                                             SizedBox(
@@ -101,7 +105,7 @@ class _ListUser extends StatelessWidget {
                                                 style: TextStyle(
                                                   color: AppColors.whiteColor,
                                                   fontSize: fontSizeSmall,
-                                                  fontWeight: FontWeight.bold
+                                                  fontWeight: FontWeight.bold,
                                                 ),
                                               ),
                                             ),
@@ -109,15 +113,16 @@ class _ListUser extends StatelessWidget {
                                         ),
                                       ),
                                       Positioned(
-                                        bottom: 60,
+                                        bottom: 55,
                                         right: 0,
                                         left: 0,
                                         child: ImageAvatar(
-                                          image: (data.profile?.avatarLink?.isEmpty ??
+                                          image: (data.profile?.avatarLink
+                                                      ?.isEmpty ??
                                                   true)
                                               ? "https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png"
                                               : data.profile?.avatarLink ?? "",
-                                          radius: 20,
+                                          radius: 25,
                                         ),
                                       ),
                                     ],

@@ -56,17 +56,12 @@ class _CartViewState extends State<CartView> {
                 : SafeArea(
                     top: false,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 10),
-                      decoration: const BoxDecoration(
-                        color: AppColors.whiteColor,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 4,
-                            offset: Offset(0, -2),
-                          ),
-                        ],
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      width: double.infinity,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        color:
+                            AppColors.whiteColor.withAlpha((0.5 * 255).round()),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

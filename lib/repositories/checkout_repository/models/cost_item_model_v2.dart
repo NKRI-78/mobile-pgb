@@ -9,6 +9,13 @@ class CostItemModelV2 {
   String? etdFrom;
   String? etdThru;
   String? times;
+  String? courierCode;
+  String? service;
+  String? code;
+  String? courierServiceCode;
+  int? cost;
+  String? version;
+  String? logoUrl;
 
   CostItemModelV2(
       {this.originName,
@@ -20,7 +27,14 @@ class CostItemModelV2 {
       this.price,
       this.etdFrom,
       this.etdThru,
-      this.times});
+      this.times,
+      this.courierCode,
+      this.service,
+      this.code,
+      this.courierServiceCode,
+      this.cost,
+      this.version,
+      this.logoUrl});
 
   CostItemModelV2.fromJson(Map<String, dynamic> json) {
     originName = json['origin_name'];
@@ -33,6 +47,13 @@ class CostItemModelV2 {
     etdFrom = json['etd_from'];
     etdThru = json['etd_thru'];
     times = json['times'];
+    courierCode = json['courier_code'];
+    service = json['service'];
+    code = json['code'];
+    courierServiceCode = json['courier_service_code'];
+    cost = json['cost'];
+    version = json['version'];
+    logoUrl = json['logo_url'];
   }
 
   Map<String, dynamic> toJson() {
@@ -47,6 +68,13 @@ class CostItemModelV2 {
     data['etd_from'] = etdFrom;
     data['etd_thru'] = etdThru;
     data['times'] = times;
+    data['courier_code'] = courierCode;
+    data['service'] = service;
+    data['code'] = code;
+    data['courier_service_code'] = courierServiceCode;
+    data['cost'] = cost;
+    data['version'] = version;
+    data['logo_url'] = logoUrl;
     return data;
   }
 }
