@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../misc/text_style.dart';
 import '../../../misc/helper.dart';
-import '../../../misc/colors.dart';
 import '../../../misc/price_currency.dart';
-import '../../../misc/theme.dart';
 import '../cubit/checkout_cubit.dart';
 
 class CostShipping extends StatelessWidget {
@@ -17,10 +15,6 @@ class CostShipping extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CheckoutCubit, CheckoutState>(
       builder: (context, state) {
-        double gramsToKilograms(double grams) {
-          return grams / 1000;
-        }
-
         const Map<String, String> serviceDisplayMap = {
           'REG': 'JNE Reguler',
           'JTR': 'JNE Trucking Reguler',
@@ -30,176 +24,199 @@ class CostShipping extends StatelessWidget {
           'CTC': 'JNE Reguler',
           'CTCYES': 'JNE Reguler YES',
           'CTCSPS': 'JNE Reguler OKE',
+          'YES': 'JNE Reguler YES',
+          'SPS': 'JNE Reguler OKE',
         };
 
         String getServiceDisplayName(String code) {
-          return serviceDisplayMap[code] ??
-              code; // fallback ke kode asli kalau tidak dikenali
+          return serviceDisplayMap[code] ?? code;
         }
 
-        print(weight);
         return Scaffold(
           body: ListView(
-            shrinkWrap: true,
             children: [
+              // ======== Header ========
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                padding: const EdgeInsets.all(16),
+                child: Row(
                   children: [
-                    RichText(
-                        textScaler: const TextScaler.linear(1.5),
-                        textAlign: TextAlign.left,
-                        text: TextSpan(children: [
-                          WidgetSpan(
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
-                                child: Image.asset(
-                                  "assets/icons/close-icon-ractangle.png",
-                                  width: 20,
-                                  height: 20,
-                                  color: AppColors.blackColor,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const TextSpan(
-                              text: "Pilih Pengiriman",
-                              style: TextStyle(
-                                  color: AppColors.blackColor,
-                                  fontSize: fontSizeLarge,
-                                  fontWeight: FontWeight.bold))
-                        ])),
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: const Icon(Icons.close),
+                    ),
+                    const SizedBox(width: 12),
+                    const Text(
+                      "Pilih Pengiriman",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
               ),
-              // Container(
-              //   width: double.infinity,
-              //   height: 50,
-              //   margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              //   decoration: BoxDecoration(
-              //     border: Border.all(color: AppColors.greyColor, width: 5, strokeAlign: 1)
-              //   ),
-              //   child: Text(
-              //     "Berat ${gramsToKilograms(double.parse(weight))} kg"
-              //   ),
-              // ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: state.cost
-                    .map((e) => InkWell(
-                          onTap: () {
-                            context.read<CheckoutCubit>().setCourier(
-                                  e.serviceDisplay ?? "",
-                                  getServiceDisplayName(e.serviceDisplay ?? ""),
-                                  e.price ?? "",
-                                  "${e.etdFrom} - ${e.etdThru}",
-                                  idStore,
-                                  "jne",
-                                  "",
-                                );
-                            Navigator.pop(context);
-                            context.read<CheckoutCubit>().updateCheckout(
-                                checkout: state.checkout,
-                                shippings: state.shippings);
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 15),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          RichText(
-                                              text: TextSpan(children: [
-                                            TextSpan(
-                                                text:
-                                                    '${getServiceDisplayName(e.serviceDisplay ?? "")} ( ${Price.currency(int.parse(e.price ?? "0").toDouble())} )',
-                                                style: const TextStyle(
-                                                    color: AppColors.blackColor,
-                                                    fontSize: fontSizeLarge,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                          ])),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              RichText(
-                                                  text: TextSpan(children: [
-                                                const TextSpan(
-                                                    text: 'Estimasi tiba ',
-                                                    style: TextStyle(
-                                                        color: AppColors
-                                                            .blackColor,
-                                                        fontSize: fontSizeLarge,
-                                                        fontWeight:
-                                                            FontWeight.bold)),
-                                                TextSpan(
-                                                    text: Helper
-                                                        .getEstimatedDateRange(
-                                                            e.etdFrom ?? "0",
-                                                            e.etdThru ?? "0"),
-                                                    style: const TextStyle(
-                                                        color: AppColors
-                                                            .blackColor,
-                                                        fontSize: fontSizeLarge,
-                                                        fontWeight:
-                                                            FontWeight.w600)),
-                                              ])),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Image.asset(
-                                      "assets/icons/logo-jne.png",
-                                      width: 50,
-                                      height: 50,
-                                    )
-                                  ],
+              Divider(
+                height: 1,
+                color: Colors.grey.shade300,
+              ),
+
+              // ======== Instant Courier (Gojek/Grab) ========
+              if (state.costV3.isNotEmpty) ...[
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                  child: Text(
+                    'Kurir Instant',
+                    style: AppTextStyles.textStyleBold,
+                  ),
+                ),
+                ...state.costV3.map((costItem) {
+                  return InkWell(
+                    onTap: () {
+                      context.read<CheckoutCubit>().setInstant(
+                            costItem,
+                            idStore,
+                            note: '',
+                          );
+                      Navigator.pop(context);
+                      context.read<CheckoutCubit>().updateCheckout(
+                          checkout: state.checkout,
+                          shippings: state.shippings,
+                          typeShipping: "Instant");
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${costItem.courierServiceName} (${Price.currency((costItem.price ?? 0).toDouble())})',
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              Divider(
-                                color:
-                                    AppColors.greyColor.withValues(alpha: 0.5),
-                                height: 3,
-                                thickness: 1,
-                              )
-                            ],
+                                const SizedBox(height: 4),
+                                Text(
+                                  'Estimasi ${getDurationInBahasa(costItem.duration)}',
+                                  style: const TextStyle(fontSize: 12),
+                                ),
+                              ],
+                            ),
                           ),
-                        ))
-                    .toList(),
-              )
+                          (costItem.logoUrl != null)
+                              ? Image.network(
+                                  costItem.logoUrl!,
+                                  width: 40,
+                                  height: 40,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      const Icon(Icons.local_shipping),
+                                )
+                              : const Icon(Icons.local_shipping),
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ],
+              Divider(
+                height: 1,
+                color: Colors.grey.shade300,
+              ),
+
+              // ======== Regular Courier (JNE/Sicepat) ========
+              if (state.cost.isNotEmpty) ...[
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                  child: Text(
+                    'Kurir Reguler',
+                    style: AppTextStyles.textStyleBold,
+                  ),
+                ),
+                ...state.cost.map((e) {
+                  return InkWell(
+                    onTap: () {
+                      context.read<CheckoutCubit>().setCourier(
+                          e.serviceDisplay ?? "",
+                          getServiceDisplayName(e.serviceDisplay ?? ""),
+                          e.price ?? "",
+                          "${e.etdFrom} - ${e.etdThru}",
+                          idStore,
+                          "jne",
+                          "",
+                          e.logoUrl ?? "");
+                      Navigator.pop(context);
+                      context.read<CheckoutCubit>().updateCheckout(
+                          checkout: state.checkout,
+                          shippings: state.shippings,
+                          typeShipping: "JNE");
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${getServiceDisplayName(e.serviceDisplay ?? "")} (${Price.currency(int.parse(e.price ?? "0").toDouble())})',
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  'Estimasi ${Helper.getEstimatedDateRange(e.etdFrom ?? "0", e.etdThru ?? "0")}',
+                                  style: const TextStyle(fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ),
+                          (e.logoUrl != null)
+                              ? Image.network(
+                                  e.logoUrl!,
+                                  width: 40,
+                                  height: 40,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      const Icon(Icons.local_shipping),
+                                )
+                              : const Icon(Icons.local_shipping),
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ],
+              Divider(
+                height: 1,
+                color: Colors.grey.shade300,
+              ),
             ],
           ),
         );
       },
     );
   }
+}
+
+String getDurationInBahasa(String? duration) {
+  if (duration == null || duration.isEmpty) return "-";
+
+  String result = duration;
+
+  result = result.replaceAll(RegExp(r'hours?', caseSensitive: false), 'jam');
+  result = result.replaceAll(RegExp(r'days?', caseSensitive: false), 'hari');
+  result =
+      result.replaceAll(RegExp(r'minutes?', caseSensitive: false), 'menit');
+  result = result.replaceAll(RegExp(r'soon', caseSensitive: false), 'Segera');
+
+  return result.trim();
 }

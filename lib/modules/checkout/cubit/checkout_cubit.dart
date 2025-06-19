@@ -12,6 +12,7 @@ import '../../../repositories/checkout_repository/checkout_repository.dart';
 import '../../../repositories/checkout_repository/models/checkout_detail_model.dart';
 import '../../../repositories/checkout_repository/models/checkout_detail_new_model.dart';
 import '../../../repositories/checkout_repository/models/cost_item_model_v2.dart';
+import '../../../repositories/checkout_repository/models/cost_item_model_v3.dart';
 import '../../../repositories/checkout_repository/models/main_shipping_model.dart';
 import '../../../repositories/checkout_repository/models/payment_channel_model.dart';
 import '../../../widgets/map/custom_select_location.dart';
@@ -60,6 +61,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
     required List<CheckoutDetailModel> checkout,
     Map<String, dynamic>? shippings,
     PaymentChannelModel? e,
+    String? typeShipping,
   }) async {
     double productPrice = state.totalPriceProduct ?? 0.0;
 
@@ -77,9 +79,10 @@ class CheckoutCubit extends Cubit<CheckoutState> {
     final effectiveShippings = shippings ?? state.shippings;
 
     // ✅ Hitung shipping cost dari data yang efektif
-    double shippingCost = effectiveShippings?.values.fold(
+    double shippingCost = effectiveShippings?.values.fold<double>(
           0.0,
-          (sum, item) => sum! + int.parse(item["cost"]).toDouble(),
+          (sum, item) =>
+              sum + (double.tryParse(item["cost"]?.toString() ?? '0') ?? 0),
         ) ??
         0.0;
 
@@ -250,6 +253,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
       required String weight}) async {
     try {
       emit(state.copyWith(loadingCost: true));
+      var costV3 = await repo.getCostItemV3(storeId: storeId, weight: weight);
       var cost = await repo.getCostItemV2(storeId: storeId, weight: weight);
       if (cost.isNotEmpty && context.mounted) {
         showModalBottomSheet(
@@ -272,7 +276,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
               isSuccess: false);
         }
       }
-      emit(state.copyWith(cost: cost, loadingCost: false));
+      emit(state.copyWith(cost: cost, costV3: costV3, loadingCost: false));
     } catch (e) {
       if (!context.mounted) {
         return;
@@ -346,9 +350,10 @@ class CheckoutCubit extends Cubit<CheckoutState> {
       final cleanedShippings = state.shippings!.map((key, value) {
         final newValue = Map<String, dynamic>.from(value);
         newValue.remove('service_replaced');
+        newValue.remove('logo_url');
         return MapEntry(key, newValue);
       });
-      print("Shipping pressed : $cleanedShippings");
+      // print("Shipping pressed : $cleanedShippings");
       var paymentNumber = await repo.checkoutItem(
           from: state.from,
           payment: state.channel!,
@@ -371,6 +376,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
     String storeId,
     String name,
     String note,
+    String logoUrl,
   ) async {
     try {
       emit(state.copyWith(loadingCurir: true));
@@ -383,6 +389,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
             'cost': cost,
             "etd": etd,
             "note": note,
+            "logo_url": logoUrl,
           }
         };
         emit(state.copyWith(shippings: entry, loadingCurir: false));
@@ -394,15 +401,31 @@ class CheckoutCubit extends Cubit<CheckoutState> {
           'cost': cost,
           "etd": etd,
           "note": note,
+          "logo_url": logoUrl,
         };
         emit(state.copyWith(shippings: state.shippings, loadingCurir: false));
       }
       print("Shipping : ${state.shippings}");
     } catch (e) {
       print(e);
-
-      ///
     }
+  }
+
+  Future<void> setInstant(
+    CostItemModelV3 costV3,
+    String storeId, {
+    String note = '',
+  }) async {
+    await setCourier(
+      costV3.courierServiceCode ?? '-',
+      costV3.courierServiceName ?? '-',
+      (costV3.price ?? 0).toString(),
+      costV3.duration ?? '-',
+      storeId,
+      costV3.courierCode ?? '-',
+      note,
+      costV3.logoUrl ?? "",
+    );
   }
 
   @override

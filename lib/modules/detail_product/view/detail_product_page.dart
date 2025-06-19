@@ -173,12 +173,13 @@ class _DetailProductViewState extends State<DetailProductView> {
                                         child: Stack(
                                           children: [
                                             ImageCard(
-                                                image: e.value.link ?? "",
-                                                height: 330,
-                                                radius: 0,
-                                                width: double.infinity,
-                                                fit: BoxFit.fill,
-                                                imageError: imageDefaultData),
+                                              image: e.value.link ?? "",
+                                              height: 330,
+                                              radius: 0,
+                                              width: double.infinity,
+                                              fit: BoxFit.fill,
+                                              imageError: imageDefaultBanner,
+                                            ),
                                             data.stock == 0
                                                 ? Container(
                                                     width: double.infinity,

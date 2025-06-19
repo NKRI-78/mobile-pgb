@@ -63,8 +63,10 @@ class TabOrder extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         const Text("Tanggal Pembelian"),
-                                        Text(DateHelper.parseDate(
-                                            e.createdAt ?? ""))
+                                        Text(
+                                          DateHelper.formatFullDate(
+                                              e.createdAt ?? ""),
+                                        )
                                       ],
                                     ),
                                     Container(

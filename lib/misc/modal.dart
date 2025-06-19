@@ -128,18 +128,10 @@ class GeneralModal {
                   ),
                 ),
                 Positioned(
-                  top: -60,
+                  top: -50,
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      // color: AppColors.whiteColor,
-                      // boxShadow: [
-                      //   BoxShadow(
-                      //     color: Colors.black.withOpacity(0.6),
-                      //     blurRadius: 8,
-                      //     offset: const Offset(3, 4),
-                      //   ),
-                      // ],
                     ),
                     child: Image.asset(
                       locationImage ?? imageDefaultData,
@@ -160,101 +152,99 @@ class GeneralModal {
   static Future<void> showModalMemberNearDetail(
       BuildContext context, MemberNearData membernear) {
     return showModalBottomSheet(
-        isScrollControlled: true,
-        barrierColor: Colors.transparent,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        clipBehavior: Clip.antiAliasWithSaveLayer,
-        context: context,
-        builder: (BuildContext context) {
-          String resultText = (membernear.distance.toString().length < 4)
-              ? membernear.distance.toString()
-              : membernear.distance.toString().substring(0, 4);
-          return Container(
-            height: 420.0,
-            decoration: const BoxDecoration(color: Colors.transparent),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    height: 370.0,
-                    decoration: BoxDecoration(
-                        // gradient: LinearGradient(
-                        //     colors: [
-                        //       AppColors.blueColor,
-                        //       AppColors.whiteColor.withValues(alpha: 0.5),
-                        //     ],
-                        //     begin: Alignment.topCenter,
-                        //     end: Alignment.bottomCenter),
-                        color: AppColors.secondaryColor,
-                        borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(20.0),
-                            topRight: Radius.circular(20.0))),
-                  ),
+      isScrollControlled: true,
+      barrierColor: Colors.transparent,
+      backgroundColor: Colors.transparent,
+      elevation: 0.0,
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      context: context,
+      builder: (BuildContext context) {
+        String resultText = (membernear.distance.toString().length < 4)
+            ? membernear.distance.toString()
+            : membernear.distance.toString().substring(0, 4);
+        return Container(
+          height: 350.0,
+          decoration: const BoxDecoration(color: Colors.transparent),
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: 300.0,
+                  decoration: BoxDecoration(
+                      color: AppColors.secondaryColor,
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(32.0),
+                          topRight: Radius.circular(32.0))),
                 ),
-                Align(
-                    alignment: Alignment.topCenter,
-                    child: Column(
-                      children: [
-                        CircleAvatar(
-                          maxRadius: 50.0,
-                          backgroundImage: NetworkImage(
-                            (membernear.profile?.avatarLink?.isEmpty ?? true)
-                                ? "https://i.ibb.co.com/vxkjJQD/Png-Item-1503945.png"
-                                : membernear.profile?.avatarLink ?? "",
-                          ),
-                        ),
-                        const SizedBox(height: 10.0),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Text(membernear.profile?.fullname ?? "",
-                              textAlign: TextAlign.center,
-                              overflow: TextOverflow.visible,
-                              style: const TextStyle(
-                                  fontSize: fontSizeOverLarge,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.whiteColor)),
-                        ),
-                        const SizedBox(height: 8.0),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Text(
-                              "${membernear.profile?.kta}",
-                              overflow: TextOverflow.visible,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  fontSize: fontSizeDefault,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.whiteColor)),
-                        ),
-                        const SizedBox(height: 8.0),
-                        Text('$resultText KM',
-                            maxLines: 1,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
+              ),
+              Align(
+                alignment: Alignment.topCenter,
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      maxRadius: 50.0,
+                      backgroundImage: NetworkImage(
+                        (membernear.profile?.avatarLink?.isEmpty ?? true)
+                            ? "https://i.ibb.co.com/vxkjJQD/Png-Item-1503945.png"
+                            : membernear.profile?.avatarLink ?? "",
+                      ),
+                    ),
+                    const SizedBox(height: 10.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(membernear.profile?.fullname ?? "",
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.visible,
+                          style: const TextStyle(
+                              fontSize: fontSizeOverLarge,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.whiteColor)),
+                    ),
+                    const SizedBox(height: 5.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text("${membernear.profile?.kta}",
+                          overflow: TextOverflow.visible,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
                               fontSize: fontSizeDefault,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.whiteColor,
-                            )),
-                        const SizedBox(height: 50.0),
-                        ElevatedButton.icon(
-                          onPressed: () async {
-                            await openWhatsApp(membernear, context);
-                          },
-                          icon: const Icon(Icons.chat),
-                          label: const Text(
-                            'Hubungi melalui WhatsApp',
-                            style: TextStyle(color: AppColors.blackColor),
-                          ),
-                        ),
-                      ],
-                    )),
-              ],
-            ),
-          );
-        });
+                              color: AppColors.whiteColor)),
+                    ),
+                    const SizedBox(height: 5.0),
+                    Text('$resultText KM',
+                        maxLines: 1,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: fontSizeDefault,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.whiteColor,
+                        )),
+                    const SizedBox(height: 25.0),
+                    ElevatedButton.icon(
+                      onPressed: () async {
+                        await openWhatsApp(membernear, context);
+                      },
+                      icon: const Icon(
+                        Icons.chat,
+                        color: AppColors.blackColor,
+                        size: 24,
+                      ),
+                      label: Text(
+                        'Hubungi melalui WhatsApp',
+                        style: AppTextStyles.textStyleBold.copyWith(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 

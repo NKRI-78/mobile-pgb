@@ -4,12 +4,13 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
+
 import '../../../misc/injections.dart';
 import '../../../misc/snackbar.dart';
 import '../../../misc/socket.dart';
-import '../../app/bloc/app_bloc.dart';
 import '../../../repositories/payment_repository/models/payment_model.dart';
 import '../../../repositories/payment_repository/payment_repository.dart';
+import '../../app/bloc/app_bloc.dart';
 import '../../notification/cubit/notification_cubit.dart';
 
 part 'waiting_payment_state.dart';

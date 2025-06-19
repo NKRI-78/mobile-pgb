@@ -9,7 +9,7 @@ class DetailForum extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 20),
+      padding: EdgeInsets.symmetric(vertical: 10),
       color: AppColors.whiteColor,
       child: InkWell(
         onTap: () {},

@@ -18,7 +18,7 @@ class CustomMenu extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         crossAxisCount: 4,
         mainAxisSpacing: 0,
-        childAspectRatio: 0.75,
+        childAspectRatio: 0.8,
         children: [
           _buildMenuItem(context, 'Mart', 'assets/icons/mart.png', 0),
           _buildMenuItem(context, 'Event', 'assets/icons/event.png', 1),

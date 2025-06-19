@@ -23,11 +23,7 @@ class OnboardingContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    // double screenWidth = MediaQuery.of(context).size.width;
-
-    // Menentukan tinggi kontainer agar responsif
-    double containerHeight = screenHeight * 0.38;
-    // double containerWidth = screenWidth * 0.9;
+    double containerHeight = screenHeight * 0.4;
 
     return SizedBox(
       height: containerHeight,
@@ -67,7 +63,7 @@ class OnboardingContainer extends StatelessWidget {
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.only(bottom: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(

@@ -101,8 +101,9 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
 
   FutureOr<void> _onGetBadgeCart(
       GetBadgeCart event, Emitter<AppState> emit) async {
-    var cart = await repoCart.getCartCount();
+    if (state.token.isEmpty) return;
 
+    var cart = await repoCart.getCartCount();
     emit(state.copyWith(badgeCart: cart));
   }
 

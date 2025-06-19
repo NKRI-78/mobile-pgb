@@ -15,9 +15,34 @@ class _CheckoutNowState extends State<CheckoutNow> {
   Widget build(BuildContext context) {
     return BlocBuilder<CheckoutCubit, CheckoutState>(
       builder: (context, state) {
-        print("Shipping : ${state.shippings}");
-        String from = state.shippings?[state.checkoutNow?.data?.store?.id.toString()]['etd'].toString().split("-")[0].trim() ?? "0";
-        String thru = state.shippings?[state.checkoutNow?.data?.store?.id.toString()]['etd'].toString().split("-")[1].trim() ?? "0";
+        String from = "0";
+        String thru = "0";
+
+        var shipping =
+            state.shippings?[state.checkoutNow?.data?.store?.id.toString()];
+
+        if (shipping != null && shipping['etd'] != null) {
+          final etdParts = shipping['etd'].toString().split("-");
+          if (etdParts.length == 2) {
+            from = etdParts[0].trim();
+            thru = etdParts[1].trim();
+          }
+        }
+
+        // String from = state
+        //         .shippings?[state.checkoutNow?.data?.store?.id.toString()]
+        //             ['etd']
+        //         .toString()
+        //         .split("-")[0]
+        //         .trim() ??
+        //     "0";
+        // String thru = state
+        //         .shippings?[state.checkoutNow?.data?.store?.id.toString()]
+        //             ['etd']
+        //         .toString()
+        //         .split("-")[1]
+        //         .trim() ??
+        //     "0";
         return Container(
           decoration: BoxDecoration(
               color: AppColors.whiteColor,
@@ -153,31 +178,39 @@ class _CheckoutNowState extends State<CheckoutNow> {
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        state.shippings?[state.checkoutNow?.data?.store?.id.toString()] == null ? 
-                        const SizedBox.shrink() : Image.asset(
-                            "assets/icons/logo-jne.png",
-                          width: 40,
-                          height: 40,
-                        ),
+                        state.shippings?[state.checkoutNow?.data?.store?.id
+                                    .toString()] ==
+                                null
+                            ? const SizedBox.shrink()
+                            : CachedNetworkImage(
+                                imageUrl: shipping['logo_url'] ?? "",
+                                width: 40,
+                                height: 40,
+                                placeholder: (context, url) => const SizedBox(
+                                  width: 40,
+                                  height: 40,
+                                  child: Center(child: CustomLoadingPage()),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.local_shipping),
+                              ),
                         SizedBox(
                           width: 10,
                         ),
                         Expanded(
-                            flex: 12,
-                            child: Text(
-                              state.loadingCost
-                                  ? "Loading..."
-                                  : state.shippings?[state
-                                              .checkoutNow?.data?.store?.id
-                                              .toString()] ==
-                                          null
-                                      ? 'PILIH PENGIRIMAN'
-                                      : '${state.shippings![state.checkoutNow?.data?.store?.id.toString()]['service_replaced']} | ${Price.currency(int.parse(state.shippings![state.checkoutNow?.data?.store?.id.toString()]['cost'].toString()).toDouble())} \nEstimasi tiba ${Helper.getEstimatedDateRange(from, thru)}',
-                              style: const TextStyle(
-                                  fontSize: fontSizeSmall,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.blackColor),
-                            )),
+                          flex: 12,
+                          child: Text(
+                            state.loadingCost
+                                ? "Loading..."
+                                : shipping == null
+                                    ? 'PILIH PENGIRIMAN'
+                                    : '${shipping['service_replaced']} | ${Price.currency(int.tryParse(shipping['cost']?.toString() ?? shipping['price']?.toString() ?? '0')?.toDouble() ?? 0.0)} \nEstimasi tiba ${Helper.getEstimatedDateRange(from, thru)}',
+                            style: const TextStyle(
+                                fontSize: fontSizeSmall,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.blackColor),
+                          ),
+                        ),
                         const Expanded(
                             flex: 2,
                             child: Icon(Icons.keyboard_arrow_right,

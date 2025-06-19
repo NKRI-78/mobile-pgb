@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../../misc/register_akun_extra.dart';
 import '../cubit/register_cubit.dart';
 
@@ -117,16 +118,91 @@ class RegisterView extends StatelessWidget {
                         text: "Sign Up With Google",
                         backgroundColour: AppColors.whiteColor,
                         textColour: AppColors.blackColor,
-                        onPressed: () {
-                          context
-                              .read<RegisterCubit>()
-                              .loginWithGoogle(context);
+                        onPressed: () async {
+                          final permissionStatus =
+                              await Permission.camera.request();
+
+                          if (permissionStatus.isGranted) {
+                            context
+                                .read<RegisterCubit>()
+                                .loginWithGoogle(context);
+                          } else if (permissionStatus.isPermanentlyDenied) {
+                            showPermissionDialog(context);
+                          } else {
+                            //
+                          }
                         },
                       ),
                     ],
                   ),
                 ),
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void showPermissionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: const Text(
+          "Izin Kamera Ditolak",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.no_photography,
+                size: 60, color: AppColors.secondaryColor),
+            const SizedBox(height: 10),
+            const Text(
+              "Aplikasi memerlukan akses kamera untuk melanjutkan. Silakan aktifkan izin kamera di pengaturan.",
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Tutup dialog
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.redColor,
+                    ),
+                    child: Text(
+                      "Batal",
+                      style: AppTextStyles.textStyleNormal
+                          .copyWith(color: Colors.white),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 5),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      openAppSettings();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.secondaryColor,
+                    ),
+                    child: Text(
+                      "Pengaturan",
+                      style: AppTextStyles.textStyleNormal
+                          .copyWith(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -217,13 +293,23 @@ class RegisterView extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                               ),
-                              onPressed: () {
-                                // final oauthId =
-                                //     context.read<RegisterCubit>().state.oauthId;
+                              onPressed: () async {
                                 Navigator.of(dialogContext).pop();
 
-                                RegisterKtpRoute($extra: RegisterAkunExtra())
-                                    .go(context);
+                                // ✅ Tambahkan cek permission kamera di sini
+                                final permissionStatus =
+                                    await Permission.camera.request();
+
+                                if (permissionStatus.isGranted) {
+                                  // ➔ lanjut ke halaman RegisterKtpRoute
+                                  RegisterKtpRoute($extra: RegisterAkunExtra())
+                                      .go(context);
+                                } else if (permissionStatus
+                                    .isPermanentlyDenied) {
+                                  showPermissionDialog(context);
+                                } else {
+                                  //
+                                }
                               },
                               child: Text(
                                 'Lanjutkan',

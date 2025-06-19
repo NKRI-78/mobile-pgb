@@ -26,8 +26,18 @@ class _ListCheckoutState extends State<ListCheckout> {
             }) ??
             0;
         double totalCost = state.shippings?.values.fold(
-                0.0, (sum, item) => (int.parse(item["cost"]).toDouble())) ??
+              0.0,
+              (sum, item) =>
+                  sum! +
+                  (int.tryParse(item["cost"]?.toString() ??
+                              item["price"]?.toString() ??
+                              '0')
+                          ?.toDouble() ??
+                      0.0),
+            ) ??
             0.0;
+
+        print("Total Cost: $totalCost");
 
         double total = totalPrice + totalCost;
         final shipping = state.shippings?[widget.cart.id.toString()];
@@ -101,17 +111,18 @@ class _ListCheckoutState extends State<ListCheckout> {
                                       child: Row(
                                         children: [
                                           ImageCard(
-                                              image: (e.product?.pictures
-                                                          ?.isEmpty ??
-                                                      false)
-                                                  ? ""
-                                                  : e.product?.pictures?.first
-                                                          .link ??
-                                                      "",
-                                              height: 80,
-                                              radius: 10,
-                                              width: 80,
-                                              imageError: imageDefaultData),
+                                            image:
+                                                (e.product?.pictures?.isEmpty ??
+                                                        false)
+                                                    ? ""
+                                                    : e.product?.pictures?.first
+                                                            .link ??
+                                                        "",
+                                            height: 80,
+                                            radius: 10,
+                                            width: 80,
+                                            imageError: imageDefaultBanner,
+                                          ),
                                           const SizedBox(
                                             width: 10,
                                           ),
@@ -186,29 +197,43 @@ class _ListCheckoutState extends State<ListCheckout> {
                     children: [
                       state.shippings?[widget.cart.id.toString()] == null
                           ? const SizedBox.shrink()
-                          : Image.asset(
-                              "assets/icons/logo-jne.png",
+                          : CachedNetworkImage(
+                              imageUrl:
+                                  state.shippings![widget.cart.id.toString()]
+                                          ['logo_url'] ??
+                                      "",
                               width: 40,
                               height: 40,
+                              placeholder: (context, url) => const SizedBox(
+                                width: 40,
+                                height: 40,
+                                child: Center(child: CustomLoadingPage()),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.local_shipping),
                             ),
                       SizedBox(
                         width: 10,
                       ),
                       Expanded(
-                          flex: 12,
-                          child: Text(
-                            state.shippings?[widget.cart.id.toString()] == null
-                                ? 'PILIH PENGIRIMAN'
-                                : '${state.shippings![widget.cart.id.toString()]['service_replaced']} | ${Price.currency(int.parse(state.shippings![widget.cart.id.toString()]['cost'].toString()).toDouble())} \nEstimasi tiba ${Helper.getEstimatedDateRange(from, thru)}',
-                            style: const TextStyle(
-                                fontSize: fontSizeSmall,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.blackColor),
-                          )),
+                        flex: 12,
+                        child: Text(
+                          state.shippings?[widget.cart.id.toString()] == null
+                              ? 'PILIH PENGIRIMAN'
+                              : '${state.shippings![widget.cart.id.toString()]['service_replaced']} | ${Price.currency(int.tryParse(state.shippings![widget.cart.id.toString()]['cost']?.toString() ?? state.shippings![widget.cart.id.toString()]['price']?.toString() ?? '0')?.toDouble() ?? 0.0)} \nEstimasi tiba ${Helper.getEstimatedDateRange(from, thru)}',
+                          style: const TextStyle(
+                              fontSize: fontSizeSmall,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.blackColor),
+                        ),
+                      ),
                       const Expanded(
-                          flex: 2,
-                          child: Icon(Icons.keyboard_arrow_right,
-                              color: AppColors.blackColor))
+                        flex: 2,
+                        child: Icon(
+                          Icons.keyboard_arrow_right,
+                          color: AppColors.blackColor,
+                        ),
+                      )
                     ],
                   ),
                 ),

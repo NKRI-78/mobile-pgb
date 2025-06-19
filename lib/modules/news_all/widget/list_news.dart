@@ -53,15 +53,16 @@ class ListNews extends StatelessWidget {
                         news.title,
                         maxLines: 2,
                         style: AppTextStyles.textStyleBold.copyWith(
-                          fontSize: 14,
+                          fontSize: 13,
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 5),
+                      const SizedBox(height: 3),
                       Text(
                         news.content.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ""),
                         maxLines: 3,
                         style: AppTextStyles.textStyleNormal.copyWith(
+                          fontSize: 11,
                           color: AppColors.greyColor,
                         ),
                         overflow: TextOverflow.ellipsis,

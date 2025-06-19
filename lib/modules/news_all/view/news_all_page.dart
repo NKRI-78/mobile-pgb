@@ -106,7 +106,7 @@ class NewsAllView extends StatelessWidget {
                                                         const EdgeInsets.only(
                                                             bottom: 20),
                                                     child: ListNews(news: e)))
-                                                .toList()),
+                                                .toList())
                               ],
                             ),
                           ),

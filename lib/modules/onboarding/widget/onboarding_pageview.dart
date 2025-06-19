@@ -37,11 +37,11 @@ class OnboardingPageView extends StatelessWidget {
           right: 0,
           child: Image.asset(
             image,
-            height: 300,
+            height: 350,
           ),
         ),
         Positioned(
-          bottom: 60,
+          bottom: 70,
           left: 16,
           right: 16,
           child: OnboardingContainer(
@@ -54,7 +54,7 @@ class OnboardingPageView extends StatelessWidget {
           ),
         ),
         Positioned(
-          bottom: 30,
+          bottom: 35,
           left: 16,
           right: 16,
           child: OnboardingButton(

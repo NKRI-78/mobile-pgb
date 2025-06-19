@@ -8,6 +8,7 @@ import 'models/cart_model.dart';
 
 class CartRepository {
   String get cart => '${MyApi.baseUrl}/api/v1/cart';
+
   final http = getIt<BaseNetworkClient>();
 
   Future<List<CartModel>> getCart() async {

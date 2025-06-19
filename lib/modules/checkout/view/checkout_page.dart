@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -101,6 +102,11 @@ class CheckoutView extends StatelessWidget {
                                           if (state.channel == null) {
                                             ShowSnackbar.snackbar(context,
                                                 "Silahkan pilih metode pembayaran",
+                                                isSuccess: false);
+                                          }
+                                          if (state.shippings == null) {
+                                            ShowSnackbar.snackbar(context,
+                                                "Silahkan pilih metode pengiriman",
                                                 isSuccess: false);
                                           } else {
                                             try {

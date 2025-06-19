@@ -90,10 +90,6 @@ class SosDetailView extends StatelessWidget {
                 foregroundColor: AppColors.greyColor,
                 text: 'Geser untuk mengirim',
                 onConfirmation: () async {
-                  // var position = await determinePosition(context);
-
-                  // debugPrint('Position: $position');
-
                   if (context.mounted) {
                     buildAgreementDialog(context, sosType, message);
                   }
