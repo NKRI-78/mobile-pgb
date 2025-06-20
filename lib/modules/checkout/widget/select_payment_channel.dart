@@ -81,7 +81,10 @@ class SelectPaymentChannel extends StatelessWidget {
                                       context
                                           .read<CheckoutCubit>()
                                           .updateCheckout(
-                                              checkout: state.checkout, e: e);
+                                            checkout: state.checkout,
+                                            e: e,
+                                            shippings: state.shippings,
+                                          );
                                     },
                               leading: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),

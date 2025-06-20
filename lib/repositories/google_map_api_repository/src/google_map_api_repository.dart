@@ -8,7 +8,7 @@ import 'models/place_autocomplete.dart';
 class GoogleMapApiRepository {
   GoogleMapApiRepository();
 
-  String apiKey = 'AIzaSyBFRpXPf8BXaR22nDvvx2ghBfbUbGGX8N8';
+  String apiKey = 'AIzaSyBvdQKriOVtxZaWeJulj2y8AA6yG2dQgs4';
 
   String url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?';
 

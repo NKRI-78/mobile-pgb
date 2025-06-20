@@ -28,6 +28,13 @@ class _CheckoutNowState extends State<CheckoutNow> {
             thru = etdParts[1].trim();
           }
         }
+        if (shipping != null && shipping['duration'] != null) {
+          final etdParts = shipping['duration'].toString().split("-");
+          if (etdParts.length == 2) {
+            from = etdParts[0].trim();
+            thru = etdParts[1].trim();
+          }
+        }
 
         // String from = state
         //         .shippings?[state.checkoutNow?.data?.store?.id.toString()]
@@ -204,11 +211,12 @@ class _CheckoutNowState extends State<CheckoutNow> {
                                 ? "Loading..."
                                 : shipping == null
                                     ? 'PILIH PENGIRIMAN'
-                                    : '${shipping['service_replaced']} | ${Price.currency(int.tryParse(shipping['cost']?.toString() ?? shipping['price']?.toString() ?? '0')?.toDouble() ?? 0.0)} \nEstimasi tiba ${Helper.getEstimatedDateRange(from, thru)}',
+                                    : '${Helper().getCourierServiceDisplay(shipping)} | ${Price.currency(int.tryParse(shipping['cost']?.toString() ?? shipping['price']?.toString() ?? '0')?.toDouble() ?? 0.0)} \nEstimasi tiba ${Helper.getEstimatedDateRange(from, thru)}',
                             style: const TextStyle(
-                                fontSize: fontSizeSmall,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.blackColor),
+                              fontSize: fontSizeSmall,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.blackColor,
+                            ),
                           ),
                         ),
                         const Expanded(

@@ -26,6 +26,10 @@ class CheckoutCubit extends Cubit<CheckoutState> {
 
   CheckoutRepository repo = CheckoutRepository();
 
+  void copyState({required CheckoutState newState}) {
+    emit(newState);
+  }
+
   Future<void> init(
       {String from = "",
       String? qty,
@@ -61,7 +65,6 @@ class CheckoutCubit extends Cubit<CheckoutState> {
     required List<CheckoutDetailModel> checkout,
     Map<String, dynamic>? shippings,
     PaymentChannelModel? e,
-    String? typeShipping,
   }) async {
     double productPrice = state.totalPriceProduct ?? 0.0;
 
@@ -81,8 +84,13 @@ class CheckoutCubit extends Cubit<CheckoutState> {
     // ✅ Hitung shipping cost dari data yang efektif
     double shippingCost = effectiveShippings?.values.fold<double>(
           0.0,
-          (sum, item) =>
-              sum + (double.tryParse(item["cost"]?.toString() ?? '0') ?? 0),
+          (sum, item) {
+            if (item.containsKey('price')) {
+              return sum + (double.tryParse(item['price'].toString()) ?? 0.0);
+            } else {
+              return sum + (double.tryParse(item['cost'].toString()) ?? 0.0);
+            }
+          },
         ) ??
         0.0;
 
@@ -416,16 +424,27 @@ class CheckoutCubit extends Cubit<CheckoutState> {
     String storeId, {
     String note = '',
   }) async {
-    await setCourier(
-      costV3.courierServiceCode ?? '-',
-      costV3.courierServiceName ?? '-',
-      (costV3.price ?? 0).toString(),
-      costV3.duration ?? '-',
-      storeId,
-      costV3.courierCode ?? '-',
-      note,
-      costV3.logoUrl ?? "",
-    );
+    try {
+      emit(state.copyWith(loadingCurir: true));
+      if (state.shippings == null) {
+        var entry = {
+          storeId: {
+            ...costV3.toJson(),
+            "note": note,
+          }
+        };
+        emit(state.copyWith(shippings: entry, loadingCurir: false));
+      } else {
+        state.shippings?[storeId] = {
+          ...costV3.toJson(),
+          "note": note,
+        };
+        emit(state.copyWith(shippings: state.shippings, loadingCurir: false));
+      }
+      print("Shipping : ${state.shippings}");
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
