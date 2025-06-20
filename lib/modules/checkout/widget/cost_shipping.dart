@@ -77,11 +77,14 @@ class CostShipping extends StatelessWidget {
                             idStore,
                             note: '',
                           );
+                      final ct = context.read<CheckoutCubit>();
+                      ct.copyState(
+                          newState: ct.state.copyWith(typeShipping: "Instant"));
                       Navigator.pop(context);
                       context.read<CheckoutCubit>().updateCheckout(
-                          checkout: state.checkout,
-                          shippings: state.shippings,
-                          typeShipping: "Instant");
+                            checkout: state.checkout,
+                            shippings: state.shippings,
+                          );
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -151,9 +154,9 @@ class CostShipping extends StatelessWidget {
                           e.logoUrl ?? "");
                       Navigator.pop(context);
                       context.read<CheckoutCubit>().updateCheckout(
-                          checkout: state.checkout,
-                          shippings: state.shippings,
-                          typeShipping: "JNE");
+                            checkout: state.checkout,
+                            shippings: state.shippings,
+                          );
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(

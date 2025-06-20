@@ -30,11 +30,11 @@ class GridProduct extends StatelessWidget {
                     ? ""
                     : data.pictures?.first.link ?? "",
                 radius: 15,
-                height: 160,
+                height: 150,
                 width: double.infinity,
               )),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -52,7 +52,7 @@ class GridProduct extends StatelessWidget {
                       .copyWith(color: AppColors.greyColor),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  padding: const EdgeInsets.symmetric(vertical: 3),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

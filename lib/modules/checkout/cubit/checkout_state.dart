@@ -25,6 +25,7 @@ class CheckoutState extends Equatable {
   final bool loadingChannel;
   final Set<String> loadingItems;
   final Map<String, dynamic>? shippings;
+  final String typeShipping;
 
   const CheckoutState({
     this.shippings,
@@ -51,6 +52,7 @@ class CheckoutState extends Equatable {
     this.loadingChannel = false,
     this.loadingItems = const {},
     this.checkoutNow,
+    this.typeShipping = "",
   });
 
   @override
@@ -78,6 +80,7 @@ class CheckoutState extends Equatable {
         loadingCurir,
         loadingChannel,
         checkoutNow,
+        typeShipping,
       ];
 
   CheckoutState copyWith(
@@ -104,6 +107,7 @@ class CheckoutState extends Equatable {
       bool? loadingCurir,
       bool? loadingChannel,
       Set<String>? loadingItems,
+      String? typeShipping,
       Map<String, dynamic>? shippings}) {
     return CheckoutState(
       selectedAdministration:
@@ -131,6 +135,7 @@ class CheckoutState extends Equatable {
       loadingItems: loadingItems ?? this.loadingItems,
       shippings: shippings ?? this.shippings,
       checkoutNow: checkoutNow ?? this.checkoutNow,
+      typeShipping: typeShipping ?? this.typeShipping,
     );
   }
 }

@@ -19,6 +19,8 @@
     
 
     <application
+        android:hardwareAccelerated="true"
+        android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
         android:label="Partai Gema Bangsa"
         android:name="${applicationName}"
@@ -65,7 +67,7 @@
             android:value="2" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBFRpXPf8BXaR22nDvvx2ghBfbUbGGX8N8"/>
+            android:value="AIzaSyBvdQKriOVtxZaWeJulj2y8AA6yG2dQgs4"/>
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

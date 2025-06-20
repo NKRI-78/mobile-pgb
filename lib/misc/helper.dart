@@ -107,6 +107,21 @@ class Helper {
     return '';
   }
 
+  String getCourierServiceDisplay(Map<String, dynamic> shipping) {
+    final courierCode =
+        (shipping['courier_code'] ?? '').toString().toLowerCase();
+    final type = (shipping['type'] ?? '').toString().toLowerCase();
+
+    if (courierCode == 'gojek' ||
+        courierCode == 'grab' ||
+        type == 'instant' ||
+        type == 'same_day') {
+      return shipping['courier_service_name'] ?? '-';
+    } else {
+      return shipping['service_replaced'] ?? '-';
+    }
+  }
+
   // Future<void> saveToGalleryWithAlbum() async {
   //   // 1. Minta izin
   //   final permission = await Permission.photos.request(); // iOS
