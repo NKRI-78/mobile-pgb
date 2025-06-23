@@ -1,9 +1,10 @@
 import 'package:flutter/foundation.dart';
-import 'api_url.dart';
-import 'injections.dart';
-import '../modules/app/bloc/app_bloc.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:socket_io_client/socket_io_client.dart';
+
+import '../modules/app/bloc/app_bloc.dart';
+import 'api_url.dart';
+import 'injections.dart';
 
 enum ConnectionIndicator { red, yellow, green }
 

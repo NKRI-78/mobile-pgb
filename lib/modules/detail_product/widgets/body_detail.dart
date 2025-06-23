@@ -2,12 +2,9 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:custom_rating_bar/custom_rating_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../misc/colors.dart';
-import '../../../misc/date_helper.dart';
 import '../../../misc/helper.dart';
 import '../../../misc/price_currency.dart';
 import '../../../misc/theme.dart';

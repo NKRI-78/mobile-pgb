@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../misc/colors.dart';
 import '../../../../misc/price_currency.dart';
 import '../../../../misc/theme.dart';
@@ -77,200 +78,139 @@ class SuccessStatus extends StatelessWidget {
               ),
             ),
             Container(
-              margin: const EdgeInsets.symmetric(
-                  vertical: 5),
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 15, vertical: 10),
-              decoration: BoxDecoration(
-                  color: AppColors.whiteColor,
-                  borderRadius:
-                      BorderRadius.circular(10),
-                  border: Border.all(
-                      color: AppColors.blackColor
-                          .withValues(
-                              alpha: 0.10))),
-              child: Column(
-                mainAxisAlignment:
-                    MainAxisAlignment.start,
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Rincian Pembayaran",
-                    style: TextStyle(
-                        color: AppColors.blackColor,
-                        fontSize: fontSizeDefault,
-                        fontWeight:
-                            FontWeight.bold),
-                  ),
-                  Divider(
-                    thickness: .3,
-                    color: AppColors.blackColor
-                        .withValues(alpha: 0.10),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(
-                            vertical: 5),
-                    child: Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment
-                              .spaceBetween,
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "Harga Produk",
-                          style: TextStyle(
-                            fontSize:
-                                fontSizeDefault,
-                            fontWeight:
-                                FontWeight.bold,
-                            color: AppColors
-                                .blackColor,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          Price.currency(
-                              totalProduct),
-                          style: const TextStyle(
-                            color: AppColors
-                                .blackColor,
-                            fontSize:
-                                fontSizeDefault,
-                          ),
-                        ),
-                      ],
+                margin: const EdgeInsets.symmetric(vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                decoration: BoxDecoration(
+                    color: AppColors.whiteColor,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                        color: AppColors.blackColor.withValues(alpha: 0.10))),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Rincian Pembayaran",
+                      style: TextStyle(
+                          color: AppColors.blackColor,
+                          fontSize: fontSizeDefault,
+                          fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  totalShipping == 0
-                      ? Container()
-                      : Padding(
-                          padding: const EdgeInsets
-                              .symmetric(
-                              vertical: 5),
-                          child: Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment
-                                    .spaceBetween,
-                            crossAxisAlignment:
-                                CrossAxisAlignment
-                                    .start,
-                            children: [
-                              const Text(
-                                "Biaya Ongkir",
-                                style: TextStyle(
-                                  fontSize:
-                                      fontSizeDefault,
-                                  fontWeight:
-                                      FontWeight
-                                          .bold,
-                                  color: AppColors
-                                      .blackColor,
+                    Divider(
+                      thickness: .3,
+                      color: AppColors.blackColor.withValues(alpha: 0.10),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Harga Produk",
+                            style: TextStyle(
+                              fontSize: fontSizeDefault,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.blackColor,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            Price.currency(totalProduct),
+                            style: const TextStyle(
+                              color: AppColors.blackColor,
+                              fontSize: fontSizeDefault,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    totalShipping == 0
+                        ? Container()
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Biaya Ongkir",
+                                  style: TextStyle(
+                                    fontSize: fontSizeDefault,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.blackColor,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(
-                                  height: 4),
-                              Text(
-                                Price.currency(
-                                    totalShipping),
-                                style:
-                                    const TextStyle(
-                                  color: AppColors
-                                      .blackColor,
-                                  fontSize:
-                                      fontSizeDefault,
+                                const SizedBox(height: 4),
+                                Text(
+                                  Price.currency(totalShipping),
+                                  style: const TextStyle(
+                                    color: AppColors.blackColor,
+                                    fontSize: fontSizeDefault,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(
-                            vertical: 5),
-                    child: Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment
-                              .spaceBetween,
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "Biaya Admin",
-                          style: TextStyle(
-                            fontSize:
-                                fontSizeDefault,
-                            fontWeight:
-                                FontWeight.bold,
-                            color: AppColors
-                                .blackColor,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Biaya Admin",
+                            style: TextStyle(
+                              fontSize: fontSizeDefault,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.blackColor,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          Price.currency(state
-                                  .payment?.fee
-                                  ?.toDouble() ??
-                              0.0),
-                          style: const TextStyle(
-                            fontSize:
-                                fontSizeDefault,
-                            color: AppColors
-                                .blackColor,
+                          const SizedBox(height: 4),
+                          Text(
+                            Price.currency(
+                                state.payment?.fee?.toDouble() ?? 0.0),
+                            style: const TextStyle(
+                              fontSize: fontSizeDefault,
+                              color: AppColors.blackColor,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  Divider(
-                    thickness: .5,
-                    color: AppColors.blackColor
-                        .withValues(alpha: 0.10),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(
-                            vertical: 5),
-                    child: Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment
-                              .spaceBetween,
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "Total Pembayaran",
-                          style: TextStyle(
-                            fontSize:
-                                fontSizeDefault,
-                            fontWeight:
-                                FontWeight.bold,
-                            color: AppColors
-                                .blackColor,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          Price.currency(state
-                                  .payment
-                                  ?.totalPrice
-                                  ?.toDouble() ??
-                              0.0),
-                          style: const TextStyle(
-                              fontSize:
-                                  fontSizeDefault,
-                              color: AppColors
-                                  .blackColor,
-                              fontWeight:
-                                  FontWeight.bold),
-                        ),
-                      ],
+                    Divider(
+                      thickness: .5,
+                      color: AppColors.blackColor.withValues(alpha: 0.10),
                     ),
-                  ),
-                ],
-              )),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Total Pembayaran",
+                            style: TextStyle(
+                              fontSize: fontSizeDefault,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.blackColor,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            Price.currency(
+                                state.payment?.totalPrice?.toDouble() ?? 0.0),
+                            style: const TextStyle(
+                                fontSize: fontSizeDefault,
+                                color: AppColors.blackColor,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )),
           ],
         );
       },
