@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../misc/colors.dart';
 import '../../../misc/register_akun_extra.dart';
 import '../../../misc/text_style.dart';
 import '../../../widgets/button/custom_button.dart';
-import '../../../misc/colors.dart';
 import '../cubit/register_change_cubit.dart';
 
 part '../widget/_field_email.dart';

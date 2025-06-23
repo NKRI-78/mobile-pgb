@@ -27,18 +27,18 @@ class HomeRepository {
   Future<DataPagination<NewsModel>> getNews({int page = 1}) async {
     try {
       final res = await http.get(Uri.parse('$news?page=$page'));
-
       final json = jsonDecode(res.body);
 
       if (res.statusCode == 200) {
         final data = json['data'];
         final listNews = (data['data'] as List?) ?? [];
 
-        return DataPagination(
+        return DataPagination<NewsModel>(
           list: listNews.map((e) => NewsModel.fromJson(e)).toList(),
-          paginate: data.containsKey('pagination')
-              ? PaginationModel.fromJson(data['pagination'])
-              : PaginationModel(next: null, current: 0, perPage: 0),
+          paginate: PaginationModel.fromJson({
+            "currentPage": data['currentPage'],
+            "pages": data['pages'],
+          }),
         );
       } else {
         throw json['message'] ?? 'Terjadi kesalahan';
