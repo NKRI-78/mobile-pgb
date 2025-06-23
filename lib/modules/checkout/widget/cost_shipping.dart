@@ -144,14 +144,10 @@ class CostShipping extends StatelessWidget {
                   return InkWell(
                     onTap: () {
                       context.read<CheckoutCubit>().setCourier(
-                          e.serviceDisplay ?? "",
+                          e,
                           getServiceDisplayName(e.serviceDisplay ?? ""),
-                          e.price ?? "",
-                          "${e.etdFrom} - ${e.etdThru}",
                           idStore,
-                          "jne",
-                          "",
-                          e.logoUrl ?? "");
+                          "");
                       Navigator.pop(context);
                       context.read<CheckoutCubit>().updateCheckout(
                             checkout: state.checkout,

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:custom_rating_bar/custom_rating_bar.dart';
@@ -330,6 +331,7 @@ class BodyDetail extends StatelessWidget {
                                   itemCount: min(2, data?.reviews?.length ?? 0),
                                   itemBuilder: (context, index) {
                                     final riview = data?.reviews?[index];
+                                    print("Link Avatar : ${jsonEncode(riview)}");
                                     return Container(
                                       margin: const EdgeInsets.symmetric(
                                           vertical: 5),

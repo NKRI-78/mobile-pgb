@@ -232,19 +232,22 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
                                                           .blackColor
                                                           .withValues(
                                                               alpha: 0.10))),
-                                              child: CustomButton(
-                                                  onPressed: () {
-                                                    WebViewRoute(
-                                                            url:
-                                                                '${state.payment?.data?['channel']['howToUseUrl']}?va=${state.payment?.data?['vaNumber']}&amount=${state.payment?.totalPrice}',
-                                                            title: "")
-                                                        .push(context);
-                                                  },
-                                                  text: "Lihat Cara Pembayaran",
-                                                  backgroundColour:
-                                                      AppColors.secondaryColor,
-                                                  textColour:
-                                                      AppColors.primaryColor),
+                                              child: SizedBox(
+                                                height: 45,
+                                                child: CustomButton(
+                                                    onPressed: () {
+                                                      WebViewRoute(
+                                                              url:
+                                                                  '${state.payment?.data?['channel']['howToUseUrl']}?va=${state.payment?.data?['vaNumber']}&amount=${state.payment?.totalPrice}',
+                                                              title: "")
+                                                          .push(context);
+                                                    },
+                                                    text: "Lihat Cara Pembayaran",
+                                                    backgroundColour:
+                                                        AppColors.secondaryColor,
+                                                    textColour:
+                                                        AppColors.primaryColor),
+                                              ),
                                             ),
                                       Container(
                                         margin: const EdgeInsets.symmetric(

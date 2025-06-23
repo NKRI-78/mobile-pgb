@@ -1749,6 +1749,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.12.0"
+  step_tracker:
+    dependency: "direct main"
+    description:
+      name: step_tracker
+      sha256: "20cb7e553275b460b5fc43bfa61337862389a65650c80cc1ab472c5a389dac9f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   stream_channel:
     dependency: transitive
     description:
@@ -1877,6 +1885,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  universal_stepper:
+    dependency: "direct main"
+    description:
+      name: universal_stepper
+      sha256: "213bdd011073aa439f671a3b398c0b77115410d48a4d6e54019a272d450714e5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0+1"
   upgrader:
     dependency: "direct main"
     description:

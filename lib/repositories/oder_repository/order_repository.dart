@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:mobile_pgb/repositories/oder_repository/models/tracking_biteship_model.dart';
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
@@ -13,6 +14,7 @@ import 'models/waiting_payment_model.dart';
 
 class OrderRepository {
   String get order => '${MyApi.baseUrl}/api/v1/order';
+  String get tracking => '${MyApi.baseUrlBiteship}/v1';
   String get payment => '${MyApi.baseUrl}/api/v1/payment/me/waiting-payment';
 
   final http = getIt<BaseNetworkClient>();
@@ -64,6 +66,28 @@ class OrderRepository {
       final json = jsonDecode(res.body);
       if (res.statusCode == 200) {
         return TrackingModel.fromJson(json['data']);
+      } else {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
+    } on SocketException {
+      throw "Terjadi kesalahan jaringan";
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<TrackingBitshipModel> getDetailTrackingBiteship(String noResi) async {
+    try {
+      final res = await http.get(Uri.parse('$tracking/trackings/$noResi'), headers: {
+        'x-public-key': 'public-langitdigital-78'
+      });
+
+      print("URL : $tracking/tracking/$noResi");
+
+      debugPrint(res.body);
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return TrackingBitshipModel.fromJson(json);
       } else {
         throw json['message'] ?? "Terjadi kesalahan";
       }
