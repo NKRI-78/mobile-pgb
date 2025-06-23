@@ -21,12 +21,9 @@ class _CheckoutNowState extends State<CheckoutNow> {
         var shipping =
             state.shippings?[state.checkoutNow?.data?.store?.id.toString()];
 
-        if (shipping != null && shipping['etd'] != null) {
-          final etdParts = shipping['etd'].toString().split("-");
-          if (etdParts.length == 2) {
-            from = etdParts[0].trim();
-            thru = etdParts[1].trim();
-          }
+        if (shipping != null && shipping['courier_code'] == "jne") {
+            from = shipping['etd_from'];
+            thru = shipping['etd_thru'];
         }
         if (shipping != null && shipping['duration'] != null) {
           final etdParts = shipping['duration'].toString().split("-");

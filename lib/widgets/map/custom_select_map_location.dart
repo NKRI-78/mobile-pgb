@@ -325,7 +325,7 @@ class _CustomSelectMapLocationWidgetState
         geocode();
       }
     } catch (e) {
-      //
+      print("Error map $e");
     }
   }
 }

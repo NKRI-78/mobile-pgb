@@ -254,6 +254,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
                     ),
                   ],
                 ),
+                GoRouteData.$route(
+                  path: 'tracking-biteship',
+                  factory: $TrackingBitshipRouteExtension._fromState,
+                ),
               ],
             ),
           ],
@@ -1246,6 +1250,35 @@ extension $PageDetailProofShippingRouteExtension
 
   void replace(BuildContext context) =>
       context.replace(location, extra: $extra);
+}
+
+extension $TrackingBitshipRouteExtension on TrackingBitshipRoute {
+  static TrackingBitshipRoute _fromState(GoRouterState state) =>
+      TrackingBitshipRoute(
+        noTracking: state.uri.queryParameters['no-tracking']!,
+        store: state.uri.queryParameters['store']!,
+        initIndex: int.parse(state.uri.queryParameters['init-index']!)!,
+        idOrder: int.parse(state.uri.queryParameters['id-order']!)!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/my-order/order-detail/tracking-biteship',
+        queryParams: {
+          'no-tracking': noTracking,
+          'store': store,
+          'init-index': initIndex.toString(),
+          'id-order': idOrder.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 extension $NeedRiviewRouteExtension on NeedRiviewRoute {

@@ -377,43 +377,31 @@ class CheckoutCubit extends Cubit<CheckoutState> {
   }
 
   setCourier(
-    String service,
+    CostItemModelV2 costV2,
     String serviceReplaced,
-    String cost,
-    String etd,
     String storeId,
-    String name,
     String note,
-    String logoUrl,
   ) async {
     try {
       emit(state.copyWith(loadingCurir: true));
       if (state.shippings == null) {
         var entry = {
           storeId: {
-            'code': name,
-            'service': service,
+            ...costV2.toJson(),
             'service_replaced': serviceReplaced,
-            'cost': cost,
-            "etd": etd,
             "note": note,
-            "logo_url": logoUrl,
           }
         };
         emit(state.copyWith(shippings: entry, loadingCurir: false));
       } else {
         state.shippings?[storeId] = {
-          'code': name,
-          'service': service,
+          ...costV2.toJson(),
           'service_replaced': serviceReplaced,
-          'cost': cost,
-          "etd": etd,
           "note": note,
-          "logo_url": logoUrl,
         };
         emit(state.copyWith(shippings: state.shippings, loadingCurir: false));
       }
-      print("Shipping : ${state.shippings}");
+      print("Shipping JNE : ${state.shippings}");
     } catch (e) {
       print(e);
     }
@@ -441,7 +429,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
         };
         emit(state.copyWith(shippings: state.shippings, loadingCurir: false));
       }
-      print("Shipping : ${state.shippings}");
+      print("Shipping Instant : ${state.shippings}");
     } catch (e) {
       print(e);
     }

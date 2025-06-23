@@ -449,22 +449,35 @@ class DetailOrderView extends StatelessWidget {
                                                           null
                                                   ? InkWell(
                                                       onTap: () {
-                                                        TrackingRoute(
-                                                                noTracking: state
-                                                                        .detailOrder
-                                                                        ?.data
-                                                                        ?.noTracking ??
-                                                                    "",
-                                                                store: state
-                                                                        .detailOrder
-                                                                        ?.store
-                                                                        ?.name ??
-                                                                    "",
-                                                                initIndex: state
-                                                                    .initIndex,
-                                                                idOrder: state
-                                                                    .idOrder)
-                                                            .go(context);
+                                                        state.detailOrder?.data
+                                                          ?.shipping?['version'] == "3.0" ? 
+                                                          TrackingBitshipRoute(noTracking: state
+                                                              .detailOrder
+                                                              ?.data
+                                                              ?.noTracking ??
+                                                          "", store: state
+                                                              .detailOrder
+                                                              ?.store
+                                                              ?.name ??
+                                                          "", initIndex: state
+                                                          .initIndex, idOrder: state
+                                                          .idOrder).go(context) :
+                                                          TrackingRoute(
+                                                            noTracking: state
+                                                                    .detailOrder
+                                                                    ?.data
+                                                                    ?.noTracking ??
+                                                                "",
+                                                            store: state
+                                                                    .detailOrder
+                                                                    ?.store
+                                                                    ?.name ??
+                                                                "",
+                                                            initIndex: state
+                                                                .initIndex,
+                                                            idOrder: state
+                                                                .idOrder)
+                                                        .go(context);
                                                       },
                                                       child: const Text(
                                                         'Lacak Pengiriman',
@@ -517,9 +530,13 @@ class DetailOrderView extends StatelessWidget {
                                                       const SizedBox(height: 4),
                                                       Text(
                                                         state.detailOrder?.data
-                                                                ?.shipping?.code
-                                                                ?.toUpperCase() ??
-                                                            "",
+                                                          ?.shipping?['courier_name'] != null ? '${state.detailOrder?.data
+                                                          ?.shipping?['courier_name']
+                                                          ?.toUpperCase()} - ${state.detailOrder?.data
+                                                          ?.shipping?['courier_service_name']
+                                                          ?.toUpperCase()}' : '${state.detailOrder?.data
+                                                          ?.shipping?['code']?.toUpperCase()} ${state.detailOrder?.data
+                                                          ?.shipping?['service']?.toUpperCase()}',
                                                         style: const TextStyle(
                                                             fontSize: 14,
                                                             color: AppColors
@@ -791,7 +808,7 @@ class DetailOrderView extends StatelessWidget {
                                                             .detailOrder
                                                             ?.otherPrice
                                                             ?.toDouble() ??
-                                                        0.0),
+                                                        0),
                                                     style: const TextStyle(
                                                       fontSize: fontSizeDefault,
                                                       color:

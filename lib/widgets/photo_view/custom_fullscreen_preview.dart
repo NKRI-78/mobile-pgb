@@ -32,15 +32,18 @@ class CustomFullscreenPreview extends StatelessWidget {
         ),
       ),
       body: Center(
-        child: InteractiveViewer(
-          minScale: 0.5,
-          maxScale: 3.0,
-          child: CachedNetworkImage(
-            imageUrl: imageUrl,
-            fit: BoxFit.contain,
-            placeholder: (context, url) => const CircularProgressIndicator(),
-            errorWidget: (context, url, error) =>
-                const Icon(Icons.broken_image, size: 100, color: Colors.white),
+        child: SizedBox(
+          width: double.infinity,
+          child: InteractiveViewer(
+            minScale: 0.5,
+            maxScale: 3.0,
+            child: CachedNetworkImage(
+              imageUrl: imageUrl,
+              fit: BoxFit.contain,
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) =>
+                  const Icon(Icons.broken_image, size: 100, color: Colors.white),
+            ),
           ),
         ),
       ),

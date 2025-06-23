@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_pgb/modules/tracking_biteship/view/tracking_page.dart';
 import '../misc/register_akun_extra.dart';
 import '../modules/cart/view/cart_page.dart';
 import '../modules/checkout/view/checkout_page.dart';
@@ -130,6 +131,7 @@ class OnboardingRoute extends GoRouteData {
       TypedGoRoute<TrackingRoute>(path: 'tracking', routes: [
         TypedGoRoute<PageDetailProofShippingRoute>(path: 'detail-proff'),
       ]),
+      TypedGoRoute<TrackingBitshipRoute>(path: 'tracking-biteship'),
     ]),
   ]),
   TypedGoRoute<NeedRiviewRoute>(path: "need-riview"),
@@ -722,6 +724,28 @@ class TrackingRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return TrackingPage(
+      noTracking: noTracking,
+      store: store,
+      idOrder: idOrder,
+      initIndex: initIndex,
+    );
+  }
+}
+class TrackingBitshipRoute extends GoRouteData {
+  final String noTracking;
+  final String store;
+  final int initIndex;
+  final int idOrder;
+
+  TrackingBitshipRoute({
+    required this.noTracking,
+    required this.store,
+    required this.initIndex,
+    required this.idOrder,
+  });
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return TrackingBitshipPage(
       noTracking: noTracking,
       store: store,
       idOrder: idOrder,
