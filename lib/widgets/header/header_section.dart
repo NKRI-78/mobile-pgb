@@ -26,9 +26,9 @@ class HeaderSection extends StatelessWidget {
       title: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 20,
-          ),
+          // const SizedBox(
+          //   height: 20,
+          // ),
           Text(
             titleHeader,
             style: const TextStyle(

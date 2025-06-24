@@ -517,33 +517,30 @@ class _UpdateAddressViewState extends State<UpdateAddressView> {
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 20),
-                            child: CustomButton(
-                                backgroundColour: AppColors.secondaryColor,
-                                onPressed: state.loading
-                                    ? null
-                                    : () async {
-                                        if (context.mounted) {
-                                          FocusScope.of(context).unfocus();
-                                        }
-                                        context
-                                            .read<UpdateShippingAddressCubit>()
-                                            .submit(
-                                              context: context,
-                                              currentAddress:
-                                                  ctrCurrentAddress.text,
-                                              label: typeAddressC.text,
-                                              name: ctrName.text,
-                                              phoneNumber: ctrPhone.text,
-                                            );
-                                      },
-                                textColour: AppColors.whiteColor,
-                                text: "Ubah Alamat"),
-                          )
                         ])
             ],
+          ),
+          bottomNavigationBar: SafeArea(
+            minimum: const EdgeInsets.symmetric(horizontal: 20),
+            child: CustomButton(
+              onPressed: state.loading
+                  ? null
+                  : () async {
+                      if (context.mounted) {
+                        FocusScope.of(context).unfocus();
+                      }
+                      context.read<UpdateShippingAddressCubit>().submit(
+                            context: context,
+                            currentAddress: ctrCurrentAddress.text,
+                            label: typeAddressC.text,
+                            name: ctrName.text,
+                            phoneNumber: ctrPhone.text,
+                          );
+                    },
+              backgroundColour: AppColors.blueColor,
+              textColour: AppColors.whiteColor,
+              text: "Ubah Alamat",
+            ),
           ),
         );
       },

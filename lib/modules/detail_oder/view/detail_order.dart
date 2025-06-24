@@ -446,34 +446,41 @@ class DetailOrderView extends StatelessWidget {
                                                   ? InkWell(
                                                       onTap: () {
                                                         state.detailOrder?.data
-                                                          ?.shipping?['version'] == "3.0" ? 
-                                                          TrackingBitshipRoute(noTracking: state
-                                                              .detailOrder
-                                                              ?.data
-                                                              ?.noTracking ??
-                                                          "", store: state
-                                                              .detailOrder
-                                                              ?.store
-                                                              ?.name ??
-                                                          "", initIndex: state
-                                                          .initIndex, idOrder: state
-                                                          .idOrder).go(context) :
-                                                          TrackingRoute(
-                                                            noTracking: state
-                                                                    .detailOrder
-                                                                    ?.data
-                                                                    ?.noTracking ??
-                                                                "",
-                                                            store: state
-                                                                    .detailOrder
-                                                                    ?.store
-                                                                    ?.name ??
-                                                                "",
-                                                            initIndex: state
-                                                                .initIndex,
-                                                            idOrder: state
-                                                                .idOrder)
-                                                        .go(context);
+                                                                        ?.shipping?[
+                                                                    'version'] ==
+                                                                "3.0"
+                                                            ? TrackingBitshipRoute(
+                                                                    noTracking: state
+                                                                            .detailOrder
+                                                                            ?.data
+                                                                            ?.noTracking ??
+                                                                        "",
+                                                                    store: state
+                                                                            .detailOrder
+                                                                            ?.store
+                                                                            ?.name ??
+                                                                        "",
+                                                                    initIndex: state
+                                                                        .initIndex,
+                                                                    idOrder: state
+                                                                        .idOrder)
+                                                                .go(context)
+                                                            : TrackingRoute(
+                                                                    noTracking: state
+                                                                            .detailOrder
+                                                                            ?.data
+                                                                            ?.noTracking ??
+                                                                        "",
+                                                                    store: state
+                                                                            .detailOrder
+                                                                            ?.store
+                                                                            ?.name ??
+                                                                        "",
+                                                                    initIndex: state
+                                                                        .initIndex,
+                                                                    idOrder: state
+                                                                        .idOrder)
+                                                                .go(context);
                                                       },
                                                       child: const Text(
                                                         'Lacak Pengiriman',
@@ -526,13 +533,11 @@ class DetailOrderView extends StatelessWidget {
                                                       const SizedBox(height: 4),
                                                       Text(
                                                         state.detailOrder?.data
-                                                          ?.shipping?['courier_name'] != null ? '${state.detailOrder?.data
-                                                          ?.shipping?['courier_name']
-                                                          ?.toUpperCase()} - ${state.detailOrder?.data
-                                                          ?.shipping?['courier_service_name']
-                                                          ?.toUpperCase()}' : '${state.detailOrder?.data
-                                                          ?.shipping?['code']?.toUpperCase()} ${state.detailOrder?.data
-                                                          ?.shipping?['service']?.toUpperCase()}',
+                                                                        ?.shipping?[
+                                                                    'courier_name'] !=
+                                                                null
+                                                            ? '${state.detailOrder?.data?.shipping?['courier_name']?.toUpperCase()} - ${state.detailOrder?.data?.shipping?['courier_service_name']?.toUpperCase()}'
+                                                            : '${state.detailOrder?.data?.shipping?['code']?.toUpperCase()} ${state.detailOrder?.data?.shipping?['service']?.toUpperCase()}',
                                                         style: const TextStyle(
                                                             fontSize: 14,
                                                             color: AppColors
@@ -690,94 +695,38 @@ class DetailOrderView extends StatelessWidget {
                                         ],
                                       )),
                               Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 5),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 10),
-                                  decoration: BoxDecoration(
-                                      color: AppColors.whiteColor,
-                                      border: Border.all(
-                                          color: AppColors.blackColor
-                                              .withValues(alpha: 0.2))),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Rincian Pembayaran",
-                                        style: TextStyle(
-                                            color: AppColors.blackColor,
-                                            fontSize: fontSizeDefault,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      const Divider(
-                                        thickness: .3,
-                                        color: AppColors.blackColor,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 5),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                margin: const EdgeInsets.symmetric(vertical: 5),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 10),
+                                decoration: BoxDecoration(
+                                  color: AppColors.whiteColor,
+                                  border: Border.all(
+                                      color: AppColors.blackColor
+                                          .withOpacity(0.2)),
+                                ),
+                                child: state.detailOrder?.status == "FINISHED"
+                                    ? Theme(
+                                        data: Theme.of(context).copyWith(
+                                            dividerColor: Colors.transparent),
+                                        child: ExpansionTile(
+                                          title: const Text(
+                                            "Rincian Pembayaran",
+                                            style: TextStyle(
+                                              color: AppColors.blackColor,
+                                              fontSize: fontSizeDefault,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          tilePadding: EdgeInsets.zero,
+                                          iconColor: AppColors.blackColor,
+                                          collapsedIconColor:
+                                              AppColors.blackColor,
+                                          childrenPadding: EdgeInsets.zero,
                                           children: [
-                                            const Text(
-                                              "Metode Pembayaran",
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                                color: AppColors.blackColor,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 4),
-                                            Text(
-                                              state.detailOrder?.payment
-                                                      ?.name ??
-                                                  "",
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 5),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            const Text(
-                                              "Harga Produk",
-                                              style: TextStyle(
-                                                fontSize: fontSizeDefault,
-                                                fontWeight: FontWeight.bold,
-                                                color: AppColors.blackColor,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 4),
-                                            Text(
-                                              Price.currency(state
-                                                      .detailOrder?.price
-                                                      ?.toDouble() ??
-                                                  0.0),
-                                              style: const TextStyle(
-                                                fontSize: fontSizeDefault,
-                                                color: AppColors.blackColor,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      state.detailOrder?.type == "TOPUP"
-                                          ? Container()
-                                          : Padding(
+                                            const Divider(
+                                                thickness: .3,
+                                                color: AppColors.blackColor),
+                                            Padding(
                                               padding:
                                                   const EdgeInsets.symmetric(
                                                       vertical: 5),
@@ -785,11 +734,38 @@ class DetailOrderView extends StatelessWidget {
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   const Text(
-                                                    "Biaya Ongkir",
+                                                    "Metode Pembayaran",
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color:
+                                                          AppColors.blackColor,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    state.detailOrder?.payment
+                                                            ?.name ??
+                                                        "",
+                                                    style: const TextStyle(
+                                                        fontSize: 14),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 5),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  const Text(
+                                                    "Harga Produk",
                                                     style: TextStyle(
                                                       fontSize: fontSizeDefault,
                                                       fontWeight:
@@ -798,13 +774,11 @@ class DetailOrderView extends StatelessWidget {
                                                           AppColors.blackColor,
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 4),
                                                   Text(
                                                     Price.currency(state
-                                                            .detailOrder
-                                                            ?.otherPrice
+                                                            .detailOrder?.price
                                                             ?.toDouble() ??
-                                                        0),
+                                                        0.0),
                                                     style: const TextStyle(
                                                       fontSize: fontSizeDefault,
                                                       color:
@@ -814,76 +788,316 @@ class DetailOrderView extends StatelessWidget {
                                                 ],
                                               ),
                                             ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 5),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            const Text(
-                                              "Biaya Admin",
-                                              style: TextStyle(
-                                                fontSize: fontSizeDefault,
-                                                fontWeight: FontWeight.bold,
-                                                color: AppColors.blackColor,
+                                            state.detailOrder?.type == "TOPUP"
+                                                ? const SizedBox()
+                                                : Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(vertical: 5),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        const Text(
+                                                          "Biaya Ongkir",
+                                                          style: TextStyle(
+                                                            fontSize:
+                                                                fontSizeDefault,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: AppColors
+                                                                .blackColor,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          Price.currency(state
+                                                                  .detailOrder
+                                                                  ?.otherPrice
+                                                                  ?.toDouble() ??
+                                                              0.0),
+                                                          style:
+                                                              const TextStyle(
+                                                            fontSize:
+                                                                fontSizeDefault,
+                                                            color: AppColors
+                                                                .blackColor,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 5),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  const Text(
+                                                    "Biaya Admin",
+                                                    style: TextStyle(
+                                                      fontSize: fontSizeDefault,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color:
+                                                          AppColors.blackColor,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    (state.detailOrder?.payment
+                                                                    ?.fee
+                                                                    ?.toDouble() ??
+                                                                0.0) ==
+                                                            0
+                                                        ? "Gratis"
+                                                        : Price.currency(state
+                                                                .detailOrder
+                                                                ?.payment
+                                                                ?.fee
+                                                                ?.toDouble() ??
+                                                            0.0),
+                                                    style: const TextStyle(
+                                                      fontSize: fontSizeDefault,
+                                                      color:
+                                                          AppColors.blackColor,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                            const SizedBox(height: 4),
-                                            Text(
-                                              '${(state.detailOrder?.payment?.fee?.toDouble() ?? 0.0) == 0 ? "Gratis" : Price.currency((state.detailOrder?.payment?.fee?.toDouble() ?? 0.0))}',
-                                              style: const TextStyle(
-                                                fontSize: fontSizeDefault,
-                                                color: AppColors.blackColor,
+                                            const Divider(
+                                                thickness: .5,
+                                                color: AppColors.blackColor),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 5),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  const Text(
+                                                    "Total Bayar",
+                                                    style: TextStyle(
+                                                      fontSize: fontSizeDefault,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color:
+                                                          AppColors.blackColor,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    Price.currency((state
+                                                                .detailOrder
+                                                                ?.totalPrice
+                                                                ?.toDouble() ??
+                                                            0.0) +
+                                                        (state.detailOrder
+                                                                ?.payment?.fee
+                                                                ?.toDouble() ??
+                                                            0.0)),
+                                                    style: const TextStyle(
+                                                      fontSize: fontSizeDefault,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color:
+                                                          AppColors.blackColor,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ],
                                         ),
-                                      ),
-                                      const Divider(
-                                        thickness: .5,
-                                        color: AppColors.blackColor,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 5),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            const Text(
-                                              "Total Bayar",
-                                              style: TextStyle(
-                                                fontSize: fontSizeDefault,
-                                                fontWeight: FontWeight.bold,
-                                                color: AppColors.blackColor,
-                                              ),
+                                      )
+                                    : Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(
+                                            "Rincian Pembayaran",
+                                            style: TextStyle(
+                                              color: AppColors.blackColor,
+                                              fontSize: fontSizeDefault,
+                                              fontWeight: FontWeight.bold,
                                             ),
-                                            const SizedBox(height: 4),
-                                            Text(
-                                              Price.currency((state.detailOrder
-                                                          ?.totalPrice
+                                          ),
+                                          const Divider(
+                                              thickness: .3,
+                                              color: AppColors.blackColor),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                const Text(
+                                                  "Metode Pembayaran",
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: AppColors.blackColor,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  state.detailOrder?.payment
+                                                          ?.name ??
+                                                      "",
+                                                  style: const TextStyle(
+                                                      fontSize: 14),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                const Text(
+                                                  "Harga Produk",
+                                                  style: TextStyle(
+                                                    fontSize: fontSizeDefault,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: AppColors.blackColor,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  Price.currency(state
+                                                          .detailOrder?.price
                                                           ?.toDouble() ??
-                                                      0.0) +
+                                                      0.0),
+                                                  style: const TextStyle(
+                                                    fontSize: fontSizeDefault,
+                                                    color: AppColors.blackColor,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          state.detailOrder?.type == "TOPUP"
+                                              ? const SizedBox()
+                                              : Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 5),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      const Text(
+                                                        "Biaya Ongkir",
+                                                        style: TextStyle(
+                                                          fontSize:
+                                                              fontSizeDefault,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: AppColors
+                                                              .blackColor,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        Price.currency(state
+                                                                .detailOrder
+                                                                ?.otherPrice
+                                                                ?.toDouble() ??
+                                                            0.0),
+                                                        style: const TextStyle(
+                                                          fontSize:
+                                                              fontSizeDefault,
+                                                          color: AppColors
+                                                              .blackColor,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                const Text(
+                                                  "Biaya Admin",
+                                                  style: TextStyle(
+                                                    fontSize: fontSizeDefault,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: AppColors.blackColor,
+                                                  ),
+                                                ),
+                                                Text(
                                                   (state.detailOrder?.payment
-                                                          ?.fee
-                                                          ?.toDouble() ??
-                                                      0.0)),
-                                              style: const TextStyle(
-                                                fontSize: fontSizeDefault,
-                                                fontWeight: FontWeight.bold,
-                                                color: AppColors.blackColor,
-                                              ),
+                                                                  ?.fee
+                                                                  ?.toDouble() ??
+                                                              0.0) ==
+                                                          0
+                                                      ? "Gratis"
+                                                      : Price.currency(state
+                                                              .detailOrder
+                                                              ?.payment
+                                                              ?.fee
+                                                              ?.toDouble() ??
+                                                          0.0),
+                                                  style: const TextStyle(
+                                                    fontSize: fontSizeDefault,
+                                                    color: AppColors.blackColor,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                          const Divider(
+                                              thickness: .5,
+                                              color: AppColors.blackColor),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                const Text(
+                                                  "Total Bayar",
+                                                  style: TextStyle(
+                                                    fontSize: fontSizeDefault,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: AppColors.blackColor,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  Price.currency((state
+                                                              .detailOrder
+                                                              ?.totalPrice
+                                                              ?.toDouble() ??
+                                                          0.0) +
+                                                      (state.detailOrder
+                                                              ?.payment?.fee
+                                                              ?.toDouble() ??
+                                                          0.0)),
+                                                  style: const TextStyle(
+                                                    fontSize: fontSizeDefault,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: AppColors.blackColor,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  )),
+                              ),
                               state.detailOrder?.status == "DELIVERED"
                                   ? Padding(
                                       padding: const EdgeInsets.symmetric(
