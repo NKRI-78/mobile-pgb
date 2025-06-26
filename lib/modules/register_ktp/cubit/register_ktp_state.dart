@@ -17,6 +17,8 @@ class RegisterKtpState extends Equatable {
   final String rtRw;
   final String kelDesa;
   final String kecamatan;
+  final String kabupaten;
+  final String provinsi;
   final String agama;
   final String statusPerkawinan;
   final String pekerjaan;
@@ -40,6 +42,8 @@ class RegisterKtpState extends Equatable {
     this.rtRw = '',
     this.kelDesa = '',
     this.kecamatan = '',
+    this.kabupaten = '',
+    this.provinsi = '',
     this.agama = '',
     this.statusPerkawinan = '',
     this.pekerjaan = '',
@@ -65,6 +69,8 @@ class RegisterKtpState extends Equatable {
         rtRw,
         kelDesa,
         kecamatan,
+        kabupaten,
+        provinsi,
         agama,
         statusPerkawinan,
         pekerjaan,
@@ -89,6 +95,8 @@ class RegisterKtpState extends Equatable {
     String? rtRw,
     String? kelDesa,
     String? kecamatan,
+    String? kabupaten,
+    String? provinsi,
     String? agama,
     String? statusPerkawinan,
     String? pekerjaan,
@@ -112,6 +120,8 @@ class RegisterKtpState extends Equatable {
       rtRw: rtRw ?? this.rtRw,
       kelDesa: kelDesa ?? this.kelDesa,
       kecamatan: kecamatan ?? this.kecamatan,
+      kabupaten: kabupaten ?? this.kabupaten,
+      provinsi: provinsi ?? this.provinsi,
       agama: agama ?? this.agama,
       statusPerkawinan: statusPerkawinan ?? this.statusPerkawinan,
       pekerjaan: pekerjaan ?? this.pekerjaan,

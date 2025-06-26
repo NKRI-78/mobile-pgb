@@ -2,10 +2,11 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+
 import '../../../misc/injections.dart';
-import '../../checkout/cubit/checkout_cubit.dart';
 import '../../../repositories/list_address_repository/list_address_repository.dart';
 import '../../../repositories/list_address_repository/models/address_list_model.dart';
+import '../../checkout/cubit/checkout_cubit.dart';
 
 part 'list_address_state.dart';
 

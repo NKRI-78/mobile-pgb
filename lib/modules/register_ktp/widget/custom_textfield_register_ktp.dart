@@ -20,6 +20,8 @@ class CustomTextfieldRegisterKtp extends StatelessWidget {
         _FieldRTRW(),
         _FieldKeldanDesa(),
         _FieldKecamatan(),
+        _FieldKabupaten(),
+        _FieldProvinsi(),
         _FieldAgama(),
         _FieldStatusPerkawinan(),
         _FieldPekerjaan(),
@@ -202,6 +204,46 @@ class _FieldKecamatan extends StatelessWidget {
           onChanged: (value) {
             var cubit = context.read<RegisterKtpCubit>();
             cubit.copyState(newState: cubit.state.copyWith(kecamatan: value));
+          },
+        );
+      },
+    );
+  }
+}
+
+class _FieldKabupaten extends StatelessWidget {
+  const _FieldKabupaten();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RegisterKtpCubit, RegisterKtpState>(
+      builder: (context, state) {
+        return _buildTextFormField(
+          label: 'Kabupaten',
+          initialValue: state.kabupaten,
+          onChanged: (value) {
+            var cubit = context.read<RegisterKtpCubit>();
+            cubit.copyState(newState: cubit.state.copyWith(kabupaten: value));
+          },
+        );
+      },
+    );
+  }
+}
+
+class _FieldProvinsi extends StatelessWidget {
+  const _FieldProvinsi();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RegisterKtpCubit, RegisterKtpState>(
+      builder: (context, state) {
+        return _buildTextFormField(
+          label: 'Provinsi',
+          initialValue: state.provinsi,
+          onChanged: (value) {
+            var cubit = context.read<RegisterKtpCubit>();
+            cubit.copyState(newState: cubit.state.copyWith(provinsi: value));
           },
         );
       },

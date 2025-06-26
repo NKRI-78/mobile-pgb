@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/misc/colors.dart';
+import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 import '../../../misc/helper.dart';
 import '../../../misc/price_currency.dart';

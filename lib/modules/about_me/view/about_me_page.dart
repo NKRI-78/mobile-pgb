@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/misc/colors.dart';
+import '../../../misc/colors.dart';
 import '../../../misc/helper.dart';
 import '../../../misc/text_style.dart';
 

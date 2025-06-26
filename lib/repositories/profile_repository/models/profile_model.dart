@@ -14,6 +14,7 @@ class ProfileModel {
   String? updatedAt;
   String? deletedAt;
   Profile? profile;
+  IdentityCard? identityCard;
 
   ProfileModel({
     this.id,
@@ -31,6 +32,7 @@ class ProfileModel {
     this.updatedAt,
     this.deletedAt,
     this.profile,
+    this.identityCard,
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
@@ -55,6 +57,9 @@ class ProfileModel {
       deletedAt: json['deleted_at'],
       profile:
           json['profile'] != null ? Profile.fromJson(json['profile']) : null,
+      identityCard: json['identity_card'] != null
+          ? IdentityCard.fromJson(json['identity_card'])
+          : null,
     );
   }
 
@@ -77,50 +82,27 @@ class ProfileModel {
     if (profile != null) {
       data['profile'] = profile!.toJson();
     }
+    if (identityCard != null) {
+      data['identity_card'] = identityCard!.toJson();
+    }
     return data;
   }
 }
 
 class Profile {
-  String? kta;
   int? id;
   String? fullname;
+  String? kta;
   String? avatarLink;
-  String? address;
-  String? gender;
-  String? nik;
-  String? birthPlaceAndDate;
-  String? villageUnit;
-  String? administrativeVillage;
-  String? subDistrict;
-  String? religion;
-  String? maritalStatus;
-  String? occupation;
-  String? citizenship;
-  String? bloodType;
-  String? validUntil;
   int? userId;
   String? createdAt;
   String? updatedAt;
 
   Profile({
-    this.kta,
     this.id,
     this.fullname,
+    this.kta,
     this.avatarLink,
-    this.address,
-    this.gender,
-    this.nik,
-    this.birthPlaceAndDate,
-    this.villageUnit,
-    this.administrativeVillage,
-    this.subDistrict,
-    this.religion,
-    this.maritalStatus,
-    this.occupation,
-    this.citizenship,
-    this.bloodType,
-    this.validUntil,
     this.userId,
     this.createdAt,
     this.updatedAt,
@@ -128,23 +110,10 @@ class Profile {
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
-      kta: json['kta'],
       id: json['id'],
       fullname: json['fullname'],
+      kta: json['kta'],
       avatarLink: json['avatar_link'],
-      address: json['address'],
-      gender: json['gender'],
-      nik: json['nik'],
-      birthPlaceAndDate: json['birth_place_and_date'],
-      villageUnit: json['village_unit'],
-      administrativeVillage: json['administrative_village'],
-      subDistrict: json['sub_district'],
-      religion: json['religion'],
-      maritalStatus: json['marital_status'],
-      occupation: json['occupation'],
-      citizenship: json['citizenship'],
-      bloodType: json['blood_type'],
-      validUntil: json['valid_until'],
       userId: json['user_id'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
@@ -152,27 +121,114 @@ class Profile {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['kta'] = kta;
-    data['id'] = id;
-    data['fullname'] = fullname;
-    data['avatar_link'] = avatarLink;
-    data['address'] = address;
-    data['gender'] = gender;
-    data['nik'] = nik;
-    data['birth_place_and_date'] = birthPlaceAndDate;
-    data['village_unit'] = villageUnit;
-    data['administrative_village'] = administrativeVillage;
-    data['sub_district'] = subDistrict;
-    data['religion'] = religion;
-    data['marital_status'] = maritalStatus;
-    data['occupation'] = occupation;
-    data['citizenship'] = citizenship;
-    data['blood_type'] = bloodType;
-    data['valid_until'] = validUntil;
-    data['user_id'] = userId;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    return data;
+    return {
+      'id': id,
+      'fullname': fullname,
+      'kta': kta,
+      'avatar_link': avatarLink,
+      'user_id': userId,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
+    };
+  }
+}
+
+class IdentityCard {
+  int? id;
+  String? name;
+  String? address;
+  String? gender;
+  String? nik;
+  String? birthPlaceAndDate;
+  String? villageUnit;
+  String? administrativeVillage;
+  String? province;
+  String? regencyCity;
+  String? subDistrict;
+  String? religion;
+  String? maritalStatus;
+  String? occupation;
+  String? citizenship;
+  String? bloodType;
+  String? validUntil;
+  String? linkImage;
+  int? userId;
+  String? createdAt;
+  String? updatedAt;
+
+  IdentityCard({
+    this.id,
+    this.name,
+    this.address,
+    this.gender,
+    this.nik,
+    this.birthPlaceAndDate,
+    this.villageUnit,
+    this.administrativeVillage,
+    this.province,
+    this.regencyCity,
+    this.subDistrict,
+    this.religion,
+    this.maritalStatus,
+    this.occupation,
+    this.citizenship,
+    this.bloodType,
+    this.validUntil,
+    this.linkImage,
+    this.userId,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  factory IdentityCard.fromJson(Map<String, dynamic> json) {
+    return IdentityCard(
+      id: json['id'],
+      name: json['name'],
+      address: json['address'],
+      gender: json['gender'],
+      nik: json['nik'],
+      birthPlaceAndDate: json['birth_place_and_date'],
+      villageUnit: json['village_unit'],
+      administrativeVillage: json['administrative_village'],
+      province: json['province'],
+      regencyCity: json['regency_city'],
+      subDistrict: json['sub_district'],
+      religion: json['religion'],
+      maritalStatus: json['marital_status'],
+      occupation: json['occupation'],
+      citizenship: json['citizenship'],
+      bloodType: json['blood_type'],
+      validUntil: json['valid_until'],
+      linkImage: json['link_image'],
+      userId: json['user_id'],
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'address': address,
+      'gender': gender,
+      'nik': nik,
+      'birth_place_and_date': birthPlaceAndDate,
+      'village_unit': villageUnit,
+      'administrative_village': administrativeVillage,
+      'province': province,
+      'regency_city': regencyCity,
+      'sub_district': subDistrict,
+      'religion': religion,
+      'marital_status': maritalStatus,
+      'occupation': occupation,
+      'citizenship': citizenship,
+      'blood_type': bloodType,
+      'valid_until': validUntil,
+      'link_image': linkImage,
+      'user_id': userId,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
+    };
   }
 }

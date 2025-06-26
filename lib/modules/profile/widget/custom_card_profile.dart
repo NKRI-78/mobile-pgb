@@ -132,7 +132,7 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
                               Text(
                                 'Reg.Date:',
                                 style: AppTextStyles.textStyleNormal.copyWith(
-                                  fontSize: 6,
+                                  fontSize: 7,
                                   color: AppColors.greyColor,
                                 ),
                               ),
@@ -140,13 +140,13 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
                                 DateHelper.formatToDayMonthYear(
                                     widget.createAt),
                                 style: AppTextStyles.textStyleNormal.copyWith(
-                                  fontSize: 6,
+                                  fontSize: 7,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ],
                           ),
-                          const SizedBox(width: 10),
+                          const SizedBox(width: 15),
                           Expanded(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -154,35 +154,35 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
                               children: [
                                 Text(widget.noKta,
                                     style: AppTextStyles.textStyleBold
-                                        .copyWith(fontSize: 10)),
+                                        .copyWith(fontSize: 13)),
                                 Text(widget.nama,
                                     style: AppTextStyles.textStyleBold
-                                        .copyWith(fontSize: 10)),
+                                        .copyWith(fontSize: 13)),
                                 const SizedBox(height: 5),
                                 Text(widget.tempatTglLahir,
                                     style: AppTextStyles.textStyleNormal
                                         .copyWith(
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             color: AppColors.greyColor)),
                                 Text(widget.alamat,
                                     style: AppTextStyles.textStyleNormal
                                         .copyWith(
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             color: AppColors.greyColor)),
                                 Text(widget.rtRw,
                                     style: AppTextStyles.textStyleNormal
                                         .copyWith(
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             color: AppColors.greyColor)),
                                 Text(widget.kelurahan,
                                     style: AppTextStyles.textStyleNormal
                                         .copyWith(
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             color: AppColors.greyColor)),
                                 Text(widget.kecamatan,
                                     style: AppTextStyles.textStyleNormal
                                         .copyWith(
-                                            fontSize: 8,
+                                            fontSize: 9,
                                             color: AppColors.greyColor)),
                               ],
                             ),
@@ -199,8 +199,8 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
                       barcode: Barcode.qrCode(),
                       data:
                           'http://membership-card.langitdigital78.com/membership-card/${widget.noKta}',
-                      width: 50,
-                      height: 50,
+                      width: 65,
+                      height: 65,
                       drawText: false,
                     ),
                   ),

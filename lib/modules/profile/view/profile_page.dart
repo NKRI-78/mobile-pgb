@@ -114,22 +114,26 @@ class _ProfileViewState extends State<ProfileView> {
                                                 '-',
                                             tempatTglLahir: state
                                                     .profile
-                                                    ?.profile
+                                                    ?.identityCard
                                                     ?.birthPlaceAndDate ??
                                                 '-',
-                                            agama: state.profile?.profile
+                                            agama: state.profile?.identityCard
                                                     ?.religion ??
                                                 '-',
-                                            alamat: state.profile?.profile
+                                            alamat: state.profile?.identityCard
                                                     ?.address ??
                                                 '-',
-                                            rtRw: state.profile?.profile
+                                            rtRw: state.profile?.identityCard
                                                     ?.villageUnit ??
                                                 '-',
-                                            kelurahan: state.profile?.profile
+                                            kelurahan: state
+                                                    .profile
+                                                    ?.identityCard
                                                     ?.administrativeVillage ??
                                                 '-',
-                                            kecamatan: state.profile?.profile
+                                            kecamatan: state
+                                                    .profile
+                                                    ?.identityCard
                                                     ?.subDistrict ??
                                                 '-',
                                             fotoPath: state.profile?.profile
@@ -154,22 +158,26 @@ class _ProfileViewState extends State<ProfileView> {
                                                 '-',
                                             tempatTglLahir: state
                                                     .profile
-                                                    ?.profile
+                                                    ?.identityCard
                                                     ?.birthPlaceAndDate ??
                                                 '-',
-                                            agama: state.profile?.profile
+                                            agama: state.profile?.identityCard
                                                     ?.religion ??
                                                 '-',
-                                            alamat: state.profile?.profile
+                                            alamat: state.profile?.identityCard
                                                     ?.address ??
                                                 '-',
-                                            rtRw: state.profile?.profile
+                                            rtRw: state.profile?.identityCard
                                                     ?.villageUnit ??
                                                 '-',
-                                            kelurahan: state.profile?.profile
+                                            kelurahan: state
+                                                    .profile
+                                                    ?.identityCard
                                                     ?.administrativeVillage ??
                                                 '-',
-                                            kecamatan: state.profile?.profile
+                                            kecamatan: state
+                                                    .profile
+                                                    ?.identityCard
                                                     ?.subDistrict ??
                                                 '-',
                                             fotoPath: state.profile?.profile
@@ -212,17 +220,18 @@ class _ProfileViewState extends State<ProfileView> {
                             controller: _pageController,
                             noKta: state.profile?.profile?.kta ?? '-',
                             nama: state.profile?.profile?.fullname ?? '-',
-                            tempatTglLahir:
-                                state.profile?.profile?.birthPlaceAndDate ??
-                                    '-',
-                            agama: state.profile?.profile?.religion ?? '-',
-                            alamat: state.profile?.profile?.address ?? '-',
-                            rtRw: state.profile?.profile?.villageUnit ?? '-',
-                            kelurahan:
-                                state.profile?.profile?.administrativeVillage ??
-                                    '-',
+                            tempatTglLahir: state
+                                    .profile?.identityCard?.birthPlaceAndDate ??
+                                '-',
+                            agama: state.profile?.identityCard?.religion ?? '-',
+                            alamat: state.profile?.identityCard?.address ?? '-',
+                            rtRw:
+                                state.profile?.identityCard?.villageUnit ?? '-',
+                            kelurahan: state.profile?.identityCard
+                                    ?.administrativeVillage ??
+                                '-',
                             kecamatan:
-                                state.profile?.profile?.subDistrict ?? '-',
+                                state.profile?.identityCard?.subDistrict ?? '-',
                             fotoPath: state.profile?.profile?.avatarLink ??
                                 imageDefaultUser,
                             createAt: state.profile?.profile?.createdAt ?? '-',

@@ -193,6 +193,9 @@ class AuthRepository {
         'citizenship': ktpModel?.citizenship ?? '',
         'blood_type': ktpModel?.bloodType ?? '',
         'valid_until': ktpModel?.validUntil ?? '',
+        'indentity_card_url': ktpModel?.indentityCardUrl ?? '',
+        'province': ktpModel?.province ?? '',
+        'regency_city': ktpModel?.regencyCity ?? '',
         'oauth_id': oAuth,
       });
 
