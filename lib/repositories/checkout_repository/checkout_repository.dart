@@ -164,8 +164,10 @@ class CheckoutRepository {
     }
   }
 
-  Future<List<CostItemModelV3>> getCostItemV3(
-      {String? weight, String? storeId}) async {
+  Future<CostListModelV3?> getCostItemV3({
+    String? weight,
+    String? storeId,
+  }) async {
     try {
       final res = await http.post(Uri.parse('$cost/v3'), body: {
         'weight': weight,
@@ -174,20 +176,23 @@ class CheckoutRepository {
 
       print(res.body);
       print("Status : ${res.statusCode}");
-      print("Status : ${{
+      print("Params : ${{
         'weight': weight,
         'storeId': storeId,
       }}");
 
-      final json = jsonDecode(res.body);
       if (res.statusCode == 200) {
-        final list = json['data'] as List;
-        return list.map((e) => CostItemModelV3.fromJson(e)).toList();
+        final json = jsonDecode(res.body);
+        return CostListModelV3.fromJson(json);
+      } else {
+        final body = jsonDecode(res.body);
+        if (body['message'] == "Alamat pengguna tidak ditemukan") {
+          return null; // 👈 khusus gagal karena alamat
+        }
+        return null; // fallback case
       }
-
-      return [];
     } catch (e) {
-      rethrow;
+      return null; // tangkap semua error tanpa throw
     }
   }
 

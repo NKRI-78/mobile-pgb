@@ -704,7 +704,9 @@ class DetailOrderView extends StatelessWidget {
                                       color: AppColors.blackColor
                                           .withOpacity(0.2)),
                                 ),
-                                child: state.detailOrder?.status == "FINISHED"
+                                child: state.detailOrder?.status ==
+                                            "FINISHED" ||
+                                        state.detailOrder?.status == "DELIVERED"
                                     ? Theme(
                                         data: Theme.of(context).copyWith(
                                             dividerColor: Colors.transparent),

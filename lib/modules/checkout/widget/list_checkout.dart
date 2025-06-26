@@ -187,15 +187,17 @@ class _ListCheckoutState extends State<ListCheckout> {
               ),
               InkWell(
                 borderRadius: BorderRadius.circular(5.0),
-                onTap: () async {
-                  if (context.mounted) {
-                    context.read<CheckoutCubit>().getCostItemV2(
-                          context: context,
-                          storeId: widget.cart.id.toString(),
-                          weight: totalWeight.toString(),
-                        );
-                  }
-                },
+                onTap: state.loadingCost
+                    ? null
+                    : () async {
+                        if (context.mounted) {
+                          context.read<CheckoutCubit>().getCostItemV2(
+                                context: context,
+                                storeId: widget.cart.id.toString(),
+                                weight: totalWeight.toString(),
+                              );
+                        }
+                      },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -225,9 +227,12 @@ class _ListCheckoutState extends State<ListCheckout> {
                       Expanded(
                         flex: 12,
                         child: Text(
-                          state.shippings?[widget.cart.id.toString()] == null
-                              ? 'PILIH PENGIRIMAN'
-                              : '${Helper().getCourierServiceDisplay(state.shippings![widget.cart.id.toString()])} | ${Price.currency(int.tryParse(state.shippings![widget.cart.id.toString()]['cost']?.toString() ?? state.shippings![widget.cart.id.toString()]['price']?.toString() ?? '0')?.toDouble() ?? 0.0)} \nEstimasi tiba ${Helper.getEstimatedDateRange(from, thru)}',
+                          state.loadingCost
+                              ? "Loading..."
+                              : state.shippings?[widget.cart.id.toString()] ==
+                                      null
+                                  ? 'PILIH PENGIRIMAN'
+                                  : '${Helper().getCourierServiceDisplay(state.shippings![widget.cart.id.toString()])} | ${Price.currency(int.tryParse(state.shippings![widget.cart.id.toString()]['cost']?.toString() ?? state.shippings![widget.cart.id.toString()]['price']?.toString() ?? '0')?.toDouble() ?? 0.0)} \nEstimasi tiba ${Helper.getEstimatedDateRange(from, thru)}',
                           style: const TextStyle(
                               fontSize: fontSizeSmall,
                               fontWeight: FontWeight.bold,

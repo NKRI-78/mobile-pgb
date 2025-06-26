@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_pgb/misc/snackbar.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -119,6 +122,50 @@ class Helper {
       return shipping['courier_service_name'] ?? '-';
     } else {
       return shipping['service_replaced'] ?? '-';
+    }
+  }
+
+  static Future<void> sendEmail({
+    required String toEmail,
+    String? subject,
+    String? body,
+  }) async {
+    final encodedSubject = Uri.encodeComponent(subject ?? '');
+    final encodedBody = Uri.encodeComponent(body ?? '');
+
+    final emailUri =
+        Uri.parse("mailto:$toEmail?subject=$encodedSubject&body=$encodedBody");
+
+    if (!await launchUrl(emailUri)) {
+      throw Exception('Could not launch email client');
+    }
+  }
+
+  static Future<void> openFixedWhatsApp(BuildContext context,
+      {String? message}) async {
+    const fixedPhone = '081228344065';
+    final cleanedPhone = fixedPhone.startsWith('0')
+        ? '62${fixedPhone.substring(1)}'
+        : fixedPhone;
+
+    final encodedMessage = Uri.encodeComponent(
+      message ?? "Halo DPP Gema Bangsa, saya ingin bertanya...",
+    );
+
+    final url = Platform.isIOS
+        ? "whatsapp://send?phone=$cleanedPhone&text=$encodedMessage"
+        : "https://wa.me/$cleanedPhone?text=$encodedMessage";
+
+    final uri = Uri.parse(url);
+
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      if (context.mounted) {
+        ShowSnackbar.snackbar(
+          context,
+          'Nomor ini tidak bisa dihubungi',
+          isSuccess: false,
+        );
+      }
     }
   }
 

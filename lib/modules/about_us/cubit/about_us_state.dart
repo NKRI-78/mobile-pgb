@@ -1,22 +1,22 @@
-part of 'about_cubit.dart';
+part of 'about_us_cubit.dart';
 
-final class AboutState extends Equatable {
+final class AboutUsState extends Equatable {
   final AboutModel? about;
   final String errorMessage;
   final bool isLoading;
 
-  const AboutState({
+  const AboutUsState({
     this.about,
     this.errorMessage = "",
     this.isLoading = false,
   });
 
-  AboutState copyWith({
+  AboutUsState copyWith({
     AboutModel? about,
     String? errorMessage,
     bool? isLoading,
   }) {
-    return AboutState(
+    return AboutUsState(
       about: about ?? this.about,
       errorMessage: errorMessage ?? this.errorMessage,
       isLoading: isLoading ?? this.isLoading,

@@ -5,6 +5,7 @@ class CheckoutState extends Equatable {
   final List<CheckoutDetailModel> checkout;
   final List<CostItemModelV2> cost;
   final List<CostItemModelV3> costV3;
+  final double distance;
   final List<PaymentChannelModel> channels;
   final PaymentChannelModel? channel;
   final CheckoutDetailNowModel? checkoutNow;
@@ -33,6 +34,7 @@ class CheckoutState extends Equatable {
     this.checkout = const [],
     this.cost = const [],
     this.costV3 = const [],
+    this.distance = 0.0,
     this.channels = const [],
     this.channel,
     this.shipping,
@@ -63,6 +65,7 @@ class CheckoutState extends Equatable {
         selectedAdministration,
         cost,
         costV3,
+        distance,
         checkout,
         shipping,
         loading,
@@ -88,6 +91,7 @@ class CheckoutState extends Equatable {
       List<CheckoutDetailModel>? checkout,
       List<CostItemModelV2>? cost,
       List<CostItemModelV3>? costV3,
+      double? distance,
       List<PaymentChannelModel>? channels,
       PaymentChannelModel? channel,
       CheckoutDetailNowModel? checkoutNow,
@@ -115,6 +119,7 @@ class CheckoutState extends Equatable {
       checkout: checkout ?? this.checkout,
       cost: cost ?? this.cost,
       costV3: costV3 ?? this.costV3,
+      distance: distance ?? this.distance,
       channels: channels ?? this.channels,
       channel: channel ?? this.channel,
       shipping: shipping ?? this.shipping,

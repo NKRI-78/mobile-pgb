@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import '../../../router/builder.dart';
-import '../cubit/about_cubit.dart';
+import '../cubit/about_us_cubit.dart';
 import '../../../widgets/pages/loading_page.dart';
 
 import '../../../misc/colors.dart';
@@ -14,7 +14,7 @@ class AboutUsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AboutCubit()..fetchAboutUs(),
+      create: (context) => AboutUsCubit()..fetchAboutUs(),
       child: AboutUsView(),
     );
   }
@@ -25,7 +25,7 @@ class AboutUsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AboutCubit, AboutState>(
+    return BlocBuilder<AboutUsCubit, AboutUsState>(
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(

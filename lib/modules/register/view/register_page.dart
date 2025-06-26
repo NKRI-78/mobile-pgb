@@ -247,7 +247,7 @@ class RegisterView extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'Siapkan KTP Anda',
+                        'Siapkan E-KTP Anda',
                         style: AppTextStyles.textStyleBold.copyWith(
                           color: Colors.white,
                           fontSize: 16,
@@ -256,7 +256,7 @@ class RegisterView extends StatelessWidget {
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        'Pastikan KTP terlihat jelas dan diletakkan di tempat terang.\n'
+                        'Pastikan E-KTP terlihat jelas dan diletakkan di tempat terang.\n'
                         'Hindari bayangan atau buram agar proses registrasi berjalan lancar.',
                         style: AppTextStyles.textStyleNormal.copyWith(
                           color: Colors.white,

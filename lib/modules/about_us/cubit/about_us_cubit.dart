@@ -6,14 +6,14 @@ import '../../../repositories/home_repository/home_repository.dart';
 import '../../../misc/injections.dart';
 import '../../../repositories/home_repository/models/about_model.dart';
 
-part 'about_state.dart';
+part 'about_us_state.dart';
 
-class AboutCubit extends Cubit<AboutState> {
-  AboutCubit() : super(const AboutState());
+class AboutUsCubit extends Cubit<AboutUsState> {
+  AboutUsCubit() : super(const AboutUsState());
 
   HomeRepository repo = getIt<HomeRepository>();
 
-  void copyState({required AboutState newState}) {
+  void copyState({required AboutUsState newState}) {
     emit(newState);
   }
 

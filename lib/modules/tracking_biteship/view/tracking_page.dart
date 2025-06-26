@@ -1,8 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_pgb/misc/text_style.dart';
-import 'package:mobile_pgb/widgets/image/image_card.dart';
 import 'package:mobile_pgb/widgets/photo_view/custom_fullscreen_preview.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/custom_step_tracker.dart';
@@ -296,20 +296,42 @@ class TrackingView extends StatelessWidget {
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         CustomFullscreenPreview(
-                                                            imageUrl: state
-                                                                    .tracking
-                                                                    ?.courier
-                                                                    ?.driverPhotoUrl ??
-                                                                "-"),
+                                                      imageUrl: state
+                                                              .tracking
+                                                              ?.courier
+                                                              ?.driverPhotoUrl ??
+                                                          "-",
+                                                    ),
                                                   ),
                                                 );
                                               },
-                                              child: ImageCard(
-                                                image: state.tracking?.courier
-                                                        ?.driverPhotoUrl ??
-                                                    "-",
-                                                radius: 8,
-                                                width: 60,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
+                                                child: CachedNetworkImage(
+                                                  imageUrl: state
+                                                          .tracking
+                                                          ?.courier
+                                                          ?.driverPhotoUrl ??
+                                                      "",
+                                                  width: 80,
+                                                  height: 80,
+                                                  fit: BoxFit.cover,
+                                                  placeholder: (context, url) =>
+                                                      Container(
+                                                    width: 80,
+                                                    height: 80,
+                                                    color: Colors.grey[300],
+                                                  ),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Image.asset(
+                                                    imageDefaultUser,
+                                                    width: 80,
+                                                    height: 80,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                             const SizedBox(width: 15),
@@ -342,26 +364,15 @@ class TrackingView extends StatelessWidget {
                                                         state.tracking?.courier
                                                                 ?.driverPlateNumber ??
                                                             "",
-                                                        style: const TextStyle(
-                                                          color: AppColors
-                                                              .greyColor,
-                                                          fontSize:
-                                                              fontSizeDefault,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
+                                                        style: AppTextStyles
+                                                            .textStyleNormal,
                                                       ),
                                                     ],
                                                   ),
                                                   Text(
                                                     '${state.tracking?.courier?.driverPhone}',
-                                                    style: const TextStyle(
-                                                      color:
-                                                          AppColors.greyColor,
-                                                      fontSize: fontSizeDefault,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
+                                                    style: AppTextStyles
+                                                        .textStyleNormal,
                                                   ),
                                                 ],
                                               ),
