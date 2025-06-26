@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:mobile_pgb/repositories/oder_repository/models/tracking_biteship_model.dart';
+import 'models/tracking_biteship_model.dart';
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
@@ -78,9 +78,8 @@ class OrderRepository {
 
   Future<TrackingBitshipModel> getDetailTrackingBiteship(String noResi) async {
     try {
-      final res = await http.get(Uri.parse('$tracking/trackings/$noResi'), headers: {
-        'x-public-key': 'public-langitdigital-78'
-      });
+      final res = await http.get(Uri.parse('$tracking/trackings/$noResi'),
+          headers: {'x-public-key': 'public-langitdigital-78'});
 
       print("URL : $tracking/tracking/$noResi");
 

@@ -13,17 +13,18 @@ enum StepTrackerType {
 }
 
 class CustomStepTracker extends StatelessWidget {
-  const CustomStepTracker(
-      {Key? key,
-      required this.steps,
-      this.dotSize = 9,
-      this.circleSize = 24,
-      this.pipeSize = 30.0,
-      this.selectedColor = Colors.green,
-      this.unSelectedColor = Colors.red,
-      this.stepTrackerType = StepTrackerType.dotVertical})
-      : assert(dotSize <= 20),
-        assert(pipeSize >= 25);
+  const CustomStepTracker({
+    Key? key,
+    required this.steps,
+    this.dotSize = 9,
+    this.circleSize = 24,
+    this.pipeSize = 40.0, // made longer
+    this.selectedColor = Colors.green,
+    this.unSelectedColor = Colors.red,
+    this.stepTrackerType = StepTrackerType.dotVertical,
+  })  : assert(dotSize <= 20),
+        assert(pipeSize >= 25),
+        super(key: key);
 
   final List<Steps> steps;
   final double dotSize;
@@ -33,60 +34,8 @@ class CustomStepTracker extends StatelessWidget {
   final Color unSelectedColor;
   final StepTrackerType stepTrackerType;
 
-  Widget _buildIndexedHorizontalHeader(int index) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [_buildCircle(index), const SizedBox(height: 5), steps[index].title],
-    );
-  }
-
-  Widget _buildIndexedHorizontal() {
-    return Container(
-      constraints: const BoxConstraints(maxHeight: 70),
-      child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          itemBuilder: (context, index) => _buildIndexedHorizontalHeader(index),
-          separatorBuilder: (context, index) => Align(
-                alignment: Alignment.topCenter,
-                child: Container(
-                  width: pipeSize,
-                  margin: EdgeInsets.only(top: circleSize / 2.2),
-                  child: Divider(
-                      thickness: 1.5, height: 1, color: _circleColor(index)),
-                ),
-              ),
-          itemCount: steps.length),
-    );
-  }
-
-  Widget _buildCircleChild(int index) {
-    switch (steps[index].state) {
-      case TrackerState.complete:
-        return Icon(
-          Icons.check_rounded,
-          color: Colors.white,
-          size: circleSize / 1.1,
-        );
-      case TrackerState.disabled:
-        return Icon(
-          Icons.close_rounded,
-          color: Colors.white,
-          size: circleSize / 1.1,
-        );
-      case TrackerState.none:
-        return Text(
-          (index + 1).toString(),
-          style: TextStyle(
-              fontWeight: FontWeight.w600,
-              color: Colors.black.withOpacity(0.8)),
-        );
-    }
-  }
-
   Color _circleColor(int index) {
-    TrackerState state = steps[index].state;
-    switch (state) {
+    switch (steps[index].state) {
       case TrackerState.complete:
         return selectedColor;
       case TrackerState.disabled:
@@ -96,109 +45,66 @@ class CustomStepTracker extends StatelessWidget {
     }
   }
 
-  Widget _buildCircle(int index) => ClipOval(
-        child: Container(
-          height: circleSize,
-          width: circleSize,
-          decoration: BoxDecoration(color: _circleColor(index)),
-          child: Center(
-            child: _buildCircleChild(index),
-          ),
-        ),
-      );
-
-  Widget _buildIndexedVerticalHeader(int index) => Row(
-        children: [
-          _buildCircle(index),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                steps[index].title,
-                steps[index].description != null
-                    ? Text(
-                        "${steps[index].description}",
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 12, color: Colors.grey),
-                      )
-                    : const SizedBox(),
-              ],
-            ),
-          ),
-        ],
-      );
-
-  Widget _buildIndexedVertical() => ListView.separated(
-      padding: EdgeInsets.zero,
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemBuilder: (context, index) => SizedBox(
-            child: _buildIndexedVerticalHeader(index),
-          ),
-      separatorBuilder: (context, index) => Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              height: pipeSize,
-              margin: EdgeInsets.only(left: circleSize / 2.2),
-              child: VerticalDivider(
-                  thickness: 1.5, width: 1, color: _circleColor(index)),
-            ),
-          ),
-      itemCount: steps.length);
-
   Widget _buildDot(int index) {
-    return ClipOval(
-      child: ClipOval(
-          child: Container(
-        height: dotSize,
-        width: dotSize,
-        decoration: BoxDecoration(color: _circleColor(index)),
-      )),
+    return Container(
+      height: dotSize,
+      width: dotSize,
+      decoration: BoxDecoration(
+        color: _circleColor(index),
+        shape: BoxShape.circle,
+      ),
     );
   }
 
-  Widget _buildDotVerticalHeader(int index) => Row(
-        children: [
-          _buildDot(index),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildDotVerticalHeader(int index) => IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
               children: [
-                steps[index].title,
-                steps[index].description != null
-                    ? Text(
-                        "${steps[index].description}",
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 12, color: Colors.grey),
-                      )
-                    : const SizedBox(),
+                _buildDot(index),
+                if (index != steps.length - 1)
+                  Expanded(
+                    child: Container(
+                      width: 1.5,
+                      color: _circleColor(index),
+                    ),
+                  ),
               ],
             ),
-          )
-        ],
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  steps[index].title,
+                  if (steps[index].description != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2),
+                      child: Text(
+                        steps[index].description!,
+                        style:
+                            const TextStyle(fontSize: 12, color: Colors.grey),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
       );
 
-  Widget _buildDotVertical() => ListView.separated(
-      padding: EdgeInsets.zero,
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemBuilder: (context, index) => SizedBox(
+  Widget _buildDotVertical() => Column(
+        children: List.generate(
+          steps.length,
+          (index) => Padding(
+            padding: EdgeInsets.only(
+              bottom: index == steps.length - 1 ? 0 : 12,
+            ),
             child: _buildDotVerticalHeader(index),
           ),
-      separatorBuilder: (context, index) => Align(
-          alignment: Alignment.centerLeft,
-          child: Container(
-              height: pipeSize,
-              margin: EdgeInsets.only(left: dotSize / 2.2),
-              child: VerticalDivider(
-                  thickness: 1.5, width: 1, color: _circleColor(index)))),
-      itemCount: steps.length);
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -206,21 +112,20 @@ class CustomStepTracker extends StatelessWidget {
       case StepTrackerType.dotVertical:
         return _buildDotVertical();
       case StepTrackerType.indexedVertical:
-        return _buildIndexedVertical();
       case StepTrackerType.indexedHorizontal:
-        return _buildIndexedHorizontal();
+        return const SizedBox();
     }
   }
 }
 
 class Steps {
-  const Steps(
-      {Key? key,
-      required this.title,
-      this.state = TrackerState.none,
-      this.description});
+  const Steps({
+    required this.title,
+    this.state = TrackerState.none,
+    this.description,
+  });
 
-  final Text title;
+  final Widget title;
   final TrackerState state;
   final String? description;
 }

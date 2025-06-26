@@ -130,10 +130,30 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
       //   imageUrl = linkImage.first['url']; // gunakan hasil upload
       // }
       // Upload foto (wajib upload ulang meskipun dari Google)
-      final uploaded =
-          await repo.postMedia(folder: "images", media: state.fileImage!);
+      final uploaded = await repo.postMedia(
+        folder: "images",
+        media: state.fileImage!,
+      );
       print(uploaded);
       String imageUrl = uploaded.first['url'];
+
+      String? identityCardUrl = state.ktpModel?.indentityCardUrl;
+      String finalIdentityCardUrl = "";
+
+      if (identityCardUrl != null && identityCardUrl.isNotEmpty) {
+        final file = File(identityCardUrl);
+        if (await file.exists()) {
+          final uploadedKtp = await repo.postMedia(
+            folder: "ktp",
+            media: file,
+          );
+          finalIdentityCardUrl = uploadedKtp.first['url'];
+        } else {
+          debugPrint("⚠️ File KTP tidak ditemukan di path: $identityCardUrl");
+        }
+      } else {
+        debugPrint("⚠️ Tidak ada file KTP untuk diunggah");
+      }
 
       await repo.registerAkun(
         email: email ?? '',
@@ -156,8 +176,15 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
           subDistrict: state.ktpModel?.subDistrict,
           validUntil: state.ktpModel?.validUntil,
           villageUnit: state.ktpModel?.villageUnit,
+          regencyCity: state.ktpModel?.regencyCity,
+          province: state.ktpModel?.province,
+          indentityCardUrl: finalIdentityCardUrl,
         ),
       );
+
+      debugPrint("IDENT ${finalIdentityCardUrl}");
+      debugPrint("PROV ${state.ktpModel?.province}");
+      debugPrint("KAB ${state.ktpModel?.regencyCity}");
 
       if (isGoogleLogin) {
         final loggedIn = await repo.login(

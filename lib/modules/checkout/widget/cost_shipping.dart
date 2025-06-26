@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 import '../../../misc/helper.dart';
 import '../../../misc/price_currency.dart';
@@ -32,6 +33,15 @@ class CostShipping extends StatelessWidget {
           return serviceDisplayMap[code] ?? code;
         }
 
+        final double distanceInMeter = state.distance;
+
+        final List instantCouriers = state.costV3
+            .where((e) => e.type == 'instant' || e.type == 'same_day')
+            .toList();
+
+        final List availableInstantCouriers =
+            distanceInMeter <= 20000 ? instantCouriers : [];
+
         return Scaffold(
           body: ListView(
             children: [
@@ -61,71 +71,88 @@ class CostShipping extends StatelessWidget {
               ),
 
               // ======== Instant Courier (Gojek/Grab) ========
-              if (state.costV3.isNotEmpty) ...[
+              if (instantCouriers.isNotEmpty) ...[
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
                   child: Text(
                     'Kurir Instant',
                     style: AppTextStyles.textStyleBold,
                   ),
                 ),
-                ...state.costV3.map((costItem) {
-                  return InkWell(
-                    onTap: () {
-                      context.read<CheckoutCubit>().setInstant(
-                            costItem,
-                            idStore,
-                            note: '',
-                          );
-                      final ct = context.read<CheckoutCubit>();
-                      ct.copyState(
-                          newState: ct.state.copyWith(typeShipping: "Instant"));
-                      Navigator.pop(context);
-                      context.read<CheckoutCubit>().updateCheckout(
-                            checkout: state.checkout,
-                            shippings: state.shippings,
-                          );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${costItem.courierServiceName} (${Price.currency((costItem.price ?? 0).toDouble())})',
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
+                if (availableInstantCouriers.isNotEmpty) ...[
+                  ...availableInstantCouriers.map((costItem) {
+                    return InkWell(
+                      onTap: () {
+                        context.read<CheckoutCubit>().setInstant(
+                              costItem,
+                              idStore,
+                              note: '',
+                            );
+                        final ct = context.read<CheckoutCubit>();
+                        ct.copyState(
+                            newState:
+                                ct.state.copyWith(typeShipping: "Instant"));
+                        Navigator.pop(context);
+                        context.read<CheckoutCubit>().updateCheckout(
+                              checkout: state.checkout,
+                              shippings: state.shippings,
+                            );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${costItem.courierServiceName} (${Price.currency((costItem.price ?? 0).toDouble())})',
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'Estimasi ${getDurationInBahasa(costItem.duration)}',
-                                  style: const TextStyle(fontSize: 12),
-                                ),
-                              ],
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    'Estimasi ${getDurationInBahasa(costItem.duration)}',
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          (costItem.logoUrl != null)
-                              ? Image.network(
-                                  costItem.logoUrl!,
-                                  width: 40,
-                                  height: 40,
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      const Icon(Icons.local_shipping),
-                                )
-                              : const Icon(Icons.local_shipping),
-                        ],
+                            (costItem.logoUrl != null)
+                                ? Image.network(
+                                    costItem.logoUrl!,
+                                    width: 40,
+                                    height: 40,
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            const Icon(Icons.local_shipping),
+                                  )
+                                : const Icon(Icons.local_shipping),
+                          ],
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ] else ...[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
+                    child: Text(
+                      "Kurir Instant tidak tersedia untuk pengiriman lebih dari 20 km.",
+                      style: AppTextStyles.textStyleNormal.copyWith(
+                        color: AppColors.redColor,
                       ),
                     ),
-                  );
-                }).toList(),
+                  ),
+                ]
               ],
+
               Divider(
                 height: 1,
                 color: Colors.grey.shade300,
@@ -134,7 +161,8 @@ class CostShipping extends StatelessWidget {
               // ======== Regular Courier (JNE/Sicepat) ========
               if (state.cost.isNotEmpty) ...[
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
                   child: Text(
                     'Kurir Reguler',
                     style: AppTextStyles.textStyleBold,
@@ -194,6 +222,7 @@ class CostShipping extends StatelessWidget {
                   );
                 }).toList(),
               ],
+
               Divider(
                 height: 1,
                 color: Colors.grey.shade300,

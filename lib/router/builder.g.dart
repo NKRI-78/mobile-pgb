@@ -72,6 +72,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $AboutRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: 'about-me',
+          factory: $AboutMeRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'news-detail',
           factory: $NewsDetailRouteExtension._fromState,
         ),
@@ -440,6 +444,23 @@ extension $AboutRouteExtension on AboutRoute {
 
   String get location => GoRouteData.$location(
         '/home/about',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $AboutMeRouteExtension on AboutMeRoute {
+  static AboutMeRoute _fromState(GoRouterState state) => AboutMeRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/about-me',
       );
 
   void go(BuildContext context) => context.go(location);

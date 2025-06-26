@@ -103,11 +103,13 @@ class CheckoutView extends StatelessWidget {
                                             ShowSnackbar.snackbar(context,
                                                 "Silahkan pilih metode pembayaran",
                                                 isSuccess: false);
+                                            return;
                                           }
                                           if (state.shippings == null) {
                                             ShowSnackbar.snackbar(context,
                                                 "Silahkan pilih metode pengiriman",
                                                 isSuccess: false);
+                                            return;
                                           } else {
                                             try {
                                               var paymentNumber =

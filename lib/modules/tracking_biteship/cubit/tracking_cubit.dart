@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:mobile_pgb/repositories/oder_repository/models/tracking_biteship_model.dart';
+import '../../../repositories/oder_repository/models/tracking_biteship_model.dart';
 import '../../../repositories/oder_repository/models/tracking_model.dart';
 import '../../../repositories/oder_repository/order_repository.dart';
 

@@ -255,14 +255,34 @@ class CheckoutCubit extends Cubit<CheckoutState> {
     }
   }
 
-  Future<void> getCostItemV2(
-      {required BuildContext context,
-      required String storeId,
-      required String weight}) async {
+  Future<void> getCostItemV2({
+    required BuildContext context,
+    required String storeId,
+    required String weight,
+  }) async {
     try {
       emit(state.copyWith(loadingCost: true));
-      var costV3 = await repo.getCostItemV3(storeId: storeId, weight: weight);
-      var cost = await repo.getCostItemV2(storeId: storeId, weight: weight);
+
+      final costV3Result =
+          await repo.getCostItemV3(storeId: storeId, weight: weight);
+
+      if (costV3Result == null) {
+        if (context.mounted) {
+          ShowSnackbar.snackbar(
+            context,
+            "Anda belum menambahkan alamat pengiriman",
+            isSuccess: false,
+          );
+        }
+        emit(state.copyWith(loadingCost: false));
+        return;
+      }
+
+      final costV3 = costV3Result.data ?? [];
+      final distance = costV3Result.distance ?? 0.0;
+
+      final cost = await repo.getCostItemV2(storeId: storeId, weight: weight);
+
       if (cost.isNotEmpty && context.mounted) {
         showModalBottomSheet(
           isDismissible: true,
@@ -280,24 +300,26 @@ class CheckoutCubit extends Cubit<CheckoutState> {
       } else {
         if (context.mounted) {
           ShowSnackbar.snackbar(
-              context, "Anda belum menambahkan alamat pengiriman",
-              isSuccess: false);
+            context,
+            "Anda belum menambahkan alamat pengiriman",
+            isSuccess: false,
+          );
         }
       }
-      emit(state.copyWith(cost: cost, costV3: costV3, loadingCost: false));
+
+      emit(state.copyWith(
+        cost: cost,
+        costV3: costV3,
+        distance: distance,
+        loadingCost: false,
+      ));
     } catch (e) {
-      if (!context.mounted) {
-        return;
-      }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: AppColors.redColor,
-          content: Text(
-            e.toString(),
-            style: const TextStyle(color: Colors.white),
-          ),
-        ),
-      );
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: AppColors.redColor,
+        content:
+            Text(e.toString(), style: const TextStyle(color: Colors.white)),
+      ));
     } finally {
       emit(state.copyWith(loadingCost: false));
     }

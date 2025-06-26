@@ -22,8 +22,8 @@ class _CheckoutNowState extends State<CheckoutNow> {
             state.shippings?[state.checkoutNow?.data?.store?.id.toString()];
 
         if (shipping != null && shipping['courier_code'] == "jne") {
-            from = shipping['etd_from'];
-            thru = shipping['etd_thru'];
+          from = shipping['etd_from'];
+          thru = shipping['etd_thru'];
         }
         if (shipping != null && shipping['duration'] != null) {
           final etdParts = shipping['duration'].toString().split("-");
@@ -166,16 +166,20 @@ class _CheckoutNowState extends State<CheckoutNow> {
               ),
               InkWell(
                 borderRadius: BorderRadius.circular(5.0),
-                onTap: () async {
-                  if (context.mounted) {
-                    context.read<CheckoutCubit>().getCostItemV2(
-                        context: context,
-                        storeId:
-                            state.checkoutNow?.data?.store?.id.toString() ?? "",
-                        weight:
-                            state.checkoutNow?.data?.weight.toString() ?? "");
-                  }
-                },
+                onTap: state.loadingCost
+                    ? null
+                    : () async {
+                        if (context.mounted) {
+                          context.read<CheckoutCubit>().getCostItemV2(
+                              context: context,
+                              storeId: state.checkoutNow?.data?.store?.id
+                                      .toString() ??
+                                  "",
+                              weight:
+                                  state.checkoutNow?.data?.weight.toString() ??
+                                      "");
+                        }
+                      },
                 child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(

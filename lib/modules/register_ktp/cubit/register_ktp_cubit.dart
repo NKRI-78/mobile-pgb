@@ -35,6 +35,7 @@ class RegisterKtpCubit extends Cubit<RegisterKtpState> {
       final result = await repo.uploadKtpForOcr(File(imagePath));
 
       final response = result['data']['response'];
+      print('Path Gambar KTP: $imagePath');
 
       emit(state.copyWith(
         loading: false,
@@ -51,6 +52,8 @@ class RegisterKtpCubit extends Cubit<RegisterKtpState> {
         agama: response['religion'] ?? '',
         statusPerkawinan: response['status'] ?? '',
         pekerjaan: response['job'] ?? '',
+        kabupaten: response['regency_city'] ?? '',
+        provinsi: response['province'] ?? '',
         kewarganegaraan: response['country'] ?? '',
         berlakuHingga: response['expired'] ?? '',
       ));
@@ -131,6 +134,9 @@ class RegisterKtpCubit extends Cubit<RegisterKtpState> {
           occupation: state.pekerjaan,
           citizenship: state.kewarganegaraan,
           validUntil: state.berlakuHingga,
+          regencyCity: state.kabupaten,
+          province: state.provinsi,
+          indentityCardUrl: state.ktpImagePath,
         );
         final userGoogle = UserGoogleModel(
           action: state.userGoogleModel?.action,
@@ -145,6 +151,33 @@ class RegisterKtpCubit extends Cubit<RegisterKtpState> {
           userGoogle: userGoogle,
         );
         RegisterAkunRoute($extra: extra).push(context);
+
+        print('===== Extract KTP =====');
+        print('avatarLink: ${extractKtp.avatarLink}');
+        print('KTP: ${extractKtp.indentityCardUrl}');
+        print('fullname: ${extractKtp.fullname}');
+        print('nik: ${extractKtp.nik}');
+        print('address: ${extractKtp.address}');
+        print('birthPlaceAndDate: ${extractKtp.birthPlaceAndDate}');
+        print('gender: ${extractKtp.gender}');
+        print('bloodType: ${extractKtp.bloodType}');
+        print('administrativeVillage: ${extractKtp.administrativeVillage}');
+        print('villageUnit: ${extractKtp.villageUnit}');
+        print('subDistrict: ${extractKtp.subDistrict}');
+        print('religion: ${extractKtp.religion}');
+        print('maritalStatus: ${extractKtp.maritalStatus}');
+        print('occupation: ${extractKtp.occupation}');
+        print('citizenship: ${extractKtp.citizenship}');
+        print('validUntil: ${extractKtp.validUntil}');
+        print('regencyCity: ${extractKtp.regencyCity}');
+        print('province: ${extractKtp.province}');
+
+        print('===== User Google =====');
+        print('action: ${userGoogle.action}');
+        print('avatar: ${userGoogle.avatar}');
+        print('email: ${userGoogle.email}');
+        print('name: ${userGoogle.name}');
+        print('oauthId: ${userGoogle.oauthId}');
 
         print("CEK${extra.extrackKtp}");
         print("CEK${extra.userGoogle}");

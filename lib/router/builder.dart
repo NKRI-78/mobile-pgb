@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_pgb/modules/tracking_biteship/view/tracking_page.dart';
+import '../modules/tracking_biteship/view/tracking_page.dart';
 import '../misc/register_akun_extra.dart';
+import '../modules/about_me/view/about_me_page.dart';
 import '../modules/cart/view/cart_page.dart';
 import '../modules/checkout/view/checkout_page.dart';
 import '../modules/create_shipping_address/view/create_address_page.dart';
@@ -50,7 +51,7 @@ import '../modules/settings/view/settings_page.dart';
 import '../modules/sos/view/sos_detail_page.dart';
 import '../modules/wallet/view/wallet_page.dart';
 import '../modules/webview/webview.dart';
-import '../modules/about/view/about_us_page.dart';
+import '../modules/about_us/view/about_us_page.dart';
 import '../widgets/pages/media/view/media_page.dart';
 import '../widgets/pages/video/detail_video_player.dart';
 import '../widgets/photo_view/clipped_photo_view.dart';
@@ -75,6 +76,7 @@ class OnboardingRoute extends GoRouteData {
   ]),
   TypedGoRoute<MediaRoute>(path: 'media'),
   TypedGoRoute<AboutRoute>(path: 'about'),
+  TypedGoRoute<AboutMeRoute>(path: 'about-me'),
   TypedGoRoute<NewsDetailRoute>(path: 'news-detail'),
   TypedGoRoute<NewsAllRoute>(path: 'news-all'),
   TypedGoRoute<WebViewRoute>(path: 'webview'),
@@ -206,6 +208,13 @@ class AboutRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const AboutUsPage();
+  }
+}
+
+class AboutMeRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const AboutMePage();
   }
 }
 
@@ -731,6 +740,7 @@ class TrackingRoute extends GoRouteData {
     );
   }
 }
+
 class TrackingBitshipRoute extends GoRouteData {
   final String noTracking;
   final String store;

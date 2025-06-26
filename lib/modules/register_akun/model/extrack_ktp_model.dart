@@ -18,6 +18,9 @@ class ExtrackKtpModel {
   String? validUntil;
   String? updatedAt;
   String? createdAt;
+  String? regencyCity;
+  String? province;
+  String? indentityCardUrl;
 
   String get translateGender {
     final value = gender?.trim().toUpperCase() ?? '';
@@ -27,24 +30,28 @@ class ExtrackKtpModel {
     return '';
   }
 
-  ExtrackKtpModel(
-      {this.id,
-      this.fullname,
-      this.userId,
-      this.nik,
-      this.avatarLink,
-      this.gender,
-      this.birthPlaceAndDate,
-      this.villageUnit,
-      this.administrativeVillage,
-      this.subDistrict,
-      this.religion,
-      this.maritalStatus,
-      this.occupation,
-      this.citizenship,
-      this.bloodType,
-      this.address,
-      this.validUntil,
-      this.updatedAt,
-      this.createdAt});
+  ExtrackKtpModel({
+    this.id,
+    this.fullname,
+    this.userId,
+    this.nik,
+    this.avatarLink,
+    this.gender,
+    this.birthPlaceAndDate,
+    this.villageUnit,
+    this.administrativeVillage,
+    this.subDistrict,
+    this.religion,
+    this.maritalStatus,
+    this.occupation,
+    this.citizenship,
+    this.bloodType,
+    this.address,
+    this.validUntil,
+    this.updatedAt,
+    this.createdAt,
+    this.regencyCity,
+    this.province,
+    this.indentityCardUrl,
+  });
 }
