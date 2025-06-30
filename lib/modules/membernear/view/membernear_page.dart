@@ -50,24 +50,28 @@ class MemberNearView extends StatelessWidget {
           slivers: [
             SliverFillRemaining(
               hasScrollBody: false,
-              child: Stack(
-                fit: StackFit.loose,
-                clipBehavior: Clip.none,
-                children: [
-                  _Maps(
-                    latitude: st.latitude,
-                    longitude: st.longitude,
-                    markers: st.markers ?? const [],
-                  ),
-                  const Align(
-                      alignment: Alignment.bottomCenter, child: _ListUser()),
-                  const Align(
-                      alignment: Alignment.topCenter,
-                      child: _MemberNearHeader()),
-                  const Align(
-                      alignment: Alignment.topLeft,
-                      child: _MemberNearBottonHeader()),
-                ],
+              child: SafeArea(
+                bottom: true,
+                top: true,
+                child: Stack(
+                  fit: StackFit.loose,
+                  clipBehavior: Clip.none,
+                  children: [
+                    _Maps(
+                      latitude: st.latitude,
+                      longitude: st.longitude,
+                      markers: st.markers ?? const [],
+                    ),
+                    const Align(
+                        alignment: Alignment.bottomCenter, child: _ListUser()),
+                    const Align(
+                        alignment: Alignment.topCenter,
+                        child: _MemberNearHeader()),
+                    const Align(
+                        alignment: Alignment.topLeft,
+                        child: _MemberNearBottonHeader()),
+                  ],
+                ),
               ),
             ),
           ],

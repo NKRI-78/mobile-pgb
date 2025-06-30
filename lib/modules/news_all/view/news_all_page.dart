@@ -47,73 +47,81 @@ class NewsAllView extends StatelessWidget {
                   },
                 ),
               ),
-              body: SmartRefresher(
-                controller: NewsAllCubit.newsRefreshCtrl,
-                enablePullDown: true,
-                enablePullUp: state.newsPagination?.next != null,
-                onRefresh: () async {
-                  await context.read<NewsAllCubit>().onRefresh();
-                },
-                onLoading: () async {
-                  await context.read<NewsAllCubit>().loadMoreNews();
-                },
-                header: ClassicHeader(
-                  textStyle: const TextStyle(color: AppColors.secondaryColor),
-                  iconPos: IconPosition.left,
-                  spacing: 5.0,
-                  refreshingText: "Memuat berita...",
-                  idleText: "Tarik untuk menyegarkan",
-                  releaseText: "Lepaskan untuk menyegarkan",
-                  completeText: "Berhasil diperbarui",
-                  failedText: "Gagal memperbarui",
-                  refreshingIcon: const Icon(Icons.autorenew,
-                      color: AppColors.secondaryColor),
-                  failedIcon: const Icon(Icons.error, color: Colors.red),
-                  completeIcon:
-                      const Icon(Icons.done, color: AppColors.buttonBlueColor),
-                  idleIcon: const Icon(Icons.arrow_downward,
-                      color: AppColors.secondaryColor),
-                  releaseIcon: const Icon(Icons.refresh,
-                      color: AppColors.secondaryColor),
-                ),
-                child: CustomScrollView(
-                  shrinkWrap: true,
-                  physics: ScrollPhysics(),
-                  slivers: [
-                    BlocBuilder<NewsAllCubit, NewsAllState>(
-                      buildWhen: (previous, current) =>
-                          previous.news != current.news ||
-                          previous.loading != current.loading,
-                      builder: (context, state) {
-                        return SliverPadding(
-                          padding: const EdgeInsets.all(20),
-                          sliver: SliverList(
-                            delegate: SliverChildListDelegate(
-                              [
-                                state.loading
-                                    ? CustomLoadingPage(
-                                        color: AppColors.secondaryColor,
-                                      )
-                                    : state.news.isEmpty
-                                        ? const EmptyPage(
-                                            msg: "Tidak ada Berita..")
-                                        : Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: state.news
-                                                .map((e) => Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            bottom: 20),
-                                                    child: ListNews(news: e)))
-                                                .toList())
-                              ],
+              body: SafeArea(
+                bottom: true,
+                child: SmartRefresher(
+                  controller: NewsAllCubit.newsRefreshCtrl,
+                  enablePullDown: true,
+                  enablePullUp: state.newsPagination?.next != null,
+                  onRefresh: () async {
+                    await context.read<NewsAllCubit>().onRefresh();
+                  },
+                  onLoading: () async {
+                    await context.read<NewsAllCubit>().loadMoreNews();
+                  },
+                  header: ClassicHeader(
+                    textStyle: const TextStyle(color: AppColors.secondaryColor),
+                    iconPos: IconPosition.left,
+                    spacing: 5.0,
+                    refreshingText: "Memuat berita...",
+                    idleText: "Tarik untuk menyegarkan",
+                    releaseText: "Lepaskan untuk menyegarkan",
+                    completeText: "Berhasil diperbarui",
+                    failedText: "Gagal memperbarui",
+                    refreshingIcon: const Icon(Icons.autorenew,
+                        color: AppColors.secondaryColor),
+                    failedIcon: const Icon(Icons.error, color: Colors.red),
+                    completeIcon: const Icon(Icons.done,
+                        color: AppColors.buttonBlueColor),
+                    idleIcon: const Icon(Icons.arrow_downward,
+                        color: AppColors.secondaryColor),
+                    releaseIcon: const Icon(Icons.refresh,
+                        color: AppColors.secondaryColor),
+                  ),
+                  child: CustomScrollView(
+                    shrinkWrap: true,
+                    physics: ScrollPhysics(),
+                    slivers: [
+                      BlocBuilder<NewsAllCubit, NewsAllState>(
+                        buildWhen: (previous, current) =>
+                            previous.news != current.news ||
+                            previous.loading != current.loading,
+                        builder: (context, state) {
+                          return SliverPadding(
+                            padding: EdgeInsets.fromLTRB(
+                              20,
+                              20,
+                              20,
+                              MediaQuery.of(context).viewPadding.bottom + 16,
                             ),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+                            sliver: SliverList(
+                              delegate: SliverChildListDelegate(
+                                [
+                                  state.loading
+                                      ? CustomLoadingPage(
+                                          color: AppColors.secondaryColor,
+                                        )
+                                      : state.news.isEmpty
+                                          ? const EmptyPage(
+                                              msg: "Tidak ada Berita..")
+                                          : Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: state.news
+                                                  .map((e) => Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              bottom: 20),
+                                                      child: ListNews(news: e)))
+                                                  .toList())
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );

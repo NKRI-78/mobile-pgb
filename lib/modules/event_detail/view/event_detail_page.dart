@@ -72,6 +72,7 @@ class EventDetailView extends StatelessWidget {
           ),
           bottomNavigationBar: SafeArea(
             minimum: const EdgeInsets.all(10),
+            bottom: true,
             child: Builder(
               builder: (context) {
                 // Cek apakah user sudah login
