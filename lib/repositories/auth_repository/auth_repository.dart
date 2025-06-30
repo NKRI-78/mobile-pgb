@@ -44,7 +44,7 @@ class AuthRepository {
       {required String folder, required File media}) async {
     try {
       var request = ht.MultipartRequest('PUT', Uri.parse(mediaUpload));
-      request.fields.addAll({'folder': 'profile', 'app': 'GEMA'});
+      request.fields.addAll({'folder': folder, 'app': 'GEMA'});
       var headers = {'Authorization': 'Bearer ${http.token}'};
       request.headers.addAll(headers);
       debugPrint("Image : $media");

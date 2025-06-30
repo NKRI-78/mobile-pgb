@@ -162,85 +162,88 @@ class GeneralModal {
         String resultText = (membernear.distance.toString().length < 4)
             ? membernear.distance.toString()
             : membernear.distance.toString().substring(0, 4);
-        return Container(
-          height: 350.0,
-          decoration: const BoxDecoration(color: Colors.transparent),
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 300.0,
-                  decoration: BoxDecoration(
-                      color: AppColors.secondaryColor,
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(32.0),
-                          topRight: Radius.circular(32.0))),
+        return SafeArea(
+          bottom: true,
+          child: Container(
+            height: 350.0,
+            decoration: const BoxDecoration(color: Colors.transparent),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 300.0,
+                    decoration: BoxDecoration(
+                        color: AppColors.secondaryColor,
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(32.0),
+                            topRight: Radius.circular(32.0))),
+                  ),
                 ),
-              ),
-              Align(
-                alignment: Alignment.topCenter,
-                child: Column(
-                  children: [
-                    CircleAvatar(
-                      maxRadius: 50.0,
-                      backgroundImage: NetworkImage(
-                        (membernear.profile?.avatarLink?.isEmpty ?? true)
-                            ? "https://i.ibb.co.com/vxkjJQD/Png-Item-1503945.png"
-                            : membernear.profile?.avatarLink ?? "",
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        maxRadius: 50.0,
+                        backgroundImage: NetworkImage(
+                          (membernear.profile?.avatarLink?.isEmpty ?? true)
+                              ? "https://i.ibb.co.com/vxkjJQD/Png-Item-1503945.png"
+                              : membernear.profile?.avatarLink ?? "",
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 10.0),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Text(membernear.profile?.fullname ?? "",
+                      const SizedBox(height: 10.0),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(membernear.profile?.fullname ?? "",
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.visible,
+                            style: const TextStyle(
+                                fontSize: fontSizeOverLarge,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.whiteColor)),
+                      ),
+                      const SizedBox(height: 5.0),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text("${membernear.profile?.kta}",
+                            overflow: TextOverflow.visible,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontSize: fontSizeDefault,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.whiteColor)),
+                      ),
+                      const SizedBox(height: 5.0),
+                      Text('$resultText KM',
+                          maxLines: 1,
                           textAlign: TextAlign.center,
-                          overflow: TextOverflow.visible,
                           style: const TextStyle(
-                              fontSize: fontSizeOverLarge,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.whiteColor)),
-                    ),
-                    const SizedBox(height: 5.0),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Text("${membernear.profile?.kta}",
-                          overflow: TextOverflow.visible,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontSize: fontSizeDefault,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.whiteColor)),
-                    ),
-                    const SizedBox(height: 5.0),
-                    Text('$resultText KM',
-                        maxLines: 1,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: fontSizeDefault,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.whiteColor,
-                        )),
-                    const SizedBox(height: 25.0),
-                    ElevatedButton.icon(
-                      onPressed: () async {
-                        await openWhatsApp(membernear, context);
-                      },
-                      icon: const Icon(
-                        Icons.chat,
-                        color: AppColors.blackColor,
-                        size: 24,
+                            fontSize: fontSizeDefault,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.whiteColor,
+                          )),
+                      const SizedBox(height: 25.0),
+                      ElevatedButton.icon(
+                        onPressed: () async {
+                          await openWhatsApp(membernear, context);
+                        },
+                        icon: const Icon(
+                          Icons.chat,
+                          color: AppColors.blackColor,
+                          size: 24,
+                        ),
+                        label: Text(
+                          'Hubungi melalui WhatsApp',
+                          style: AppTextStyles.textStyleBold.copyWith(),
+                        ),
                       ),
-                      label: Text(
-                        'Hubungi melalui WhatsApp',
-                        style: AppTextStyles.textStyleBold.copyWith(),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

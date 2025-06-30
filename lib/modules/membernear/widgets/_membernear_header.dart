@@ -7,7 +7,7 @@ class _MemberNearHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 60),
+      padding: const EdgeInsets.symmetric(vertical: 40),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

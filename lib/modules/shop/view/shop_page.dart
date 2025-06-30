@@ -39,76 +39,80 @@ class ShopView extends StatelessWidget {
     return BlocBuilder<ShopBloc, ShopState>(builder: (context, state) {
       return Scaffold(
         backgroundColor: AppColors.primaryColor,
-        body: SmartRefresher(
-          header: const WaterDropMaterialHeader(
-            backgroundColor: AppColors.buttonBlueColor,
-            distance: 60,
-            offset: 0,
-          ),
-          controller: ShopBloc.refreshCtrl,
-          onRefresh: () {
-            final idCategory = context.read<ShopBloc>().state.idCategory;
-            context
-                .read<ShopBloc>()
-                .add(RefreshProduct(idCategory: idCategory));
-          },
-          enablePullUp: (state.pagination?.currentPage ?? 0) <
-              (state.pagination?.totalPages ?? 1),
-          enablePullDown: true,
-          onLoading: () async {
-            context.read<ShopBloc>().add(LoadMoreProduct());
-          },
-          child: CustomScrollView(
-            slivers: [
-              const HeaderMart(),
-              BlocBuilder<ShopBloc, ShopState>(builder: (context, state) {
-                return SliverAppBar(
-                  backgroundColor: Colors.transparent,
-                  forceMaterialTransparency: true,
-                  pinned: false,
-                  elevation: 0,
-                  primary: false,
-                  automaticallyImplyLeading: false,
-                  bottom: const PreferredSize(
-                    preferredSize: Size(double.infinity, 0),
-                    child: TabBarMart(),
-                  ),
-                );
-              }),
-              state.loading
-                  ? const SliverFillRemaining(
-                      child: Center(child: CustomLoadingPage()),
-                    )
-                  : state.product.isEmpty
-                      ? const SliverFillRemaining(
-                          child:
-                              Center(child: EmptyPage(msg: "Tidak ada produk")))
-                      : SliverPadding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          sliver: SliverGrid.builder(
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 5.0,
-                              crossAxisSpacing: 20.0,
-                              mainAxisExtent: 270.0,
+        body: SafeArea(
+          bottom: true,
+          top: false,
+          child: SmartRefresher(
+            header: const WaterDropMaterialHeader(
+              backgroundColor: AppColors.buttonBlueColor,
+              distance: 60,
+              offset: 0,
+            ),
+            controller: ShopBloc.refreshCtrl,
+            onRefresh: () {
+              final idCategory = context.read<ShopBloc>().state.idCategory;
+              context
+                  .read<ShopBloc>()
+                  .add(RefreshProduct(idCategory: idCategory));
+            },
+            enablePullUp: (state.pagination?.currentPage ?? 0) <
+                (state.pagination?.totalPages ?? 1),
+            enablePullDown: true,
+            onLoading: () async {
+              context.read<ShopBloc>().add(LoadMoreProduct());
+            },
+            child: CustomScrollView(
+              slivers: [
+                const HeaderMart(),
+                BlocBuilder<ShopBloc, ShopState>(builder: (context, state) {
+                  return SliverAppBar(
+                    backgroundColor: Colors.transparent,
+                    forceMaterialTransparency: true,
+                    pinned: false,
+                    elevation: 0,
+                    primary: false,
+                    automaticallyImplyLeading: false,
+                    bottom: const PreferredSize(
+                      preferredSize: Size(double.infinity, 0),
+                      child: TabBarMart(),
+                    ),
+                  );
+                }),
+                state.loading
+                    ? const SliverFillRemaining(
+                        child: Center(child: CustomLoadingPage()),
+                      )
+                    : state.product.isEmpty
+                        ? const SliverFillRemaining(
+                            child: Center(
+                                child: EmptyPage(msg: "Tidak ada produk")))
+                        : SliverPadding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            sliver: SliverGrid.builder(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 5.0,
+                                crossAxisSpacing: 20.0,
+                                mainAxisExtent: 270.0,
+                              ),
+                              itemCount: state.product.length,
+                              itemBuilder: (context, index) {
+                                final data = state.product[index];
+                                return InkWell(
+                                  onTap: () {
+                                    DetailProductRoute(
+                                            idProduct: data.id.toString())
+                                        .go(context);
+                                  },
+                                  child: GridProduct(data: data),
+                                );
+                              },
                             ),
-                            itemCount: state.product.length,
-                            itemBuilder: (context, index) {
-                              final data = state.product[index];
-                              return InkWell(
-                                onTap: () {
-                                  DetailProductRoute(
-                                          idProduct: data.id.toString())
-                                      .go(context);
-                                },
-                                child: GridProduct(data: data),
-                              );
-                            },
-                          ),
-                        )
-            ],
+                          )
+              ],
+            ),
           ),
         ),
       );
