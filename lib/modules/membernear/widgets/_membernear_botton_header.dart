@@ -7,7 +7,7 @@ class _MemberNearBottonHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 15),
+      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -20,14 +20,12 @@ class _MemberNearBottonHeader extends StatelessWidget {
                 height: 40,
                 alignment: Alignment.center,
                 decoration: const BoxDecoration(
-                  color: AppColors.secondaryColor, 
-                  shape: BoxShape.circle
-                ),
+                    color: AppColors.secondaryColor, shape: BoxShape.circle),
                 child: Icon(
-                Icons.arrow_back_ios_new,
-                size: 20,
-                color: AppColors.whiteColor,
-              ),
+                  Icons.arrow_back_ios_new,
+                  size: 20,
+                  color: AppColors.whiteColor,
+                ),
               )),
         ],
       ),

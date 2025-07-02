@@ -179,12 +179,13 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               endDrawer: const CustomEndDrawer(),
-              body: SizedBox.expand(
+              body: SafeArea(
+                bottom: true,
                 child: RefreshIndicator(
                   onRefresh: () => _onRefresh(context),
                   child: SingleChildScrollView(
                     physics: const AlwaysScrollableScrollPhysics(),
-                    padding: const EdgeInsets.only(bottom: 20),
+                    padding: const EdgeInsets.only(bottom: 16),
                     child: Column(
                       children: [
                         CustomName(
@@ -245,7 +246,6 @@ class HomeView extends StatelessWidget {
                               );
                             },
                           ),
-                        SizedBox(height: 30),
                       ],
                     ),
                   ),
