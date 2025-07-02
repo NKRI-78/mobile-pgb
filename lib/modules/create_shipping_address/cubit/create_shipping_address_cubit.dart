@@ -28,62 +28,81 @@ class CreateShippingAddressCubit extends Cubit<CreateShippingAddressState> {
     emit(newState);
   }
 
-  bool submissionValidation(
-      {required String name,
-      required String phone,
-      required String label,
-      required String city,
-      required String postalCode,
-      required String district,
-      required String province,
-      required String currentAddress}) {
-    if (name == "") {
-      throw 'Harap Masukkan Nama Penerima';
+  bool submissionValidation({
+    required BuildContext context,
+    required String name,
+    required String phone,
+    required String label,
+    required String city,
+    required String postalCode,
+    required String district,
+    required String province,
+    required String currentAddress
+  }) {
+    if (name.trim().isEmpty) {
+      ShowSnackbar.snackbar(context, 'Harap Masukkan Nama Penerima', isSuccess: false);
+      return false;
     } else if (phone.length < 10) {
-      throw 'No Hp Minimal 10 Angka';
-    } else if (label == "") {
-      throw 'Harap Masukkan Label';
-    } else if (city == "") {
-      throw 'Harap Masukkan Kota';
-    } else if (postalCode == "") {
-      throw 'Harap Masukkan Kode Pos';
-    } else if (district == "") {
-      throw 'Harap Masukkan Daerah';
-    } else if (province == "") {
-      throw 'Harap Masukkan Provinsi';
-    } else if (currentAddress == "") {
-      throw 'Harap Masukkan Alamat Sekarang';
+      ShowSnackbar.snackbar(context, 'No Hp Minimal 10 Angka', isSuccess: false);
+      return false;
+    } else if (label.trim().isEmpty) {
+      ShowSnackbar.snackbar(context, 'Harap Masukkan Label', isSuccess: false);
+      return false;
+    } else if (city.trim().isEmpty) {
+      ShowSnackbar.snackbar(context, 'Harap Masukkan Kode Pos', isSuccess: false);
+      return false;
+    } else if (postalCode.trim().isEmpty) {
+      ShowSnackbar.snackbar(context, 'Harap Masukkan Kode Pos', isSuccess: false);
+      return false;
+    } else if (district.trim().isEmpty) {
+      ShowSnackbar.snackbar(context, 'Harap Masukkan Daerah', isSuccess: false);
+      return false;
+    } else if (province.trim().isEmpty) {
+      ShowSnackbar.snackbar(context, 'Harap Masukkan Provinsi', isSuccess: false);
+      return false;
+    } else if (currentAddress.trim().isEmpty) {
+      ShowSnackbar.snackbar(context, "Harap Masukkan Alamat", isSuccess: false);
+      return false;
     }
 
     return true;
   }
 
-  Future<void> updateCurrentPositionCheckIn(
-      BuildContext context, double lat, double lng) async {
+  Future<void> updateCurrentPositionCheckIn(BuildContext context, double lat, double lng) async {
     try {
-      googleMapCheckIn?.animateCamera(CameraUpdate.newCameraPosition(
-          CameraPosition(target: LatLng(lat, lng), zoom: 15.0)));
-    } catch (e, stacktrace) {
+      googleMapCheckIn?.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: LatLng(lat, lng),
+            zoom: 15.0
+          )
+        )
+      );
+    } catch(e, stacktrace) {
       debugPrint(stacktrace.toString());
     }
   }
 
   void setAreaCurrent(GoogleMapController mapController) async {
     Geolocator.requestPermission();
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.low);
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(position.latitude, position.longitude);
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark place = placemarks[0];
+    
 
     emit(state.copyWith(
-        latitude: position.latitude,
-        longitude: position.longitude,
-        currentAddress:
-            "${place.thoroughfare} ${place.subThoroughfare} ${place.locality}, ${place.postalCode}"));
+      latitude: position.latitude, 
+      longitude: position.longitude,
+    ));
     print("Lat cubit ${state.latitude}");
-    mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-        target: LatLng(state.latitude, state.longitude), zoom: 15.0)));
+    mapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(state.latitude, state.longitude),
+          zoom: 15.0
+        )
+      )
+    );
 
     // mapController.moveCamera(CameraUpdate.newLatLng(LatLng(position.latitude, position.longitude)));
     // mapController.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(state.latitude, state.longitude), zoom: 15.0,)));
@@ -117,6 +136,7 @@ class CreateShippingAddressCubit extends Cubit<CreateShippingAddressState> {
       emit(state.copyWith(loading: true));
       int? idNewAddress;
       final bool isClear = submissionValidation(
+        context: context,
         name: state.nameAddress,
         city: state.city,
         currentAddress: state.currentAddress,
@@ -126,7 +146,9 @@ class CreateShippingAddressCubit extends Cubit<CreateShippingAddressState> {
         postalCode: state.postalCode,
         province: state.province,
       );
-      if (isClear) {
+      print("Is Clear : $isClear");
+      print("Is Clear : ${state.currentAddress}");
+      if(isClear){
         idNewAddress = await repo.createAddress(
           name: state.nameAddress,
           phoneNumber: state.phoneNumber,
@@ -141,17 +163,17 @@ class CreateShippingAddressCubit extends Cubit<CreateShippingAddressState> {
           postalCode: state.postalCode,
           subDistrict: state.subDistrict,
         );
-      }
 
-      await addressRepo.selectMainAddress(idNewAddress.toString());
+        await addressRepo.selectMainAddress(idNewAddress.toString());
 
-      Future.delayed(Duration.zero, () {
-        Navigator.pop(context);
-        ShowSnackbar.snackbar(context, "Berhasil Tambah alamat",
-            isSuccess: true);
-        getIt<ListAddressCubit>().refreshAddress();
-        getIt<CheckoutCubit>().getShippingMain();
-      });
+        Future.delayed(Duration.zero, () {
+          Navigator.pop(context);
+          ShowSnackbar.snackbar(context, "Berhasil Tambah alamat", isSuccess: true);
+          getIt<ListAddressCubit>().refreshAddress();
+          getIt<CheckoutCubit>().getShippingMain();
+        });
+      } 
+
     } catch (e) {
       if (!context.mounted) {
         return;

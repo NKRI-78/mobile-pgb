@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
@@ -24,7 +23,8 @@ class UpdateShippingAddressCubit extends Cubit<UpdateShippingAddressState> {
   CheckoutRepository repo = CheckoutRepository();
 
   bool submissionValidation(
-      {required String name,
+      {required BuildContext context,
+      required String name,
       required String phone,
       required String label,
       required String city,
@@ -32,26 +32,49 @@ class UpdateShippingAddressCubit extends Cubit<UpdateShippingAddressState> {
       required String district,
       required String province,
       required String currentAddress}) {
-    if (name == "") {
-      throw 'Harap Masukkan Nama Penerima';
+    if (name.trim().isEmpty) {
+      ShowSnackbar.snackbar(context, 'Harap Masukkan Nama Penerima',
+          isSuccess: false);
+      return false;
     } else if (phone.length < 10) {
-      throw 'No Hp Minimal 10 Angka';
-    } else if (label == "") {
-      throw 'Harap Masukkan Label';
-    } else if (city == "") {
-      throw 'Harap Masukkan Kota';
-    } else if (postalCode == "") {
-      throw 'Harap Masukkan Kode Pos';
-    } else if (district == "") {
-      throw 'Harap Masukkan Daerah';
-    } else if (province == "") {
-      throw 'Harap Masukkan Provinsi';
-    } else if (province == "") {
-      throw 'Harap Masukkan Alamat Sekarang';
+      ShowSnackbar.snackbar(context, 'No Hp Minimal 10 Angka',
+          isSuccess: false);
+      return false;
+    } else if (label.trim().isEmpty) {
+      ShowSnackbar.snackbar(context, 'Harap Masukkan Label', isSuccess: false);
+      return false;
+    } else if (city.trim().isEmpty) {
+      ShowSnackbar.snackbar(context, 'Harap Masukkan Kode Pos',
+          isSuccess: false);
+      return false;
+    } else if (postalCode.trim().isEmpty) {
+      ShowSnackbar.snackbar(context, 'Harap Masukkan Kode Pos',
+          isSuccess: false);
+      return false;
+    } else if (district.trim().isEmpty) {
+      ShowSnackbar.snackbar(context, 'Harap Masukkan Daerah', isSuccess: false);
+      return false;
+    } else if (province.trim().isEmpty) {
+      ShowSnackbar.snackbar(context, 'Harap Masukkan Provinsi',
+          isSuccess: false);
+      return false;
+    } else if (currentAddress.trim().isEmpty) {
+      ShowSnackbar.snackbar(context, "Harap Masukkan Alamat", isSuccess: false);
+      return false;
     }
 
     return true;
   }
+
+  void updateReceivedName(String nameAddress) =>
+      emit(state.copyWith(nameAddress: nameAddress));
+  void updatePhone(String phoneNumber) =>
+      emit(state.copyWith(phoneNumber: phoneNumber));
+  void updateLabel(String label) => emit(state.copyWith(label: label));
+  void updateAddress(String nameAddress) =>
+      emit(state.copyWith(currentAddress: nameAddress));
+  void updateShowLabel(bool showLabel) =>
+      emit(state.copyWith(showLabel: showLabel));
 
   Future<void> fetchDetailAddress(String idAddress) async {
     try {
@@ -137,15 +160,13 @@ class UpdateShippingAddressCubit extends Cubit<UpdateShippingAddressState> {
     ));
   }
 
-  Future<void> submit(
-      {required BuildContext context,
-      required String name,
-      required String phoneNumber,
-      required String label,
-      required String currentAddress}) async {
+  Future<void> submit({
+    required BuildContext context,
+  }) async {
     try {
       emit(state.copyWith(loading: true));
       final bool isClear = submissionValidation(
+        context: context,
         name: state.nameAddress,
         city: state.city,
         currentAddress: state.currentAddress,
@@ -158,11 +179,11 @@ class UpdateShippingAddressCubit extends Cubit<UpdateShippingAddressState> {
       if (isClear) {
         await repo.updateAddress(
           id: state.idAddress,
-          name: name,
-          phoneNumber: phoneNumber,
-          label: label,
+          name: state.nameAddress,
+          phoneNumber: state.phoneNumber,
+          label: state.label,
           isSelected: "true",
-          detailAddress: currentAddress,
+          detailAddress: state.currentAddress,
           city: state.city,
           district: state.district,
           province: state.province,
@@ -171,19 +192,18 @@ class UpdateShippingAddressCubit extends Cubit<UpdateShippingAddressState> {
           postalCode: state.postalCode,
           subDistrict: state.subDistrict,
         );
+        Future.delayed(Duration.zero, () {
+          Navigator.pop(context);
+          ShowSnackbar.snackbar(context, "Berhasil Ubah alamat",
+              isSuccess: true);
+          getIt<ListAddressCubit>().refreshAddress();
+        });
       }
-      Future.delayed(Duration.zero, () {
-        Navigator.pop(context);
-        ShowSnackbar.snackbar(context,
-            "Berhasil ${state.idAddress == null ? "Tambah" : "Ubah"} alamat",
-            isSuccess: true);
-        getIt<ListAddressCubit>().refreshAddress();
-      });
     } catch (e) {
       if (!context.mounted) {
         return;
       }
-      ShowSnackbar.snackbar(context, e.toString(), isSuccess: true);
+      ShowSnackbar.snackbar(context, e.toString(), isSuccess: false);
     } finally {
       emit(state.copyWith(loading: false));
     }

@@ -15,6 +15,7 @@ class UpdateShippingAddressState extends Equatable {
   final LatLng? shopLocation; // Store shop's LatLng coordinates
   final SelectedAdministration? selectedAdministration;
   final bool loading; // State to track loading status
+  final bool showLabel; // State to track loading status
   final double latitude;
   final double longitude;
   final String currentAddress;
@@ -35,6 +36,7 @@ class UpdateShippingAddressState extends Equatable {
     this.postalCode = "",
     this.selectedAdministration,
     this.loading = false, // Default loading is false
+    this.showLabel = false, // Default loading is false
     this.latitude = 0.0,
     this.longitude = 0.0,
     this.currentAddress = "",
@@ -57,6 +59,7 @@ class UpdateShippingAddressState extends Equatable {
         postalCode,
         selectedAdministration,
         loading,
+        showLabel,
         latitude,
         longitude,
         currentAddress,
@@ -78,6 +81,7 @@ class UpdateShippingAddressState extends Equatable {
     String? district,
     SelectedAdministration? selectedAdministration,
     bool? loading,
+    bool? showLabel,
     double? latitude,
     double? longitude,
     String? currentAddress,
@@ -99,6 +103,7 @@ class UpdateShippingAddressState extends Equatable {
       selectedAdministration:
           selectedAdministration ?? this.selectedAdministration,
       loading: loading ?? this.loading,
+      showLabel: showLabel ?? this.showLabel,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
       currentAddress: currentAddress ?? this.currentAddress,
