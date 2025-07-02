@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mobile_pgb/misc/custom_place_picker.dart';
+import 'package:place_picker_google/place_picker_google.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/theme.dart';
 import '../cubit/update_shipping_address_cubit.dart';
@@ -51,11 +53,27 @@ class _UpdateAddressViewState extends State<UpdateAddressView> {
   List<String> typePlace = ['Rumah', 'Kantor', 'Apartement', 'Kos'];
 
   late TextEditingController typeAddressC;
+  late TextEditingController ctrName;
+  late TextEditingController ctrPhone;
+  late TextEditingController ctrCurrentAddress;
 
   @override
   void initState() {
     super.initState();
+    final cubit = context.read<UpdateShippingAddressCubit>();
+
     typeAddressC = TextEditingController();
+    ctrName = TextEditingController();
+    ctrPhone = TextEditingController();
+    ctrCurrentAddress = TextEditingController();
+
+    // Sinkronisasi dari state ke controller
+    cubit.stream.listen((state) {
+      ctrName.value = TextEditingValue(text: state.nameAddress);
+      ctrPhone.value = TextEditingValue(text: state.phoneNumber);
+      typeAddressC.value = TextEditingValue(text: state.label);
+      ctrCurrentAddress.value = TextEditingValue(text: state.currentAddress);
+    });
   }
 
   @override
@@ -69,13 +87,6 @@ class _UpdateAddressViewState extends State<UpdateAddressView> {
   Widget build(BuildContext context) {
     return BlocBuilder<UpdateShippingAddressCubit, UpdateShippingAddressState>(
       builder: (context, state) {
-        final TextEditingController ctrName =
-            TextEditingController(text: state.nameAddress);
-        final TextEditingController ctrPhone =
-            TextEditingController(text: state.phoneNumber);
-        typeAddressC.text = state.label;
-        final TextEditingController ctrCurrentAddress =
-            TextEditingController(text: state.currentAddress);
         return Scaffold(
           body: CustomScrollView(
             slivers: [
@@ -122,6 +133,7 @@ class _UpdateAddressViewState extends State<UpdateAddressView> {
                                       ),
                                       child: TextFormField(
                                         controller: ctrName,
+                                    onChanged: (val) => context.read<UpdateShippingAddressCubit>().updateReceivedName(val),
                                         cursorColor: AppColors.blackColor,
                                         keyboardType: TextInputType.text,
                                         textCapitalization:
@@ -185,6 +197,7 @@ class _UpdateAddressViewState extends State<UpdateAddressView> {
                                       ),
                                       child: TextFormField(
                                         controller: ctrPhone,
+                                    onChanged: (val) => context.read<UpdateShippingAddressCubit>().updatePhone(val),
                                         cursorColor: AppColors.blackColor,
                                         maxLength: 13,
                                         keyboardType: TextInputType.number,
@@ -247,12 +260,11 @@ class _UpdateAddressViewState extends State<UpdateAddressView> {
                                       ),
                                       child: TextFormField(
                                         onTap: () {
-                                          setState(() {
-                                            isCheck = false;
-                                          });
+                                          context.read<UpdateShippingAddressCubit>().updateShowLabel(true);
                                         },
                                         cursorColor: AppColors.blackColor,
                                         controller: typeAddressC,
+                                    onChanged: (val) => context.read<UpdateShippingAddressCubit>().updateLabel(val),
                                         keyboardType: TextInputType.text,
                                         textCapitalization:
                                             TextCapitalization.sentences,
@@ -293,17 +305,10 @@ class _UpdateAddressViewState extends State<UpdateAddressView> {
                                             ...typePlace.map((e) =>
                                                 GestureDetector(
                                                   onTap: () {
-                                                    setState(() {
-                                                      print("Select $e");
-                                                      isCheck = true;
+                                                      context.read<UpdateShippingAddressCubit>().updateShowLabel(false);
                                                       typeAddressC.text = e;
-                                                      var cubit = context.read<
-                                                          UpdateShippingAddressCubit>();
-                                                      cubit.copyState(
-                                                          newState: cubit.state
-                                                              .copyWith(
-                                                                  label: e));
-                                                    });
+                                                      var cubit = context.read<UpdateShippingAddressCubit>();
+                                                      cubit.copyState(newState: cubit.state.copyWith(label: e));
                                                   },
                                                   child: Container(
                                                       height: 20,
@@ -479,6 +484,7 @@ class _UpdateAddressViewState extends State<UpdateAddressView> {
                                               maxLines: 5,
                                               cursorColor: AppColors.blackColor,
                                               controller: ctrCurrentAddress,
+                                              onChanged: (val) => context.read<UpdateShippingAddressCubit>().updateAddress(val),
                                               keyboardType: TextInputType.text,
                                               textCapitalization:
                                                   TextCapitalization.sentences,
@@ -530,12 +536,8 @@ class _UpdateAddressViewState extends State<UpdateAddressView> {
                         FocusScope.of(context).unfocus();
                       }
                       context.read<UpdateShippingAddressCubit>().submit(
-                            context: context,
-                            currentAddress: ctrCurrentAddress.text,
-                            label: typeAddressC.text,
-                            name: ctrName.text,
-                            phoneNumber: ctrPhone.text,
-                          );
+                        context: context,
+                      );
                     },
               backgroundColour: AppColors.blueColor,
               textColour: AppColors.whiteColor,

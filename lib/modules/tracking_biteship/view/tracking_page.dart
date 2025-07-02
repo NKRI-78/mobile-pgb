@@ -363,7 +363,7 @@ class TrackingView extends StatelessWidget {
                                                       Text(
                                                         state.tracking?.courier
                                                                 ?.driverPlateNumber ??
-                                                            "",
+                                                            "-",
                                                         style: AppTextStyles
                                                             .textStyleNormal,
                                                       ),
