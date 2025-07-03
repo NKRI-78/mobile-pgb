@@ -106,9 +106,9 @@ class _ProfileViewState extends State<ProfileView> {
                                             createAt: state.profile?.profile
                                                     ?.createdAt ??
                                                 '-',
-                                            noKta:
-                                                state.profile?.profile?.kta ??
-                                                    '-',
+                                            noKta: state.profile?.identityCard
+                                                    ?.kta ??
+                                                '-',
                                             nama: state.profile?.profile
                                                     ?.fullname ??
                                                 '-',
@@ -250,8 +250,8 @@ class _ProfileViewState extends State<ProfileView> {
           bottomNavigationBar: state.isLoading
               ? const SizedBox.shrink()
               : SafeArea(
-                  minimum:
-                      const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                  bottom: true,
+                  minimum: const EdgeInsets.only(left: 16, right: 16),
                   child: CustomButton(
                     onPressed: () => ProfileUpdateRoute().go(context),
                     text: "Edit",

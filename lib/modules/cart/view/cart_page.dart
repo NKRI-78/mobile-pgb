@@ -72,18 +72,21 @@ class _CartViewState extends State<CartView> {
                               : RichText(
                                   text: TextSpan(children: [
                                   const TextSpan(
-                                      text: "Total\n",
-                                      style: TextStyle(
-                                          color: AppColors.blackColor,
-                                          fontSize: fontSizeExtraLarge,
-                                          fontWeight: FontWeight.bold)),
+                                    text: "Total\n",
+                                    style: TextStyle(
+                                      color: AppColors.blackColor,
+                                      fontSize: fontSizeDefault,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                   TextSpan(
-                                      text:
-                                          '${Price.currency(total.toDouble())}',
-                                      style: const TextStyle(
-                                          color: AppColors.blackColor,
-                                          fontSize: fontSizeExtraLarge,
-                                          fontWeight: FontWeight.bold))
+                                    text: '${Price.currency(total.toDouble())}',
+                                    style: const TextStyle(
+                                      color: AppColors.blackColor,
+                                      fontSize: fontSizeLarge,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
                                 ])),
                           SizedBox(
                             width: 150,

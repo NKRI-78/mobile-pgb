@@ -80,13 +80,13 @@ class CheckoutView extends StatelessWidget {
                                   text: "Total\n",
                                   style: TextStyle(
                                       color: AppColors.blackColor,
-                                      fontSize: fontSizeExtraLarge,
+                                      fontSize: fontSizeDefault,
                                       fontWeight: FontWeight.bold)),
                               TextSpan(
                                   text: '${Price.currency(state.totalPrice)}',
                                   style: const TextStyle(
                                       color: AppColors.blackColor,
-                                      fontSize: fontSizeExtraLarge,
+                                      fontSize: fontSizeLarge,
                                       fontWeight: FontWeight.bold))
                             ])),
                             SizedBox(

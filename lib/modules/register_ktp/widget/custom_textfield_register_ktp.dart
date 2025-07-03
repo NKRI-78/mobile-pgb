@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../misc/colors.dart';
@@ -43,6 +44,16 @@ class _FieldNik extends StatelessWidget {
           label: 'NIK',
           keyboardType: TextInputType.number,
           initialValue: state.nik,
+          maxLength: 16,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'NIK tidak boleh kosong';
+            } else if (value.length != 16) {
+              return 'NIK harus terdiri dari 16 digit';
+            }
+            return null;
+          },
           onChanged: (value) {
             var cubit = context.read<RegisterKtpCubit>();
             cubit.copyState(newState: cubit.state.copyWith(nik: value));
@@ -360,6 +371,9 @@ Widget _buildTextFormField({
   TextInputType keyboardType = TextInputType.text,
   String? initialValue,
   bool readOnly = true,
+  int? maxLength,
+  List<TextInputFormatter>? inputFormatters,
+  String? Function(String?)? validator,
 }) {
   return Padding(
     padding: EdgeInsets.only(bottom: 12),
@@ -375,6 +389,9 @@ Widget _buildTextFormField({
           readOnly: readOnly,
           initialValue: initialValue,
           keyboardType: keyboardType,
+          maxLength: maxLength,
+          inputFormatters: inputFormatters,
+          validator: validator,
           onChanged: onChanged,
           decoration: InputDecoration(
             labelText: label,
@@ -383,6 +400,7 @@ Widget _buildTextFormField({
             ),
             border: InputBorder.none,
             contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            counterText: '',
           ),
           style: AppTextStyles.textStyleNormal.copyWith(
             color: AppColors.whiteColor,

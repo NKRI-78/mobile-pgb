@@ -91,38 +91,42 @@ class _ImagePickerBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      children: [
-        ListTile(
-          leading: Icon(Icons.image, color: AppColors.blueColor),
-          title: Text("Pilih dari Galeri"),
-          onTap: () => _pickImage(context, ImageSource.gallery),
-        ),
-        ListTile(
-          leading: Icon(Icons.camera_alt, color: AppColors.secondaryColor),
-          title: Text("Gunakan Kamera"),
-          onTap: () => _pickImage(context, ImageSource.camera),
-        ),
-        if (context.read<RegisterAkunCubit>().state.fileImage != null ||
-            context.read<RegisterAkunCubit>().state.userGoogle?.avatar != null)
+    return SafeArea(
+      bottom: true,
+      child: Wrap(
+        children: [
           ListTile(
-            leading: Icon(Icons.delete, color: AppColors.redColor),
-            title: Text("Hapus Foto"),
-            onTap: () {
-              final cubit = context.read<RegisterAkunCubit>();
-              final state = cubit.state;
-
-              cubit.copyState(
-                newState: state.copyWith(
-                  fileImage: () => null,
-                  userGoogle: state.userGoogle?.copyWith(avatar: null),
-                ),
-              );
-
-              Navigator.pop(context);
-            },
+            leading: Icon(Icons.image, color: AppColors.blueColor),
+            title: Text("Pilih dari Galeri"),
+            onTap: () => _pickImage(context, ImageSource.gallery),
           ),
-      ],
+          ListTile(
+            leading: Icon(Icons.camera_alt, color: AppColors.secondaryColor),
+            title: Text("Gunakan Kamera"),
+            onTap: () => _pickImage(context, ImageSource.camera),
+          ),
+          if (context.read<RegisterAkunCubit>().state.fileImage != null ||
+              context.read<RegisterAkunCubit>().state.userGoogle?.avatar !=
+                  null)
+            ListTile(
+              leading: Icon(Icons.delete, color: AppColors.redColor),
+              title: Text("Hapus Foto"),
+              onTap: () {
+                final cubit = context.read<RegisterAkunCubit>();
+                final state = cubit.state;
+
+                cubit.copyState(
+                  newState: state.copyWith(
+                    fileImage: () => null,
+                    userGoogle: state.userGoogle?.copyWith(avatar: null),
+                  ),
+                );
+
+                Navigator.pop(context);
+              },
+            ),
+        ],
+      ),
     );
   }
 
@@ -162,6 +166,9 @@ class _ImagePickerBottomSheet extends StatelessWidget {
           toolbarWidgetColor: Colors.white,
           initAspectRatio: CropAspectRatioPreset.square,
           lockAspectRatio: true,
+          hideBottomControls: false,
+          statusBarColor: AppColors.secondaryColor,
+          showCropGrid: true,
         ),
         IOSUiSettings(
           title: 'Crop Foto',
