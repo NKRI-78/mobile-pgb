@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../misc/text_style.dart';
 import '../../../misc/snackbar.dart';
 import '../../../repositories/forum_repository/forum_repository.dart';
 import 'package:multi_image_picker_plus/multi_image_picker_plus.dart';
@@ -129,52 +130,61 @@ class ForumCreateCubit extends Cubit<ForumCreateState> {
     ImageSource? imageSource = await showDialog<ImageSource>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Choose Image"),
+        title: Text("Pilih Photo", style: AppTextStyles.textStyleBold),
         actions: [
           MaterialButton(
-            child: const Text("Camera"),
+            child: Text("Camera",
+                style: AppTextStyles.textStyleNormal.copyWith(fontSize: 14)),
             onPressed: () => Navigator.pop(context, ImageSource.camera),
           ),
           MaterialButton(
-            child: const Text("Gallery"),
+            child: Text("Gallery",
+                style: AppTextStyles.textStyleNormal.copyWith(fontSize: 14)),
             onPressed: () => Navigator.pop(context, ImageSource.gallery),
           ),
         ],
       ),
     );
 
-    List<File> newCamera = [];
+    if (imageSource == null) return;
+
+    final picker = ImagePicker();
 
     if (imageSource == ImageSource.camera) {
-      XFile? xf = await ImagePicker()
-          .pickImage(source: ImageSource.camera, imageQuality: 80);
+      final XFile? xf =
+          await picker.pickImage(source: ImageSource.camera, imageQuality: 80);
       if (xf != null) {
-        newCamera.add(File(xf.path));
-        copyState(newState: state.copyWith(pickedFile: pickedFile));
-        isImage = true;
+        final file = File(xf.path);
+        emit(state.copyWith(pickedFile: [file], feedType: "image"));
       }
-      emit(state.copyWith(pickedFile: newCamera, feedType: "image"));
     }
 
-    List<File> newImages = [];
-    double totalSize = 0;
     if (imageSource == ImageSource.gallery) {
-      resultList = await MultiImagePicker.pickImages(
-        androidOptions: const AndroidOptions(maxImages: 8),
-        iosOptions: const IOSOptions(
-            settings: CupertinoSettings(list: ListSetting(cellsPerRow: 8))),
-        selectedAssets: images,
+      final xfiles = await picker.pickMultiImage(
+        imageQuality: 80,
+        limit: 8,
       );
 
-      for (var imageAsset in resultList) {
-        ByteData byteData = await imageAsset.getByteData();
-        Uint8List uint8List = byteData.buffer.asUint8List();
+      // Validasi manual tambahan
+      final limitedXfiles = xfiles.take(8).toList();
+      if (xfiles.length > 8) {
+        if (context.mounted) {
+          ShowSnackbar.snackbar(
+            context,
+            "Maksimal 8 gambar yang dapat dipilih.",
+            isSuccess: false,
+          );
+        }
+        return;
+      }
 
-        final directory = await getTemporaryDirectory();
-        File tempFile = File('${directory.path}/${imageAsset.name}');
-        await tempFile.writeAsBytes(uint8List);
+      List<File> newImages = [];
+      double totalSize = 0;
 
-        final extension = imageAsset.name.split('.').last.toLowerCase();
+      for (final xfile in limitedXfiles) {
+        final file = File(xfile.path);
+        final extension = xfile.path.split('.').last.toLowerCase();
+
         if (extension == 'png') {
           if (context.mounted) {
             ShowSnackbar.snackbar(
@@ -185,12 +195,13 @@ class ForumCreateCubit extends Cubit<ForumCreateState> {
           }
           continue;
         }
-        File compressedFile = await compressImage(tempFile.path);
+
+        File compressedFile = await compressImage(file.path);
         newImages.add(compressedFile);
         int sizeInBytes = compressedFile.lengthSync();
         totalSize += sizeInBytes / (1024 * 1024);
-        isImage = true;
       }
+
       emit(state.copyWith(
         pickedFile: newImages,
         feedType: "image",
@@ -199,64 +210,27 @@ class ForumCreateCubit extends Cubit<ForumCreateState> {
     }
   }
 
-  // Future<void> uploadVid(BuildContext context) async {
-  //   FilePickerResult? result = await FilePicker.platform.pickFiles(
-  //       type: FileType.custom,
-  //       allowedExtensions: [
-  //         'mp4',
-  //         'avi',
-  //         'mkv',
-  //         'mov',
-  //         '3gp',
-  //         'wmv',
-  //         'flv',
-  //         'mpeg',
-  //         'mpg',
-  //         'webm'
-  //       ],
-  //       allowMultiple: false,
-  //       withData: false,
-  //       withReadStream: true,
-  //       onFileLoading: (FilePickerStatus filePickerStatus) {});
-  //   List<File> newVideo = [];
-  //   if (result != null) {
-  //     File vf = File(result.files.single.path!);
-  //     int sizeInBytes = vf.lengthSync();
-  //     double sizeInMb = sizeInBytes / (1024 * 1024);
-  //     debugPrint('Ukuran ${sizeInMb.toString()}');
-  //     if (sizeInMb > 200) {
-  //       Future.delayed(Duration.zero, () {
-  //         ShowSnackbar.snackbar(
-  //           context,
-  //           "Video Maksimal 200 MB",
-  //           isSuccess: false,
-  //         );
-  //       });
-  //       return;
-  //     }
-  //     newVideo.add(File(vf.path));
-  //     // emit(state.copyWith(pickedFile: pickedFile));
-  //     videoFileThumbnail = await VideoCompressV2.getByteThumbnail(vf.path);
-  //     videoSize = filesize(sizeInBytes, 0);
-  //     emit(state.copyWith(
-  //         pickedFile: newVideo,
-  //         feedType: "video",
-  //         videoFileThumbnail: videoFileThumbnail,
-  //         fileSize: videoSize));
-  //   }
-  // }
   Future<void> uploadVid(BuildContext context) async {
     ImageSource? videoSource = await showDialog<ImageSource>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Pilih Video"),
+        title: Text(
+          "Pilih Video",
+          style: AppTextStyles.textStyleBold,
+        ),
         actions: [
           TextButton(
-            child: const Text("Camera"),
+            child: Text(
+              "Camera",
+              style: AppTextStyles.textStyleNormal.copyWith(fontSize: 14),
+            ),
             onPressed: () => Navigator.pop(context, ImageSource.camera),
           ),
           TextButton(
-            child: const Text("Gallery"),
+            child: Text(
+              "Gallery",
+              style: AppTextStyles.textStyleNormal.copyWith(fontSize: 14),
+            ),
             onPressed: () => Navigator.pop(context, ImageSource.gallery),
           ),
         ],

@@ -134,6 +134,7 @@ class Profile {
 }
 
 class IdentityCard {
+  String? kta;
   int? id;
   String? name;
   String? address;
@@ -157,6 +158,7 @@ class IdentityCard {
   String? updatedAt;
 
   IdentityCard({
+    this.kta,
     this.id,
     this.name,
     this.address,
@@ -182,6 +184,7 @@ class IdentityCard {
 
   factory IdentityCard.fromJson(Map<String, dynamic> json) {
     return IdentityCard(
+      kta: json['kta'],
       id: json['id'],
       name: json['name'],
       address: json['address'],
@@ -208,6 +211,7 @@ class IdentityCard {
 
   Map<String, dynamic> toJson() {
     return {
+      'kta': kta,
       'id': id,
       'name': name,
       'address': address,

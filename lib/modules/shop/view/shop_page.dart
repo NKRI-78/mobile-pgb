@@ -63,7 +63,11 @@ class ShopView extends StatelessWidget {
             },
             child: CustomScrollView(
               slivers: [
-                const HeaderMart(),
+                SliverPersistentHeader(
+                  pinned: true, // <- agar tetap menempel di atas saat scroll
+                  floating: false,
+                  delegate: _HeaderMartDelegate(),
+                ),
                 BlocBuilder<ShopBloc, ShopState>(builder: (context, state) {
                   return SliverAppBar(
                     backgroundColor: Colors.transparent,
@@ -118,4 +122,25 @@ class ShopView extends StatelessWidget {
       );
     });
   }
+}
+
+class _HeaderMartDelegate extends SliverPersistentHeaderDelegate {
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return const HeaderMart();
+  }
+
+  @override
+  double get maxExtent =>
+      kToolbarHeight +
+      MediaQueryData.fromView(WidgetsBinding.instance.window).padding.top +
+      80;
+
+  @override
+  double get minExtent => maxExtent;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
+      false;
 }

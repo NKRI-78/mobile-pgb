@@ -2,11 +2,38 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:upgrader/upgrader.dart';
 import 'snackbar.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../modules/checkout/cubit/checkout_cubit.dart';
+
+class UpgraderMessagesIndonesian extends UpgraderMessages {
+  UpgraderMessagesIndonesian() : super(code: 'id');
+
+  @override
+  String get title => 'Pembaruan Tersedia';
+
+  @override
+  String get body =>
+      'Versi terbaru dari {{appName}} tersedia! Versi terbaru saat ini adalah {{currentAppStoreVersion}} - versi anda saat ini adalah {{currentInstalledVersion}}.';
+
+  @override
+  String get prompt => 'Mau perbarui sekarang?';
+
+  @override
+  String get releaseNotes => 'Catatan Rilis';
+
+  @override
+  String get buttonTitleUpdate => 'Perbarui Sekarang';
+
+  @override
+  String get buttonTitleIgnore => 'Abaikan';
+
+  @override
+  String get buttonTitleLater => 'Nanti Saja';
+}
 
 class Helper {
   static Future<void> openLink(

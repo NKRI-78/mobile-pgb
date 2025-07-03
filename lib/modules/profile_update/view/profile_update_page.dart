@@ -230,31 +230,34 @@ class _ImagePickerBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      children: [
-        ListTile(
-          leading: Icon(Icons.image, color: AppColors.secondaryColor),
-          title: Text("Pilih dari Galeri"),
-          onTap: () => _pickImage(context, ImageSource.gallery),
-        ),
-        ListTile(
-          leading: Icon(Icons.camera_alt, color: AppColors.secondaryColor),
-          title: Text("Gunakan Kamera"),
-          onTap: () => _pickImage(context, ImageSource.camera),
-        ),
-        if (context.read<ProfileUpdateCubit>().state.fileImage != null)
+    return SafeArea(
+      bottom: true,
+      child: Wrap(
+        children: [
           ListTile(
-            leading: Icon(Icons.delete, color: AppColors.redColor),
-            title: Text("Hapus Foto"),
-            onTap: () {
-              context.read<ProfileUpdateCubit>().copyState(
-                  newState: context.read<ProfileUpdateCubit>().state.copyWith(
-                        fileImage: () => null,
-                      ));
-              Navigator.pop(context);
-            },
+            leading: Icon(Icons.image, color: AppColors.secondaryColor),
+            title: Text("Pilih dari Galeri"),
+            onTap: () => _pickImage(context, ImageSource.gallery),
           ),
-      ],
+          ListTile(
+            leading: Icon(Icons.camera_alt, color: AppColors.secondaryColor),
+            title: Text("Gunakan Kamera"),
+            onTap: () => _pickImage(context, ImageSource.camera),
+          ),
+          if (context.read<ProfileUpdateCubit>().state.fileImage != null)
+            ListTile(
+              leading: Icon(Icons.delete, color: AppColors.redColor),
+              title: Text("Hapus Foto"),
+              onTap: () {
+                context.read<ProfileUpdateCubit>().copyState(
+                    newState: context.read<ProfileUpdateCubit>().state.copyWith(
+                          fileImage: () => null,
+                        ));
+                Navigator.pop(context);
+              },
+            ),
+        ],
+      ),
     );
   }
 

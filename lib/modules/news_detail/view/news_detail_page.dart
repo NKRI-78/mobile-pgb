@@ -61,18 +61,21 @@ class NewsDetailView extends StatelessWidget {
               },
             ),
           ),
-          body: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildImageCard(context, imageUrl, state.loading),
-                const SizedBox(height: 10),
-                state.loading
-                    ? _buildLoadingContent()
-                    : _buildContent(context, state.news),
-                const SizedBox(height: 20),
-              ],
+          body: SafeArea(
+            bottom: true,
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildImageCard(context, imageUrl, state.loading),
+                  const SizedBox(height: 10),
+                  state.loading
+                      ? _buildLoadingContent()
+                      : _buildContent(context, state.news),
+                  // const SizedBox(height: 20),
+                ],
+              ),
             ),
           ),
         );
@@ -101,7 +104,7 @@ class NewsDetailView extends StatelessWidget {
           newsData?.data?.title ?? "",
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
-          textAlign: TextAlign.justify,
+          textAlign: TextAlign.left,
           style: const TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
