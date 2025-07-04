@@ -45,8 +45,11 @@ class _MapsState extends State<_Maps> {
                 initialCameraPosition: kGooglePlex,
                 markers: Set.from(widget.markers),
                 onMapCreated: (GoogleMapController controller) {
+                  // _controller.complete(controller);
+                  // if (!_controller.isCompleted) {
+                  //   _controller.complete(controller);
+                  // }
                   _controller.complete(controller);
-
                   context.read<MemberNearBloc>().add(MemberNearSetArea(
                       context: context, mapController: controller));
                 },

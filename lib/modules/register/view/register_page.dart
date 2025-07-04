@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -109,30 +111,33 @@ class RegisterView extends StatelessWidget {
                         },
                       ),
                       SizedBox(height: 10),
-                      CustomButton(
-                        leading: Image.asset(
-                          'assets/icons/google.png',
-                          height: 20,
-                          width: 20,
-                        ),
-                        text: "Sign Up With Google",
-                        backgroundColour: AppColors.whiteColor,
-                        textColour: AppColors.blackColor,
-                        onPressed: () async {
-                          final permissionStatus =
-                              await Permission.camera.request();
+                      Platform.isAndroid
+                          ? CustomButton(
+                              leading: Image.asset(
+                                'assets/icons/google.png',
+                                height: 20,
+                                width: 20,
+                              ),
+                              text: "Sign Up With Google",
+                              backgroundColour: AppColors.whiteColor,
+                              textColour: AppColors.blackColor,
+                              onPressed: () async {
+                                final permissionStatus =
+                                    await Permission.camera.request();
 
-                          if (permissionStatus.isGranted) {
-                            context
-                                .read<RegisterCubit>()
-                                .loginWithGoogle(context);
-                          } else if (permissionStatus.isPermanentlyDenied) {
-                            showPermissionDialog(context);
-                          } else {
-                            //
-                          }
-                        },
-                      ),
+                                if (permissionStatus.isGranted) {
+                                  context
+                                      .read<RegisterCubit>()
+                                      .loginWithGoogle(context);
+                                } else if (permissionStatus
+                                    .isPermanentlyDenied) {
+                                  showPermissionDialog(context);
+                                } else {
+                                  //
+                                }
+                              },
+                            )
+                          : SizedBox.shrink()
                     ],
                   ),
                 ),

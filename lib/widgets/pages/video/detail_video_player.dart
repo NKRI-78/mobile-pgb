@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import '../../../misc/colors.dart';
@@ -26,9 +28,13 @@ class _DetailVideoPlayerState extends State<DetailVideoPlayer> {
   }
 
   Future<void> _initializePlayer() async {
-    _videoController =
-        VideoPlayerController.networkUrl(Uri.parse(widget.urlVideo))
-          ..setLooping(false);
+    if (widget.urlVideo.startsWith('/')) {
+      _videoController = VideoPlayerController.file(File(widget.urlVideo));
+    } else {
+      _videoController =
+          VideoPlayerController.networkUrl(Uri.parse(widget.urlVideo));
+    }
+
     await _videoController.initialize();
 
     _chewieController = ChewieController(
@@ -38,21 +44,15 @@ class _DetailVideoPlayerState extends State<DetailVideoPlayer> {
       looping: false,
       showControls: false,
       errorBuilder: (context, errorMessage) {
+        print("Video Error: $errorMessage");
         return Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "Gagal memuat video: $errorMessage",
-              style: const TextStyle(color: Colors.white),
-            ),
-          ),
+          child: Text("Gagal memuat video: $errorMessage",
+              style: TextStyle(color: Colors.white)),
         );
       },
     );
 
-    if (mounted) {
-      setState(() {});
-    }
+    if (mounted) setState(() {});
   }
 
   @override
@@ -63,6 +63,7 @@ class _DetailVideoPlayerState extends State<DetailVideoPlayer> {
   }
 
   void _downloadVideo() {
+    print("${widget.urlVideo}CEK URL VIDEO");
     DownloadHelper.downloadDoc(context: context, url: widget.urlVideo);
   }
 

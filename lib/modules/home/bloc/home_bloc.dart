@@ -48,16 +48,18 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
     if (getIt<AppBloc>().state.isLoggedIn) {
       add(LoadProfile());
-      determinePosition(event.context!);
     }
+    if (event.context != null) {
+      determinePosition(event.context!);
+    } else {
+      debugPrint("Context is null, cannot determine position");
+    }
+    await setLastLocation(emit);
+
     getIt<AppBloc>().add(InitialAppData());
     await _fetchNews(emit, isRefresh: true);
     await fetchBanner(emit);
     add(SetFcm());
-
-    await Future.wait([
-      setLastLocation(emit),
-    ]);
 
     emit(state.copyWith(isLoading: false));
   }
