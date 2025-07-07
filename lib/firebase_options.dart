@@ -69,13 +69,15 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyB9SKBSTW1LR9Tlfd5wFQNB6_acyQWksyI',
-    appId: '1:224199405058:ios:586d6819e4706ea3eb411b',
+    appId: '1:224199405058:ios:b9b67300e5c3c777eb411b',
     messagingSenderId: '224199405058',
     projectId: 'koperasi-yamaha',
     storageBucket: 'koperasi-yamaha.firebasestorage.app',
-    androidClientId: '224199405058-1in8g856jc8oamc44oq420q13o31lgp7.apps.googleusercontent.com',
-    iosClientId: '224199405058-3dqngt21ibd0ibrqu90b757lrkc23i1o.apps.googleusercontent.com',
-    iosBundleId: 'com.example.mobilePgb',
+    androidClientId:
+        '224199405058-09p9pme27jarblvourffjp9of7jqvoi4.apps.googleusercontent.com',
+    iosClientId:
+        '224199405058-6s5n5mu9h7pb31qhrhsprngj28f1nsef.apps.googleusercontent.com',
+    iosBundleId: 'com.langitdigital78.mobile-pgb',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(

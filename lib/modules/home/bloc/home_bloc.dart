@@ -50,7 +50,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       add(LoadProfile());
     }
     if (event.context != null) {
-      determinePosition(event.context!);
+      await determinePosition(event.context!);
     } else {
       debugPrint("Context is null, cannot determine position");
     }
