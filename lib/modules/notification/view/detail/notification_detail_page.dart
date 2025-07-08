@@ -188,14 +188,17 @@ class NotificationDetailView extends StatelessWidget {
                             vertical: 15, horizontal: 15),
                         child: SizedBox(
                           width: double.infinity,
-                          child: CustomButton(
-                            backgroundColour: AppColors.secondaryColor,
-                            textColour: AppColors.whiteColor,
-                            text: "Lihat Lokasi",
-                            onPressed: () {
-                              openLink(
-                                  "https://www.google.com/maps/place/${state.detail?.data?.latitude},${state.detail?.data?.longitude}");
-                            },
+                          child: SafeArea(
+                            bottom: true,
+                            child: CustomButton(
+                              backgroundColour: AppColors.secondaryColor,
+                              textColour: AppColors.whiteColor,
+                              text: "Lihat Lokasi",
+                              onPressed: () {
+                                openLink(
+                                    "https://www.google.com/maps/place/${state.detail?.data?.latitude},${state.detail?.data?.longitude}");
+                              },
+                            ),
                           ),
                         ),
                       ),

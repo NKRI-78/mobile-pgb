@@ -48,15 +48,22 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
     if (getIt<AppBloc>().state.isLoggedIn) {
       add(LoadProfile());
-    }
-    if (event.context != null) {
-      await determinePosition(event.context!);
-    } else {
-      debugPrint("Context is null, cannot determine position");
-    }
-    await setLastLocation(emit);
 
-    getIt<AppBloc>().add(InitialAppData());
+      if (event.context != null) {
+        await Future.delayed(const Duration(milliseconds: 100));
+        try {
+          await determinePosition(event.context!);
+          await setLastLocation(emit);
+        } catch (e) {
+          debugPrint("Lokasi error: $e");
+        }
+      } else {
+        debugPrint("Context is null, cannot determine position");
+      }
+
+      getIt<AppBloc>().add(InitialAppData());
+    }
+
     await _fetchNews(emit, isRefresh: true);
     await fetchBanner(emit);
     add(SetFcm());
@@ -77,7 +84,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       final profile = await profileRepo.getProfile();
       emit(state.copyWith(profile: profile));
     } catch (e) {
-      debugPrint('❌ Error loading profile: $e');
+      debugPrint(' Error loading profile: $e');
     }
   }
 
@@ -105,7 +112,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
         isLoading: false,
       ));
     } catch (e) {
-      debugPrint('❌ Error fetching news: $e');
+      debugPrint(' Error fetching news: $e');
     }
   }
 
@@ -127,15 +134,16 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
             seconds: 3,
           ),
         );
-        print("hit fcm");
+        debugPrint("Hit FCM IOS");
         var apnsToken = await FirebaseMessaging.instance.getAPNSToken();
 
-        print('APNS Token: $apnsToken');
+        print('Token FCM IOS: $apnsToken');
       }
       final token = await FirebaseMessaging.instance.getToken();
 
       await homeRepo.setFcm(token ?? '');
       debugPrint("Set FCM Success");
+      print('Token FCM Android: $token');
     } catch (e) {
       debugPrint(e.toString());
     }

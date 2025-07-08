@@ -31,4 +31,6 @@ class HomeCopyState extends HomeEvent {
 
 class LoadProfile extends HomeEvent {}
 
-class SetFcm extends HomeEvent {}
+class SetFcm extends HomeEvent {
+  const SetFcm();
+}

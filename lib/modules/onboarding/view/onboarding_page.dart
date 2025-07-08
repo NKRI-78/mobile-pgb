@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/onboarding_cubit.dart';
 import '../widget/onboarding_pageview.dart';
 
-import '../../../router/builder.dart';
 import '../model/onboarding_data.dart';
 
 class OnboardingPage extends StatelessWidget {
@@ -38,10 +37,6 @@ class _OnboardingViewState extends State<OnboardingView> {
     }
   }
 
-  void finishOnboarding() {
-    HomeRoute().go(context);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +67,6 @@ class _OnboardingViewState extends State<OnboardingView> {
                 onNext: nextPage,
                 onFinish: () {
                   context.read<OnboardingCubit>().finishOnboarding(context);
-                  HomeRoute().go(context);
                 },
                 titleStyle: const TextStyle(
                   fontSize: 24,
