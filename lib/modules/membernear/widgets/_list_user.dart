@@ -89,11 +89,12 @@ class _ListUser extends StatelessWidget {
                                                 textAlign: TextAlign.center,
                                                 softWrap: true,
                                                 overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    color: AppColors.whiteColor,
-                                                    fontSize: fontSizeDefault,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                                style: AppTextStyles
+                                                    .textStyleBold
+                                                    .copyWith(
+                                                  color: AppColors.whiteColor,
+                                                  fontSize: 12,
+                                                ),
                                               ),
                                             ),
                                             SizedBox(
@@ -102,10 +103,10 @@ class _ListUser extends StatelessWidget {
                                                 '$resultText KM',
                                                 maxLines: 1,
                                                 textAlign: TextAlign.center,
-                                                style: TextStyle(
+                                                style: AppTextStyles
+                                                    .textStyleNormal
+                                                    .copyWith(
                                                   color: AppColors.whiteColor,
-                                                  fontSize: fontSizeSmall,
-                                                  fontWeight: FontWeight.bold,
                                                 ),
                                               ),
                                             ),
@@ -113,16 +114,27 @@ class _ListUser extends StatelessWidget {
                                         ),
                                       ),
                                       Positioned(
-                                        bottom: 55,
+                                        bottom: 52,
                                         right: 0,
                                         left: 0,
-                                        child: ImageAvatar(
-                                          image: (data.profile?.avatarLink
-                                                      ?.isEmpty ??
-                                                  true)
-                                              ? "https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png"
-                                              : data.profile?.avatarLink ?? "",
-                                          radius: 25,
+                                        child: CircleAvatar(
+                                          radius: 30,
+                                          backgroundColor: Colors.transparent,
+                                          child: ClipOval(
+                                            child: CachedNetworkImage(
+                                              imageUrl: (data
+                                                          .profile
+                                                          ?.avatarLink
+                                                          ?.isEmpty ??
+                                                      true)
+                                                  ? imageDefaultUser
+                                                  : data.profile?.avatarLink ??
+                                                      "",
+                                              width: 60,
+                                              height: 60,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ],

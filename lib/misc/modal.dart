@@ -186,10 +186,11 @@ class GeneralModal {
                   child: Column(
                     children: [
                       CircleAvatar(
+                        backgroundColor: Colors.transparent,
                         maxRadius: 50.0,
                         backgroundImage: NetworkImage(
                           (membernear.profile?.avatarLink?.isEmpty ?? true)
-                              ? "https://i.ibb.co.com/vxkjJQD/Png-Item-1503945.png"
+                              ? imageDefaultUser
                               : membernear.profile?.avatarLink ?? "",
                         ),
                       ),
@@ -207,7 +208,7 @@ class GeneralModal {
                       const SizedBox(height: 5.0),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Text("${membernear.profile?.kta}",
+                        child: Text(membernear.profile?.kta ?? "-",
                             overflow: TextOverflow.visible,
                             textAlign: TextAlign.center,
                             style: const TextStyle(

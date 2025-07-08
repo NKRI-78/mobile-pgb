@@ -23,12 +23,14 @@ class FirebaseMessagingMisc {
         }
         if (myNavigatorKey.currentContext != null &&
             message?.data['type'] == "SOS") {
-          NotificationDetailRoute(idNotif: int.parse(message?.data['id'] ?? "0"))
+          NotificationDetailRoute(
+                  idNotif: int.parse(message?.data['id'] ?? "0"))
               .push(myNavigatorKey.currentContext!);
         }
         if (myNavigatorKey.currentContext != null &&
             message?.data['type'] == "BROADCAST") {
-          NotificationDetailRoute(idNotif: int.parse(message?.data['id'] ?? "0"))
+          NotificationDetailRoute(
+                  idNotif: int.parse(message?.data['notif_id'] ?? "0"))
               .push(myNavigatorKey.currentContext!);
         }
         if (myNavigatorKey.currentContext != null &&
@@ -67,7 +69,8 @@ class FirebaseMessagingMisc {
       }
       if (myNavigatorKey.currentContext != null &&
           message.data['type'] == "BROADCAST") {
-        NotificationDetailRoute(idNotif: int.parse(message.data['id'] ?? "0"))
+        NotificationDetailRoute(
+                idNotif: int.parse(message.data['notif_id'] ?? "0"))
             .push(myNavigatorKey.currentContext!);
       }
       if (myNavigatorKey.currentContext != null &&
@@ -178,7 +181,8 @@ void onDidReceiveNotificationResponse(
           .push(myNavigatorKey.currentContext!);
     }
     if (json.decode(payload)['type'] == "BROADCAST") {
-      NotificationDetailRoute(idNotif: int.parse(json.decode(payload)['id']))
+      NotificationDetailRoute(
+              idNotif: int.parse(json.decode(payload)['notif_id']))
           .push(myNavigatorKey.currentContext!);
     }
     if (json.decode(payload)['type'] == "FORUM") {

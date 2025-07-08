@@ -218,7 +218,7 @@ class _ProfileViewState extends State<ProfileView> {
                           ),
                           CustomDownloadKta(
                             controller: _pageController,
-                            noKta: state.profile?.profile?.kta ?? '-',
+                            noKta: state.profile?.identityCard?.kta ?? '-',
                             nama: state.profile?.profile?.fullname ?? '-',
                             tempatTglLahir: state
                                     .profile?.identityCard?.birthPlaceAndDate ??

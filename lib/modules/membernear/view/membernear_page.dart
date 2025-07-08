@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,6 @@ import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/modal.dart';
 import '../bloc/membernear_bloc.dart';
-import '../../../widgets/image/image_avatar.dart';
 import '../../../widgets/pages/loading_page.dart';
 
 import '../../../misc/text_style.dart';

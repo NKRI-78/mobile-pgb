@@ -106,7 +106,7 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
                   Positioned.fill(
                     child: Padding(
                       padding:
-                          const EdgeInsets.only(top: 60, left: 15, right: 25),
+                          const EdgeInsets.only(top: 70, left: 15, right: 25),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -128,7 +128,7 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 4),
+                              const SizedBox(height: 5),
                               Text(
                                 'Reg.Date:',
                                 style: AppTextStyles.textStyleNormal.copyWith(
@@ -146,7 +146,7 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
                               ),
                             ],
                           ),
-                          const SizedBox(width: 15),
+                          const SizedBox(width: 12),
                           Expanded(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -154,35 +154,35 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
                               children: [
                                 Text(widget.noKta,
                                     style: AppTextStyles.textStyleBold
-                                        .copyWith(fontSize: 13)),
+                                        .copyWith(fontSize: 11)),
                                 Text(widget.nama,
                                     style: AppTextStyles.textStyleBold
-                                        .copyWith(fontSize: 13)),
+                                        .copyWith(fontSize: 11)),
                                 const SizedBox(height: 5),
                                 Text(widget.tempatTglLahir,
                                     style: AppTextStyles.textStyleNormal
                                         .copyWith(
-                                            fontSize: 9,
+                                            fontSize: 8,
                                             color: AppColors.greyColor)),
                                 Text(widget.alamat,
                                     style: AppTextStyles.textStyleNormal
                                         .copyWith(
-                                            fontSize: 9,
+                                            fontSize: 8,
                                             color: AppColors.greyColor)),
                                 Text(widget.rtRw,
                                     style: AppTextStyles.textStyleNormal
                                         .copyWith(
-                                            fontSize: 9,
+                                            fontSize: 8,
                                             color: AppColors.greyColor)),
                                 Text(widget.kelurahan,
                                     style: AppTextStyles.textStyleNormal
                                         .copyWith(
-                                            fontSize: 9,
+                                            fontSize: 8,
                                             color: AppColors.greyColor)),
                                 Text(widget.kecamatan,
                                     style: AppTextStyles.textStyleNormal
                                         .copyWith(
-                                            fontSize: 9,
+                                            fontSize: 8,
                                             color: AppColors.greyColor)),
                               ],
                             ),
@@ -192,8 +192,8 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
                     ),
                   ),
                   Positioned(
-                    bottom: 20,
-                    right: 20,
+                    bottom: 15,
+                    right: 15,
                     child: BarcodeWidget(
                       color: AppColors.buttonBlueColor,
                       barcode: Barcode.qrCode(),

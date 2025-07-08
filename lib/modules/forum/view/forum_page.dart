@@ -71,7 +71,7 @@ class ForumView extends StatelessWidget {
                           }
                           if (state.forums.isEmpty) {
                             return const SliverToBoxAdapter(
-                                child: EmptyPage(msg: "Tidak ada Forum.."));
+                                child: EmptyPage(msg: "Tidak ada Interaksi.."));
                           }
                           return SliverList(
                             delegate: SliverChildBuilderDelegate(
