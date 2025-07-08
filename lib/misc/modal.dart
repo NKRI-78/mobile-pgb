@@ -208,7 +208,7 @@ class GeneralModal {
                       const SizedBox(height: 5.0),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Text(membernear.profile?.kta ?? "-",
+                        child: Text(membernear.identityCard?.kta ?? "-",
                             overflow: TextOverflow.visible,
                             textAlign: TextAlign.center,
                             style: const TextStyle(

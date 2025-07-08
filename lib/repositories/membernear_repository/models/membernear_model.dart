@@ -15,7 +15,7 @@ class MemberNearModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = {};
     data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
@@ -31,42 +31,43 @@ class MemberNearData {
   double? longitude;
   String? phone;
   Profile? profile;
+  IdentityCard? identityCard;
   double? distance;
 
-  MemberNearData(
-      {this.id,
-      this.email,
-      this.latitude,
-      this.longitude,
-      this.phone,
-      this.profile,
-      this.distance});
+  MemberNearData({
+    this.id,
+    this.email,
+    this.latitude,
+    this.longitude,
+    this.phone,
+    this.profile,
+    this.identityCard,
+    this.distance,
+  });
 
   MemberNearData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     email = json['email'];
-    latitude =
-        json['latitude'] != null ? (json['latitude'] as num).toDouble() : null;
-    longitude = json['longitude'] != null
-        ? (json['longitude'] as num).toDouble()
-        : null;
+    latitude = (json['latitude'] as num?)?.toDouble();
+    longitude = (json['longitude'] as num?)?.toDouble();
     phone = json['phone'];
     profile =
         json['profile'] != null ? Profile.fromJson(json['profile']) : null;
-    distance =
-        json['distance'] != null ? (json['distance'] as num).toDouble() : null;
+    identityCard = json['identity_card'] != null
+        ? IdentityCard.fromJson(json['identity_card'])
+        : null;
+    distance = (json['distance'] as num?)?.toDouble();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = {};
     data['id'] = id;
     data['email'] = email;
     data['latitude'] = latitude;
     data['longitude'] = longitude;
     data['phone'] = phone;
-    if (profile != null) {
-      data['profile'] = profile!.toJson();
-    }
+    if (profile != null) data['profile'] = profile!.toJson();
+    if (identityCard != null) data['identity_card'] = identityCard!.toJson();
     data['distance'] = distance;
     return data;
   }
@@ -77,12 +78,54 @@ class Profile {
   String? fullname;
   String? kta;
   String? avatarLink;
+  int? userId;
+  String? createdAt;
+  String? updatedAt;
+
+  Profile({
+    this.id,
+    this.fullname,
+    this.kta,
+    this.avatarLink,
+    this.userId,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  Profile.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    fullname = json['fullname'];
+    kta = json['kta'];
+    avatarLink = json['avatar_link'];
+    userId = json['user_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data['id'] = id;
+    data['fullname'] = fullname;
+    data['kta'] = kta;
+    data['avatar_link'] = avatarLink;
+    data['user_id'] = userId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+
+class IdentityCard {
+  int? id;
+  String? name;
   String? address;
   String? gender;
   String? nik;
   String? birthPlaceAndDate;
   String? villageUnit;
   String? administrativeVillage;
+  String? province;
+  String? regencyCity;
   String? subDistrict;
   String? religion;
   String? maritalStatus;
@@ -90,43 +133,50 @@ class Profile {
   String? citizenship;
   String? bloodType;
   String? validUntil;
-  int? userId;
+  String? kta;
+  String? linkImage;
+  bool? statusActive;
   String? createdAt;
+  int? userId;
   String? updatedAt;
 
-  Profile(
-      {this.id,
-      this.fullname,
-      this.kta,
-      this.avatarLink,
-      this.address,
-      this.gender,
-      this.nik,
-      this.birthPlaceAndDate,
-      this.villageUnit,
-      this.administrativeVillage,
-      this.subDistrict,
-      this.religion,
-      this.maritalStatus,
-      this.occupation,
-      this.citizenship,
-      this.bloodType,
-      this.validUntil,
-      this.userId,
-      this.createdAt,
-      this.updatedAt});
+  IdentityCard({
+    this.id,
+    this.name,
+    this.address,
+    this.gender,
+    this.nik,
+    this.birthPlaceAndDate,
+    this.villageUnit,
+    this.administrativeVillage,
+    this.province,
+    this.regencyCity,
+    this.subDistrict,
+    this.religion,
+    this.maritalStatus,
+    this.occupation,
+    this.citizenship,
+    this.bloodType,
+    this.validUntil,
+    this.kta,
+    this.linkImage,
+    this.statusActive,
+    this.createdAt,
+    this.userId,
+    this.updatedAt,
+  });
 
-  Profile.fromJson(Map<String, dynamic> json) {
+  IdentityCard.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    fullname = json['fullname'];
-    kta = json['kta'];
-    avatarLink = json['avatar_link'];
+    name = json['name'];
     address = json['address'];
     gender = json['gender'];
     nik = json['nik'];
     birthPlaceAndDate = json['birth_place_and_date'];
     villageUnit = json['village_unit'];
     administrativeVillage = json['administrative_village'];
+    province = json['province'];
+    regencyCity = json['regency_city'];
     subDistrict = json['sub_district'];
     religion = json['religion'];
     maritalStatus = json['marital_status'];
@@ -134,23 +184,26 @@ class Profile {
     citizenship = json['citizenship'];
     bloodType = json['blood_type'];
     validUntil = json['valid_until'];
-    userId = json['user_id'];
+    kta = json['kta'];
+    linkImage = json['link_image'];
+    statusActive = json['status_active'];
     createdAt = json['created_at'];
+    userId = json['user_id'];
     updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = {};
     data['id'] = id;
-    data['fullname'] = fullname;
-    data['kta'] = kta;
-    data['avatar_link'] = avatarLink;
+    data['name'] = name;
     data['address'] = address;
     data['gender'] = gender;
     data['nik'] = nik;
     data['birth_place_and_date'] = birthPlaceAndDate;
     data['village_unit'] = villageUnit;
     data['administrative_village'] = administrativeVillage;
+    data['province'] = province;
+    data['regency_city'] = regencyCity;
     data['sub_district'] = subDistrict;
     data['religion'] = religion;
     data['marital_status'] = maritalStatus;
@@ -158,8 +211,11 @@ class Profile {
     data['citizenship'] = citizenship;
     data['blood_type'] = bloodType;
     data['valid_until'] = validUntil;
-    data['user_id'] = userId;
+    data['kta'] = kta;
+    data['link_image'] = linkImage;
+    data['status_active'] = statusActive;
     data['created_at'] = createdAt;
+    data['user_id'] = userId;
     data['updated_at'] = updatedAt;
     return data;
   }
