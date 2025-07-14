@@ -7,6 +7,7 @@ import 'text_style.dart';
 
 Future<Position> determinePosition(BuildContext context) async {
   bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  debugPrint("SERVICE ENABLED: $serviceEnabled");
 
   if (!serviceEnabled) {
     await showGpsDialog(context);
@@ -14,13 +15,23 @@ Future<Position> determinePosition(BuildContext context) async {
   }
 
   LocationPermission permission = await Geolocator.checkPermission();
-  if (permission == LocationPermission.denied) {
-    permission = await Geolocator.requestPermission();
-  }
+  debugPrint("PERMISSION STATUS: $permission");
 
   if (permission == LocationPermission.denied) {
-    await showPermissionDialog(context);
-    return Future.error('Izin lokasi ditolak.');
+    LocationPermission requestedPermission =
+        await Geolocator.requestPermission();
+
+    if (requestedPermission == LocationPermission.denied) {
+      return Future.error('Izin lokasi ditolak.');
+    }
+
+    if (requestedPermission == LocationPermission.deniedForever) {
+      await showPermissionDialog(context);
+      return Future.error('Izin lokasi ditolak secara permanen.');
+    }
+
+    // Kalau user mengizinkan, lanjut
+    permission = requestedPermission;
   }
 
   if (permission == LocationPermission.deniedForever) {
@@ -37,49 +48,45 @@ Future<Position> determinePosition(BuildContext context) async {
 Future<void> showGpsDialog(BuildContext context) async {
   return showDialog(
     context: context,
-    barrierDismissible: false,
-    builder: (context) => WillPopScope(
-      onWillPop: () async => false, // <- Ini yang memblokir tombol back
-      child: AlertDialog(
-        title: Text(
-          'GPS Tidak Aktif',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.gps_off, size: 60, color: AppColors.secondaryColor),
-            SizedBox(height: 10),
-            Text(
-              'Harap aktifkan layanan lokasi (GPS) untuk melanjutkan.',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14, color: Colors.black54),
-            ),
-          ],
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  Geolocator.openLocationSettings();
-                  Navigator.of(context).pop();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.secondaryColor,
-                ),
-                child: Text(
-                  'Buka Pengaturan',
-                  style:
-                      AppTextStyles.textStyleBold.copyWith(color: Colors.white),
-                ),
-              ),
-            ),
+    builder: (context) => AlertDialog(
+      title: Text(
+        'GPS Tidak Aktif',
+        textAlign: TextAlign.center,
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.gps_off, size: 60, color: AppColors.secondaryColor),
+          SizedBox(height: 10),
+          Text(
+            'Harap aktifkan layanan lokasi (GPS) untuk melanjutkan.',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 14, color: Colors.black54),
           ),
         ],
       ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          child: Center(
+            child: ElevatedButton(
+              onPressed: () {
+                Geolocator.openLocationSettings();
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.secondaryColor,
+              ),
+              child: Text(
+                'Buka Pengaturan',
+                style:
+                    AppTextStyles.textStyleBold.copyWith(color: Colors.white),
+              ),
+            ),
+          ),
+        ),
+      ],
     ),
   );
 }
@@ -88,51 +95,69 @@ Future<void> showGpsDialog(BuildContext context) async {
 Future<void> showPermissionDialog(BuildContext context) async {
   return showDialog(
     context: context,
-    barrierDismissible: false,
-    builder: (context) => WillPopScope(
-      onWillPop: () async => false, // <- Ini yang memblokir tombol back
-      child: AlertDialog(
-        title: Text(
-          'Izin Lokasi Diperlukan!',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.location_on_rounded,
-                size: 60, color: AppColors.secondaryColor),
-            SizedBox(height: 10),
-            Text(
-              'Izin lokasi diperlukan agar aplikasi dapat berfungsi dengan baik. '
-              'Harap aktifkan izin lokasi di pengaturan aplikasi.',
+    builder: (context) => AlertDialog(
+      title: Stack(
+        children: [
+          Center(
+            child: Text(
+              'Izin Lokasi Diperlukan!',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14, color: Colors.black54),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
-          ],
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  openAppSettings(); // from permission_handler
-                  Navigator.of(context).pop();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.secondaryColor,
-                ),
-                child: Text(
-                  'Buka Pengaturan',
-                  style:
-                      AppTextStyles.textStyleBold.copyWith(color: Colors.white),
-                ),
+          ),
+          Positioned(
+            right: 0,
+            top: 0,
+            child: Container(
+              height: 28,
+              width: 28,
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.2),
+                shape: BoxShape.circle,
+              ),
+              child: GestureDetector(
+                onTap: () => Navigator.of(context).pop(),
+                child: Icon(Icons.close, color: Colors.white),
               ),
             ),
+          )
+        ],
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.location_on_rounded,
+              size: 60, color: AppColors.secondaryColor),
+          SizedBox(height: 10),
+          Text(
+            'Izin lokasi diperlukan agar aplikasi dapat berfungsi dengan baik. '
+            'Harap aktifkan izin lokasi di pengaturan aplikasi.',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 14, color: Colors.black54),
           ),
         ],
       ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          child: Center(
+            child: ElevatedButton(
+              onPressed: () {
+                openAppSettings(); // from permission_handler
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.secondaryColor,
+              ),
+              child: Text(
+                'Buka Pengaturan',
+                style:
+                    AppTextStyles.textStyleBold.copyWith(color: Colors.white),
+              ),
+            ),
+          ),
+        ),
+      ],
     ),
   );
 }

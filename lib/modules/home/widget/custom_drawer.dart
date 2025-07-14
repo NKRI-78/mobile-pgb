@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -37,29 +39,30 @@ class CustomEndDrawer extends StatelessWidget {
                     height: 100,
                   ),
                   const SizedBox(height: 80),
-                  OutlinedButton(
-                    onPressed: () {
-                      SettingsRoute().go(context);
-                      GoRouter.of(context).pop();
-                    },
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      side: const BorderSide(
-                        color: Colors.white,
+                  if (Platform.isAndroid)
+                    OutlinedButton(
+                      onPressed: () {
+                        SettingsRoute().go(context);
+                        GoRouter.of(context).pop();
+                      },
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        side: const BorderSide(
+                          color: Colors.white,
+                        ),
+                        minimumSize: const Size.fromHeight(48),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
-                      minimumSize: const Size.fromHeight(48),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                      child: Text(
+                        'Settings',
+                        style: AppTextStyles.textStyleNormal.copyWith(
+                          fontSize: 14,
+                          color: AppColors.whiteColor,
+                        ),
                       ),
                     ),
-                    child: Text(
-                      'Settings',
-                      style: AppTextStyles.textStyleNormal.copyWith(
-                        fontSize: 14,
-                        color: AppColors.whiteColor,
-                      ),
-                    ),
-                  ),
                   const SizedBox(height: 20),
                   BlocBuilder<AppBloc, AppState>(
                     bloc: getIt<AppBloc>(),
