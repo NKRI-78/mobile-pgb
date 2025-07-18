@@ -15,6 +15,8 @@ final class SetUserLogout extends AppEvent {}
 
 final class GetBadgeNotif extends AppEvent {}
 
+final class IsRealese extends AppEvent {}
+
 final class GetBadgeCart extends AppEvent {}
 
 final class GetProfileData extends AppEvent {}

@@ -7,6 +7,7 @@ final class AppState extends Equatable {
   final CartCountModel? badgeCart;
   final ProfileModel? profile;
   final bool loadingNotif;
+  final bool isRelease;
   final NotificationCountModel? badges;
   final bool alreadyOnboarding;
 
@@ -17,6 +18,7 @@ final class AppState extends Equatable {
     this.badgeCart,
     this.profile,
     this.badges,
+    this.isRelease = false,
     this.alreadyOnboarding = false,
   });
 
@@ -33,6 +35,7 @@ final class AppState extends Equatable {
         profile,
         badges,
         alreadyOnboarding,
+        isRelease,
       ];
 
   AppState logout() {
@@ -51,16 +54,17 @@ final class AppState extends Equatable {
     ProfileModel? profile,
     NotificationCountModel? badges,
     bool? alreadyOnboarding,
+    bool? isRelease,
   }) {
     return AppState(
-      alreadyOnboarding: alreadyOnboarding ?? this.alreadyOnboarding,
-      token: token ?? this.token,
-      user: user ?? this.user,
-      loadingNotif: loadingNotif ?? this.loadingNotif,
-      badgeCart: badgeCart ?? this.badgeCart,
-      profile: profile ?? this.profile,
-      badges: badges ?? this.badges,
-    );
+        alreadyOnboarding: alreadyOnboarding ?? this.alreadyOnboarding,
+        token: token ?? this.token,
+        user: user ?? this.user,
+        loadingNotif: loadingNotif ?? this.loadingNotif,
+        badgeCart: badgeCart ?? this.badgeCart,
+        profile: profile ?? this.profile,
+        badges: badges ?? this.badges,
+        isRelease: isRelease ?? this.isRelease);
   }
 
   factory AppState.fromJson(Map<String, dynamic> json) =>

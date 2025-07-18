@@ -5,6 +5,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'colors.dart';
 import 'text_style.dart';
 
+bool _hasShownPermissionDialog = false;
+
 Future<Position> determinePosition(BuildContext context) async {
   bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
   debugPrint("SERVICE ENABLED: $serviceEnabled");
@@ -26,16 +28,21 @@ Future<Position> determinePosition(BuildContext context) async {
     }
 
     if (requestedPermission == LocationPermission.deniedForever) {
-      await showPermissionDialog(context);
+      if (!_hasShownPermissionDialog) {
+        _hasShownPermissionDialog = true;
+        await showPermissionDialog(context);
+      }
       return Future.error('Izin lokasi ditolak secara permanen.');
     }
 
-    // Kalau user mengizinkan, lanjut
     permission = requestedPermission;
   }
 
   if (permission == LocationPermission.deniedForever) {
-    await showPermissionDialog(context);
+    if (!_hasShownPermissionDialog) {
+      _hasShownPermissionDialog = true;
+      await showPermissionDialog(context);
+    }
     return Future.error('Izin lokasi ditolak secara permanen.');
   }
 
@@ -96,65 +103,57 @@ Future<void> showPermissionDialog(BuildContext context) async {
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      title: Stack(
-        children: [
-          Center(
-            child: Text(
-              'Izin Lokasi Diperlukan!',
+      insetPadding:
+          EdgeInsets.symmetric(horizontal: 20, vertical: 24), // biar ga mepet
+      contentPadding: EdgeInsets.fromLTRB(24, 20, 24, 10),
+      title: Center(
+        child: Text(
+          'Izin Lokasi Diperlukan!',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        ),
+      ),
+      content: SingleChildScrollView(
+        // responsif!
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.location_on_rounded,
+                size: 60, color: AppColors.secondaryColor),
+            SizedBox(height: 10),
+            Text(
+              'Izin lokasi diperlukan agar aplikasi dapat berfungsi dengan baik. '
+              'Harap aktifkan izin lokasi di pengaturan aplikasi.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              style: TextStyle(fontSize: 14, color: Colors.black54),
             ),
-          ),
-          Positioned(
-            right: 0,
-            top: 0,
-            child: Container(
-              height: 28,
-              width: 28,
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.2),
-                shape: BoxShape.circle,
-              ),
-              child: GestureDetector(
-                onTap: () => Navigator.of(context).pop(),
-                child: Icon(Icons.close, color: Colors.white),
-              ),
-            ),
-          )
-        ],
+          ],
+        ),
       ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.location_on_rounded,
-              size: 60, color: AppColors.secondaryColor),
-          SizedBox(height: 10),
-          Text(
-            'Izin lokasi diperlukan agar aplikasi dapat berfungsi dengan baik. '
-            'Harap aktifkan izin lokasi di pengaturan aplikasi.',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 14, color: Colors.black54),
-          ),
-        ],
-      ),
+      actionsPadding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+      actionsAlignment: MainAxisAlignment.center,
       actions: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: Center(
-            child: ElevatedButton(
-              onPressed: () {
-                openAppSettings(); // from permission_handler
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.secondaryColor,
-              ),
-              child: Text(
-                'Buka Pengaturan',
-                style:
-                    AppTextStyles.textStyleBold.copyWith(color: Colors.white),
-              ),
-            ),
+        ElevatedButton(
+          onPressed: () => Navigator.of(context).pop(),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.redColor,
+          ),
+          child: Text(
+            'Batal',
+            style: AppTextStyles.textStyleBold.copyWith(color: Colors.white),
+          ),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            openAppSettings();
+            Navigator.of(context).pop();
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.secondaryColor,
+          ),
+          child: Text(
+            'Pengaturan',
+            style: AppTextStyles.textStyleBold.copyWith(color: Colors.white),
           ),
         ),
       ],

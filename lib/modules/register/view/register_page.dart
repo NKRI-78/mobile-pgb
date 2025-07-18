@@ -1,8 +1,12 @@
 import 'dart:io';
 
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_pgb/modules/app/models/user_google_model.dart';
+import 'package:mobile_pgb/modules/register_akun/model/extrack_ktp_model.dart';
 import 'package:permission_handler/permission_handler.dart';
+import '../../../misc/injections.dart';
 import '../../../misc/register_akun_extra.dart';
 import '../cubit/register_cubit.dart';
 
@@ -106,8 +110,24 @@ class RegisterView extends StatelessWidget {
                         text: "Registrasi",
                         backgroundColour: AppColors.buttonBlueColor,
                         textColour: AppColors.whiteColor,
-                        onPressed: () {
-                          showKtpInstructionDialog(context);
+                        onPressed: () async {
+                          try {
+                            var isAppleReview = getIt<FirebaseRemoteConfig>()
+                                .getBool("is_review_apple");
+                            print("is review ? ${isAppleReview}");
+
+                            if (isAppleReview) {
+                              final extra = RegisterAkunExtra(
+                                extrackKtp: ExtrackKtpModel(),
+                                userGoogle: UserGoogleModel(),
+                              );
+                              RegisterAkunRoute($extra: extra).push(context);
+                            } else {
+                              showKtpInstructionDialog(context);
+                            }
+                          } catch (e) {
+                            debugPrint('Remote Config Error: $e');
+                          }
                         },
                       ),
                       SizedBox(height: 10),
