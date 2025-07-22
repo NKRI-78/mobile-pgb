@@ -1,13 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import '../../../misc/injections.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 import '../../../misc/pagination.dart';
-import '../../app/models/badges_order_model.dart';
 import '../../../repositories/app_repository/app_repository.dart';
 import '../../../repositories/oder_repository/models/order_model.dart';
 import '../../../repositories/oder_repository/models/waiting_payment_model.dart';
 import '../../../repositories/oder_repository/order_repository.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import '../../app/models/badges_order_model.dart';
 
 part 'order_state.dart';
 

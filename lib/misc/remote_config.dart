@@ -1,5 +1,5 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:mobile_pgb/misc/injections.dart';
+import 'injections.dart';
 
 class MyRemoteConfig {
   static FirebaseRemoteConfig? remoteConfig;

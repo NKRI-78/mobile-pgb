@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../../repositories/forum_repository/models/forum_detail_model.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../../misc/colors.dart';
 import '../../../../misc/injections.dart';
+import '../../../../repositories/forum_repository/models/forum_detail_model.dart';
 import '../../../../widgets/image/image_avatar.dart';
 import '../../../app/bloc/app_bloc.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class DetailCardHeaderForum extends StatelessWidget {
   const DetailCardHeaderForum(

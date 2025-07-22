@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import '../../misc/api_url.dart';
 import '../../misc/colors.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
@@ -69,10 +68,9 @@ class _CustomSelectLocationWidgetState
       setState(() {});
     }
     fetchProvince();
-    if (province != null) fetchCity(province!.name);
-    if (city != null) fetchDistrict(city!.name);
-    if (district != null) fetchSubDistrict(district!.name);
-    // if (subDistrict != null) fetchPostalCodes(subDistrict!.name);
+    if (province != null) fetchCity(province!.id);
+    if (city != null) fetchDistrict(city!.id);
+    if (district != null) fetchSubDistrictV2(district!.id);
     if (city != null && district != null) {
       fetchPostalCodesV2(city!.name, district!.name);
     }
@@ -81,90 +79,134 @@ class _CustomSelectLocationWidgetState
   void fetchProvince() async {
     try {
       var res = await client
-          .post(Uri.parse("${MyApi.baseUrl}/api/v1/administration/provinces"));
+          .get(Uri.parse("https://api.wilayah.site/wilayah/province"));
 
-      provinces = (jsonDecode(res.body)['data'] as List)
-          .map((e) => AdministrationModel.fromMap(e))
+      final List data = jsonDecode(res.body)['data'];
+
+      provinces = data
+          .map((e) => AdministrationModel(
+                id: e['code'],
+                name: e['nama'],
+              ))
           .toList();
+
       setState(() {});
     } catch (e) {
-      ///
+      // Handle error silently or show log if needed
     }
   }
 
-  void fetchCity(String name) async {
+  void fetchCity(String provinceCode) async {
     try {
-      var res = await client.post(
-          Uri.parse("${MyApi.baseUrl}/api/v1/administration/cities"),
-          body: {"province_name": name});
-      cities = (jsonDecode(res.body)['data'] as List)
-          .map((e) => AdministrationModel.fromMap(e))
-          .toList();
+      final res = await client.get(
+        Uri.parse("https://api.wilayah.site/wilayah/city?code=$provinceCode"),
+      );
+
+      final body = jsonDecode(res.body);
+      final data = body['data'];
+
+      if (data != null && data is List) {
+        cities = data
+            .map((e) => AdministrationModel(
+                  id: e['code'] ?? '',
+                  name: e['nama'] ?? '',
+                ))
+            .toList();
+      } else {
+        cities = [];
+      }
+
       setState(() {});
     } catch (e) {
-      //
+      debugPrint("Error fetchCity: $e");
     }
   }
 
-  void fetchDistrict(String name) async {
+  void fetchDistrict(String cityCode) async {
     try {
-      var res = await client.post(
-          Uri.parse("${MyApi.baseUrl}/api/v1/administration/districts"),
-          body: {"city_name": name});
-      districts = (jsonDecode(res.body)['data'] as List)
-          .map((e) => AdministrationModel.fromMap(e))
-          .toList();
+      var res = await client.get(
+        Uri.parse("https://api.wilayah.site/wilayah/district?code=$cityCode"),
+      );
+
+      final body = jsonDecode(res.body);
+      final data = body['data'];
+
+      if (data != null && data is List) {
+        districts = data
+            .map((e) => AdministrationModel(
+                  id: e['code'] ?? '',
+                  name: e['nama'] ?? '',
+                ))
+            .toList();
+      } else {
+        districts = [];
+      }
+
       setState(() {});
     } catch (e) {
-      //
+      debugPrint("Error fetchDistrict: $e");
     }
   }
 
-  void fetchSubDistrict(String name) async {
+  void fetchSubDistrictV2(String districtCode) async {
     try {
-      var res = await client.post(
-          Uri.parse("${MyApi.baseUrl}/api/v1/administration/subdistricts"),
-          body: {"district_name": name});
+      var res = await client.get(
+        Uri.parse(
+            "https://api.wilayah.site/wilayah/subdistrict?code=$districtCode"),
+      );
 
-      subDistricts = (jsonDecode(res.body)['data'] as List)
-          .map((e) => AdministrationModel.fromMap(e))
-          .toList();
+      final body = jsonDecode(res.body);
+      final data = body['data'];
+
+      if (data != null && data is List) {
+        subDistricts = data
+            .map((e) => AdministrationModel(
+                  id: e['code'] ?? '',
+                  name: e['nama'] ?? '',
+                ))
+            .toList();
+      } else {
+        subDistricts = [];
+      }
+
       setState(() {});
     } catch (e) {
-      //
-    }
-  }
-
-  void fetchPostalCodes(String name) async {
-    try {
-      var res = await client.post(
-          Uri.parse("${MyApi.baseUrl}/api/v1/administration/postal-codes"),
-          body: {
-            "subdistrict_name": name,
-          });
-
-      postalCodes = (jsonDecode(res.body)['data'] as List)
-          .map((e) => AdministrationModel.fromMap(e))
-          .toList();
-      setState(() {});
-    } catch (e) {
-      //
+      debugPrint("Error fetchSubDistrictV2: $e");
     }
   }
 
   void fetchPostalCodesV2(String cityName, String districtName) async {
     try {
-      var res = await client.post(
-          Uri.parse("${MyApi.baseUrl}/api/v1/administration/postal-codes"),
-          body: {"district_name": districtName, "city_name": cityName});
-      // print(res.data['data']);
-      postalCodes = (jsonDecode(res.body)['data'] as List)
-          .map((e) => AdministrationModel.fromMap(e))
-          .toList();
+      final code = subDistrict?.id;
+      if (code == null) {
+        debugPrint("subDistrict ID null, tidak bisa fetch postal code");
+        return;
+      }
+
+      debugPrint("Fetching postal code with code: $code");
+
+      final res = await client.get(
+        Uri.parse("https://api.wilayah.site/wilayah/postalcode?code=$code"),
+      );
+
+      final data = jsonDecode(res.body)['data'];
+
+      debugPrint("Postal code API response: $data");
+
+      if (data != null && data is Map<String, dynamic>) {
+        postalCodes = [
+          AdministrationModel(
+            id: data['postal_code'],
+            name: data['postal_code'],
+          )
+        ];
+      } else {
+        postalCodes = [];
+      }
+
       setState(() {});
     } catch (e) {
-      // print(e.toString());
-      //
+      debugPrint("Error fetchPostalCodesV2: $e");
     }
   }
 
@@ -330,50 +372,78 @@ class _CustomSelectLocationWidgetState
           return ListTile(
             onTap: () {
               switch (menuIndex) {
+                case 0:
+                  province = data;
+                  city = null;
+                  district = null;
+                  subDistrict = null;
+                  postalCode = null;
+
+                  cities = [];
+                  districts = [];
+                  subDistricts = [];
+                  postalCodes = [];
+
+                  menuIndex = 1;
+                  searchController.text = '';
+                  fetchCity(data.id);
+                  setState(() {});
+                  return;
+
                 case 1:
                   city = data;
+                  district = null;
+                  subDistrict = null;
+                  postalCode = null;
+
+                  districts = [];
+                  subDistricts = [];
+                  postalCodes = [];
+
                   menuIndex = 2;
                   searchController.text = '';
-                  fetchDistrict(data.name);
+                  fetchDistrict(data.id);
                   setState(() {});
                   return;
 
                 case 2:
                   district = data;
+                  subDistrict = null;
+                  postalCode = null;
+
+                  subDistricts = [];
+                  postalCodes = [];
+
                   menuIndex = 3;
                   searchController.text = '';
-                  fetchPostalCodesV2(city!.name, data.name);
+                  fetchSubDistrictV2(data.id);
                   setState(() {});
-
                   return;
-                // case 3:
-                //   subDistrict = data;
-                //   menuIndex = 4;
-                //   searchController.text = '';
-                //   fetchPostalCodes(data.name);
-                //   setState(() {});
-                //   return;
-                case 3:
-                  postalCode = data;
 
+                case 3:
+                  subDistrict = data;
+                  postalCode = null;
+
+                  postalCodes = [];
+
+                  menuIndex = 4;
+                  fetchPostalCodesV2(city!.name, district!.name);
+                  setState(() {});
+                  return;
+
+                case 4:
+                  postalCode = data;
                   Navigator.pop(
                     context,
                     SelectedAdministration(
                       city: city!,
                       province: province!,
-                      subDistrict: AdministrationModel(
-                          id: 'adm--', name: data.subdistrictName ?? '-'),
                       district: district!,
+                      subDistrict: subDistrict!,
                       postalCode: postalCode!,
                     ),
                   );
                   return;
-                default:
-                  province = data;
-                  menuIndex = 1;
-                  searchController.text = '';
-                  fetchCity(data.name);
-                  setState(() {});
               }
             },
             title: Text(
@@ -390,13 +460,13 @@ class _CustomSelectLocationWidgetState
       case 1:
         return 'City';
       case 2:
-        return 'SUBDISTRICT';
-      // case 3:
-      //   return getTranslated("DISTRICT");
+        return 'District';
       case 3:
-        return 'POSTAL CODE';
+        return 'Subdistrict';
+      case 4:
+        return 'Postal Code';
       default:
-        return 'PROVINCE';
+        return 'Province';
     }
   }
 
@@ -406,9 +476,9 @@ class _CustomSelectLocationWidgetState
         return city?.name ?? '-';
       case 2:
         return district?.name ?? '-';
-      // case 3:
-      //   return subDistrict?.name ?? '-';
       case 3:
+        return subDistrict?.name ?? '-';
+      case 4:
         return postalCode?.name ?? '-';
       default:
         return province?.name ?? '-';
@@ -418,21 +488,27 @@ class _CustomSelectLocationWidgetState
   List<AdministrationModel> getListByMenu(int index) {
     List<AdministrationModel> list = [];
     switch (index) {
+      case 0:
+        list = provinces;
+        break;
       case 1:
         list = cities;
+        break;
       case 2:
         list = districts;
-      // case 3:
-      //   list = subDistricts;
+        break;
       case 3:
+        list = subDistricts;
+        break;
+      case 4:
         list = postalCodes;
-      default:
-        list = provinces;
+        break;
     }
 
     return list
-        .where((element) =>
-            element.name.toLowerCase().contains(searchController.text))
+        .where((element) => element.name
+            .toLowerCase()
+            .contains(searchController.text.toLowerCase()))
         .toList();
   }
 }
@@ -454,10 +530,6 @@ class SelectedAdministration {
 }
 
 class AdministrationModel {
-  // {
-  //           "id": "00",
-  //           "name": "BALI"
-  //       }
   final String id;
   final String name;
   final String? subdistrictName;
@@ -481,6 +553,14 @@ class AdministrationModel {
       id: map['id'] as String,
       name: map['name'] as String,
       subdistrictName: map['subdistricts_name'] as String?,
+    );
+  }
+
+  /// Tambahan khusus untuk API https://api.wilayah.site
+  factory AdministrationModel.fromWilayahAPI(Map<String, dynamic> map) {
+    return AdministrationModel(
+      id: map['code'].toString(),
+      name: map['nama'],
     );
   }
 

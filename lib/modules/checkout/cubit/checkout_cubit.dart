@@ -366,24 +366,13 @@ class CheckoutCubit extends Cubit<CheckoutState> {
   Future<String> checkoutItem() async {
     try {
       emit(state.copyWith(loading: true));
-      // final body = {
-      //   "from": state.from,
-      //   "payment": state.channel!,
-      //   "shippings": state.shippings!.map((key, value) {
-      //     final newValue = Map<String, dynamic>.from(value);
-      //     newValue.remove('service_replaced');
-      //     return MapEntry(key, newValue);
-      //   }),
-      //   "productId": state.productId,
-      //   "qty": state.qty
-      // };
+
       final cleanedShippings = state.shippings!.map((key, value) {
         final newValue = Map<String, dynamic>.from(value);
         newValue.remove('service_replaced');
         newValue.remove('logo_url');
         return MapEntry(key, newValue);
       });
-      // print("Shipping pressed : $cleanedShippings");
       var paymentNumber = await repo.checkoutItem(
           from: state.from,
           payment: state.channel!,
