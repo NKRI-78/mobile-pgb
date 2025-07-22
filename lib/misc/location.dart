@@ -4,6 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import 'colors.dart';
 import 'text_style.dart';
+import 'dart:io';
 
 bool _hasShownPermissionDialog = false;
 
@@ -28,7 +29,7 @@ Future<Position> determinePosition(BuildContext context) async {
     }
 
     if (requestedPermission == LocationPermission.deniedForever) {
-      if (!_hasShownPermissionDialog) {
+      if (!_hasShownPermissionDialog && !Platform.isIOS) {
         _hasShownPermissionDialog = true;
         await showPermissionDialog(context);
       }
@@ -39,7 +40,7 @@ Future<Position> determinePosition(BuildContext context) async {
   }
 
   if (permission == LocationPermission.deniedForever) {
-    if (!_hasShownPermissionDialog) {
+    if (!_hasShownPermissionDialog && !Platform.isIOS) {
       _hasShownPermissionDialog = true;
       await showPermissionDialog(context);
     }

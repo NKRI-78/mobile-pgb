@@ -7,7 +7,7 @@ import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
 import '../../modules/app/models/badges_order_model.dart';
-import 'model/setting_model.dart';
+// import 'model/setting_model.dart';
 
 class AppRepository {
   String get settings => '${MyApi.baseUrl}/api/v1/settings';
@@ -16,21 +16,21 @@ class AppRepository {
 
   final http = getIt<BaseNetworkClient>();
 
-  Future<SettingModel> isRealese() async {
-    try {
-      final res = await http.get(Uri.parse(settings));
+  // Future<SettingModel> isRealese() async {
+  //   try {
+  //     final res = await http.get(Uri.parse(settings));
 
-      debugPrint(res.body);
-      final json = jsonDecode(res.body);
-      if (res.statusCode == 200) {
-        return SettingModel.fromJson(json);
-      } else {
-        throw "error api";
-      }
-    } catch (e) {
-      rethrow;
-    }
-  }
+  //     debugPrint(res.body);
+  //     final json = jsonDecode(res.body);
+  //     if (res.statusCode == 200) {
+  //       return SettingModel.fromJson(json);
+  //     } else {
+  //       throw "error api";
+  //     }
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
 
   // Future<ProfileModelV2> getProfile() async {
   //   try {

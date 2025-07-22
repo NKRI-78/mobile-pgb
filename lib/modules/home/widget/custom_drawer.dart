@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -127,17 +129,51 @@ class CustomEndDrawer extends StatelessWidget {
                     builder: (context, state) {
                       if (state.user != null) {
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: 24),
-                          child: TextButton(
-                            onPressed: () {
-                              showLogoutDialog(context);
-                            },
-                            child: Text(
-                              'Log Out',
-                              style: AppTextStyles.textStyleBold.copyWith(
-                                color: AppColors.yellowColor,
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Column(
+                            children: [
+                              if (Platform.isIOS)
+                                FutureBuilder<bool>(
+                                  future: Future.value(
+                                      getIt<FirebaseRemoteConfig>()
+                                          .getBool("is_review_apple")),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const SizedBox.shrink();
+                                    }
+
+                                    if (snapshot.hasData &&
+                                        snapshot.data == true) {
+                                      return TextButton(
+                                        onPressed: () {
+                                          showDeleteAccountDialog(context);
+                                        },
+                                        child: Text(
+                                          'Hapus Akun',
+                                          style: AppTextStyles.textStyleBold
+                                              .copyWith(
+                                            color: AppColors.redColor,
+                                          ),
+                                        ),
+                                      );
+                                    }
+
+                                    return const SizedBox.shrink();
+                                  },
+                                ),
+                              TextButton(
+                                onPressed: () {
+                                  showLogoutDialog(context);
+                                },
+                                child: Text(
+                                  'Log Out',
+                                  style: AppTextStyles.textStyleBold.copyWith(
+                                    color: AppColors.yellowColor,
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
                         );
                       }
@@ -150,6 +186,133 @@ class CustomEndDrawer extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void showDeleteAccountDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext dialogContext) {
+        return Center(
+          child: Material(
+            color: Colors.transparent,
+            child: Stack(
+              alignment: Alignment.topCenter,
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  padding: const EdgeInsets.fromLTRB(20, 60, 20, 20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    gradient: const LinearGradient(
+                      colors: [
+                        AppColors.secondaryColor,
+                        Color(0xFF005FA3),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.5),
+                        blurRadius: 8,
+                        offset: const Offset(3, 4),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Konfirmasi Hapus Akun',
+                        style: AppTextStyles.textStyleBold.copyWith(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        'Apakah Anda yakin ingin menghapus akun? Tindakan ini tidak dapat dibatalkan.',
+                        style: AppTextStyles.textStyleNormal.copyWith(
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 24),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              onPressed: () =>
+                                  Navigator.of(dialogContext).pop(),
+                              child: Text(
+                                'Batal',
+                                style: AppTextStyles.textStyleNormal.copyWith(
+                                  color: AppColors.blackColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.redColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              onPressed: () async {
+                                const url =
+                                    'https://forms.gle/1GqqzziMkPt4rhk28';
+                                if (await canLaunchUrl(Uri.parse(url))) {
+                                  await launchUrl(Uri.parse(url),
+                                      mode: LaunchMode.externalApplication);
+                                  Navigator.of(dialogContext).pop();
+                                } else {
+                                  debugPrint('Tidak bisa membuka tautan: $url');
+                                }
+                              },
+                              child: Text(
+                                'Hapus Akun',
+                                style: AppTextStyles.textStyleNormal.copyWith(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Positioned(
+                  top: -60,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.asset(
+                      'assets/icons/dialog.png',
+                      height: 100,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 

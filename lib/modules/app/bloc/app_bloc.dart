@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mobile_pgb/repositories/app_repository/app_repository.dart';
-import '../../../repositories/app_repository/model/setting_model.dart';
+// import '../../../repositories/app_repository/model/setting_model.dart';
 import '../models/user_google_model.dart';
 import '../../../repositories/cart_repository/cart_repository.dart';
 import '../../../repositories/cart_repository/models/cart_count_model.dart';
@@ -32,7 +32,7 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     on<SetUserData>(_onSetUserData);
     on<GetBadgeNotif>(_onGetBadgeNotif);
     on<GetBadgeCart>(_onGetBadgeCart);
-    on<IsRealese>(_onIsRealese);
+    // on<IsRealese>(_onIsRealese);
 
     on<GetProfileData>(_onGetProfile);
     on<AppEvent>((event, emit) {});
@@ -77,11 +77,11 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     state.copyWith();
   }
 
-  FutureOr<void> _onIsRealese(IsRealese event, Emitter<AppState> emit) async {
-    SettingModel? data = await repoApp.isRealese();
-    emit(state.copyWith(isRelease: data.data.isReview));
-    debugPrint("data release ${data.data.isReview}");
-  }
+  // FutureOr<void> _onIsRealese(IsRealese event, Emitter<AppState> emit) async {
+  //   SettingModel? data = await repoApp.isRealese();
+  //   emit(state.copyWith(isRelease: data.data.isReview));
+  //   debugPrint("data release ${data.data.isReview}");
+  // }
 
   Future<void> _onSetUserLogout(
     SetUserLogout event,

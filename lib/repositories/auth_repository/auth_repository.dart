@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as ht;
 
@@ -173,6 +174,9 @@ class AuthRepository {
     ExtrackKtpModel? ktpModel,
   }) async {
     try {
+      var isAppleReview =
+          getIt<FirebaseRemoteConfig>().getBool("is_review_apple");
+      print("is review ? ${isAppleReview}");
       print("Oauth : $oAuth");
       final response = await http.post(Uri.parse('$auth/register'), body: {
         'email': email,
@@ -180,7 +184,7 @@ class AuthRepository {
         'phone': phone,
         'address': ktpModel?.address ?? '',
         'name': ktpModel?.fullname ?? '',
-        'gender': ktpModel?.translateGender,
+        'gender': isAppleReview ? 'L' : ktpModel?.translateGender,
         'nik': ktpModel?.nik ?? '',
         'avatar_link': ktpModel?.avatarLink ?? '',
         'birth_place_and_date': ktpModel?.birthPlaceAndDate ?? '',
