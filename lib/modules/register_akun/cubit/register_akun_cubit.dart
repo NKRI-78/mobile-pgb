@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../misc/register_akun_extra.dart';
@@ -38,6 +39,11 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
     emit(state.copyWith(ktpModel: extrackKtp, userGoogle: userGoogle));
   }
 
+  String generateUniquePhoneNumber() {
+    final now = DateTime.now().millisecondsSinceEpoch;
+    return "999${now.toString().substring(now.toString().length - 7)}";
+  }
+
   bool submissionValidation(
     BuildContext context, {
     required String email,
@@ -45,6 +51,10 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
     required String password,
     required String passwordConfirm,
   }) {
+    final isAppleReview = !Platform.isIOS &&
+        getIt<FirebaseRemoteConfig>().getBool("is_review_apple");
+    debugPrint("isAppleReview: $isAppleReview");
+
     if (!email
         .contains(RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)?$'))) {
       ShowSnackbar.snackbar(
@@ -53,17 +63,12 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
         isSuccess: false,
       );
       return false;
-    } else if (phone.length < 10 || !RegExp(r'^[0-9]+$').hasMatch(phone)) {
+    }
+    if (!isAppleReview &&
+        (phone.length < 10 || !RegExp(r'^[0-9]+$').hasMatch(phone))) {
       ShowSnackbar.snackbar(
         context,
         "Nomor telepon harus minimal 10 digit dan hanya mengandung angka",
-        isSuccess: false,
-      );
-      return false;
-    } else if (password.length < 8) {
-      ShowSnackbar.snackbar(
-        context,
-        "Kata Sandi minimal 8 karakter",
         isSuccess: false,
       );
       return false;
@@ -86,13 +91,15 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
   }
 
   Future<void> submit(BuildContext context) async {
+    final isAppleReview = !Platform.isIOS &&
+        getIt<FirebaseRemoteConfig>().getBool("is_review_apple");
+    debugPrint("isAppleReview2: $isAppleReview");
     try {
       emit(state.copyWith(isLoading: true));
 
       final isGoogleLogin = state.userGoogle?.oauthId != null;
 
       final email = isGoogleLogin ? state.userGoogle!.email : state.email;
-      // final avatar = isGoogleLogin ? state.userGoogle!.avatar : null;
 
       // Validasi Foto
       if (state.fileImage == null) {
@@ -111,7 +118,7 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
       final isClear = submissionValidation(
         context,
         email: email ?? '',
-        phone: state.phone,
+        phone: isAppleReview ? '' : state.phone,
         password: state.password,
         passwordConfirm: state.passwordConfirm,
       );
@@ -121,14 +128,6 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
         return;
       }
 
-      // Upload foto jika bukan dari Google
-      // String imageUrl = avatar ?? "";
-      // if (avatar == null || avatar.isEmpty) {
-      //   final linkImage =
-      //       await repo.postMedia(folder: "images", media: state.fileImage!);
-      //   print(linkImage);
-      //   imageUrl = linkImage.first['url']; // gunakan hasil upload
-      // }
       // Upload foto (wajib upload ulang meskipun dari Google)
       final uploaded = await repo.postMedia(
         folder: "images",
@@ -157,7 +156,7 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
 
       await repo.registerAkun(
         email: email ?? '',
-        phone: state.phone,
+        phone: isAppleReview ? generateUniquePhoneNumber() : state.phone,
         password: state.password,
         oAuth: state.userGoogle?.oauthId ?? "",
         ktpModel: ExtrackKtpModel(
@@ -181,6 +180,10 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
           indentityCardUrl: finalIdentityCardUrl,
         ),
       );
+      debugPrint(
+          "Phone yang dikirim: ${isAppleReview ? generateUniquePhoneNumber() : state.phone}");
+      debugPrint(
+          "Generated unique phone number: ${generateUniquePhoneNumber()}");
 
       debugPrint("IDENT ${finalIdentityCardUrl}");
       debugPrint("PROV ${state.ktpModel?.province}");

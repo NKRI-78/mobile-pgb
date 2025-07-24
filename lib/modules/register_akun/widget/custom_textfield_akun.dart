@@ -1,6 +1,8 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_pgb/misc/injections.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
@@ -60,15 +62,36 @@ class _FieldPhone extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterAkunCubit, RegisterAkunState>(
       builder: (context, state) {
-        return _buildTextFormField(
-          maxLength: 13,
-          label: 'Nomor Handphone',
-          initialValue: state.phone,
-          keyboardType: TextInputType.phone,
-          onChanged: (value) {
-            var cubit = context.read<RegisterAkunCubit>();
-            cubit.copyState(newState: cubit.state.copyWith(phone: value));
-          },
+        var isAppleReview =
+            getIt<FirebaseRemoteConfig>().getBool("is_review_apple");
+        print("is review ? ${isAppleReview}");
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildTextFormField(
+              maxLength: 13,
+              label: 'Nomor Handphone',
+              initialValue: state.phone,
+              keyboardType: TextInputType.phone,
+              onChanged: (value) {
+                var cubit = context.read<RegisterAkunCubit>();
+                cubit.copyState(newState: cubit.state.copyWith(phone: value));
+              },
+            ),
+            if (isAppleReview)
+              Padding(
+                padding: const EdgeInsets.only(left: 5, top: 0, bottom: 10),
+                child: Text(
+                  '*Opsional: Anda dapat mengisi nomor handphone atau melewati pilihan ini.',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: AppColors.greyColor,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ),
+          ],
         );
       },
     );
