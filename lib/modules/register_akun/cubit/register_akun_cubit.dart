@@ -51,7 +51,7 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
     required String password,
     required String passwordConfirm,
   }) {
-    final isAppleReview = !Platform.isIOS &&
+    final isAppleReview = Platform.isIOS &&
         getIt<FirebaseRemoteConfig>().getBool("is_review_apple");
     debugPrint("isAppleReview: $isAppleReview");
 
@@ -91,7 +91,7 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
   }
 
   Future<void> submit(BuildContext context) async {
-    final isAppleReview = !Platform.isIOS &&
+    final isAppleReview = Platform.isIOS &&
         getIt<FirebaseRemoteConfig>().getBool("is_review_apple");
     debugPrint("isAppleReview2: $isAppleReview");
     try {
