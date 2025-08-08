@@ -103,6 +103,12 @@ class _ProfileViewState extends State<ProfileView> {
                                             isForExport: true,
                                             cardSide: CardSide.front,
                                             onCardSideChanged: (_) {},
+                                            provinsi: state.profile
+                                                    ?.identityCard?.province ??
+                                                '-',
+                                            kab: state.profile?.identityCard
+                                                    ?.regencyCity ??
+                                                '-',
                                             createAt: state.profile?.profile
                                                     ?.createdAt ??
                                                 '-',
@@ -155,6 +161,12 @@ class _ProfileViewState extends State<ProfileView> {
                                                     '-',
                                             nama: state.profile?.profile
                                                     ?.fullname ??
+                                                '-',
+                                            provinsi: state.profile
+                                                    ?.identityCard?.province ??
+                                                '-',
+                                            kab: state.profile?.identityCard
+                                                    ?.regencyCity ??
                                                 '-',
                                             tempatTglLahir: state
                                                     .profile
@@ -218,6 +230,10 @@ class _ProfileViewState extends State<ProfileView> {
                           ),
                           CustomDownloadKta(
                             controller: _pageController,
+                            provinsi:
+                                state.profile?.identityCard?.province ?? '-',
+                            kab:
+                                state.profile?.identityCard?.regencyCity ?? '-',
                             noKta: state.profile?.identityCard?.kta ?? '-',
                             nama: state.profile?.profile?.fullname ?? '-',
                             tempatTglLahir: state
