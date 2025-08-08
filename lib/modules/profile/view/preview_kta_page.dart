@@ -10,6 +10,8 @@ class PreviewKtaPage extends StatefulWidget {
       kelurahan,
       kecamatan,
       fotoPath,
+      provinsi,
+      kab,
       createAt;
 
   const PreviewKtaPage({
@@ -24,6 +26,8 @@ class PreviewKtaPage extends StatefulWidget {
     required this.kecamatan,
     required this.fotoPath,
     required this.createAt,
+    required this.provinsi,
+    required this.kab,
   });
 
   @override
@@ -104,6 +108,8 @@ class _PreviewKtaPageState extends State<PreviewKtaPage> {
                     onCardSideChanged: (_) {},
                     isForExport: true,
                     cardSide: CardSide.front,
+                    provinsi: widget.provinsi,
+                    kab: widget.kab,
                     noKta: widget.noKta,
                     nama: widget.nama,
                     tempatTglLahir: widget.tempatTglLahir,
@@ -125,6 +131,8 @@ class _PreviewKtaPageState extends State<PreviewKtaPage> {
                     cardSide: CardSide.back,
                     noKta: widget.noKta,
                     nama: widget.nama,
+                    provinsi: widget.provinsi,
+                    kab: widget.kab,
                     tempatTglLahir: widget.tempatTglLahir,
                     agama: widget.agama,
                     alamat: widget.alamat,

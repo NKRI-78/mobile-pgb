@@ -11,6 +11,8 @@ class CustomDownloadKta extends StatelessWidget {
       kelurahan,
       kecamatan,
       fotoPath,
+      provinsi,
+      kab,
       createAt;
   final GlobalKey ktaFrontKey;
 
@@ -27,6 +29,8 @@ class CustomDownloadKta extends StatelessWidget {
     required this.kecamatan,
     required this.fotoPath,
     required this.createAt,
+    required this.provinsi,
+    required this.kab,
     required this.ktaFrontKey,
   });
 
@@ -45,6 +49,8 @@ class CustomDownloadKta extends StatelessWidget {
         onPressed: () async {
           final result = await Navigator.of(context).push(MaterialPageRoute(
             builder: (_) => PreviewKtaPage(
+              provinsi: provinsi,
+              kab: kab,
               noKta: noKta,
               nama: nama,
               tempatTglLahir: tempatTglLahir,

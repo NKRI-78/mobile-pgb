@@ -10,6 +10,8 @@ class CustomCardProfile extends StatefulWidget {
       kelurahan,
       kecamatan,
       fotoPath,
+      provinsi,
+      kab,
       createAt;
   final bool isForExport;
   final CardSide cardSide;
@@ -30,6 +32,8 @@ class CustomCardProfile extends StatefulWidget {
     required this.kelurahan,
     required this.kecamatan,
     required this.createAt,
+    required this.provinsi,
+    required this.kab,
   });
 
   @override
@@ -146,7 +150,7 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
                               ),
                             ],
                           ),
-                          const SizedBox(width: 12),
+                          const SizedBox(width: 15),
                           Expanded(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -184,6 +188,16 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
                                         .copyWith(
                                             fontSize: 8,
                                             color: AppColors.greyColor)),
+                                Text(widget.kab,
+                                    style: AppTextStyles.textStyleNormal
+                                        .copyWith(
+                                            fontSize: 8,
+                                            color: AppColors.greyColor)),
+                                Text(widget.provinsi,
+                                    style: AppTextStyles.textStyleNormal
+                                        .copyWith(
+                                            fontSize: 8,
+                                            color: AppColors.greyColor)),
                               ],
                             ),
                           ),
@@ -192,15 +206,15 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
                     ),
                   ),
                   Positioned(
-                    bottom: 15,
-                    right: 15,
+                    bottom: 13,
+                    right: 13,
                     child: BarcodeWidget(
                       color: AppColors.buttonBlueColor,
                       barcode: Barcode.qrCode(),
                       data:
                           'http://membership-card.langitdigital78.com/membership-card/${widget.noKta}',
-                      width: 65,
-                      height: 65,
+                      width: 55,
+                      height: 55,
                       drawText: false,
                     ),
                   ),
