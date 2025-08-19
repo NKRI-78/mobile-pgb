@@ -45,7 +45,7 @@ class ListNews extends StatelessWidget {
               const SizedBox(width: 6),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  padding: const EdgeInsets.symmetric(vertical: 3),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -53,7 +53,7 @@ class ListNews extends StatelessWidget {
                         news.title,
                         maxLines: 2,
                         style: AppTextStyles.textStyleBold.copyWith(
-                          fontSize: 13,
+                          fontSize: 12,
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -62,7 +62,7 @@ class ListNews extends StatelessWidget {
                         news.content.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ""),
                         maxLines: 3,
                         style: AppTextStyles.textStyleNormal.copyWith(
-                          fontSize: 11,
+                          fontSize: 10,
                           color: AppColors.greyColor,
                         ),
                         overflow: TextOverflow.ellipsis,

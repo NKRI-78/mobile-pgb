@@ -133,72 +133,130 @@ class _CustomCardProfileState extends State<CustomCardProfile> {
                                 ),
                               ),
                               const SizedBox(height: 5),
-                              Text(
-                                'Reg.Date:',
-                                style: AppTextStyles.textStyleNormal.copyWith(
-                                  fontSize: 7,
-                                  color: AppColors.greyColor,
-                                ),
-                              ),
-                              Text(
-                                DateHelper.formatToDayMonthYear(
-                                    widget.createAt),
-                                style: AppTextStyles.textStyleNormal.copyWith(
-                                  fontSize: 7,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              LayoutBuilder(
+                                builder: (context, constraints) {
+                                  double regFont =
+                                      constraints.maxWidth < 250 ? 6 : 7;
+
+                                  return Column(
+                                    children: [
+                                      Text(
+                                        'Reg.Date:',
+                                        style: AppTextStyles.textStyleNormal
+                                            .copyWith(
+                                          fontSize: regFont,
+                                          color: AppColors.greyColor,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      Text(
+                                        DateHelper.formatToDayMonthYear(
+                                            widget.createAt),
+                                        style: AppTextStyles.textStyleNormal
+                                            .copyWith(
+                                          fontSize: regFont,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  );
+                                },
                               ),
                             ],
                           ),
                           const SizedBox(width: 15),
                           Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(widget.noKta,
-                                    style: AppTextStyles.textStyleBold
-                                        .copyWith(fontSize: 11)),
-                                Text(widget.nama,
-                                    style: AppTextStyles.textStyleBold
-                                        .copyWith(fontSize: 11)),
-                                const SizedBox(height: 5),
-                                Text(widget.tempatTglLahir,
-                                    style: AppTextStyles.textStyleNormal
-                                        .copyWith(
-                                            fontSize: 8,
-                                            color: AppColors.greyColor)),
-                                Text(widget.alamat,
-                                    style: AppTextStyles.textStyleNormal
-                                        .copyWith(
-                                            fontSize: 8,
-                                            color: AppColors.greyColor)),
-                                Text(widget.rtRw,
-                                    style: AppTextStyles.textStyleNormal
-                                        .copyWith(
-                                            fontSize: 8,
-                                            color: AppColors.greyColor)),
-                                Text(widget.kelurahan,
-                                    style: AppTextStyles.textStyleNormal
-                                        .copyWith(
-                                            fontSize: 8,
-                                            color: AppColors.greyColor)),
-                                Text(widget.kecamatan,
-                                    style: AppTextStyles.textStyleNormal
-                                        .copyWith(
-                                            fontSize: 8,
-                                            color: AppColors.greyColor)),
-                                Text(widget.kab,
-                                    style: AppTextStyles.textStyleNormal
-                                        .copyWith(
-                                            fontSize: 8,
-                                            color: AppColors.greyColor)),
-                                Text(widget.provinsi,
-                                    style: AppTextStyles.textStyleNormal
-                                        .copyWith(
-                                            fontSize: 8,
-                                            color: AppColors.greyColor)),
-                              ],
+                            child: LayoutBuilder(
+                              builder: (context, constraints) {
+                                double baseFont =
+                                    constraints.maxWidth < 250 ? 6 : 7;
+                                double titleFont =
+                                    constraints.maxWidth < 250 ? 10 : 11;
+
+                                return Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        widget.noKta,
+                                        style: AppTextStyles.textStyleBold
+                                            .copyWith(fontSize: titleFont),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                    ),
+                                    Flexible(
+                                      child: Text(
+                                        widget.nama,
+                                        style: AppTextStyles.textStyleBold
+                                            .copyWith(fontSize: titleFont),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Flexible(
+                                      child: Text(widget.tempatTglLahir,
+                                          style: AppTextStyles.textStyleNormal
+                                              .copyWith(
+                                                  fontSize: baseFont,
+                                                  color: AppColors.greyColor),
+                                          overflow: TextOverflow.ellipsis),
+                                    ),
+                                    Flexible(
+                                      child: Text(widget.alamat,
+                                          style: AppTextStyles.textStyleNormal
+                                              .copyWith(
+                                                  fontSize: baseFont,
+                                                  color: AppColors.greyColor),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2),
+                                    ),
+                                    Flexible(
+                                      child: Text(widget.rtRw,
+                                          style: AppTextStyles.textStyleNormal
+                                              .copyWith(
+                                                  fontSize: baseFont,
+                                                  color: AppColors.greyColor),
+                                          overflow: TextOverflow.ellipsis),
+                                    ),
+                                    Flexible(
+                                      child: Text(widget.kelurahan,
+                                          style: AppTextStyles.textStyleNormal
+                                              .copyWith(
+                                                  fontSize: baseFont,
+                                                  color: AppColors.greyColor),
+                                          overflow: TextOverflow.ellipsis),
+                                    ),
+                                    Flexible(
+                                      child: Text(widget.kecamatan,
+                                          style: AppTextStyles.textStyleNormal
+                                              .copyWith(
+                                                  fontSize: baseFont,
+                                                  color: AppColors.greyColor),
+                                          overflow: TextOverflow.ellipsis),
+                                    ),
+                                    Flexible(
+                                      child: Text(widget.kab,
+                                          style: AppTextStyles.textStyleNormal
+                                              .copyWith(
+                                                  fontSize: baseFont,
+                                                  color: AppColors.greyColor),
+                                          overflow: TextOverflow.ellipsis),
+                                    ),
+                                    Flexible(
+                                      child: Text(widget.provinsi,
+                                          style: AppTextStyles.textStyleNormal
+                                              .copyWith(
+                                                  fontSize: baseFont,
+                                                  color: AppColors.greyColor),
+                                          overflow: TextOverflow.ellipsis),
+                                    ),
+                                  ],
+                                );
+                              },
                             ),
                           ),
                         ],

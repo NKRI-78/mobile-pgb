@@ -4,7 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:cunning_document_scanner/cunning_document_scanner.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import '../../../misc/colors.dart';
 import '../../../misc/register_akun_extra.dart';
+import '../../../misc/text_style.dart';
 import '../../app/models/user_google_model.dart';
 
 import '../../../misc/injections.dart';
@@ -114,6 +116,139 @@ class RegisterKtpCubit extends Cubit<RegisterKtpState> {
           "Saat ini KTP Anda sudah terdaftar, silakan login",
         );
       } else {
+        final confirm = await showDialog<bool>(
+          context: context,
+          builder: (ctx) {
+            return Center(
+              child: Material(
+                color: Colors.transparent,
+                child: Stack(
+                  alignment: Alignment.topCenter,
+                  clipBehavior: Clip.none,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      padding: const EdgeInsets.fromLTRB(20, 60, 20, 20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        gradient: const LinearGradient(
+                          colors: [
+                            AppColors.secondaryColor,
+                            Color(0xFF005FA3),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.5),
+                            blurRadius: 8,
+                            offset: const Offset(3, 4),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const SizedBox(height: 12),
+                          Text(
+                            "Konfirmasi Data",
+                            style: AppTextStyles.textStyleNormal.copyWith(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            "Apakah data yang Anda masukkan sudah benar?",
+                            style: AppTextStyles.textStyleNormal.copyWith(
+                              color: Colors.white70,
+                              fontSize: 13,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 24),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop(false);
+                                  },
+                                  child: Text(
+                                    'Periksa Lagi',
+                                    style:
+                                        AppTextStyles.textStyleNormal.copyWith(
+                                      color: AppColors.blackColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.redColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop(true);
+                                  },
+                                  child: Text(
+                                    "Ya, Benar",
+                                    style:
+                                        AppTextStyles.textStyleNormal.copyWith(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      top: -50,
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.3),
+                              blurRadius: 6,
+                              offset: const Offset(2, 3),
+                            ),
+                          ],
+                        ),
+                        child: Icon(
+                          Icons.warning_amber_rounded,
+                          color: AppColors.redColor,
+                          size: 60,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+
+        // Jika user batal → stop di sini
+        if (confirm != true) return;
         ShowSnackbar.snackbar(
           isSuccess: true,
           context,

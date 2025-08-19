@@ -101,7 +101,7 @@ class _NewsContent extends StatelessWidget {
             Text(
               title,
               style: AppTextStyles.textStyleBold.copyWith(
-                fontSize: 13,
+                fontSize: 12,
               ),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
@@ -113,7 +113,7 @@ class _NewsContent extends StatelessWidget {
               content.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ""),
               maxLines: 3,
               style: AppTextStyles.textStyleNormal.copyWith(
-                fontSize: 11,
+                fontSize: 10,
                 color: AppColors.greyColor,
               ),
               overflow: TextOverflow.ellipsis,
