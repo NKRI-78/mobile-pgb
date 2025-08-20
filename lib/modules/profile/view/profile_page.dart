@@ -115,8 +115,8 @@ class _ProfileViewState extends State<ProfileView> {
                                             noKta: state.profile?.identityCard
                                                     ?.kta ??
                                                 '-',
-                                            nama: state.profile?.profile
-                                                    ?.fullname ??
+                                            nama: state.profile?.identityCard
+                                                    ?.name ??
                                                 '-',
                                             tempatTglLahir: state
                                                     .profile
@@ -159,8 +159,8 @@ class _ProfileViewState extends State<ProfileView> {
                                             noKta:
                                                 state.profile?.profile?.kta ??
                                                     '-',
-                                            nama: state.profile?.profile
-                                                    ?.fullname ??
+                                            nama: state.profile?.identityCard
+                                                    ?.name ??
                                                 '-',
                                             provinsi: state.profile
                                                     ?.identityCard?.province ??
@@ -235,7 +235,7 @@ class _ProfileViewState extends State<ProfileView> {
                             kab:
                                 state.profile?.identityCard?.regencyCity ?? '-',
                             noKta: state.profile?.identityCard?.kta ?? '-',
-                            nama: state.profile?.profile?.fullname ?? '-',
+                            nama: state.profile?.identityCard?.name ?? '-',
                             tempatTglLahir: state
                                     .profile?.identityCard?.birthPlaceAndDate ??
                                 '-',
@@ -255,7 +255,7 @@ class _ProfileViewState extends State<ProfileView> {
                           ),
                           CustomDataProfile(
                             email: state.profile?.email ?? '',
-                            nama: state.profile?.profile?.fullname ?? '',
+                            nama: state.profile?.identityCard?.name ?? '',
                             noTlp: state.profile?.phone ?? '',
                           ),
                         ],
