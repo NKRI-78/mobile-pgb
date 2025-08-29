@@ -19,7 +19,7 @@ class CustomButtonWallet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.8,
+      width: double.infinity,
       height: 55,
       padding: const EdgeInsets.all(2),
       decoration: BoxDecoration(

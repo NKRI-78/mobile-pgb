@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
+import '../../../../misc/colors.dart';
 import '../../../../misc/date_helper.dart';
 import '../../../../repositories/notification/models/notificationv2_model.dart';
 import '../../../../router/builder.dart';
-import '../../../../misc/colors.dart';
 
 class ListNotifCardPpob extends StatelessWidget {
   const ListNotifCardPpob(

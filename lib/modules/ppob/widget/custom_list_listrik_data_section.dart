@@ -3,60 +3,34 @@ import 'package:intl/intl.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
-import '../../../repositories/ppob_repository/models/pulsa_data_model.dart';
+import '../../../repositories/ppob_repository/models/listrik_data_model.dart';
 
-class CustomListPulsaDataSection extends StatefulWidget {
-  final List<PulsaDataModel> pulsaData;
-  final Function(PulsaDataModel) onSelected;
+class CustomListListrikDataSection extends StatefulWidget {
+  final List<ListrikDataModel> listrikData;
+  final Function(ListrikDataModel) onSelected;
 
-  const CustomListPulsaDataSection({
+  const CustomListListrikDataSection({
     super.key,
-    required this.pulsaData,
+    required this.listrikData,
     required this.onSelected,
   });
 
   @override
-  State<CustomListPulsaDataSection> createState() =>
-      _CustomListPulsaDataSectionState();
+  State<CustomListListrikDataSection> createState() =>
+      _CustomListListrikDataSectionState();
 }
 
-class _CustomListPulsaDataSectionState
-    extends State<CustomListPulsaDataSection> {
+class _CustomListListrikDataSectionState
+    extends State<CustomListListrikDataSection> {
   int? selectedIndex;
 
   @override
   Widget build(BuildContext context) {
-    return widget.pulsaData.isEmpty
+    return widget.listrikData.isEmpty
         ? Center(
-            heightFactor: 2,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.info_outline,
-                  size: 60,
-                  color: Colors.grey.shade400,
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  "Tidak ada paket pulsa/data tersedia",
-                  textAlign: TextAlign.center,
-                  style: AppTextStyles.textStyleNormal.copyWith(
-                    color: Colors.grey.shade600,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  "Coba periksa nomor atau pilih provider lain",
-                  textAlign: TextAlign.center,
-                  style: AppTextStyles.textStyleNormal.copyWith(
-                    color: Colors.grey.shade500,
-                    fontSize: 13,
-                  ),
-                ),
-              ],
+            child: Text(
+              "Tidak ada produk listrik tersedia",
+              style: const TextStyle(fontSize: 16, color: Colors.red),
             ),
           )
         : GridView.builder(
@@ -69,19 +43,18 @@ class _CustomListPulsaDataSectionState
               mainAxisSpacing: 10,
               childAspectRatio: 1.2,
             ),
-            itemCount: widget.pulsaData.length,
+            itemCount: widget.listrikData.length,
             itemBuilder: (context, index) {
-              final pulsa = widget.pulsaData[index];
+              final listrik = widget.listrikData[index];
               final isSelected = selectedIndex == index;
 
               return GestureDetector(
                 onTap: () {
-                  setState(
-                    () {
-                      selectedIndex = index;
-                    },
-                  );
-                  widget.onSelected(pulsa);
+                  setState(() {
+                    selectedIndex = index;
+                  });
+
+                  widget.onSelected(listrik);
                 },
                 child: Card(
                   color: isSelected ? AppColors.whiteColor : Colors.white,
@@ -100,15 +73,14 @@ class _CustomListPulsaDataSectionState
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          pulsa.name ?? "Paket Tidak Diketahui",
+                          listrik.name,
                           textAlign: TextAlign.center,
-                          style: AppTextStyles.textStyleNormal.copyWith(
-                            color: AppColors.blackColor,
-                          ),
+                          style: AppTextStyles.textStyleNormal
+                              .copyWith(color: AppColors.blackColor),
                         ),
                         const SizedBox(height: 5),
                         Text(
-                          formatCurrency(pulsa.price ?? 0),
+                          formatCurrency(listrik.price),
                           style: AppTextStyles.textStyleNormal,
                         ),
                       ],

@@ -1,7 +1,11 @@
 part of '../view/ppob_page.dart';
 
-void _customPaymentSection(BuildContext context, List<PulsaDataModel> selected,
-    String phoneNumber, String type) {
+void _customPaymentSection<T>(
+  BuildContext context,
+  List<T> selected,
+  String idPel,
+  String type,
+) {
   final ppobCubit = context.read<PpobCubit>();
   final String? productType = ppobCubit.currentType;
 
@@ -16,13 +20,24 @@ void _customPaymentSection(BuildContext context, List<PulsaDataModel> selected,
         value: ppobCubit,
         child:
             BlocBuilder<PpobCubit, PpobState>(builder: (dialogContext, state) {
-          final pulsaData = selected.first;
+          final item = selected.first;
+
+          final double productPrice;
+          final String nameProduct;
+          if (item is PulsaDataModel) {
+            productPrice = item.price?.toDouble() ?? 0;
+            nameProduct = item.name ?? "-";
+          } else if (item is ListrikDataModel) {
+            productPrice = item.price.toDouble();
+            nameProduct = item.name;
+          } else {
+            throw Exception("Unsupported product type");
+          }
+
           final selectedChannel = state.channel;
-          final double productPrice = pulsaData.price?.toDouble() ?? 0;
           final double totalAmount = productPrice + state.adminFee;
-          final String paymentCode = state.channel?.nameCode ?? "";
-          final String nameProduct = selected.first.name.toString();
-          final String logoChannel = state.channel?.logo ?? "";
+          final String paymentCode = selectedChannel?.nameCode ?? "";
+          final String logoChannel = selectedChannel?.logo ?? "";
 
           String getProductTitle(String? type) {
             switch (type) {
@@ -30,6 +45,8 @@ void _customPaymentSection(BuildContext context, List<PulsaDataModel> selected,
                 return "Harga Pulsa";
               case "DATA":
                 return "Harga Paket Data";
+              case "PLN":
+                return "Tagihan Listrik";
               default:
                 return "Harga Produk";
             }
@@ -144,7 +161,7 @@ void _customPaymentSection(BuildContext context, List<PulsaDataModel> selected,
                                   final cubit = context.read<PpobCubit>();
                                   try {
                                     final response = await cubit.checkoutItem(
-                                        userId.toString(), type, phoneNumber);
+                                        userId.toString(), type, idPel);
 
                                     if (response != null) {
                                       final isQRPayment = paymentCode
@@ -169,8 +186,9 @@ void _customPaymentSection(BuildContext context, List<PulsaDataModel> selected,
                                         logoChannel: logoChannel,
                                       ).go(context);
                                     } else {
-                                      throw Exception(
-                                          "Gagal mendapatkan kode pembayaran.");
+                                      ShowSnackbar.snackbar(context,
+                                          cubit.state.errorMessage ?? "",
+                                          isSuccess: false);
                                     }
                                   } catch (e) {
                                     ShowSnackbar.snackbar(

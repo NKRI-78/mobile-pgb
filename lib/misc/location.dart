@@ -1,10 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'colors.dart';
 import 'text_style.dart';
-import 'dart:io';
 
 bool _hasShownPermissionDialog = false;
 

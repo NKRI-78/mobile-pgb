@@ -17,7 +17,8 @@ class CustomFieldSection extends StatefulWidget {
 class _CustomFieldSectionState extends State<CustomFieldSection> {
   Timer? _debounce;
   String? lastPrefix;
-  String? _errorMessage; // Tambahkan variabel untuk menyimpan pesan error
+  String? _errorMessage;
+  String? _operatorIcon;
 
   @override
   void initState() {
@@ -43,7 +44,7 @@ class _CustomFieldSectionState extends State<CustomFieldSection> {
             _errorMessage = "Nomor minimal 10 digit";
           });
         }
-        return; // Stop di sini, tidak fetch prefix
+        return;
       } else {
         if (_errorMessage != null) {
           setState(() {
@@ -60,16 +61,24 @@ class _CustomFieldSectionState extends State<CustomFieldSection> {
       }
 
       String prefix = nomor.substring(0, 5);
+
+      String? icon = _getOperatorIcon(prefix);
+      if (icon != _operatorIcon) {
+        setState(() {
+          _operatorIcon = icon;
+        });
+      }
+
       if (prefix != lastPrefix) {
         lastPrefix = prefix;
         if (mounted) {
-          print("📡 Fetching Data untuk prefix: $prefix, type: ${widget.type}");
+          print("Fetching Data untuk prefix: $prefix, type: ${widget.type}");
           context
               .read<PpobCubit>()
               .fetchPulsaData(prefix: prefix, type: widget.type ?? "PULSA");
         }
       } else {
-        print("⚠️ Prefix tidak berubah, tidak fetch ulang.");
+        print("Prefix tidak berubah, tidak fetch ulang.");
       }
     });
   }
@@ -82,6 +91,68 @@ class _CustomFieldSectionState extends State<CustomFieldSection> {
       return '62$cleanedNumber';
     }
     return cleanedNumber;
+  }
+
+  String? _getOperatorIcon(String prefix) {
+    if (prefix.startsWith("62811") ||
+        prefix.startsWith("62812") ||
+        prefix.startsWith("62813") ||
+        prefix.startsWith("62821") ||
+        prefix.startsWith("62822") ||
+        prefix.startsWith("62823") ||
+        prefix.startsWith("62851") ||
+        prefix.startsWith("62852") ||
+        prefix.startsWith("62853")) {
+      return "assets/icons/telkomsel.png";
+    }
+
+    if (prefix.startsWith("62814") ||
+        prefix.startsWith("62815") ||
+        prefix.startsWith("62816") ||
+        prefix.startsWith("62855") ||
+        prefix.startsWith("62856") ||
+        prefix.startsWith("62857") ||
+        prefix.startsWith("62858")) {
+      return "assets/icons/indosat.png";
+    }
+
+    if (prefix.startsWith("62817") ||
+        prefix.startsWith("62818") ||
+        prefix.startsWith("62819") ||
+        prefix.startsWith("62859") ||
+        prefix.startsWith("62877") ||
+        prefix.startsWith("62878")) {
+      return "assets/icons/xl.png";
+    }
+
+    if (prefix.startsWith("62831") ||
+        prefix.startsWith("62832") ||
+        prefix.startsWith("62833") ||
+        prefix.startsWith("62838")) {
+      return "assets/icons/axis.png";
+    }
+
+    if (prefix.startsWith("62895") ||
+        prefix.startsWith("62896") ||
+        prefix.startsWith("62897") ||
+        prefix.startsWith("62898") ||
+        prefix.startsWith("62899")) {
+      return "assets/icons/tri.png";
+    }
+
+    if (prefix.startsWith("62881") ||
+        prefix.startsWith("62882") ||
+        prefix.startsWith("62883") ||
+        prefix.startsWith("62884") ||
+        prefix.startsWith("62885") ||
+        prefix.startsWith("62886") ||
+        prefix.startsWith("62887") ||
+        prefix.startsWith("62888") ||
+        prefix.startsWith("62889")) {
+      return "assets/icons/smartfren.png";
+    }
+
+    return null;
   }
 
   @override
@@ -98,12 +169,22 @@ class _CustomFieldSectionState extends State<CustomFieldSection> {
           ),
           child: Row(
             children: [
+              if (_operatorIcon != null)
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: Image.asset(
+                    _operatorIcon!,
+                    width: 30,
+                    height: 30,
+                  ),
+                ),
               Expanded(
                 child: Theme(
                   data: ThemeData(
-                      textSelectionTheme: TextSelectionThemeData(
-                    selectionHandleColor: Colors.transparent,
-                  )),
+                    textSelectionTheme: TextSelectionThemeData(
+                      selectionHandleColor: Colors.transparent,
+                    ),
+                  ),
                   child: TextField(
                     controller: widget.controller,
                     keyboardType: TextInputType.phone,
@@ -121,7 +202,7 @@ class _CustomFieldSectionState extends State<CustomFieldSection> {
                   ),
                 ),
               ),
-              ElevatedButton.icon(
+              ElevatedButton(
                 onPressed: () async {
                   final selectedNumber = await Navigator.push(
                     context,
@@ -138,18 +219,14 @@ class _CustomFieldSectionState extends State<CustomFieldSection> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                      const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                 ),
-                icon: const Icon(Icons.contacts, color: Colors.white, size: 18),
-                label: const Text(
-                  "Daftar Kontak",
-                  style: TextStyle(color: Colors.white, fontSize: 14),
-                ),
+                child: Icon(Icons.contacts, color: Colors.white, size: 24),
               ),
             ],
           ),
         ),
-        if (_errorMessage != null) // Tampilkan error jika ada
+        if (_errorMessage != null)
           Padding(
             padding: const EdgeInsets.only(top: 4, left: 10),
             child: Text(

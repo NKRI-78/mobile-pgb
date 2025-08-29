@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../misc/colors.dart';
-import '../bloc/shop_bloc.dart';
 
+import '../../../misc/colors.dart';
 import '../../../repositories/shop_repository/models/category_model.dart';
+import '../bloc/shop_bloc.dart';
 
 class TabBarMart extends StatelessWidget {
   const TabBarMart({super.key});

@@ -7,6 +7,7 @@ import 'package:http/http.dart' as httpBase;
 
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
+import 'models/listrik_data_model.dart';
 import 'models/payment_channel_modelv2.dart';
 import 'models/pulsa_data_model.dart';
 
@@ -15,6 +16,45 @@ class PpobRepository {
   String get payment => 'http://157.245.193.49:3098/api/v1/channel';
 
   final http = getIt<BaseNetworkClient>();
+
+  Future<List<ListrikDataModel>> fetchListrikData() async {
+    try {
+      var headers = {'Content-Type': 'application/json'};
+      final uri = Uri.parse("$ppob/price-list-pln-prabayar");
+
+      final response = await httpBase
+          .get(uri, headers: headers)
+          .timeout(const Duration(seconds: 10));
+
+      debugPrint("Response Body: ${response.body}");
+
+      if (response.statusCode != 200) {
+        throw Exception(
+            "Failed to fetch data. Status code: ${response.statusCode}");
+      }
+
+      final Map<String, dynamic> decodedMap = json.decode(response.body);
+      if (decodedMap['error'] == true) {
+        throw Exception(decodedMap['message'] ?? "Error fetching data");
+      }
+
+      if (decodedMap.containsKey('data') && decodedMap['data'] is List) {
+        final List<dynamic> dataList = decodedMap['data'];
+        debugPrint(dataList.isEmpty
+            ? "Data PLN kosong dari API."
+            : "Data PLN ditemukan: ${dataList.length} items");
+
+        return dataList.map((json) => ListrikDataModel.fromJson(json)).toList();
+      } else {
+        throw Exception("Invalid response format");
+      }
+    } on TimeoutException {
+      throw Exception("Request timeout, server not responding");
+    } catch (e) {
+      debugPrint("Unexpected Error PLN: $e");
+      throw Exception("Failed to fetch listrik data: $e");
+    }
+  }
 
   Future<List<PulsaDataModel>> fetchPulsaData({
     required String prefix,
@@ -77,7 +117,7 @@ class PpobRepository {
     try {
       var res = await http.get(Uri.parse(payment));
 
-      print(res.body);
+      debugPrint(res.body);
 
       final json = jsonDecode(res.body);
       if (res.statusCode == 200) {
@@ -113,7 +153,6 @@ class PpobRepository {
           "https://api-ppob.langitdigital78.com/api/v1/payment/inquiry");
       var headers = {'Content-Type': 'application/json'};
 
-      // ✅ Hanya mengirimkan data yang dibutuhkan
       final body = jsonEncode({
         "app": "pgb",
         "idpel": idPel,
@@ -137,7 +176,7 @@ class PpobRepository {
         final Map<String, dynamic> decoded = json.decode(response.body);
 
         if (decoded['error'] == false && decoded.containsKey("data")) {
-          return decoded["data"]; // ✅ Hanya mengembalikan bagian 'data'
+          return decoded["data"];
         } else {
           throw Exception(decoded['message'] ?? "Checkout gagal");
         }

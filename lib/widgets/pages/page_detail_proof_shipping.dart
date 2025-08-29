@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:photo_view/photo_view.dart';
+
 import '../../misc/colors.dart';
 import '../../repositories/oder_repository/models/tracking_model.dart';
-import 'package:photo_view/photo_view.dart';
 
 class PageDetailProofShipping extends StatelessWidget {
   const PageDetailProofShipping({super.key, required this.tracking});

@@ -3,12 +3,13 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
+
 import '../../../misc/injections.dart';
 import '../../../misc/modal.dart';
 import '../../../misc/snackbar.dart';
-import '../../app/bloc/app_bloc.dart';
 import '../../../repositories/shop_repository/models/detail_product_model.dart';
 import '../../../repositories/shop_repository/shop_repository.dart';
+import '../../app/bloc/app_bloc.dart';
 
 part 'detail_product_state.dart';
 

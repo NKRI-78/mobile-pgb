@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../repositories/ppob_repository/models/listrik_data_model.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -27,6 +28,34 @@ class PpobCubit extends Cubit<PpobState> {
 
   void setProfile(ProfileModel profile) {
     emit(state.copyWith(profile: profile));
+  }
+
+  Future<void> fetchListrikData() async {
+    emit(state.copyWith(isLoading: true, errorMessage: null, isSuccess: null));
+    _currentType = "PLN";
+
+    try {
+      final data = await repo.fetchListrikData();
+
+      emit(state.copyWith(
+        listrikData: data,
+        isLoading: false,
+        isSuccess: true,
+        errorMessage: null,
+      ));
+    } catch (e) {
+      debugPrint("Error fetching listrik data: $e");
+
+      emit(state.copyWith(
+        errorMessage: e.toString(),
+        isLoading: false,
+        isSuccess: false,
+      ));
+    }
+  }
+
+  void setSelectedListrik(ListrikDataModel item) {
+    emit(state.copyWith(selectedListrikData: item));
   }
 
   Future<void> getProfile() async {
@@ -60,7 +89,7 @@ class PpobCubit extends Cubit<PpobState> {
         errorMessage: null,
       ));
     } catch (e) {
-      debugPrint("❌ Error fetching pulsa data: $e");
+      debugPrint("Error fetching pulsa data: $e");
 
       emit(state.copyWith(
         errorMessage: e.toString(),
@@ -70,7 +99,6 @@ class PpobCubit extends Cubit<PpobState> {
     }
   }
 
-  /// **Getter untuk mendapatkan type yang terakhir digunakan**
   String? get currentType => _currentType;
 
   Future<void> getPaymentChannel(BuildContext context) async {
@@ -112,11 +140,15 @@ class PpobCubit extends Cubit<PpobState> {
     try {
       emit(state.copyWith(isLoading: true, errorMessage: null));
 
+      if (idPel.isEmpty) {
+        throw ("Nomor pelanggan tidak boleh kosong.");
+      }
+
       if (state.channel == null) {
-        throw Exception("Silakan pilih metode pembayaran terlebih dahulu.");
+        throw ("Silakan pilih metode pembayaran terlebih dahulu.");
       }
       if (state.selectedPulsaData == null) {
-        throw Exception("Silakan pilih produk pulsa atau data.");
+        throw ("Silakan pilih produk pulsa atau data.");
       }
 
       final PulsaDataModel selectedProduct = state.selectedPulsaData!;
@@ -155,8 +187,7 @@ class PpobCubit extends Cubit<PpobState> {
   void setPaymentChannel(PaymentChannelModelV2 channel) {
     emit(state.copyWith(
       channel: channel,
-      adminFee:
-          (channel.fee ?? 0).toDouble(), // Simpan fee dari metode pembayaran
+      adminFee: (channel.fee ?? 0).toDouble(),
     ));
   }
 

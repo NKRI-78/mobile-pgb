@@ -2,7 +2,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/misc/injections.dart';
+import '../../../misc/injections.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
