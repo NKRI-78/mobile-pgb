@@ -38,6 +38,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
       factory: $HomeRouteExtension._fromState,
       routes: [
         GoRouteData.$route(
+          path: 'not-found',
+          factory: $MaintenanceRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'sos-detail',
           factory: $SosDetailRouteExtension._fromState,
         ),
@@ -74,6 +78,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
         GoRouteData.$route(
           path: 'about-me',
           factory: $AboutMeRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'nfc',
+          factory: $NfcRouteExtension._fromState,
         ),
         GoRouteData.$route(
           path: 'news-detail',
@@ -294,6 +302,23 @@ extension $HomeRouteExtension on HomeRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+extension $MaintenanceRouteExtension on MaintenanceRoute {
+  static MaintenanceRoute _fromState(GoRouterState state) => MaintenanceRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/not-found',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
 extension $SosDetailRouteExtension on SosDetailRoute {
   static SosDetailRoute _fromState(GoRouterState state) => SosDetailRoute(
         sosType: state.uri.queryParameters['sos-type']!,
@@ -461,6 +486,23 @@ extension $AboutMeRouteExtension on AboutMeRoute {
 
   String get location => GoRouteData.$location(
         '/home/about-me',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $NfcRouteExtension on NfcRoute {
+  static NfcRoute _fromState(GoRouterState state) => NfcRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/nfc',
       );
 
   void go(BuildContext context) => context.go(location);

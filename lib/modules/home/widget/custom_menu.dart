@@ -1,3 +1,4 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 
 import '../../../misc/colors.dart';
@@ -100,8 +101,12 @@ class CustomMenu extends StatelessWidget {
   void _navigateToPage(BuildContext context, int index) {
     final isLoggedIn = getIt<AppBloc>().state.user != null;
 
+    final remoteConfig = getIt<FirebaseRemoteConfig>();
+
+    final isMaintenance = remoteConfig.getBool('is_not_found');
+
     if (index == 0) {
-      ShopRoute().go(context);
+      isMaintenance ? MaintenanceRoute().go(context) : ShopRoute().go(context);
       return;
     }
     if (index == 1) {
@@ -122,7 +127,9 @@ class CustomMenu extends StatelessWidget {
           MemberNearRoute().go(context);
           break;
         case 3:
-          PpobRoute().go(context);
+          isMaintenance
+              ? MaintenanceRoute().go(context)
+              : PpobRoute().go(context);
           break;
         case 6:
           ForumRoute().go(context);

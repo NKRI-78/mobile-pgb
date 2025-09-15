@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_pgb/misc/colors.dart';
 import 'package:place_picker_google/place_picker_google.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -24,18 +25,33 @@ class CustomPlacePicker extends StatelessWidget {
       showSearchInput: true,
       initialLocation: initialLocation,
       myLocationButtonEnabled: false,
-      onMapCreated: (controller) {
-      },
+      onMapCreated: (controller) {},
       searchInputConfig: const SearchInputConfig(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
         autofocus: false,
       ),
       searchInputDecorationConfig: const SearchInputDecorationConfig(
-        hintText: "Cari...",
+        hintText: "Cari lokasi atau alamat...",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          borderSide: BorderSide(color: AppColors.secondaryColor),
+        ),
       ),
       selectedPlaceConfig: const SelectedPlaceConfig(
-        actionButtonText: "Tetapkan Lokasi",
+        actionButtonText: "Gunakan Lokasi Ini",
         contentPadding: EdgeInsets.all(20),
+        actionButtonStyle: ButtonStyle(
+          backgroundColor: WidgetStatePropertyAll(AppColors.secondaryColor),
+          foregroundColor: WidgetStatePropertyAll(AppColors.whiteColor),
+          padding: WidgetStatePropertyAll(
+            EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+          ),
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+            ),
+          ),
+        ),
       ),
       autocompletePlacesSearchRadius: 150,
     );

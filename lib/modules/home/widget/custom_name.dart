@@ -1,5 +1,7 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../misc/injections.dart';
 import '../bloc/home_bloc.dart';
 
 import '../../../misc/colors.dart';
@@ -22,6 +24,9 @@ class CustomName extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
+        final remoteConfig = getIt<FirebaseRemoteConfig>();
+        final isMaintenance = remoteConfig.getBool('is_not_found');
+
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
@@ -45,7 +50,9 @@ class CustomName extends StatelessWidget {
                   isLoggedIn
                       ? ElevatedButton(
                           onPressed: () {
-                            WalletRoute().push(context);
+                            isMaintenance
+                                ? MaintenanceRoute().go(context)
+                                : WalletRoute().push(context);
                           },
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(

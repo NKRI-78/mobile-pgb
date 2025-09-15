@@ -63,7 +63,13 @@ class ForumsModel {
       json['forum_media'].forEach((v) {
         forumMedia!.add(ForumMedia.fromJson(v));
       });
+    } else if (json['medias'] != null) {
+      forumMedia = <ForumMedia>[];
+      json['medias'].forEach((v) {
+        forumMedia!.add(ForumMedia.fromJson(v));
+      });
     }
+
     if (json['forum_comment'] != null) {
       forumComment = <ForumComment>[];
       json['forum_comment'].forEach((v) {

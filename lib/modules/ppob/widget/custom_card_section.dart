@@ -42,7 +42,7 @@ class _CustomCardSectionState extends State<CustomCardSection> {
     bool isSelected = widget.selectedIndex == index;
     return GestureDetector(
       onTap: () {
-        widget.onCardSelected(index); // Panggil callback untuk update state
+        widget.onCardSelected(index);
       },
       child: Container(
         padding: const EdgeInsets.all(8),

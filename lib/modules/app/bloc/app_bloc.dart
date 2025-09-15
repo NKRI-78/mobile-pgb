@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
 import '../../../repositories/app_repository/app_repository.dart';
-// import '../../../repositories/app_repository/model/setting_model.dart';
 import '../models/user_google_model.dart';
 import '../../../repositories/cart_repository/cart_repository.dart';
 import '../../../repositories/cart_repository/models/cart_count_model.dart';
@@ -61,7 +60,6 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     add(GetBadgeNotif());
     add(GetProfileData());
     add(IsRealese());
-    //
   }
 
   FutureOr<void> _onFinishOnboarding(

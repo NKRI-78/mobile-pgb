@@ -23,6 +23,6 @@ class AppBlocObserver extends BlocObserver {
     Transition<dynamic, dynamic> transition,
   ) {
     super.onTransition(bloc, transition);
-    log('$transition');
+    // log('$transition');
   }
 }

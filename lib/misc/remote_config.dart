@@ -3,31 +3,36 @@ import 'injections.dart';
 
 class MyRemoteConfig {
   static FirebaseRemoteConfig? remoteConfig;
+
   static Future<void> init() async {
     try {
       remoteConfig = FirebaseRemoteConfig.instance;
 
       await remoteConfig?.setConfigSettings(
         RemoteConfigSettings(
-          fetchTimeout: Duration(seconds: 10),
+          fetchTimeout: const Duration(seconds: 10),
           minimumFetchInterval: Duration.zero,
         ),
       );
 
       await remoteConfig?.setDefaults({
         'is_review_apple': false,
+        'is_not_found': false,
       });
 
       await remoteConfig?.fetchAndActivate();
 
-      final message = remoteConfig?.getString('is_review_apple');
-
       getIt.registerLazySingleton<FirebaseRemoteConfig>(() => remoteConfig!);
 
-      print('Message: $message');
+      print('is_review_apple: ${remoteConfig?.getBool('is_review_apple')}');
+      print('is_not_found: ${remoteConfig?.getBool('is_not_found')}');
     } catch (e) {
-      print("ERROR APA INI");
-      print(e);
+      print("Remote Config init error: $e");
     }
   }
+
+  static bool get isReviewApple =>
+      remoteConfig?.getBool('is_review_apple') ?? false;
+
+  static bool get isNotFound => remoteConfig?.getBool('is_not_found') ?? false;
 }

@@ -94,7 +94,7 @@ class BodyDetail extends StatelessWidget {
                             data?.name ?? "-",
                             style: const TextStyle(
                                 color: AppColors.blackColor,
-                                fontSize: fontSizeExtraLarge,
+                                fontSize: fontSizeLarge,
                                 fontWeight: FontWeight.w500),
                           ),
                           const Padding(
@@ -128,16 +128,18 @@ class BodyDetail extends StatelessWidget {
                                       Text(
                                         data?.store?.name ?? "-",
                                         style: const TextStyle(
-                                            color: AppColors.blackColor,
-                                            fontSize: fontSizeLarge,
-                                            fontWeight: FontWeight.bold),
+                                          color: AppColors.blackColor,
+                                          fontSize: fontSizeLarge,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                       Text(
                                         data?.store?.address?.city ?? "-",
                                         style: const TextStyle(
-                                            color: AppColors.blackColor,
-                                            fontSize: fontSizeDefault,
-                                            fontWeight: FontWeight.w500),
+                                          color: AppColors.blackColor,
+                                          fontSize: fontSizeExtraSmall,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ],
                                   )
@@ -328,7 +330,8 @@ class BodyDetail extends StatelessWidget {
                                   itemCount: min(2, data?.reviews?.length ?? 0),
                                   itemBuilder: (context, index) {
                                     final riview = data?.reviews?[index];
-                                    print("Link Avatar : ${jsonEncode(riview)}");
+                                    print(
+                                        "Link Avatar : ${jsonEncode(riview)}");
                                     return Container(
                                       margin: const EdgeInsets.symmetric(
                                           vertical: 5),

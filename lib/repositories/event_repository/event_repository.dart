@@ -22,7 +22,7 @@ class EventRepository {
       final res =
           await http.get(Uri.parse(event)).timeout(Duration(seconds: 30));
 
-      debugPrint("Response Status: ${res.statusCode}");
+      // debugPrint("Response Status: ${res.statusCode}");
       debugPrint("Response Body: ${res.body}");
 
       if (res.statusCode >= 200 && res.statusCode < 300) {

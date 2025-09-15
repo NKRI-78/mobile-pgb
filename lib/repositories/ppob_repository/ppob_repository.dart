@@ -73,7 +73,7 @@ class PpobRepository {
           .get(uri, headers: headers)
           .timeout(const Duration(seconds: 10));
 
-      debugPrint("Response Status Code: ${response.statusCode}");
+      // debugPrint("Response Status Code: ${response.statusCode}");
       debugPrint("Response Body: ${response.body}");
 
       if (response.statusCode != 200) {

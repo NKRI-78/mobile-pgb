@@ -92,7 +92,7 @@ class _PpobViewState extends State<PpobView> {
     if (selectedType == null) {
       cubit.clearPulsaData();
     } else if (selectedType == "PLN") {
-      cubit.fetchListrikData();
+      // cubit.fetchListrikData();
     } else if (_pulsaDataController.text.length >= 5) {
       cubit.fetchPulsaData(
         prefix: _pulsaDataController.text.substring(0, 5),
@@ -144,24 +144,34 @@ class _PpobViewState extends State<PpobView> {
       ]);
     } else if (selectedIndex == 2) {
       widgets.addAll([
-        CustomFieldListrikSection(controller: _listrikController),
-        const SizedBox(height: 5),
-        BlocBuilder<PpobCubit, PpobState>(
-          builder: (context, state) {
-            if (state.isLoading) return CustomLoadingPage();
-            if (state.isSuccess == true && state.listrikData.isNotEmpty) {
-              return CustomListListrikDataSection(
-                listrikData: state.listrikData,
-                onSelected: _onListrikDataSelected,
-              );
-            }
-            if (state.isSuccess == false) {
-              return Center(
-                  child: Text("Terjadi kesalahan",
-                      style: AppTextStyles.textStyleBold));
-            }
-            return const SizedBox.shrink();
-          },
+        // CustomFieldListrikSection(controller: _listrikController),
+        // const SizedBox(height: 5),
+        // BlocBuilder<PpobCubit, PpobState>(
+        //   builder: (context, state) {
+        //     if (state.isLoading) return CustomLoadingPage();
+        //     if (state.isSuccess == true && state.listrikData.isNotEmpty) {
+        //       return CustomListListrikDataSection(
+        //         listrikData: state.listrikData,
+        //         onSelected: _onListrikDataSelected,
+        //       );
+        //     }
+        //     if (state.isSuccess == false) {
+        //       return Center(
+        //           child: Text("Terjadi kesalahan",
+        //               style: AppTextStyles.textStyleBold));
+        //     }
+        //     return const SizedBox.shrink();
+        //   },
+        // ),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 20),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Image.asset(
+              'assets/images/coming_soon.png',
+              fit: BoxFit.contain,
+            ),
+          ),
         ),
       ]);
     }

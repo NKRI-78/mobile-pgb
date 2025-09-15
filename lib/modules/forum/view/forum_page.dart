@@ -7,7 +7,7 @@ import '../../../widgets/pages/empty_page.dart';
 import '../../../widgets/pages/loading_page.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
-import '../../../misc/text_style.dart';
+import '../../../misc/text_style.dart'; 
 import '../cubit/forum_cubit.dart';
 
 class ForumPage extends StatelessWidget {
@@ -16,14 +16,30 @@ class ForumPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: getIt<ForumCubit>()..init(),
+      value: getIt<ForumCubit>(),
       child: const ForumView(),
     );
   }
 }
 
-class ForumView extends StatelessWidget {
+class ForumView extends StatefulWidget {
   const ForumView({super.key});
+
+  @override
+  State<ForumView> createState() => _ForumViewState();
+}
+
+class _ForumViewState extends State<ForumView> {
+  bool _isInit = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_isInit) {
+      context.read<ForumCubit>().init();
+      _isInit = true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

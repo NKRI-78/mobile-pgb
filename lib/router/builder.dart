@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_pgb/modules/maintenance/view/maintenance_pages.dart';
+import '../modules/nfc/view/nfc_page.dart';
 import '../modules/tracking_biteship/view/tracking_page.dart';
 import '../misc/register_akun_extra.dart';
 import '../modules/about_me/view/about_me_page.dart';
@@ -67,6 +69,7 @@ class OnboardingRoute extends GoRouteData {
 }
 
 @TypedGoRoute<HomeRoute>(path: '/home', routes: [
+  TypedGoRoute<MaintenanceRoute>(path: 'not-found'),
   TypedGoRoute<SosDetailRoute>(path: 'sos-detail'),
   TypedGoRoute<ForumRoute>(path: 'forum', routes: [
     TypedGoRoute<ForumDetailRoute>(path: 'forum-detail'),
@@ -77,6 +80,7 @@ class OnboardingRoute extends GoRouteData {
   TypedGoRoute<MediaRoute>(path: 'media'),
   TypedGoRoute<AboutRoute>(path: 'about'),
   TypedGoRoute<AboutMeRoute>(path: 'about-me'),
+  TypedGoRoute<NfcRoute>(path: 'nfc'),
   TypedGoRoute<NewsDetailRoute>(path: 'news-detail'),
   TypedGoRoute<NewsAllRoute>(path: 'news-all'),
   TypedGoRoute<WebViewRoute>(path: 'webview'),
@@ -143,6 +147,13 @@ class HomeRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return HomePage();
+  }
+}
+
+class MaintenanceRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return MaintenancePages();
   }
 }
 
@@ -215,6 +226,13 @@ class AboutMeRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const AboutMePage();
+  }
+}
+
+class NfcRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return NfcPage();
   }
 }
 

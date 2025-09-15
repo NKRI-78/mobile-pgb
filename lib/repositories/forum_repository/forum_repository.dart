@@ -21,7 +21,7 @@ class ForumRepository {
       final res = await http.get(Uri.parse('$forums/getAllPosts'));
 
       debugPrint('Response: ${res.body}');
-      debugPrint("Status: ${res.statusCode}");
+      // debugPrint("Status: ${res.statusCode}");
 
       if (res.statusCode == 200) {
         final jsonData = jsonDecode(res.body);
