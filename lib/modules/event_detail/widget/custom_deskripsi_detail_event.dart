@@ -93,7 +93,7 @@ Widget _customDeskripsi(eventData) {
 String _formatDate(String? dateString) {
   if (dateString == null) return "-";
   try {
-    final date = DateTime.parse(dateString).toLocal();
+    final date = DateTime.parse(dateString).toUtc();
     return DateFormat("EEEE, dd MMMM yyyy", "id").format(date);
   } catch (e) {
     return "-";

@@ -29,14 +29,15 @@ class CustomCardEventSection extends StatelessWidget {
       return "Tanggal tidak tersedia";
     }
 
-    final localStart = startDate.toLocal();
-    final localEnd = endDate.toLocal();
+    // Convert ke UTC
+    final utcStart = startDate.toUtc();
+    final utcEnd = endDate.toUtc();
 
-    if (dateFormat.format(localStart) == dateFormat.format(localEnd)) {
-      return dateFormat.format(localStart);
+    if (dateFormat.format(utcStart) == dateFormat.format(utcEnd)) {
+      return dateFormat.format(utcStart);
     }
 
-    return "${dateFormat.format(localStart)} - ${dateFormat.format(localEnd)}";
+    return "${dateFormat.format(utcStart)} - ${dateFormat.format(utcEnd)}";
   }
 
   @override
