@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_pgb/misc/colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../misc/text_style.dart';
@@ -11,6 +12,7 @@ class CustomCardEventSection extends StatelessWidget {
   final String title;
   final DateTime startDate;
   final DateTime endDate;
+  final bool isExpired;
   final VoidCallback? onTap;
 
   const CustomCardEventSection({
@@ -19,24 +21,20 @@ class CustomCardEventSection extends StatelessWidget {
     required this.title,
     required this.startDate,
     required this.endDate,
+    required this.isExpired,
     this.onTap,
   });
 
   String formatDateRange(DateTime? startDate, DateTime? endDate) {
     final dateFormat = DateFormat('dd MMM yyyy', 'id_ID');
-
     if (startDate == null || endDate == null) {
       return "Tanggal tidak tersedia";
     }
-
-    // Convert ke UTC
     final utcStart = startDate.toUtc();
     final utcEnd = endDate.toUtc();
-
     if (dateFormat.format(utcStart) == dateFormat.format(utcEnd)) {
       return dateFormat.format(utcStart);
     }
-
     return "${dateFormat.format(utcStart)} - ${dateFormat.format(utcEnd)}";
   }
 
@@ -52,16 +50,16 @@ class CustomCardEventSection extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         splashColor: Colors.grey.withAlpha(25),
         highlightColor: Colors.grey.withAlpha(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
           children: [
-            _buildImageCard(imageUrl),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  _buildImageCard(imageUrl),
+                  const SizedBox(height: 8),
                   Text(
                     title.isNotEmpty ? title : "Judul Tidak Tersedia",
                     style: AppTextStyles.textStyleNormal.copyWith(
@@ -71,21 +69,44 @@ class CustomCardEventSection extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 6),
-                  Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Text(
-                      formatDateRange(startDate, endDate),
-                      style: AppTextStyles.textStyleNormal.copyWith(
-                        fontSize: 10,
-                        color: Colors.grey[700],
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                  Text(
+                    formatDateRange(startDate, endDate),
+                    style: AppTextStyles.textStyleNormal.copyWith(
+                      fontSize: 10,
+                      color: Colors.grey[700],
                     ),
                   ),
+                  const SizedBox(height: 30),
                 ],
               ),
-            )
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                decoration: BoxDecoration(
+                  color: isExpired ? Colors.red[100] : Colors.green[100],
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(12),
+                    bottomRight: Radius.circular(12),
+                  ),
+                ),
+                child: Center(
+                  child: Text(
+                    isExpired ? "Event Berakhir" : "Event Berlangsung",
+                    style: AppTextStyles.textStyleNormal.copyWith(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color:
+                          isExpired ? AppColors.redColor : AppColors.greenColor,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -94,10 +115,7 @@ class CustomCardEventSection extends StatelessWidget {
 
   Widget _buildImageCard(String? imageUrl) {
     return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(12),
-        topRight: Radius.circular(12),
-      ),
+      borderRadius: BorderRadius.circular(6),
       child: AspectRatio(
         aspectRatio: 16 / 9,
         child: imageUrl != null && imageUrl.isNotEmpty
@@ -128,13 +146,9 @@ class CustomCardEventSection extends StatelessWidget {
     return Container(
       width: double.infinity,
       color: Colors.grey[300],
-      child: Center(
-        child: Image.asset(
-          imageDefaultBanner,
-          width: 100,
-          height: 100,
-          fit: BoxFit.contain,
-        ),
+      child: Image.asset(
+        imageDefaultBanner,
+        fit: BoxFit.cover,
       ),
     );
   }

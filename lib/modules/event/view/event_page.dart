@@ -142,6 +142,7 @@ class _EventViewState extends State<EventView> {
                                 title: event.title,
                                 startDate: event.startDate,
                                 endDate: event.endDate,
+                                isExpired: event.isExpired,
                                 onTap: () {
                                   EventDetailRoute(idEvent: event.id)
                                       .go(context);
@@ -167,6 +168,7 @@ class _EventViewState extends State<EventView> {
                                   title: event.title,
                                   startDate: event.startDate,
                                   endDate: event.endDate,
+                                  isExpired: event.isExpired,
                                   onTap: () {
                                     EventDetailRoute(idEvent: event.id)
                                         .go(context);

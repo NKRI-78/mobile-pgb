@@ -13,7 +13,7 @@ Widget _customLoadingContent() {
   );
 }
 
-Widget _customDeskripsi(eventData) {
+Widget _customDeskripsi(BuildContext context, eventData) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 10.0),
     child: Column(
@@ -27,8 +27,6 @@ Widget _customDeskripsi(eventData) {
           style: AppTextStyles.textStyleBold,
         ),
         const SizedBox(height: 10),
-
-        // Lokasi
         Row(
           children: [
             const Icon(Icons.location_on, size: 16, color: Colors.grey),
@@ -44,8 +42,6 @@ Widget _customDeskripsi(eventData) {
           ],
         ),
         const SizedBox(height: 5),
-
-        // Tanggal
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -53,7 +49,7 @@ Widget _customDeskripsi(eventData) {
             const SizedBox(width: 4),
             Expanded(
               child: Text(
-                "${_formatDate(eventData?.startDate)} - ${_formatDate(eventData?.endDate)}",
+                _formatDateRange(eventData?.startDate, eventData?.endDate),
                 style: AppTextStyles.textStyleNormal.copyWith(
                   color: AppColors.greyColor,
                 ),
@@ -61,40 +57,117 @@ Widget _customDeskripsi(eventData) {
             ),
           ],
         ),
-
         const SizedBox(height: 5),
-
-        // Jam
         Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Icon(Icons.access_time, size: 16, color: Colors.grey),
             const SizedBox(width: 4),
-            Text(
-              "${eventData?.start ?? "-"} - ${eventData?.end ?? "-"}",
-              style: AppTextStyles.textStyleNormal.copyWith(
-                color: AppColors.greyColor,
+            Expanded(
+              child: Text(
+                "${eventData?.start ?? "-"} - ${eventData?.end ?? "-"}",
+                style: AppTextStyles.textStyleNormal.copyWith(
+                  color: AppColors.greyColor,
+                ),
               ),
             ),
           ],
         ),
+        if ((eventData?.userJoins?.isNotEmpty ?? false)) ...[
+          const SizedBox(height: 5),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: AppColors.buttonBlueColor,
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
+              ),
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(16)),
+                  ),
+                  builder: (_) => Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          height: 5,
+                          width: 50,
+                          margin: const EdgeInsets.only(bottom: 16),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[400],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        Text(
+                          "Peserta Bergabung",
+                          style: AppTextStyles.textStyleBold,
+                        ),
+                        const SizedBox(height: 16),
+                        CustomUserJoinedList(
+                          users: eventData!.userJoins!,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+              child: Text(
+                "Lihat Peserta",
+                style: AppTextStyles.textStyleNormal
+                    .copyWith(color: AppColors.whiteColor, letterSpacing: 1),
+              ),
+            ),
+          ),
+        ],
         const SizedBox(height: 10),
-
-        // Deskripsi
-        Text(
-          eventData?.description ?? "",
+        Linkify(
+          text: eventData?.description ?? "",
           textAlign: TextAlign.justify,
           style: AppTextStyles.textStyleNormal,
-        ),
+          linkStyle: const TextStyle(
+            color: Colors.blue,
+            decoration: TextDecoration.underline,
+          ),
+          onOpen: (link) async {
+            final uri = Uri.parse(link.url);
+            if (await canLaunchUrl(uri)) {
+              await launchUrl(uri, mode: LaunchMode.externalApplication);
+            } else {
+              debugPrint("Tidak bisa membuka link: ${link.url}");
+            }
+          },
+        )
       ],
     ),
   );
 }
 
-String _formatDate(String? dateString) {
-  if (dateString == null) return "-";
+String _formatDateRange(String? startDate, String? endDate) {
+  if (startDate == null || endDate == null) return "-";
   try {
-    final date = DateTime.parse(dateString).toUtc();
-    return DateFormat("EEEE, dd MMMM yyyy", "id").format(date);
+    final start = DateTime.parse(startDate).toUtc();
+    final end = DateTime.parse(endDate).toUtc();
+    final formatter = DateFormat("EEEE, dd MMMM yyyy", "id");
+
+    final formattedStart = formatter.format(start);
+    final formattedEnd = formatter.format(end);
+
+    if (formattedStart == formattedEnd) {
+      return formattedStart;
+    }
+
+    return "$formattedStart - $formattedEnd";
   } catch (e) {
     return "-";
   }

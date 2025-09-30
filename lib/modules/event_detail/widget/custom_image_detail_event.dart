@@ -50,15 +50,10 @@ Widget _buildShimmerPlaceholder() {
 Widget _buildErrorPlaceholder() {
   return Container(
     width: double.infinity,
-    height: 200,
     color: Colors.grey[300],
-    child: Center(
-      child: Image.asset(
-        imageDefaultBanner,
-        width: 100,
-        height: 100,
-        fit: BoxFit.contain,
-      ),
+    child: Image.asset(
+      imageDefaultBanner,
+      fit: BoxFit.cover,
     ),
   );
 }
