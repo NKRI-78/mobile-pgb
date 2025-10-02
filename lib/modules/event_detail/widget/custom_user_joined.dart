@@ -41,6 +41,7 @@ class CustomUserJoinedList extends StatelessWidget {
 
           return ListTile(
             leading: CircleAvatar(
+              backgroundColor: Colors.grey,
               backgroundImage: avatar != null ? NetworkImage(avatar) : null,
               child: avatar == null ? const Icon(Icons.person) : null,
             ),
