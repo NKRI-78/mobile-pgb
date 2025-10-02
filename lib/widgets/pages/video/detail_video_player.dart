@@ -40,7 +40,7 @@ class _DetailVideoPlayerState extends State<DetailVideoPlayer> {
     _chewieController = ChewieController(
       videoPlayerController: _videoController,
       aspectRatio: _videoController.value.aspectRatio,
-      autoPlay: false,
+      autoPlay: true,
       looping: false,
       showControls: true,
       allowFullScreen: false,
@@ -57,7 +57,7 @@ class _DetailVideoPlayerState extends State<DetailVideoPlayer> {
       errorBuilder: (context, errorMessage) {
         return Center(
           child: Text("Gagal memuat video: $errorMessage",
-              style: TextStyle(color: Colors.white)),
+              style: const TextStyle(color: Colors.white)),
         );
       },
     );
@@ -78,25 +78,34 @@ class _DetailVideoPlayerState extends State<DetailVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return VisibilityDetector(
-      key: ObjectKey(_videoController),
-      onVisibilityChanged: (VisibilityInfo info) {
-        var visiblePercentage = info.visibleFraction * 100;
-        debugPrint('Widget ${info.key} is $visiblePercentage% visible');
-        if (info.visibleFraction == 0 && mounted) {
-          _videoController.pause();
-        }
-      },
-      child: Center(
-        child: _chewieController != null &&
-                _chewieController!.videoPlayerController.value.isInitialized
-            ? AspectRatio(
-                aspectRatio: _videoController.value.aspectRatio,
-                child: Chewie(controller: _chewieController!),
-              )
-            : CustomLoadingPage(
-                color: AppColors.whiteColor,
-              ),
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+      body: VisibilityDetector(
+        key: ObjectKey(_videoController),
+        onVisibilityChanged: (VisibilityInfo info) {
+          var visiblePercentage = info.visibleFraction * 100;
+          debugPrint('Widget ${info.key} is $visiblePercentage% visible');
+          if (info.visibleFraction == 0 && mounted) {
+            _videoController.pause();
+          }
+        },
+        child: Center(
+          child: _chewieController != null &&
+                  _chewieController!.videoPlayerController.value.isInitialized
+              ? AspectRatio(
+                  aspectRatio: _videoController.value.aspectRatio,
+                  child: Chewie(controller: _chewieController!),
+                )
+              : CustomLoadingPage(color: AppColors.whiteColor),
+        ),
       ),
     );
   }
