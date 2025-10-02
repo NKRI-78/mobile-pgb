@@ -7,7 +7,7 @@ import '../../../widgets/pages/empty_page.dart';
 import '../../../widgets/pages/loading_page.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
-import '../../../misc/text_style.dart'; 
+import '../../../misc/text_style.dart';
 import '../cubit/forum_cubit.dart';
 
 class ForumPage extends StatelessWidget {

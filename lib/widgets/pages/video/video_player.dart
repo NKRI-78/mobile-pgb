@@ -4,7 +4,7 @@ import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../misc/colors.dart';
-import '../../../router/builder.dart';
+import '../../../misc/download_manager.dart';
 
 class VideoPlayer extends StatefulWidget {
   const VideoPlayer({super.key, required this.urlVideo});
@@ -36,6 +36,17 @@ class _VideoPlayerState extends State<VideoPlayer> {
       aspectRatio: _videoController.value.aspectRatio,
       autoPlay: false,
       looping: false,
+      showControls: true,
+      additionalOptions: (context) => [
+        OptionItem(
+          onTap: (ctx) {
+            Navigator.pop(ctx);
+            _downloadVideo();
+          },
+          iconData: Icons.download,
+          title: 'Download Video',
+        ),
+      ],
       errorBuilder: (context, errorMessage) {
         return Center(
           child: Padding(
@@ -61,36 +72,32 @@ class _VideoPlayerState extends State<VideoPlayer> {
     super.dispose();
   }
 
+  void _downloadVideo() {
+    DownloadHelper.downloadDoc(context: context, url: widget.urlVideo);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        DetailVideoPlayerRoute(urlVideo: widget.urlVideo).push(context);
+    return VisibilityDetector(
+      key: ObjectKey(_videoController),
+      onVisibilityChanged: (VisibilityInfo info) {
+        var visiblePercentage = info.visibleFraction * 100;
+        debugPrint('Widget ${info.key} is $visiblePercentage% visible');
+        if (info.visibleFraction == 0 && mounted) {
+          _videoController.pause();
+        }
       },
-      child: AbsorbPointer(
-        absorbing: true,
-        child: VisibilityDetector(
-          key: ObjectKey(_videoController),
-          onVisibilityChanged: (VisibilityInfo info) {
-            var visiblePercentage = info.visibleFraction * 100;
-            debugPrint('Widget ${info.key} is $visiblePercentage% visible');
-            if (info.visibleFraction == 0 && mounted) {
-              _videoController.pause();
-            }
-          },
-          child: _chewieController != null &&
-                  _chewieController!.videoPlayerController.value.isInitialized
-              ? AspectRatio(
-                  aspectRatio: _videoController.value.aspectRatio,
-                  child: Chewie(controller: _chewieController!),
-                )
-              : Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.secondaryColor,
-                  ),
-                ),
-        ),
-      ),
+      child: _chewieController != null &&
+              _chewieController!.videoPlayerController.value.isInitialized
+          ? AspectRatio(
+              aspectRatio: _videoController.value.aspectRatio,
+              child: Chewie(controller: _chewieController!),
+            )
+          : Center(
+              child: CircularProgressIndicator(
+                color: AppColors.secondaryColor,
+              ),
+            ),
     );
   }
 }
