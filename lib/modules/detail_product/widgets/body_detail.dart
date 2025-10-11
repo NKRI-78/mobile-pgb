@@ -4,17 +4,18 @@ import 'dart:math';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/helper.dart';
 import '../../../misc/price_currency.dart';
 import '../../../misc/theme.dart';
-import '../cubit/detail_product_cubit.dart';
 import '../../../repositories/shop_repository/models/detail_product_model.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/detect_text/detect_text.dart';
 import '../../../widgets/image/image_avatar.dart';
 import '../../../widgets/image/image_card.dart';
 import '../../../widgets/pages/page_full_screen_gallery.dart';
+import '../cubit/detail_product_cubit.dart';
 
 class BodyDetail extends StatelessWidget {
   const BodyDetail({super.key, this.data});

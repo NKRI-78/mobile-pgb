@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../app/bloc/app_bloc.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -13,6 +12,7 @@ import '../../../repositories/forum_repository/models/forum_detail_model.dart';
 import '../../../repositories/profile_repository/models/profile_model.dart';
 import '../../../repositories/profile_repository/profile_repository.dart';
 import '../../../router/builder.dart';
+import '../../app/bloc/app_bloc.dart';
 import '../../forum/cubit/forum_cubit.dart';
 
 part 'forum_detail_state.dart';

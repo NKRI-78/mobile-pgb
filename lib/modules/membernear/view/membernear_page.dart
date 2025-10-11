@@ -8,20 +8,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../../../misc/theme.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/modal.dart';
-import '../bloc/membernear_bloc.dart';
-import '../../../widgets/pages/loading_page.dart';
-
 import '../../../misc/text_style.dart';
+import '../../../misc/theme.dart';
+import '../../../widgets/pages/loading_page.dart';
+import '../bloc/membernear_bloc.dart';
 
-part '../widgets/_maps.dart';
-part '../widgets/_list_user.dart';
-part '../widgets/_membernear_header.dart';
-part '../widgets/_membernear_botton_header.dart';
 part '../widgets/_empt_page_location.dart';
+part '../widgets/_list_user.dart';
+part '../widgets/_maps.dart';
+part '../widgets/_membernear_botton_header.dart';
+part '../widgets/_membernear_header.dart';
 
 class MemberNearPage extends StatelessWidget {
   const MemberNearPage({super.key});

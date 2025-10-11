@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../repositories/forum_repository/models/forum_detail_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
+import '../../../repositories/forum_repository/models/forum_detail_model.dart';
 import '../../../widgets/detect_text/detect_text.dart';
 import '../../../widgets/image/image_avatar.dart';
 import '../../app/bloc/app_bloc.dart';

@@ -2,16 +2,16 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'models/notification_model.dart';
-import 'models/notification_detailv2_model.dart';
-import 'models/notificationv2_model.dart';
-import 'models/notification_detail_model.dart';
 
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
 import '../../misc/pagination.dart';
 import 'models/notification_countv2_model.dart';
+import 'models/notification_detail_model.dart';
+import 'models/notification_detailv2_model.dart';
+import 'models/notification_model.dart';
+import 'models/notificationv2_model.dart';
 
 class NotificationV2Repository {
   final http = getIt<BaseNetworkClient>();

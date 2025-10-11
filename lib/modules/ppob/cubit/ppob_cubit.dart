@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../repositories/ppob_repository/models/listrik_data_model.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
+import '../../../repositories/ppob_repository/models/listrik_data_model.dart';
 import '../../../repositories/ppob_repository/models/payment_channel_modelv2.dart';
 import '../../../repositories/ppob_repository/models/pulsa_data_model.dart';
 import '../../../repositories/ppob_repository/ppob_repository.dart';

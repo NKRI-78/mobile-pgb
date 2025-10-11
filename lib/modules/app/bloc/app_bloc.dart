@@ -4,13 +4,13 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
-import '../../../repositories/app_repository/app_repository.dart';
-import '../models/user_google_model.dart';
-import '../../../repositories/cart_repository/cart_repository.dart';
-import '../../../repositories/cart_repository/models/cart_count_model.dart';
+
 import '../../../misc/http_client.dart';
 import '../../../misc/injections.dart';
+import '../../../repositories/app_repository/app_repository.dart';
 import '../../../repositories/auth_repository/models/user_model.dart';
+import '../../../repositories/cart_repository/cart_repository.dart';
+import '../../../repositories/cart_repository/models/cart_count_model.dart';
 import '../../../repositories/home_repository/home_repository.dart';
 import '../../../repositories/notification/models/notification_count_model.dart';
 import '../../../repositories/notification/notification_repository.dart';
@@ -18,6 +18,7 @@ import '../../../repositories/profile_repository/models/profile_model.dart';
 import '../../../repositories/profile_repository/profile_repository.dart';
 import '../../home/bloc/home_bloc.dart';
 import '../../profile/cubit/profile_cubit.dart';
+import '../models/user_google_model.dart';
 
 part 'app_bloc.g.dart';
 part 'app_event.dart';

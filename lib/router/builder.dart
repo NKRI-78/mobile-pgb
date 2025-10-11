@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_pgb/modules/maintenance/view/maintenance_pages.dart';
+import '../modules/maintenance/view/maintenance_pages.dart';
 import '../modules/nfc/view/nfc_page.dart';
 import '../modules/tracking_biteship/view/tracking_page.dart';
 import '../misc/register_akun_extra.dart';

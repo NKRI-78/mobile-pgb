@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/misc/colors.dart';
-import 'package:mobile_pgb/misc/text_style.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/text_style.dart';
 
 class MaintenancePages extends StatelessWidget {
   const MaintenancePages({super.key});

@@ -77,57 +77,63 @@ Widget _customDeskripsi(BuildContext context, eventData) {
           const SizedBox(height: 5),
           Align(
             alignment: Alignment.centerLeft,
-            child: TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor: AppColors.buttonBlueColor,
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                minimumSize: Size.zero,
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
+            child: Builder(builder: (context) {
+              final isLoggedIn = getIt<AppBloc>().state.user != null;
+
+              if (!isLoggedIn) return const SizedBox.shrink();
+              return TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: AppColors.buttonBlueColor,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6),
+                  ),
                 ),
-              ),
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(16)),
-                  ),
-                  builder: (_) => Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          height: 5,
-                          width: 50,
-                          margin: const EdgeInsets.only(bottom: 16),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[400],
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        Text(
-                          "Peserta Bergabung",
-                          style: AppTextStyles.textStyleBold,
-                        ),
-                        const SizedBox(height: 16),
-                        CustomUserJoinedList(
-                          users: eventData!.userJoins!,
-                        ),
-                      ],
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(16)),
                     ),
-                  ),
-                );
-              },
-              child: Text(
-                "Lihat Peserta",
-                style: AppTextStyles.textStyleNormal
-                    .copyWith(color: AppColors.whiteColor, letterSpacing: 1),
-              ),
-            ),
+                    builder: (_) => Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            height: 5,
+                            width: 50,
+                            margin: const EdgeInsets.only(bottom: 16),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[400],
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          Text(
+                            "Peserta Bergabung",
+                            style: AppTextStyles.textStyleBold,
+                          ),
+                          const SizedBox(height: 16),
+                          CustomUserJoinedList(
+                            users: eventData!.userJoins!,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                child: Text(
+                  "Lihat Peserta",
+                  style: AppTextStyles.textStyleNormal
+                      .copyWith(color: AppColors.whiteColor, letterSpacing: 1),
+                ),
+              );
+            }),
           ),
         ],
         const SizedBox(height: 10),

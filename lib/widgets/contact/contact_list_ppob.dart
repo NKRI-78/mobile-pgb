@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:go_router/go_router.dart';
-import '../../misc/snackbar.dart';
-import '../pages/loading_page.dart';
 
 import '../../misc/colors.dart';
+import '../../misc/snackbar.dart';
 import '../../misc/text_style.dart';
+import '../pages/loading_page.dart';
 
 class ContactListPpob extends StatefulWidget {
   const ContactListPpob({super.key});

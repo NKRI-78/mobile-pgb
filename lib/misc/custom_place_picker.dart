@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/misc/colors.dart';
+import 'colors.dart';
 import 'package:place_picker_google/place_picker_google.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
