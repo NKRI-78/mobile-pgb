@@ -32,11 +32,8 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     on<SetUserData>(_onSetUserData);
     on<GetBadgeNotif>(_onGetBadgeNotif);
     on<GetBadgeCart>(_onGetBadgeCart);
-    // on<IsRealese>(_onIsRealese);
-
     on<GetProfileData>(_onGetProfile);
     on<AppEvent>((event, emit) {});
-    // on<AppEvent>((event, emit) {});
   }
 
   HomeRepository repoHome = HomeRepository();
@@ -75,12 +72,6 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     getIt<HomeBloc>().add(HomeInit());
     state.copyWith();
   }
-
-  // FutureOr<void> _onIsRealese(IsRealese event, Emitter<AppState> emit) async {
-  //   SettingModel? data = await repoApp.isRealese();
-  //   emit(state.copyWith(isRelease: data.data.isReview));
-  //   debugPrint("data release ${data.data.isReview}");
-  // }
 
   Future<void> _onSetUserLogout(
     SetUserLogout event,

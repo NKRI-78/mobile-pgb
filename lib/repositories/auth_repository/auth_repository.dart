@@ -122,8 +122,10 @@ class AuthRepository {
     }
   }
 
-  Future<LoggedIn> login(
-      {required String email, required String password}) async {
+  Future<LoggedIn> login({
+    required String email,
+    required String password,
+  }) async {
     try {
       final res = await http.post(Uri.parse(auth), body: {
         'email': email,
