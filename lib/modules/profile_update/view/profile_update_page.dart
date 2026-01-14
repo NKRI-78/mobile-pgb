@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../misc/snackbar.dart';
-import '../../../misc/theme.dart';
-import '../cubit/profile_update_cubit.dart';
-import '../../../widgets/button/custom_button.dart';
 
 import '../../../misc/colors.dart';
+import '../../../misc/snackbar.dart';
 import '../../../misc/text_style.dart';
+import '../../../misc/theme.dart';
+import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/photo_view/custom_fullscreen_preview.dart';
+import '../cubit/profile_update_cubit.dart';
 
 class ProfileUpdatePage extends StatelessWidget {
   const ProfileUpdatePage({super.key});

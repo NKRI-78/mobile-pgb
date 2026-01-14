@@ -4,15 +4,15 @@ import 'package:bloc/bloc.dart';
 import 'package:cunning_document_scanner/cunning_document_scanner.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import '../../../misc/colors.dart';
-import '../../../misc/register_akun_extra.dart';
-import '../../../misc/text_style.dart';
-import '../../app/models/user_google_model.dart';
 
+import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
+import '../../../misc/register_akun_extra.dart';
 import '../../../misc/snackbar.dart';
+import '../../../misc/text_style.dart';
 import '../../../repositories/auth_repository/auth_repository.dart';
 import '../../../router/builder.dart';
+import '../../app/models/user_google_model.dart';
 import '../../register_akun/model/extrack_ktp_model.dart';
 
 part 'register_ktp_state.dart';

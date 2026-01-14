@@ -2,7 +2,6 @@ part of '../view/detail_product_page.dart';
 
 final GlobalKey _cartKey = GlobalKey();
 final GlobalKey _imageKey = GlobalKey();
-final LayerLink _layerLink = LayerLink();
 TextEditingController controller = TextEditingController();
 
 class ModalBottom extends StatelessWidget {

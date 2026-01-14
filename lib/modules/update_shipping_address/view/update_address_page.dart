@@ -6,23 +6,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../../../misc/custom_place_picker.dart';
 import 'package:place_picker_google/place_picker_google.dart';
+
 import '../../../misc/colors.dart';
+import '../../../misc/custom_place_picker.dart';
 import '../../../misc/theme.dart';
-import '../cubit/update_shipping_address_cubit.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/header/header_section.dart';
 import '../../../widgets/map/custom_select_location.dart';
-import '../../../widgets/map/custom_select_map_location.dart';
 import '../../../widgets/pages/empty_page.dart';
 import '../../../widgets/pages/loading_page.dart';
+import '../cubit/update_shipping_address_cubit.dart';
 
+part '../widgets/_input_detail_address.dart';
 part '../widgets/_input_location.dart';
 part '../widgets/_input_location_lebel.dart';
 part '../widgets/_input_name.dart';
 part '../widgets/_input_phone.dart';
-part '../widgets/_input_detail_address.dart';
 part '../widgets/input_label.dart';
 
 class UpdateAddressPage extends StatelessWidget {

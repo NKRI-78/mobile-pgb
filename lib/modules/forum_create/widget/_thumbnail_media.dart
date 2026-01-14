@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../misc/colors.dart';
 import '../../../widgets/pages/video/detail_video_player.dart';
 import '../cubit/forum_create_cubit.dart';

@@ -4,14 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import '../../../misc/injections.dart';
 import '../../../misc/snackbar.dart';
-import '../../checkout/cubit/checkout_cubit.dart';
-import '../../list_address/cubit/list_address_cubit.dart';
 import '../../../repositories/checkout_repository/checkout_repository.dart';
 import '../../../repositories/checkout_repository/models/detail_address_model.dart';
 import '../../../repositories/list_address_repository/list_address_repository.dart';
 import '../../../widgets/map/custom_select_location.dart';
+import '../../checkout/cubit/checkout_cubit.dart';
+import '../../list_address/cubit/list_address_cubit.dart';
 
 part 'create_shipping_address_state.dart';
 

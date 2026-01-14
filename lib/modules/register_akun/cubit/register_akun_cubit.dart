@@ -4,9 +4,9 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../misc/register_akun_extra.dart';
 
 import '../../../misc/injections.dart';
+import '../../../misc/register_akun_extra.dart';
 import '../../../misc/snackbar.dart';
 import '../../../repositories/auth_repository/auth_repository.dart';
 import '../../../repositories/event_repository/models/event_model.dart';

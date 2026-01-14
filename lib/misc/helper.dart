@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:upgrader/upgrader.dart';
-import 'snackbar.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:upgrader/upgrader.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../modules/checkout/cubit/checkout_cubit.dart';
+import 'snackbar.dart';
 
 class UpgraderMessagesIndonesian extends UpgraderMessages {
   UpgraderMessagesIndonesian() : super(code: 'id');

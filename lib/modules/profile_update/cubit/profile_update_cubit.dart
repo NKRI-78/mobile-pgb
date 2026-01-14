@@ -3,13 +3,14 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../router/builder.dart';
+
 import '../../../misc/injections.dart';
 import '../../../misc/snackbar.dart';
 import '../../../repositories/auth_repository/auth_repository.dart';
 import '../../../repositories/profile_repository/models/profile_model.dart';
-import '../../profile/cubit/profile_cubit.dart';
 import '../../../repositories/profile_repository/profile_repository.dart';
+import '../../../router/builder.dart';
+import '../../profile/cubit/profile_cubit.dart';
 
 part 'profile_update_state.dart';
 

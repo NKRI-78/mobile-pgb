@@ -4,23 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../widget/custom_field_listrik_section.dart';
-import '../../../repositories/ppob_repository/models/listrik_data_model.dart';
-import '../../../widgets/pages/loading_page.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/price_currency.dart';
 import '../../../misc/snackbar.dart';
 import '../../../misc/text_style.dart';
+import '../../../repositories/ppob_repository/models/listrik_data_model.dart';
 import '../../../repositories/ppob_repository/models/pulsa_data_model.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/contact/contact_list_ppob.dart';
+import '../../../widgets/pages/loading_page.dart';
 import '../../app/bloc/app_bloc.dart';
 import '../cubit/ppob_cubit.dart';
 import '../widget/custom_button_wallet.dart';
-import '../widget/custom_list_listrik_data_section.dart';
 import '../widget/custom_list_pulsa_data_section.dart';
 
 part '../widget/custom_card_section.dart';

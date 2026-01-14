@@ -38,6 +38,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
       factory: $HomeRouteExtension._fromState,
       routes: [
         GoRouteData.$route(
+          path: 'presence',
+          factory: $PresenceRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'not-found',
           factory: $MaintenanceRouteExtension._fromState,
         ),
@@ -290,6 +294,23 @@ extension $HomeRouteExtension on HomeRoute {
 
   String get location => GoRouteData.$location(
         '/home',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $PresenceRouteExtension on PresenceRoute {
+  static PresenceRoute _fromState(GoRouterState state) => PresenceRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/presence',
       );
 
   void go(BuildContext context) => context.go(location);

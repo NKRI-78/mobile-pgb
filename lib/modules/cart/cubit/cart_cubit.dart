@@ -4,11 +4,12 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+
 import '../../../misc/injections.dart';
 import '../../../misc/snackbar.dart';
-import '../../app/bloc/app_bloc.dart';
 import '../../../repositories/cart_repository/cart_repository.dart';
 import '../../../repositories/cart_repository/models/cart_model.dart';
+import '../../app/bloc/app_bloc.dart';
 
 part 'cart_state.dart';
 

@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
-import '../../../misc/colors.dart';
-import '../loading_page.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+
+import '../../../misc/colors.dart';
 import '../../../misc/download_manager.dart';
+import '../loading_page.dart';
 
 class DetailVideoPlayer extends StatefulWidget {
   const DetailVideoPlayer({super.key, required this.urlVideo});

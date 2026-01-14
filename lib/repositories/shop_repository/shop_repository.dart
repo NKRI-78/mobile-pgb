@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
+
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
+import '../../misc/pagination.dart';
 import 'models/category_model.dart';
 import 'models/detail_product_model.dart';
 import 'models/product_model.dart';
-
-import '../../misc/pagination.dart';
 
 class ShopRepository {
   String get shop => '${MyApi.baseUrl}/api/v1/product';

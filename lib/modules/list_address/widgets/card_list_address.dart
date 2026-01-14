@@ -1,14 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/snackbar.dart';
 import '../../../misc/theme.dart';
-import '../cubit/list_address_cubit.dart';
 import '../../../repositories/list_address_repository/models/address_list_model.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/button/custom_button.dart';
+import '../cubit/list_address_cubit.dart';
 
 class CardListAddress extends StatelessWidget {
   const CardListAddress({

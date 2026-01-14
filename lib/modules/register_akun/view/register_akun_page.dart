@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../app/models/user_google_model.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 import '../../../widgets/button/custom_button.dart';
+import '../../app/models/user_google_model.dart';
 import '../cubit/register_akun_cubit.dart';
 import '../model/extrack_ktp_model.dart';
 import '../widget/custom_textfield_akun.dart';

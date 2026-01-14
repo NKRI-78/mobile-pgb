@@ -1,9 +1,9 @@
+import 'package:badges/badges.dart' as Badges;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cart_stepper/cart_stepper.dart';
-import 'package:badges/badges.dart' as Badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../widgets/pages/page_full_screen_gallery.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/custom_cart_stepper.dart';
 import '../../../misc/injections.dart';
@@ -11,19 +11,20 @@ import '../../../misc/price_currency.dart';
 import '../../../misc/snackbar.dart';
 import '../../../misc/text_style.dart';
 import '../../../misc/theme.dart';
-import '../../app/bloc/app_bloc.dart';
-import '../../cart/cubit/cart_cubit.dart';
-import '../cubit/detail_product_cubit.dart';
-import '../widgets/body_detail.dart';
 import '../../../repositories/shop_repository/models/detail_product_model.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/image/image_card.dart';
 import '../../../widgets/pages/empty_page.dart';
 import '../../../widgets/pages/loading_page.dart';
+import '../../../widgets/pages/page_full_screen_gallery.dart';
+import '../../app/bloc/app_bloc.dart';
+import '../../cart/cubit/cart_cubit.dart';
+import '../cubit/detail_product_cubit.dart';
+import '../widgets/body_detail.dart';
 
-part '../widgets/modal_bottom.dart';
 part '../widgets/button_arrow.dart';
+part '../widgets/modal_bottom.dart';
 
 class DetailProductPage extends StatelessWidget {
   const DetailProductPage({super.key, required this.idProduct});

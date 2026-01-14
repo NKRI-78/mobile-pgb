@@ -1,5 +1,6 @@
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/theme.dart';
 import '../../../repositories/shop_repository/models/detail_product_model.dart';

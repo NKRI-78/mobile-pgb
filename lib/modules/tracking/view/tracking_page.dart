@@ -63,35 +63,36 @@ class TrackingView extends StatelessWidget {
                           child: Center(
                               child: EmptyPage(msg: "Resi tidak ditemukan")))
                       : SliverPadding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                        ),
-                        sliver: SliverList(
-                            delegate: SliverChildListDelegate([
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                          ),
+                          sliver: SliverList(
+                              delegate: SliverChildListDelegate([
                             Container(
                               margin: const EdgeInsets.symmetric(
-                                      vertical: 10,
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 10),
-                                    decoration: BoxDecoration(
-                                        color: AppColors.whiteColor,
-                                        border: Border.all(
-                                            color: AppColors.blackColor
-                                                .withValues(alpha: 0.2))),
+                                vertical: 10,
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              decoration: BoxDecoration(
+                                  color: AppColors.whiteColor,
+                                  border: Border.all(
+                                      color: AppColors.blackColor
+                                          .withValues(alpha: 0.2))),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       DetailRow(
                                         title: 'Nomor Resi',
-                                        value:
-                                            state.tracking?.cnote?.cnoteNo ?? "",
+                                        value: state.tracking?.cnote?.cnoteNo ??
+                                            "",
                                         isRight: false,
                                       ),
                                       DetailRow(
@@ -103,7 +104,8 @@ class TrackingView extends StatelessWidget {
                                     ],
                                   ),
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
@@ -123,7 +125,8 @@ class TrackingView extends StatelessWidget {
                                     ],
                                   ),
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
@@ -145,22 +148,24 @@ class TrackingView extends StatelessWidget {
                             ),
                             Container(
                               margin: const EdgeInsets.symmetric(
-                                    vertical: 10,
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 10),
-                                  decoration: BoxDecoration(
-                                      color: AppColors.whiteColor,
-                                      border: Border.all(
-                                          color: AppColors.blackColor
-                                              .withValues(alpha: 0.2))),
+                                vertical: 10,
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              decoration: BoxDecoration(
+                                  color: AppColors.whiteColor,
+                                  border: Border.all(
+                                      color: AppColors.blackColor
+                                          .withValues(alpha: 0.2))),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       const Text(
                                         "Status",
@@ -205,15 +210,15 @@ class TrackingView extends StatelessWidget {
                             ),
                             Container(
                               margin: const EdgeInsets.symmetric(
-                                    vertical: 10,
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 10),
-                                  decoration: BoxDecoration(
-                                      color: AppColors.whiteColor,
-                                      border: Border.all(
-                                          color: AppColors.blackColor
-                                              .withValues(alpha: 0.2))),
+                                vertical: 10,
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              decoration: BoxDecoration(
+                                  color: AppColors.whiteColor,
+                                  border: Border.all(
+                                      color: AppColors.blackColor
+                                          .withValues(alpha: 0.2))),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -221,7 +226,8 @@ class TrackingView extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.all(10.0),
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
@@ -232,7 +238,8 @@ class TrackingView extends StatelessWidget {
                                           stepTrackerType:
                                               StepTrackerType.dotVertical,
                                           pipeSize: 30,
-                                          steps: state.tracking?.history?.reversed
+                                          steps: state
+                                                  .tracking?.history?.reversed
                                                   .map((e) {
                                                 final isLast = e == lastOrder;
                                                 return Steps(
@@ -252,7 +259,7 @@ class TrackingView extends StatelessWidget {
                               ),
                             )
                           ])),
-                      )
+                        )
             ],
           ),
         );

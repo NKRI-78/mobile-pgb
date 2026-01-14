@@ -1,13 +1,13 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../misc/injections.dart';
-import '../bloc/home_bloc.dart';
 
 import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
 import '../../../misc/price_currency.dart';
 import '../../../misc/text_style.dart';
 import '../../../router/builder.dart';
+import '../bloc/home_bloc.dart';
 
 class CustomName extends StatelessWidget {
   final bool isLoggedIn;

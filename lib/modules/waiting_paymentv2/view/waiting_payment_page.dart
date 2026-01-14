@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../router/builder.dart';
-import '../../../widgets/button/custom_button.dart';
+import 'package:slide_countdown/slide_countdown.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/date_helper.dart';
 import '../../../misc/price_currency.dart';
 import '../../../misc/theme.dart';
+import '../../../router/builder.dart';
+import '../../../widgets/button/custom_button.dart';
+import '../../../widgets/header/header_section.dart';
+import '../../../widgets/image/image_avatar.dart';
+import '../../../widgets/pages/empty_page.dart';
+import '../../../widgets/pages/loading_page.dart';
 import '../cubit/waiting_payment_cubit.dart';
 import '../widgets/status/expired_status.dart';
 import '../widgets/status/success_status.dart';
 import '../widgets/v2/qr_method_widget.dart';
 import '../widgets/v2/virtual_account_method_widget.dart';
-import '../../../widgets/header/header_section.dart';
-import '../../../widgets/image/image_avatar.dart';
-import '../../../widgets/pages/empty_page.dart';
-import '../../../widgets/pages/loading_page.dart';
-import 'package:slide_countdown/slide_countdown.dart';
 
 class WaitingPaymentV2Page extends StatelessWidget {
   final String id;
@@ -242,9 +243,10 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
                                                               title: "")
                                                           .push(context);
                                                     },
-                                                    text: "Lihat Cara Pembayaran",
-                                                    backgroundColour:
-                                                        AppColors.secondaryColor,
+                                                    text:
+                                                        "Lihat Cara Pembayaran",
+                                                    backgroundColour: AppColors
+                                                        .secondaryColor,
                                                     textColour:
                                                         AppColors.primaryColor),
                                               ),

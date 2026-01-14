@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import '../../misc/colors.dart';
+import '../../misc/keyboard_visibility.dart';
 import '../../misc/location.dart';
 import '../../repositories/google_map_api_repository/google_map_api_repository.dart';
 import '../../repositories/google_map_api_repository/src/models/place_autocomplete.dart';
-
-import '../../misc/keyboard_visibility.dart';
 
 class AddressPickerCustomData {
   final String address;

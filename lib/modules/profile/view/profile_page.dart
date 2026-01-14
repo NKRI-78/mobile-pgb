@@ -2,28 +2,28 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallery_saver_plus/gallery_saver.dart';
-import '../../../misc/snackbar.dart';
-import '../../../misc/date_helper.dart';
-import '../../../router/builder.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:barcode_widget/barcode_widget.dart';
 
 import '../../../misc/colors.dart';
+import '../../../misc/date_helper.dart';
 import '../../../misc/injections.dart';
+import '../../../misc/snackbar.dart';
 import '../../../misc/text_style.dart';
 import '../../../misc/theme.dart';
+import '../../../router/builder.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/pages/loading_page.dart';
 import '../cubit/profile_cubit.dart';
 
+part '../view/preview_kta_page.dart';
 part '../widget/custom_card_profile.dart';
 part '../widget/custom_data_profile.dart';
 part '../widget/custom_download_kta.dart';
-part '../view/preview_kta_page.dart';
 
 final GlobalKey _ktaFrontKey = GlobalKey();
 final GlobalKey _ktaBackKey = GlobalKey();

@@ -1,4 +1,5 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+
 import 'injections.dart';
 
 class MyRemoteConfig {
@@ -18,6 +19,7 @@ class MyRemoteConfig {
       await remoteConfig?.setDefaults({
         'is_review_apple': false,
         'is_not_found': false,
+        'is_presence': false,
       });
 
       await remoteConfig?.fetchAndActivate();
@@ -26,6 +28,7 @@ class MyRemoteConfig {
 
       print('is_review_apple: ${remoteConfig?.getBool('is_review_apple')}');
       print('is_not_found: ${remoteConfig?.getBool('is_not_found')}');
+      print('is_presence: ${remoteConfig?.getBool('is_presence')}');
     } catch (e) {
       print("Remote Config init error: $e");
     }
@@ -35,4 +38,6 @@ class MyRemoteConfig {
       remoteConfig?.getBool('is_review_apple') ?? false;
 
   static bool get isNotFound => remoteConfig?.getBool('is_not_found') ?? false;
+
+  static bool get isPresence => remoteConfig?.getBool('is_presence') ?? false;
 }

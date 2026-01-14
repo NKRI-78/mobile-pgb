@@ -1,4 +1,6 @@
 import 'package:get_it/get_it.dart';
+import '../modules/presence/cubit/presence_cubit.dart';
+import '../repositories/presence_repository/presence_repository.dart';
 import '../modules/register/cubit/register_cubit.dart';
 import 'socket.dart';
 import '../modules/cart/cubit/cart_cubit.dart';
@@ -56,6 +58,7 @@ class MyInjection {
     getIt.registerCachedFactory<CheckoutCubit>(() => CheckoutCubit());
     getIt.registerLazySingleton<NeedRiviewCubit>(() => NeedRiviewCubit());
     getIt.registerLazySingleton<ListAddressCubit>(() => ListAddressCubit());
+    getIt.registerLazySingleton<PresenceCubit>(() => PresenceCubit());
 
     //
 
@@ -75,6 +78,7 @@ class MyInjection {
     getIt.registerLazySingleton<RegisterChangeCubit>(
         () => RegisterChangeCubit());
     getIt.registerLazySingleton<RegisterCubit>(() => RegisterCubit());
+
     // REPO
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
     getIt.registerLazySingleton<HomeRepository>(() => HomeRepository());
@@ -89,5 +93,6 @@ class MyInjection {
     getIt.registerLazySingleton<PpobRepository>(() => PpobRepository());
     getIt.registerLazySingleton<WalletRepository>(() => WalletRepository());
     getIt.registerLazySingleton<ForumRepository>(() => ForumRepository());
+    getIt.registerLazySingleton<PresenceRepository>(() => PresenceRepository());
   }
 }

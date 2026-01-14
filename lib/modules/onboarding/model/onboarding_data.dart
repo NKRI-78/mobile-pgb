@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../misc/text_style.dart';
 
 final List<Map<String, dynamic>> onboardingContent = [

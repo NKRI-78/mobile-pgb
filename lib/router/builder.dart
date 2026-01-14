@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../modules/presence/view/presence_page.dart';
 import '../modules/maintenance/view/maintenance_pages.dart';
 import '../modules/nfc/view/nfc_page.dart';
 import '../modules/tracking_biteship/view/tracking_page.dart';
@@ -69,6 +70,7 @@ class OnboardingRoute extends GoRouteData {
 }
 
 @TypedGoRoute<HomeRoute>(path: '/home', routes: [
+  TypedGoRoute<PresenceRoute>(path: 'presence'),
   TypedGoRoute<MaintenanceRoute>(path: 'not-found'),
   TypedGoRoute<SosDetailRoute>(path: 'sos-detail'),
   TypedGoRoute<ForumRoute>(path: 'forum', routes: [
@@ -147,6 +149,13 @@ class HomeRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return HomePage();
+  }
+}
+
+class PresenceRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return PresencePage();
   }
 }
 
