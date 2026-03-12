@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/misc/theme.dart';
+import '../../../misc/theme.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/price_currency.dart';

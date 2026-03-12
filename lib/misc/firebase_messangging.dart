@@ -5,7 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:mobile_pgb/modules/app/bloc/app_bloc.dart';
+import '../modules/app/bloc/app_bloc.dart';
 
 import '../firebase_options.dart';
 import '../router/builder.dart';

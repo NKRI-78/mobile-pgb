@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../misc/api_url.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/date_helper.dart';
 import '../../../misc/modal.dart';
@@ -185,10 +186,10 @@ class DetailOrderView extends StatelessWidget {
                                               InkWell(
                                                 onTap: () {
                                                   WebViewRoute(
-                                                          url:
-                                                              "https://atj-ecommerce.langitdigital78.com/api/v1/order/invoice/${state.detailOrder?.orderNumber?.replaceAll("/", "%2F") ?? ""}",
-                                                          title: "PGB-MOBILE")
-                                                      .push(context);
+                                                    url:
+                                                        "${MyApi.baseUrl}/api/v1/order/invoice/${Uri.encodeComponent(state.detailOrder?.orderNumber ?? "")}",
+                                                    title: "PGB-MOBILE",
+                                                  ).push(context);
                                                 },
                                                 child: const Text(
                                                   "Lihat Invoice",
