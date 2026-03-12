@@ -1,0 +1,2 @@
+/Users/hernanfebrirahmatullah/Nanz/Kerja/Mobile Apps/mobile-pgb/android/app/.cxx/RelWithDebInfo/2tn5m491/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/hernanfebrirahmatullah/Nanz/Kerja/Mobile Apps/mobile-pgb/android/app/.cxx/RelWithDebInfo/2tn5m491/armeabi-v7a/CMakeFiles/rebuild_cache.dir

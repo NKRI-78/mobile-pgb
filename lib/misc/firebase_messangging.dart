@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:mobile_pgb/modules/app/bloc/app_bloc.dart';
 
 import '../firebase_options.dart';
 import '../router/builder.dart';
@@ -11,85 +13,23 @@ import 'navigation.dart';
 
 class FirebaseMessagingMisc {
   static Future<void> init() async {
-    // FirebaseMessaging.instance.requestPermission();
     FirebaseMessaging.instance.getInitialMessage().then(
       (message) async {
-        debugPrint('Pasklik');
-        debugPrint("Data : ${message?.data}");
         await Future.delayed(const Duration(seconds: 2));
-        if (myNavigatorKey.currentContext != null &&
-            message?.data['type'] == "PAYMENT") {
-          WaitingPaymentV2Route(id: message?.data['id'] ?? "0")
-              .push(myNavigatorKey.currentContext!);
-        }
-        if (myNavigatorKey.currentContext != null &&
-            message?.data['type'] == "SOS") {
-          NotificationDetailRoute(
-                  idNotif: int.parse(message?.data['id'] ?? "0"))
-              .push(myNavigatorKey.currentContext!);
-        }
-        if (myNavigatorKey.currentContext != null &&
-            message?.data['type'] == "BROADCAST") {
-          NotificationDetailRoute(
-                  idNotif: int.parse(message?.data['notif_id'] ?? "0"))
-              .push(myNavigatorKey.currentContext!);
-        }
-        if (myNavigatorKey.currentContext != null &&
-            message?.data['type'] == "FORUM") {
-          ForumDetailRoute(idForum: message?.data['id'] ?? "0")
-              .push(myNavigatorKey.currentContext!);
-        }
-        if (myNavigatorKey.currentContext != null &&
-            message?.data['type'] == "EVENT") {
-          EventDetailRoute(idEvent: int.parse(message?.data['id'] ?? "0"))
-              .push(myNavigatorKey.currentContext!);
-        }
-        if (myNavigatorKey.currentContext != null &&
-            message?.data['type'] == "NEWS") {
-          NewsDetailRoute(newsId: int.parse(message?.data['id'] ?? "0"))
-              .push(myNavigatorKey.currentContext!);
+        if (message != null) {
+          await handleNavigation(message.data);
         }
       },
     );
 
     FirebaseMessaging.onMessage.listen(showFlutterNotification);
 
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-      debugPrint("Test comment id${message.data['title']}");
-      debugPrint("Data notif: ${message.data}");
-      await Future.delayed(const Duration(seconds: 2));
-      if (myNavigatorKey.currentContext != null &&
-          message.data['type'] == "PAYMENT") {
-        WaitingPaymentV2Route(id: message.data['id'] ?? "0")
-            .push(myNavigatorKey.currentContext!);
-      }
-      if (myNavigatorKey.currentContext != null &&
-          message.data['type'] == "SOS") {
-        NotificationDetailRoute(idNotif: int.parse(message.data['id'] ?? "0"))
-            .push(myNavigatorKey.currentContext!);
-      }
-      if (myNavigatorKey.currentContext != null &&
-          message.data['type'] == "BROADCAST") {
-        NotificationDetailRoute(
-                idNotif: int.parse(message.data['notif_id'] ?? "0"))
-            .push(myNavigatorKey.currentContext!);
-      }
-      if (myNavigatorKey.currentContext != null &&
-          message.data['type'] == "FORUM") {
-        ForumDetailRoute(idForum: message.data['id'] ?? "0")
-            .push(myNavigatorKey.currentContext!);
-      }
-      if (myNavigatorKey.currentContext != null &&
-          message.data['type'] == "EVENT") {
-        EventDetailRoute(idEvent: int.parse(message.data['id'] ?? "0"))
-            .push(myNavigatorKey.currentContext!);
-      }
-      if (myNavigatorKey.currentContext != null &&
-          message.data['type'] == "EVENT") {
-        NewsDetailRoute(newsId: int.parse(message.data['id'] ?? "0"))
-            .push(myNavigatorKey.currentContext!);
-      }
-    });
+    FirebaseMessaging.onMessageOpenedApp.listen(
+      (RemoteMessage message) async {
+        await Future.delayed(const Duration(seconds: 2));
+        await handleNavigation(message.data);
+      },
+    );
   }
 }
 
@@ -171,33 +111,10 @@ void onDidReceiveLocalNotification(
 void onDidReceiveNotificationResponse(
     NotificationResponse notificationResponse) async {
   final String? payload = notificationResponse.payload;
-  if (notificationResponse.payload != null) {
-    debugPrint("Test comment id ${json.decode(payload!)}");
-    if (json.decode(payload)['type'] == "PAYMENT") {
-      WaitingPaymentV2Route(id: json.decode(payload)['id'])
-          .push(myNavigatorKey.currentContext!);
-    }
-    if (json.decode(payload)['type'] == "SOS") {
-      NotificationDetailRoute(idNotif: int.parse(json.decode(payload)['id']))
-          .push(myNavigatorKey.currentContext!);
-    }
-    if (json.decode(payload)['type'] == "BROADCAST") {
-      NotificationDetailRoute(
-              idNotif: int.parse(json.decode(payload)['notif_id']))
-          .push(myNavigatorKey.currentContext!);
-    }
-    if (json.decode(payload)['type'] == "FORUM") {
-      ForumDetailRoute(idForum: json.decode(payload)['id'])
-          .push(myNavigatorKey.currentContext!);
-    }
-    if (json.decode(payload)['type'] == "EVENT") {
-      EventDetailRoute(idEvent: int.parse(json.decode(payload)['id']))
-          .push(myNavigatorKey.currentContext!);
-    }
-    if (json.decode(payload)['type'] == "NEWS") {
-      NewsDetailRoute(newsId: int.parse(json.decode(payload)['id']))
-          .push(myNavigatorKey.currentContext!);
-    }
+
+  if (payload != null) {
+    final data = json.decode(payload);
+    await handleNavigation(data);
   }
 }
 
@@ -227,3 +144,53 @@ void showFlutterNotification(RemoteMessage message) async {
 
 /// Initialize the [FlutterLocalNotificationsPlugin] package.
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
+Future<void> handleNavigation(Map<String, dynamic> data) async {
+  final context = myNavigatorKey.currentContext;
+  if (context == null) return;
+
+  final appState = context.read<AppBloc>().state;
+
+  final type = data['type'];
+
+  if ((type == "FORUM" || type == "BROADCAST") && !appState.isLoggedIn) {
+    LoginRoute().push(context);
+    return;
+  }
+
+  switch (type) {
+    case "PAYMENT":
+      WaitingPaymentV2Route(id: data['id'] ?? "0").push(context);
+      break;
+
+    case "SOS":
+      NotificationDetailRoute(
+        idNotif: int.tryParse(data['id']?.toString() ?? '') ?? 0,
+      ).push(context);
+      break;
+
+    case "BROADCAST":
+      NotificationDetailRoute(
+        idNotif: int.parse(data['notif_id'] ?? "0"),
+      ).push(context);
+      break;
+
+    case "FORUM":
+      ForumDetailRoute(
+        idForum: data['id'] ?? "0",
+      ).push(context);
+      break;
+
+    case "EVENT":
+      EventDetailRoute(
+        idEvent: int.tryParse(data['id']?.toString() ?? '') ?? 0,
+      ).push(context);
+      break;
+
+    case "NEWS":
+      NewsDetailRoute(
+        newsId: int.tryParse(data['id']?.toString() ?? '') ?? 0,
+      ).push(context);
+      break;
+  }
+}

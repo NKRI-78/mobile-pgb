@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_pgb/misc/theme.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/price_currency.dart';
@@ -23,17 +24,19 @@ class GridProduct extends StatelessWidget {
       child: Column(
         children: [
           InkWell(
-              onTap: () {
-                DetailProductRoute(idProduct: data.id.toString()).go(context);
-              },
-              child: ImageCard(
-                image: (data.pictures?.isEmpty ?? false)
-                    ? ""
-                    : data.pictures?.first.link ?? "",
-                radius: 15,
-                height: 150,
-                width: double.infinity,
-              )),
+            onTap: () {
+              DetailProductRoute(idProduct: data.id.toString()).go(context);
+            },
+            child: ImageCard(
+              image: (data.pictures?.isEmpty ?? false)
+                  ? ""
+                  : data.pictures?.first.link ?? "",
+              radius: 15,
+              height: 150,
+              width: double.infinity,
+              imageError: imageDefaultBanner,
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             child: Column(

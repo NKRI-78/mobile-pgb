@@ -103,13 +103,20 @@ class _ModalBottomViewState extends State<ModalBottomView>
               child: Transform.scale(
                 scale: scale,
                 child: Opacity(
-                  opacity: 1.0 - controller.value,
-                  child: Image.network(
-                    '${widget.data?.pictures?.first.link}',
-                    width: imageSize.width,
-                    height: imageSize.height,
-                  ),
-                ),
+                    opacity: 1.0 - controller.value,
+                    child: Image.network(
+                      widget.data?.pictures?.first.link ?? "",
+                      width: imageSize.width,
+                      height: imageSize.height,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          imageDefaultBanner,
+                          width: imageSize.width,
+                          height: imageSize.height,
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    )),
               ),
             );
           },
@@ -168,7 +175,7 @@ class _ModalBottomViewState extends State<ModalBottomView>
     return BlocBuilder<DetailProductCubit, DetailProductState>(
         builder: (context, state) {
       return SizedBox(
-        height: 350,
+        height: 320,
         child: Scaffold(
           backgroundColor: AppColors.primaryColor,
           body: Column(
@@ -206,10 +213,10 @@ class _ModalBottomViewState extends State<ModalBottomView>
                               image: (widget.data?.pictures?.isEmpty ?? false)
                                   ? ""
                                   : widget.data?.pictures?.first.link ?? "",
-                              height: 130,
-                              radius: 0,
-                              width: 130,
-                              imageError: imageDefaultData,
+                              height: 100,
+                              radius: 10,
+                              width: 100,
+                              imageError: imageDefaultBanner,
                             ),
                             const SizedBox(
                               width: 10,
@@ -221,15 +228,17 @@ class _ModalBottomViewState extends State<ModalBottomView>
                                 Text(
                                   '${Price.currency(widget.data?.price?.toDouble() ?? 0)}',
                                   style: const TextStyle(
-                                      color: AppColors.blueColor,
-                                      fontSize: fontSizeOverLarge,
-                                      fontWeight: FontWeight.bold),
+                                    color: AppColors.blueColor,
+                                    fontSize: fontSizeLarge,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                                 Text(
                                   'Stock : ${widget.data?.stock}',
                                   style: const TextStyle(
-                                      color: AppColors.blackColor,
-                                      fontSize: fontSizeExtraLarge),
+                                    color: AppColors.blackColor,
+                                    fontSize: fontSizeDefault,
+                                  ),
                                 ),
                               ],
                             ),

@@ -122,246 +122,258 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
                                           child: EmptyPage(
                                               msg: "Tidak ada pembayaran")))
                                   : SliverList(
-                                      delegate: SliverChildListDelegate([
-                                      Container(
-                                        margin: const EdgeInsets.symmetric(
-                                            vertical: 5),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 15, vertical: 10),
-                                        decoration: BoxDecoration(
-                                            color: AppColors.whiteColor,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                                color: AppColors.blackColor
-                                                    .withValues(alpha: 0.10))),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  isExpired
-                                                      ? "Pembayaran Kedaluwarsa"
-                                                      : "Batas Akhir Pembayaran",
-                                                  style: TextStyle(
-                                                      color: isExpired
-                                                          ? AppColors.redColor
-                                                          : AppColors
-                                                              .blackColor,
-                                                      fontSize: fontSizeDefault,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                isExpired
-                                                    ? Container()
-                                                    : state.payment?.status ==
-                                                            "WAITING_FOR_PAYMENT"
-                                                        ? Text(
-                                                            DateHelper.parseDateExpired(
-                                                                state.payment
-                                                                        ?.createdAt ??
-                                                                    DateTime.now()
-                                                                        .toString(),
-                                                                state.payment
-                                                                        ?.type ??
-                                                                    ""),
-                                                            style:
-                                                                const TextStyle(
-                                                              color: AppColors
-                                                                  .blackColor,
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                            ),
-                                                          )
-                                                        : Container(),
-                                              ],
-                                            ),
-                                            isExpired
-                                                ? Container()
-                                                : SlideCountdownSeparated(
-                                                    duration: duration,
-                                                    decoration: BoxDecoration(
-                                                        color: AppColors
-                                                            .secondaryColor,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5)),
-                                                    onDone: () {
-                                                      setState(() {
-                                                        isExpired = true;
-                                                      });
-                                                    },
-                                                  ),
-                                          ],
-                                        ),
-                                      ),
-                                      isExpired
-                                          ? Container()
-                                          : state.payment?.type ==
-                                                  'VIRTUAL_ACCOUNT'
-                                              ? VirtualAccountMethodWidgetv2(
-                                                  payment: state.payment!,
-                                                )
-                                              : QrMethodWidgetV2(
-                                                  payment: state.payment!),
-                                      howToUseUrl == null
-                                          ? Container()
-                                          : Container(
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 5),
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 15,
-                                                      vertical: 10),
-                                              decoration: BoxDecoration(
-                                                  color: AppColors.whiteColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  border: Border.all(
-                                                      color: AppColors
-                                                          .blackColor
-                                                          .withValues(
-                                                              alpha: 0.10))),
-                                              child: SizedBox(
-                                                height: 45,
-                                                child: CustomButton(
-                                                    onPressed: () {
-                                                      WebViewRoute(
-                                                              url:
-                                                                  '${state.payment?.data?['channel']['howToUseUrl']}?va=${state.payment?.data?['vaNumber']}&amount=${state.payment?.totalPrice}',
-                                                              title: "")
-                                                          .push(context);
-                                                    },
-                                                    text:
-                                                        "Lihat Cara Pembayaran",
-                                                    backgroundColour: AppColors
-                                                        .secondaryColor,
-                                                    textColour:
-                                                        AppColors.primaryColor),
-                                              ),
-                                            ),
-                                      Container(
-                                        margin: const EdgeInsets.symmetric(
-                                            vertical: 5),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 15, vertical: 10),
-                                        decoration: BoxDecoration(
-                                            color: AppColors.whiteColor,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                                color: AppColors.blackColor
-                                                    .withValues(alpha: 0.10))),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            const Row(
+                                      delegate: SliverChildListDelegate(
+                                        [
+                                          Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 5),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 15, vertical: 10),
+                                            decoration: BoxDecoration(
+                                                color: AppColors.whiteColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                border: Border.all(
+                                                    color: AppColors.blackColor
+                                                        .withValues(
+                                                            alpha: 0.10))),
+                                            child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
                                               children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    'Informasi Pesanan',
-                                                    style: TextStyle(
-                                                        color: AppColors
-                                                            .blackColor,
-                                                        fontSize:
-                                                            fontSizeDefault,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Divider(
-                                              thickness: .7,
-                                              color: AppColors.blackColor
-                                                  .withValues(alpha: 0.10),
-                                            ),
-                                            Column(
-                                              children: List.generate(
-                                                  state.payment?.orders
-                                                          ?.length ??
-                                                      0, (index) {
-                                                final data = state
-                                                    .payment?.orders?[index];
-                                                return Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
+                                                Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
                                                   children: [
-                                                    state.payment?.data?[
-                                                                'type'] ==
-                                                            "TOPUP"
+                                                    Text(
+                                                      isExpired
+                                                          ? "Pembayaran Kedaluwarsa"
+                                                          : "Batas Akhir Pembayaran",
+                                                      style: TextStyle(
+                                                          color: isExpired
+                                                              ? AppColors
+                                                                  .redColor
+                                                              : AppColors
+                                                                  .blackColor,
+                                                          fontSize:
+                                                              fontSizeDefault,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    isExpired
                                                         ? Container()
-                                                        : Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    vertical:
-                                                                        5),
-                                                            child: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Expanded(
-                                                                  child:
-                                                                      ImageAvatar(
-                                                                    image: data
-                                                                            ?.store
-                                                                            ?.linkPhoto ??
-                                                                        "",
-                                                                    radius: 15,
-                                                                  ),
+                                                        : state.payment
+                                                                    ?.status ==
+                                                                "WAITING_FOR_PAYMENT"
+                                                            ? Text(
+                                                                DateHelper.parseDateExpired(
+                                                                    state.payment
+                                                                            ?.createdAt ??
+                                                                        DateTime.now()
+                                                                            .toString(),
+                                                                    state.payment
+                                                                            ?.type ??
+                                                                        ""),
+                                                                style:
+                                                                    const TextStyle(
+                                                                  color: AppColors
+                                                                      .blackColor,
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
                                                                 ),
-                                                                Expanded(
-                                                                  flex: 5,
-                                                                  child: Text(
-                                                                    data?.store
-                                                                            ?.name ??
-                                                                        "",
-                                                                    maxLines: 2,
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    style: const TextStyle(
-                                                                        color: AppColors
-                                                                            .blackColor,
-                                                                        fontSize:
-                                                                            fontSizeDefault,
-                                                                        fontWeight:
-                                                                            FontWeight.bold),
-                                                                  ),
+                                                              )
+                                                            : Container(),
+                                                  ],
+                                                ),
+                                                isExpired
+                                                    ? Container()
+                                                    : SlideCountdownSeparated(
+                                                        duration: duration,
+                                                        decoration: BoxDecoration(
+                                                            color: AppColors
+                                                                .secondaryColor,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5)),
+                                                        onDone: () {
+                                                          setState(() {
+                                                            isExpired = true;
+                                                          });
+                                                        },
+                                                      ),
+                                              ],
+                                            ),
+                                          ),
+                                          isExpired
+                                              ? Container()
+                                              : state.payment?.type ==
+                                                      'VIRTUAL_ACCOUNT'
+                                                  ? VirtualAccountMethodWidgetv2(
+                                                      payment: state.payment!,
+                                                    )
+                                                  : QrMethodWidgetV2(
+                                                      payment: state.payment!),
+                                          howToUseUrl == null
+                                              ? Container()
+                                              : Container(
+                                                  margin: const EdgeInsets
+                                                      .symmetric(vertical: 5),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 15,
+                                                      vertical: 10),
+                                                  decoration: BoxDecoration(
+                                                      color:
+                                                          AppColors.whiteColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      border: Border.all(
+                                                          color: AppColors
+                                                              .blackColor
+                                                              .withValues(
+                                                                  alpha:
+                                                                      0.10))),
+                                                  child: SizedBox(
+                                                    height: 45,
+                                                    child: CustomButton(
+                                                        onPressed: () {
+                                                          WebViewRoute(
+                                                                  url:
+                                                                      '${state.payment?.data?['channel']['howToUseUrl']}?va=${state.payment?.data?['vaNumber']}&amount=${state.payment?.totalPrice}',
+                                                                  title: "")
+                                                              .push(context);
+                                                        },
+                                                        text:
+                                                            "Lihat Cara Pembayaran",
+                                                        backgroundColour:
+                                                            AppColors
+                                                                .secondaryColor,
+                                                        textColour: AppColors
+                                                            .primaryColor),
+                                                  ),
+                                                ),
+                                          Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 5),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 15, vertical: 10),
+                                            decoration: BoxDecoration(
+                                                color: AppColors.whiteColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                border: Border.all(
+                                                    color: AppColors.blackColor
+                                                        .withValues(
+                                                            alpha: 0.10))),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                const Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Expanded(
+                                                      child: Text(
+                                                        'Informasi Pesanan',
+                                                        style: TextStyle(
+                                                            color: AppColors
+                                                                .blackColor,
+                                                            fontSize:
+                                                                fontSizeDefault,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Divider(
+                                                  thickness: .7,
+                                                  color: AppColors.blackColor
+                                                      .withValues(alpha: 0.10),
+                                                ),
+                                                Column(
+                                                  children: List.generate(
+                                                      state.payment?.orders
+                                                              ?.length ??
+                                                          0, (index) {
+                                                    final data = state.payment
+                                                        ?.orders?[index];
+                                                    return Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        state.payment?.data?[
+                                                                    'type'] ==
+                                                                "TOPUP"
+                                                            ? Container()
+                                                            : Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .symmetric(
+                                                                        vertical:
+                                                                            5),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child:
+                                                                          ImageAvatar(
+                                                                        image: data?.store?.linkPhoto ??
+                                                                            "",
+                                                                        radius:
+                                                                            15,
+                                                                      ),
+                                                                    ),
+                                                                    Expanded(
+                                                                      flex: 5,
+                                                                      child:
+                                                                          Text(
+                                                                        data?.store?.name ??
+                                                                            "",
+                                                                        maxLines:
+                                                                            2,
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
+                                                                        style: const TextStyle(
+                                                                            color: AppColors
+                                                                                .blackColor,
+                                                                            fontSize:
+                                                                                fontSizeDefault,
+                                                                            fontWeight:
+                                                                                FontWeight.bold),
+                                                                      ),
+                                                                    ),
+                                                                  ],
                                                                 ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                    Column(
-                                                      children: data?.items
-                                                              ?.map(
-                                                                  (e) =>
+                                                              ),
+                                                        Column(
+                                                          children: data?.items
+                                                                  ?.map((e) =>
                                                                       Padding(
                                                                         padding: const EdgeInsets
                                                                             .symmetric(
@@ -435,162 +447,36 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
                                                                           ],
                                                                         ),
                                                                       ))
-                                                              .toList() ??
-                                                          [],
-                                                    ),
-                                                  ],
-                                                );
-                                              }).toList(),
-                                            ),
-                                            state.payment?.data?['type'] ==
-                                                    "TOPUP"
-                                                ? Container()
-                                                : Divider(
-                                                    thickness: .3,
-                                                    color: AppColors.blackColor
-                                                        .withValues(
-                                                            alpha: 0.10),
-                                                  ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
+                                                                  .toList() ??
+                                                              [],
+                                                        ),
+                                                      ],
+                                                    );
+                                                  }).toList(),
+                                                ),
                                                 state.payment?.data?['type'] ==
                                                         "TOPUP"
-                                                    ? Text(
-                                                        state.payment
-                                                            ?.data?['type'],
-                                                        style: const TextStyle(
-                                                          color: AppColors
-                                                              .blackColor,
-                                                          fontSize:
-                                                              fontSizeDefault,
-                                                        ),
-                                                      )
-                                                    : const Text(
-                                                        'Total Harga',
-                                                        style: TextStyle(
-                                                          color: AppColors
-                                                              .blackColor,
-                                                          fontSize:
-                                                              fontSizeDefault,
-                                                        ),
+                                                    ? Container()
+                                                    : Divider(
+                                                        thickness: .3,
+                                                        color: AppColors
+                                                            .blackColor
+                                                            .withValues(
+                                                                alpha: 0.10),
                                                       ),
-                                                Text(
-                                                  '${Price.currency(totalProduct.toDouble())}',
-                                                  style: const TextStyle(
-                                                    color: AppColors.blackColor,
-                                                    fontSize: fontSizeDefault,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                          margin: const EdgeInsets.symmetric(
-                                              vertical: 5),
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 15, vertical: 10),
-                                          decoration: BoxDecoration(
-                                              color: AppColors.whiteColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              border: Border.all(
-                                                  color: AppColors.blackColor
-                                                      .withValues(
-                                                          alpha: 0.10))),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                "Rincian Pembayaran",
-                                                style: TextStyle(
-                                                    color: AppColors.blackColor,
-                                                    fontSize: fontSizeDefault,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              Divider(
-                                                thickness: .3,
-                                                color: AppColors.blackColor
-                                                    .withValues(alpha: 0.10),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 5),
-                                                child: Row(
+                                                Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    const Text(
-                                                      "Harga Produk",
-                                                      style: TextStyle(
-                                                        fontSize:
-                                                            fontSizeDefault,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: AppColors
-                                                            .blackColor,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 4),
-                                                    Text(
-                                                      Price.currency(
-                                                          totalProduct),
-                                                      style: const TextStyle(
-                                                        color: AppColors
-                                                            .blackColor,
-                                                        fontSize:
-                                                            fontSizeDefault,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              totalShipping == 0
-                                                  ? Container()
-                                                  : Padding(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          vertical: 5),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          const Text(
-                                                            "Biaya Ongkir",
-                                                            style: TextStyle(
-                                                              fontSize:
-                                                                  fontSizeDefault,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color: AppColors
-                                                                  .blackColor,
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                              height: 4),
-                                                          Text(
-                                                            Price.currency(
-                                                                totalShipping),
+                                                    state.payment?.data?[
+                                                                'type'] ==
+                                                            "TOPUP"
+                                                        ? Text(
+                                                            state.payment
+                                                                ?.data?['type'],
                                                             style:
                                                                 const TextStyle(
                                                               color: AppColors
@@ -598,96 +484,234 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
                                                               fontSize:
                                                                   fontSizeDefault,
                                                             ),
+                                                          )
+                                                        : const Text(
+                                                            'Total Harga',
+                                                            style: TextStyle(
+                                                              color: AppColors
+                                                                  .blackColor,
+                                                              fontSize:
+                                                                  fontSizeDefault,
+                                                            ),
                                                           ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 5),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    const Text(
-                                                      "Biaya Admin",
-                                                      style: TextStyle(
+                                                    Text(
+                                                      '${Price.currency(totalProduct.toDouble())}',
+                                                      style: const TextStyle(
+                                                        color: AppColors
+                                                            .blackColor,
                                                         fontSize:
                                                             fontSizeDefault,
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        color: AppColors
-                                                            .blackColor,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 4),
-                                                    Text(
-                                                      Price.currency(state
-                                                              .payment?.fee
-                                                              ?.toDouble() ??
-                                                          0.0),
-                                                      style: const TextStyle(
-                                                        fontSize:
-                                                            fontSizeDefault,
-                                                        color: AppColors
-                                                            .blackColor,
                                                       ),
                                                     ),
                                                   ],
                                                 ),
-                                              ),
-                                              Divider(
-                                                thickness: .5,
-                                                color: AppColors.blackColor
-                                                    .withValues(alpha: 0.10),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 5),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    const Text(
-                                                      "Total Pembayaran",
-                                                      style: TextStyle(
-                                                        fontSize:
-                                                            fontSizeDefault,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: AppColors
-                                                            .blackColor,
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 5),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 15, vertical: 10),
+                                            decoration: BoxDecoration(
+                                                color: AppColors.whiteColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                border: Border.all(
+                                                    color: AppColors.blackColor
+                                                        .withValues(
+                                                            alpha: 0.10))),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                const Text(
+                                                  "Rincian Pembayaran",
+                                                  style: TextStyle(
+                                                      color:
+                                                          AppColors.blackColor,
+                                                      fontSize: fontSizeDefault,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                Divider(
+                                                  thickness: .3,
+                                                  color: AppColors.blackColor
+                                                      .withValues(alpha: 0.10),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 5),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      const Text(
+                                                        "Harga Produk",
+                                                        style: TextStyle(
+                                                          fontSize:
+                                                              fontSizeDefault,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: AppColors
+                                                              .blackColor,
+                                                        ),
                                                       ),
-                                                    ),
-                                                    const SizedBox(height: 4),
-                                                    Text(
-                                                      Price.currency(state
-                                                              .payment
-                                                              ?.totalPrice
-                                                              ?.toDouble() ??
-                                                          0.0),
-                                                      style: const TextStyle(
+                                                      const SizedBox(height: 4),
+                                                      Text(
+                                                        Price.currency(
+                                                            totalProduct),
+                                                        style: const TextStyle(
+                                                          color: AppColors
+                                                              .blackColor,
+                                                          fontSize:
+                                                              fontSizeDefault,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                totalShipping == 0
+                                                    ? Container()
+                                                    : Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                vertical: 5),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            const Text(
+                                                              "Biaya Ongkir",
+                                                              style: TextStyle(
+                                                                fontSize:
+                                                                    fontSizeDefault,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: AppColors
+                                                                    .blackColor,
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                                height: 4),
+                                                            Text(
+                                                              Price.currency(
+                                                                  totalShipping),
+                                                              style:
+                                                                  const TextStyle(
+                                                                color: AppColors
+                                                                    .blackColor,
+                                                                fontSize:
+                                                                    fontSizeDefault,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 5),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      const Text(
+                                                        "Biaya Admin",
+                                                        style: TextStyle(
+                                                          fontSize:
+                                                              fontSizeDefault,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: AppColors
+                                                              .blackColor,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(height: 4),
+                                                      Text(
+                                                        Price.currency(state
+                                                                .payment?.fee
+                                                                ?.toDouble() ??
+                                                            0.0),
+                                                        style: const TextStyle(
                                                           fontSize:
                                                               fontSizeDefault,
                                                           color: AppColors
                                                               .blackColor,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          )),
-                                    ])),
+                                                Divider(
+                                                  thickness: .5,
+                                                  color: AppColors.blackColor
+                                                      .withValues(alpha: 0.10),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 5),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      const Text(
+                                                        "Total Pembayaran",
+                                                        style: TextStyle(
+                                                          fontSize:
+                                                              fontSizeDefault,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: AppColors
+                                                              .blackColor,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(height: 4),
+                                                      Text(
+                                                        Price.currency(state
+                                                                .payment
+                                                                ?.totalPrice
+                                                                ?.toDouble() ??
+                                                            0.0),
+                                                        style: const TextStyle(
+                                                            fontSize:
+                                                                fontSizeDefault,
+                                                            color: AppColors
+                                                                .blackColor,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                 ),
               ],
             ),

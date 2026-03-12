@@ -13,7 +13,7 @@ import '../../../repositories/forum_repository/forum_repository.dart';
 import 'package:multi_image_picker_plus/multi_image_picker_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:filesize/filesize.dart';
-import 'package:video_compress_v2/video_compress_v2.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../../../misc/injections.dart';
 
@@ -261,8 +261,11 @@ class ForumCreateCubit extends Cubit<ForumCreateState> {
       return;
     }
 
-    final Uint8List? thumbnail =
-        await VideoCompressV2.getByteThumbnail(videoFile.path);
+    final Uint8List? thumbnail = await VideoThumbnail.thumbnailData(
+      video: videoFile.path,
+      imageFormat: ImageFormat.JPEG,
+      quality: 75,
+    );
     final String videoSizeStr = filesize(sizeInBytes, 0);
 
     emit(state.copyWith(

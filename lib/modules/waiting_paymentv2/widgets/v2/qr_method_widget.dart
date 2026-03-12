@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_pgb/misc/theme.dart';
 import '../../../../widgets/button/custom_button.dart';
 import '../../../../misc/colors.dart';
 import '../../../../misc/download_manager.dart';
@@ -43,6 +44,8 @@ class QrMethodWidgetV2 extends StatelessWidget {
                   radius: 20,
                   width: 45,
                   height: 45,
+                  imageError: imageDefaultBanner,
+                  fit: BoxFit.contain,
                 ),
               ],
             ),
@@ -96,7 +99,7 @@ class QrMethodWidgetV2 extends StatelessWidget {
                     icon: Icons.downloading_sharp,
                     onPressed: () {
                       Helper.openLink(
-                          url: payment.data?["actions"][1]["url"],
+                          url: payment.data?["actions"][2]["url"],
                           context: context);
                     },
                   ),

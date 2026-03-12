@@ -110,17 +110,16 @@ class _ListProductState extends State<ListProduct> {
                                               checkColor: Colors.white,
                                             ),
                                       ImageCard(
-                                          image:
-                                              (e.product?.pictures?.isEmpty ??
-                                                      false)
-                                                  ? ""
-                                                  : e.product?.pictures?.first
-                                                          .link ??
-                                                      "",
-                                          height: 80,
-                                          radius: 0,
-                                          width: 80,
-                                          imageError: imageDefaultData),
+                                        image: (e.product?.pictures?.isEmpty ??
+                                                false)
+                                            ? ""
+                                            : e.product?.pictures?.first.link ??
+                                                "",
+                                        height: 80,
+                                        radius: 0,
+                                        width: 80,
+                                        imageError: imageDefaultBanner,
+                                      ),
                                       const SizedBox(
                                         width: 10,
                                       ),

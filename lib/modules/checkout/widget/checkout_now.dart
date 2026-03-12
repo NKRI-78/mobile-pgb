@@ -105,17 +105,18 @@ class _CheckoutNowState extends State<CheckoutNow> {
                                 child: Row(
                                   children: [
                                     ImageCard(
-                                        image: (state.checkoutNow?.data
-                                                    ?.pictures?.isEmpty ??
-                                                false)
-                                            ? ""
-                                            : state.checkoutNow?.data?.pictures
-                                                    ?.first.link ??
-                                                "",
-                                        height: 80,
-                                        radius: 10,
-                                        width: 80,
-                                        imageError: imageDefaultData),
+                                      image: (state.checkoutNow?.data?.pictures
+                                                  ?.isEmpty ??
+                                              false)
+                                          ? ""
+                                          : state.checkoutNow?.data?.pictures
+                                                  ?.first.link ??
+                                              "",
+                                      height: 80,
+                                      radius: 10,
+                                      width: 80,
+                                      imageError: imageDefaultBanner,
+                                    ),
                                     const SizedBox(
                                       width: 10,
                                     ),

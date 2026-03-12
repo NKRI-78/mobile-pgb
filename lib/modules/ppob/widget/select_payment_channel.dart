@@ -105,6 +105,7 @@ class SelectPaymentChannel extends StatelessWidget {
                               width: 60,
                               radius: 10,
                               imageError: imageDefaultBanner,
+                              fit: BoxFit.contain,
                             ),
                           ),
                           subtitle: Text(

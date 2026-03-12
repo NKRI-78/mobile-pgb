@@ -91,10 +91,11 @@ class SelectPaymentChannel extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                                 child: ImageCard(
                                   image: e.logo ?? "",
-                                  height: 60,
-                                  width: 60,
+                                  height: 50,
+                                  width: 50,
                                   radius: 10,
-                                  imageError: imageDefaultData,
+                                  imageError: imageDefaultBanner,
+                                  fit: BoxFit.contain,
                                 ),
                               ),
                               subtitle: Text(
@@ -110,8 +111,11 @@ class SelectPaymentChannel extends StatelessWidget {
                                         ? AppColors.whiteColor
                                         : Colors.grey),
                               ),
-                              trailing: const Icon(Icons.arrow_forward_ios,
-                                  size: 18, color: AppColors.blueColor),
+                              trailing: const Icon(
+                                Icons.arrow_forward_ios,
+                                size: 18,
+                                color: AppColors.blueColor,
+                              ),
                             ),
                           ))
                       .toList(),

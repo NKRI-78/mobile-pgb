@@ -313,7 +313,8 @@ class CheckoutView extends StatelessWidget {
                                                         radius: 0,
                                                         width: 50,
                                                         imageError:
-                                                            imageDefaultData)
+                                                            imageDefaultData,
+                                                      )
                                                     : const Icon(
                                                         Icons.account_balance,
                                                         size: 40,
@@ -330,12 +331,12 @@ class CheckoutView extends StatelessWidget {
                                                     textAlign: TextAlign.end,
                                                     maxLines: 1,
                                                     style: const TextStyle(
-                                                        color: AppColors
-                                                            .blackColor,
-                                                        fontSize:
-                                                            fontSizeDefault,
-                                                        fontWeight:
-                                                            FontWeight.bold),
+                                                      color:
+                                                          AppColors.blackColor,
+                                                      fontSize: fontSizeDefault,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
                                                   ),
                                                 ),
                                                 const SizedBox(
