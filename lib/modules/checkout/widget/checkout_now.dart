@@ -33,20 +33,6 @@ class _CheckoutNowState extends State<CheckoutNow> {
           }
         }
 
-        // String from = state
-        //         .shippings?[state.checkoutNow?.data?.store?.id.toString()]
-        //             ['etd']
-        //         .toString()
-        //         .split("-")[0]
-        //         .trim() ??
-        //     "0";
-        // String thru = state
-        //         .shippings?[state.checkoutNow?.data?.store?.id.toString()]
-        //             ['etd']
-        //         .toString()
-        //         .split("-")[1]
-        //         .trim() ??
-        //     "0";
         return Container(
           decoration: BoxDecoration(
               color: AppColors.whiteColor,
@@ -161,7 +147,7 @@ class _CheckoutNowState extends State<CheckoutNow> {
                 ),
               ),
               Divider(
-                color: AppColors.blackColor.withOpacity(0.2),
+                color: AppColors.blackColor.withValues(alpha: 0.2),
                 height: 5,
                 thickness: 1,
               ),

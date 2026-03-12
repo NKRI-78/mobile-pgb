@@ -103,9 +103,9 @@ class _PpobViewState extends State<PpobView> {
     selectedPulsaDataNotifier.value = pulsa;
   }
 
-  void _onListrikDataSelected(ListrikDataModel listrik) {
-    selectedListrikDataNotifier.value = listrik;
-  }
+  // void _onListrikDataSelected(ListrikDataModel listrik) {
+  //   selectedListrikDataNotifier.value = listrik;
+  // }
 
   @override
   Widget build(BuildContext context) {

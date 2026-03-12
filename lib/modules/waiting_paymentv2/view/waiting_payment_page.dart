@@ -412,35 +412,30 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
                                                                               child: Column(
                                                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                                                 children: [
-                                                                                  Text(
-                                                                                    e.product?.name ?? "",
-                                                                                    maxLines: 2,
-                                                                                    overflow: TextOverflow.ellipsis,
-                                                                                    style: const TextStyle(
-                                                                                      color: AppColors.blackColor,
-                                                                                      fontSize: fontSizeDefault,
-                                                                                      fontWeight: FontWeight.bold,
-                                                                                    ),
-                                                                                  ),
                                                                                   Row(
                                                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                                     children: [
-                                                                                      Text(
-                                                                                        '( ${e.quantity} item )',
-                                                                                        style: const TextStyle(
-                                                                                          color: AppColors.blackColor,
-                                                                                          fontSize: fontSizeDefault,
+                                                                                      Expanded(
+                                                                                        child: Text(
+                                                                                          e.product?.name ?? "",
+                                                                                          maxLines: 2,
+                                                                                          overflow: TextOverflow.ellipsis,
+                                                                                          style: const TextStyle(
+                                                                                            color: AppColors.blackColor,
+                                                                                            fontSize: fontSizeDefault,
+                                                                                            fontWeight: FontWeight.bold,
+                                                                                          ),
                                                                                         ),
                                                                                       ),
                                                                                       Text(
-                                                                                        '${Price.currency((e.price?.toDouble() ?? 0.0) * (e.quantity?.toDouble() ?? 0.0))}',
+                                                                                        '${e.quantity} x ${Price.currency(e.price?.toDouble() ?? 0)}',
                                                                                         style: const TextStyle(
                                                                                           color: AppColors.blackColor,
                                                                                           fontSize: fontSizeDefault,
                                                                                         ),
                                                                                       ),
                                                                                     ],
-                                                                                  ),
+                                                                                  )
                                                                                 ],
                                                                               ),
                                                                             ),

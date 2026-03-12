@@ -280,7 +280,7 @@ class Shipping {
   String? version;
   String? currency;
   String? duration;
-  Null? taxLines;
+  Null taxLines;
   String? description;
   String? courierCode;
   String? courierName;

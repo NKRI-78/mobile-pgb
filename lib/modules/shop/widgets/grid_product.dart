@@ -15,6 +15,7 @@ class GridProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final stock = int.tryParse(data.stock.toString()) ?? 0;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       width: double.infinity,
@@ -23,18 +24,50 @@ class GridProduct extends StatelessWidget {
           borderRadius: BorderRadius.circular(15), color: AppColors.whiteColor),
       child: Column(
         children: [
-          InkWell(
-            onTap: () {
-              DetailProductRoute(idProduct: data.id.toString()).go(context);
-            },
-            child: ImageCard(
-              image: (data.pictures?.isEmpty ?? false)
-                  ? ""
-                  : data.pictures?.first.link ?? "",
-              radius: 15,
-              height: 150,
-              width: double.infinity,
-              imageError: imageDefaultBanner,
+          IgnorePointer(
+            ignoring: (data.stock ?? 0) == 0,
+            child: InkWell(
+              onTap: stock == 0
+                  ? null
+                  : () {
+                      DetailProductRoute(idProduct: data.id.toString())
+                          .go(context);
+                    },
+              child: Stack(
+                children: [
+                  ImageCard(
+                    image: (data.pictures?.isEmpty ?? false)
+                        ? ""
+                        : data.pictures?.first.link ?? "",
+                    radius: 15,
+                    height: 150,
+                    width: double.infinity,
+                    imageError: imageDefaultBanner,
+                  ),
+                  if ((data.stock ?? 0) == 0)
+                    Container(
+                      height: 150,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.withValues(alpha: 0.4),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                  if ((data.stock ?? 0) == 0)
+                    const Positioned.fill(
+                      child: Center(
+                        child: Text(
+                          "Stok Habis",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
           Padding(

@@ -1,4 +1,4 @@
-library cart_stepper;
+library;
 
 import 'dart:math' as math;
 
@@ -29,7 +29,7 @@ VM _as<VM extends num>(num? value) {
 /// Cart stepper widget
 class CustomCartStepper<VM extends num> extends StatefulWidget {
   const CustomCartStepper({
-    Key? key,
+    super.key,
 
     /// value
     VM? value,
@@ -47,8 +47,7 @@ class CustomCartStepper<VM extends num> extends StatefulWidget {
     this.alwaysExpanded = false,
     this.style,
   })  : _value = (value ?? count ?? (0 is VM ? 0 : 0.0)) as VM,
-        _stepper = (stepper ?? (0 is VM ? 1 : 1.0)) as VM,
-        super(key: key);
+        _stepper = (stepper ?? (0 is VM ? 1 : 1.0)) as VM;
 
   final VM _value;
 
@@ -83,7 +82,8 @@ class CustomCartStepper<VM extends num> extends StatefulWidget {
   State<CustomCartStepper<VM>> createState() => _CustomCartStepperState<VM>();
 }
 
-class _CustomCartStepperState<VM extends num> extends State<CustomCartStepper<VM>> {
+class _CustomCartStepperState<VM extends num>
+    extends State<CustomCartStepper<VM>> {
   bool _editMode = false;
   String lastText = '';
   late final TextEditingController _controller;

@@ -8,7 +8,6 @@ import '../../../misc/snackbar.dart';
 import '../../../repositories/create_forum_repository/create_forum_repository.dart';
 import '../../../repositories/oder_repository/models/need_riview_model.dart';
 import '../../../repositories/oder_repository/order_repository.dart';
-import 'package:multi_image_picker_plus/multi_image_picker_plus.dart';
 
 part 'need_riview_state.dart';
 
@@ -17,7 +16,6 @@ class NeedRiviewCubit extends Cubit<NeedRiviewState> {
 
   OrderRepository repo = OrderRepository();
   CreateForumRepository repoForum = CreateForumRepository();
-  final ImagePicker _picker = ImagePicker();
 
   void copyState({required NeedRiviewState newState}) {
     emit(newState);

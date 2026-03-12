@@ -14,7 +14,7 @@ enum StepTrackerType {
 
 class CustomStepTracker extends StatelessWidget {
   const CustomStepTracker({
-    Key? key,
+    super.key,
     required this.steps,
     this.dotSize = 9,
     this.circleSize = 24,
@@ -23,8 +23,7 @@ class CustomStepTracker extends StatelessWidget {
     this.unSelectedColor = Colors.red,
     this.stepTrackerType = StepTrackerType.dotVertical,
   })  : assert(dotSize <= 20),
-        assert(pipeSize >= 25),
-        super(key: key);
+        assert(pipeSize >= 25);
 
   final List<Steps> steps;
   final double dotSize;
@@ -41,7 +40,7 @@ class CustomStepTracker extends StatelessWidget {
       case TrackerState.disabled:
         return unSelectedColor;
       case TrackerState.none:
-        return Colors.grey.withOpacity(0.5);
+        return Colors.grey.withValues(alpha: 0.5);
     }
   }
 

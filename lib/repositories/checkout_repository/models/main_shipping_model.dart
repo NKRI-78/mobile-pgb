@@ -77,7 +77,7 @@ class Data {
 
 class Address {
   int? id;
-  Null? nameAddress;
+  Null nameAddress;
   String? detailAddress;
   String? province;
   String? city;

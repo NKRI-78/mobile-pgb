@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
@@ -66,7 +65,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
     Map<String, dynamic>? shippings,
     PaymentChannelModel? e,
   }) async {
-    double productPrice = state.totalPriceProduct ?? 0.0;
+    double productPrice = state.totalPriceProduct;
 
     if (state.from == "NOW") {
       final checkoutNow = await repo.checkoutNow(
@@ -95,7 +94,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
         0.0;
 
     // ✅ Gunakan admin fee baru kalau ada, kalau tidak pakai yang lama
-    double adminFee = e?.fee?.toDouble() ?? state.adminFee ?? 0.0;
+    double adminFee = e?.fee?.toDouble() ?? state.adminFee;
 
     double totalPrice = _calculateTotal(
       productPrice: productPrice,
@@ -203,7 +202,6 @@ class CheckoutCubit extends Cubit<CheckoutState> {
       String? productId,
       required BuildContext context}) async {
     try {
-      print("Hit Now");
       emit(state.copyWith(loading: true));
       var checkoutNow =
           await repo.checkoutNow(from: from, qty: qty, productId: productId);
@@ -216,7 +214,6 @@ class CheckoutCubit extends Cubit<CheckoutState> {
       double totalPrice =
           checkoutNow.totalPrice?.toDouble() ?? 0.0 + totalCost + admin;
 
-      print("Checkoutnow : ${jsonEncode(checkoutNow)}");
       emit(state.copyWith(
           checkoutNow: checkoutNow,
           loading: false,
@@ -251,7 +248,6 @@ class CheckoutCubit extends Cubit<CheckoutState> {
       emit(state.copyWith(shipping: shipping, loading: false));
     } catch (e) {
       emit(state.copyWith(loading: false));
-      print(e);
     }
   }
 
@@ -287,7 +283,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
         showModalBottomSheet(
           isDismissible: true,
           enableDrag: true,
-          barrierColor: AppColors.blackColor.withOpacity(0.5),
+          barrierColor: AppColors.blackColor.withValues(alpha: 0.5),
           context: context,
           builder: (_) => BlocProvider.value(
             value: context.read<CheckoutCubit>(),

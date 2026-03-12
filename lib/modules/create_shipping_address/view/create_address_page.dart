@@ -16,7 +16,6 @@ import '../cubit/create_shipping_address_cubit.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/header/header_section.dart';
 import '../../../widgets/map/custom_select_location.dart';
-import '../../../widgets/map/custom_select_map_location.dart';
 
 part '../widgets/_input_location.dart';
 part '../widgets/_input_location_lebel.dart';
@@ -153,23 +152,6 @@ class CreateAddressView extends StatelessWidget {
                       children: [
                         _InputLocationLabel(),
                         _InputLocation(),
-                        // Container(
-                        //   margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                        //   padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                        //   decoration: BoxDecoration(
-                        //     color: whiteColor,
-                        //     borderRadius: BorderRadius.circular(10),
-                        //     border: Border.all(color: blackColor.withOpacity(0.2))
-                        //   ),
-                        //   child: const Row(
-                        //     children: [
-                        //       Icon(
-                        //         Icons.location_on,
-                        //         size: 20,
-                        //       )
-                        //     ],
-                        //   ),
-                        // ),
                         InputDetailAddress()
                       ],
                     ),

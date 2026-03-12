@@ -21,37 +21,17 @@ class _ListCheckoutState extends State<ListCheckout> {
               return sum! + ((cart.product?.weight ?? 0) * cart.quantity!);
             }) ??
             0;
-        double totalPrice = widget.cart.carts?.fold(0.0, (sum, cart) {
-              return sum! + ((cart.product?.price ?? 0) * cart.quantity!);
-            }) ??
-            0;
-        double totalCost = state.shippings?.values.fold(
-              0.0,
-              (sum, item) =>
-                  sum! +
-                  (int.tryParse(item["cost"]?.toString() ??
-                              item["price"]?.toString() ??
-                              '0')
-                          ?.toDouble() ??
-                      0.0),
-            ) ??
-            0.0;
 
-        print("Total Cost: $totalCost");
-
-        double total = totalPrice + totalCost;
         final shipping = state.shippings?[widget.cart.id.toString()];
 
         String from = "0";
         String thru = "0";
 
-        if (shipping != null && shipping['etd'] != null) {
-          final etdParts = shipping['etd'].toString().split("-");
-          if (etdParts.length == 2) {
-            from = etdParts[0].trim();
-            thru = etdParts[1].trim();
-          }
+        if (shipping != null && shipping['courier_code'] == "jne") {
+          from = shipping['etd_from'];
+          thru = shipping['etd_thru'];
         }
+
         if (shipping != null && shipping['duration'] != null) {
           final etdParts = shipping['duration'].toString().split("-");
           if (etdParts.length == 2) {
@@ -60,7 +40,6 @@ class _ListCheckoutState extends State<ListCheckout> {
           }
         }
 
-        print(state.shippings);
         return Container(
           decoration: BoxDecoration(
               color: AppColors.whiteColor,
@@ -204,13 +183,10 @@ class _ListCheckoutState extends State<ListCheckout> {
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      state.shippings?[widget.cart.id.toString()] == null
+                      shipping == null
                           ? const SizedBox.shrink()
                           : CachedNetworkImage(
-                              imageUrl:
-                                  state.shippings![widget.cart.id.toString()]
-                                          ['logo_url'] ??
-                                      "",
+                              imageUrl: shipping['logo_url'] ?? "",
                               width: 40,
                               height: 40,
                               placeholder: (context, url) => const SizedBox(
@@ -229,10 +205,9 @@ class _ListCheckoutState extends State<ListCheckout> {
                         child: Text(
                           state.loadingCost
                               ? "Loading..."
-                              : state.shippings?[widget.cart.id.toString()] ==
-                                      null
+                              : shipping == null
                                   ? 'PILIH PENGIRIMAN'
-                                  : '${Helper().getCourierServiceDisplay(state.shippings![widget.cart.id.toString()])} | ${Price.currency(int.tryParse(state.shippings![widget.cart.id.toString()]['cost']?.toString() ?? state.shippings![widget.cart.id.toString()]['price']?.toString() ?? '0')?.toDouble() ?? 0.0)} \nEstimasi tiba ${Helper.getEstimatedDateRange(from, thru)}',
+                                  : '${Helper().getCourierServiceDisplay(shipping)} | ${Price.currency(int.tryParse(shipping['cost']?.toString() ?? shipping['price']?.toString() ?? '0')?.toDouble() ?? 0.0)} \nEstimasi tiba ${Helper.getEstimatedDateRange(from, thru)}',
                           style: const TextStyle(
                               fontSize: fontSizeSmall,
                               fontWeight: FontWeight.bold,
