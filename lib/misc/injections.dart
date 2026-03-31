@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:mobile_pgb/modules/shop/bloc/shop_bloc.dart';
 import '../modules/presence/cubit/presence_cubit.dart';
 import '../repositories/presence_repository/presence_repository.dart';
 import '../modules/register/cubit/register_cubit.dart';
@@ -47,6 +48,7 @@ class MyInjection {
     getIt.registerLazySingleton<AppBloc>(() => AppBloc());
     getIt.registerLazySingleton<HomeBloc>(() => HomeBloc());
     getIt.registerLazySingleton<MemberNearBloc>(() => MemberNearBloc());
+    getIt.registerLazySingleton<ShopBloc>(() => ShopBloc());
 
     // CUBIT
     getIt.registerCachedFactory<LoginCubit>(() => LoginCubit());

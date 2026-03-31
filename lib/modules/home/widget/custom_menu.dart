@@ -104,6 +104,7 @@ class CustomMenu extends StatelessWidget {
     final remoteConfig = getIt<FirebaseRemoteConfig>();
 
     final isMaintenance = remoteConfig.getBool('is_not_found');
+    final isPpop = remoteConfig.getBool('is_ppop');
 
     if (index == 0) {
       isMaintenance ? MaintenanceRoute().go(context) : ShopRoute().go(context);
@@ -127,9 +128,7 @@ class CustomMenu extends StatelessWidget {
           MemberNearRoute().go(context);
           break;
         case 3:
-          isMaintenance
-              ? MaintenanceRoute().go(context)
-              : PpobRoute().go(context);
+          isPpop ? MaintenanceRoute().go(context) : PpobRoute().go(context);
           break;
         case 6:
           ForumRoute().go(context);

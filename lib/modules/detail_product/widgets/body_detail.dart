@@ -209,7 +209,7 @@ class BodyDetail extends StatelessWidget {
                               Expanded(
                                 flex: 4,
                                 child: Text(
-                                  ": ${state.detail?.data?.itemCondition == "NEW" ? "Baru" : "Bekas"}",
+                                  ": ${(state.detail?.data?.itemCondition ?? "").toLowerCase() == "new" ? "Baru" : "Bekas"}",
                                   style: const TextStyle(
                                       color: AppColors.blackColor,
                                       fontSize: fontSizeDefault,
@@ -362,28 +362,6 @@ class BodyDetail extends StatelessWidget {
                                               const SizedBox(
                                                 width: 10,
                                               ),
-                                              // Column(
-                                              //   mainAxisAlignment: MainAxisAlignment.start,
-                                              //   crossAxisAlignment: CrossAxisAlignment.start,
-                                              //   children: [
-                                              //     Text(
-                                              //       riview?.userProfile?.profile?.fullname ?? "",
-                                              //       style: const TextStyle(
-                                              //         color: AppColors.blackColor,
-                                              //         fontSize: fontSizeLarge,
-                                              //         fontWeight: FontWeight.bold
-                                              //       ),
-                                              //     ),
-                                              //     Text(
-                                              //       DateHelper.formatDate(DateTime.parse(riview?.updatedAt ?? "")),
-                                              //       style: const TextStyle(
-                                              //         color: AppColors.blackColor,
-                                              //         fontSize: fontSizeSmall,
-                                              //         fontWeight: FontWeight.bold
-                                              //       ),
-                                              //     ),
-                                              //   ],
-                                              // ),
                                               Text(
                                                 riview?.userProfile?.profile
                                                         ?.fullname ??

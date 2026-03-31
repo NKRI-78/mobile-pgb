@@ -9,7 +9,7 @@ import '../modules/about_me/view/about_me_page.dart';
 import '../modules/cart/view/cart_page.dart';
 import '../modules/checkout/view/checkout_page.dart';
 import '../modules/create_shipping_address/view/create_address_page.dart';
-import '../modules/detail_oder/view/detail_order.dart';
+import '../modules/detail_oder/view/detail_order_page.dart';
 import '../modules/detail_product/view/detail_product_page.dart';
 import '../modules/event/view/event_page.dart';
 import '../modules/list_address/view/list_address_page.dart';

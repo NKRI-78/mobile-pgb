@@ -20,6 +20,7 @@ class MyRemoteConfig {
         'is_review_apple': false,
         'is_not_found': false,
         'is_presence': false,
+        'is_ppop': false,
       });
 
       await remoteConfig?.fetchAndActivate();
@@ -29,6 +30,7 @@ class MyRemoteConfig {
       print('is_review_apple: ${remoteConfig?.getBool('is_review_apple')}');
       print('is_not_found: ${remoteConfig?.getBool('is_not_found')}');
       print('is_presence: ${remoteConfig?.getBool('is_presence')}');
+      print('is_ppop: ${remoteConfig?.getBool('is_ppop')}');
     } catch (e) {
       print("Remote Config init error: $e");
     }
@@ -40,4 +42,5 @@ class MyRemoteConfig {
   static bool get isNotFound => remoteConfig?.getBool('is_not_found') ?? false;
 
   static bool get isPresence => remoteConfig?.getBool('is_presence') ?? false;
+  static bool get isPpop => remoteConfig?.getBool('is_ppop') ?? false;
 }

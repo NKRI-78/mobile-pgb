@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../misc/api_url.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/date_helper.dart';
 import '../../../misc/modal.dart';
@@ -18,6 +17,7 @@ import '../../../widgets/pages/empty_page.dart';
 import '../../../widgets/pages/loading_page.dart';
 import '../cubit/detail_order_cubit.dart';
 import '../widgets/top_up.dart';
+import 'invoice/invoice_page.dart';
 
 class DetailOrderPage extends StatelessWidget {
   const DetailOrderPage(
@@ -185,11 +185,15 @@ class DetailOrderView extends StatelessWidget {
                                             children: [
                                               InkWell(
                                                 onTap: () {
-                                                  WebViewRoute(
-                                                    url:
-                                                        "${MyApi.baseUrl}/api/v1/order/invoice/${Uri.encodeComponent(state.detailOrder?.orderNumber ?? "")}",
-                                                    title: "PGB-MOBILE",
-                                                  ).push(context);
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (_) =>
+                                                          InvoicePage(
+                                                        data: state.detailOrder,
+                                                      ),
+                                                    ),
+                                                  );
                                                 },
                                                 child: const Text(
                                                   "Lihat Invoice",
