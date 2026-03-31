@@ -82,33 +82,6 @@ class ShopRepository {
     }
   }
 
-  // Future<PaginationModel<ProductModel>> getProductOfficial(
-  //     {int? idCategory, int page = 0}) async {
-  //   try {
-  //     final res = await http.get(Uri.parse(
-  //         '$shop/getProducts?${idCategory == null || idCategory == 0 ? "" : "category_id=$idCategory"}&page=$page'));
-
-  //     print(
-  //         'Url : $shop/getProducts?${idCategory == null ? "" : "category_id=$idCategory"}&page=$page');
-  //     print(res.body);
-  //     print("Status : ${res.statusCode}");
-
-  //     final json = jsonDecode(res.body);
-  //     if (res.statusCode == 200) {
-  //       var pagination = Pagination.fromJson(json['data']);
-  //       var list = (json['data']['data'] as List)
-  //           .map((e) => ProductModel.fromJson(e))
-  //           .toList();
-  //       print("Pagination : ${jsonEncode(pagination)}");
-  //       return PaginationModel<ProductModel>(
-  //           pagination: pagination, list: list);
-  //     } else {
-  //       throw json['message'] ?? "Terjadi kesalahan";
-  //     }
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
   Future<PaginationModel<ProductModel>> getProductOfficial({
     int? idCategory,
     int page = 1,
@@ -177,7 +150,6 @@ class ShopRepository {
 
   Future<void> assignQty(String productId, String qty) async {
     try {
-      print("Product id : $productId, qty : $qty");
       final res = await http.post(Uri.parse('$cart/add-quantity'), body: {
         'product_id': productId,
         'qty': qty,
@@ -186,13 +158,21 @@ class ShopRepository {
       print(res.body);
       print("Status : ${res.statusCode}");
 
-      final json = jsonDecode(res.body);
+      // ✅ HANDLE STATUS DULU
       if (res.statusCode == 200) {
         return;
       }
+
+      if (res.statusCode == 429) {
+        throw "Terlalu banyak request, coba lagi nanti.";
+      }
+
       if (res.statusCode == 400) {
+        final json = jsonDecode(res.body);
         throw json['message'] ?? "Terjadi kesalahan";
       }
+
+      throw "Server error (${res.statusCode})";
     } catch (e) {
       rethrow;
     }

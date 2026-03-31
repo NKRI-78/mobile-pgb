@@ -14,20 +14,19 @@ class EmptyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * height!,
+    return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 50),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            noImage!
-                ? Image.asset(
-                    imageDefaultData,
-                    height: 150,
-                  )
-                : const SizedBox.shrink(),
+            if (noImage!)
+              Image.asset(
+                imageDefaultData,
+                height: 150,
+              ),
             Text(
               msg,
               textAlign: TextAlign.center,

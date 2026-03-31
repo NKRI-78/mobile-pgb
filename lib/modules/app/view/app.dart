@@ -40,27 +40,67 @@ class _AppViewState extends State<AppView> {
       final review = InAppReview.instance;
 
       final now = DateTime.now();
-      final lastShownMillis = prefs.getInt('review_last');
 
-      // jika pernah tampil
-      if (lastShownMillis != null) {
-        final lastShown = DateTime.fromMillisecondsSinceEpoch(lastShownMillis);
+      debugPrint("=== REVIEW CHECK START ===");
+      debugPrint("NOW: $now");
 
-        final diff = now.difference(lastShown).inDays;
+      // ✅ first install
+      int? firstInstallMillis = prefs.getInt('review_first_install');
 
-        // belum 3 bulan (90 hari)
-        if (diff < 90) {
-          return;
-        }
+      if (firstInstallMillis == null) {
+        await prefs.setInt(
+          'review_first_install',
+          now.millisecondsSinceEpoch,
+        );
+
+        await prefs.setInt('review_next_day', 30);
+
+        debugPrint("First install detected → set nextDay = 30");
+        debugPrint("=== REVIEW END (FIRST INSTALL) ===");
+
+        return;
       }
 
+      final firstInstall =
+          DateTime.fromMillisecondsSinceEpoch(firstInstallMillis);
+
+      final daysSinceInstall = now.difference(firstInstall).inDays;
+
+      int nextDay = prefs.getInt('review_next_day') ?? 30;
+
+      debugPrint("First Install: $firstInstall");
+      debugPrint("Days Since Install: $daysSinceInstall");
+      debugPrint("Next Target Day: $nextDay");
+
+      // ❌ belum sampai target
+      if (daysSinceInstall < nextDay) {
+        debugPrint(
+            "SKIP: belum sampai target (${daysSinceInstall} < $nextDay)");
+        debugPrint("=== REVIEW END (SKIP) ===");
+        return;
+      }
+
+      debugPrint("TARGET REACHED → try show review");
+
+      // ✅ cek availability
       if (await review.isAvailable()) {
-        await Future.delayed(const Duration(seconds: 4));
+        debugPrint("Review AVAILABLE");
+
+        await Future.delayed(const Duration(seconds: 3));
 
         await review.requestReview();
 
-        await prefs.setInt('review_last', now.millisecondsSinceEpoch);
+        int newNextDay = nextDay + 30;
+
+        await prefs.setInt('review_next_day', newNextDay);
+
+        debugPrint("REVIEW SHOWN");
+        debugPrint("Next target updated → $newNextDay");
+      } else {
+        debugPrint("Review NOT available");
       }
+
+      debugPrint("=== REVIEW END ===");
     } catch (e) {
       debugPrint("Review error: $e");
     }
