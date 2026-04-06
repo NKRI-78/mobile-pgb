@@ -25,9 +25,6 @@ part '../widget/custom_card_profile.dart';
 part '../widget/custom_data_profile.dart';
 part '../widget/custom_download_kta.dart';
 
-final GlobalKey _ktaFrontKey = GlobalKey();
-final GlobalKey _ktaBackKey = GlobalKey();
-
 enum CardSide { front, back }
 
 class ProfilePage extends StatelessWidget {
@@ -50,6 +47,8 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  final GlobalKey _ktaFrontKey = GlobalKey();
+  final GlobalKey _ktaBackKey = GlobalKey();
   final PageController _pageController = PageController(viewportFraction: 1);
   int _currentPage = 0;
 
@@ -68,7 +67,7 @@ class _ProfileViewState extends State<ProfileView> {
             elevation: 0,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back_ios_new),
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => Navigator.pop(context, true),
             ),
           ),
           body: AnimatedSwitcher(
@@ -269,7 +268,13 @@ class _ProfileViewState extends State<ProfileView> {
                   bottom: true,
                   minimum: const EdgeInsets.only(left: 16, right: 16),
                   child: CustomButton(
-                    onPressed: () => ProfileUpdateRoute().go(context),
+                    onPressed: () async {
+                      final result = await ProfileUpdateRoute().push(context);
+
+                      if (result == true) {
+                        context.read<ProfileCubit>().getProfile();
+                      }
+                    },
                     text: "Edit",
                     backgroundColour: AppColors.secondaryColor,
                     textColour: AppColors.buttonWhiteColor,

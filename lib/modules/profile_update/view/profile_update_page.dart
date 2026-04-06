@@ -49,7 +49,7 @@ class _ProfileUpdateViewState extends State<ProfileUpdateView> {
       listener: (context, st) {
         if (st.successMessage.isNotEmpty) {
           ShowSnackbar.snackbar(context, st.successMessage, isSuccess: true);
-          Navigator.pop(context);
+          Navigator.pop(context, true);
         }
 
         if (st.errorMessage != null) {

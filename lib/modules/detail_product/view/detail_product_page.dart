@@ -33,13 +33,8 @@ class DetailProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider.value(value: getIt<AppBloc>()..add(InitialAppData())),
-        BlocProvider.value(
-          value: getIt<DetailProductCubit>()..fetchDetailProduct(idProduct),
-        )
-      ],
+    return BlocProvider.value(
+      value: getIt<DetailProductCubit>()..fetchDetailProduct(idProduct),
       child: const DetailProductView(),
     );
   }

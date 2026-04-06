@@ -14,7 +14,8 @@ class EmptyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * height!,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 50),
         child: Column(

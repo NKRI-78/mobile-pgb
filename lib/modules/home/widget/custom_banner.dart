@@ -31,7 +31,6 @@ class CustomBanner extends StatelessWidget {
               viewportFraction: 1,
               enlargeStrategy: CenterPageEnlargeStrategy.scale,
               initialPage: 0,
-              aspectRatio: 18 / 9,
               onPageChanged: (int i, CarouselPageChangedReason reason) {
                 currentIndexMultipleImg = i;
               },
@@ -53,7 +52,7 @@ class CustomBanner extends StatelessWidget {
                   child: ImageCard(
                     imageError: imageDefaultBanner,
                     image: data.linkImage ?? '',
-                    height: 180,
+                    height: 200,
                     radius: 16,
                     width: double.infinity,
                   ),
@@ -66,10 +65,9 @@ class CustomBanner extends StatelessWidget {
     );
   }
 
-  // Placeholder jika data kosong atau null
   Widget _buildPlaceholder() {
     return Container(
-      height: 180,
+      height: 200,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: Colors.grey[300],

@@ -52,11 +52,19 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     return _$AppStateToJson(state);
   }
 
-  FutureOr<void> _onInitialAppData(
-      InitialAppData event, Emitter<AppState> emit) {
-    add(GetBadgeCart());
-    add(GetBadgeNotif());
+  Future<void> _onInitialAppData(
+    InitialAppData event,
+    Emitter<AppState> emit,
+  ) async {
+    await Future.delayed(const Duration(milliseconds: 200));
     add(GetProfileData());
+
+    await Future.delayed(const Duration(milliseconds: 300));
+    add(GetBadgeCart());
+
+    await Future.delayed(const Duration(milliseconds: 300));
+    add(GetBadgeNotif());
+
     add(IsRealese());
   }
 

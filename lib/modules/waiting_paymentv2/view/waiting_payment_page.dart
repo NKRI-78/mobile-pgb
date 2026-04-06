@@ -386,19 +386,6 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
                                                                           crossAxisAlignment:
                                                                               CrossAxisAlignment.center,
                                                                           children: [
-                                                                            // Expanded(
-                                                                            //   child: ImageCard(
-                                                                            //     image: (e.product?.pictures?.isEmpty ?? false)
-                                                                            //     ? ""
-                                                                            //     : e.product?.pictures?.first.link ?? "",
-                                                                            //     radius: 5,
-                                                                            //     height: 50,
-                                                                            //     width: 50,
-                                                                            //   ),
-                                                                            // ),
-                                                                            // const SizedBox(
-                                                                            //   width: 10,
-                                                                            // ),
                                                                             const Padding(
                                                                               padding: EdgeInsets.symmetric(horizontal: 10),
                                                                               child: Icon(

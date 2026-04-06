@@ -24,8 +24,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: getIt<HomeBloc>()..add(HomeInit(context: context)),
+    return BlocProvider(
+      create: (_) => getIt<HomeBloc>(),
       child: const HomeView(),
     );
   }
@@ -74,6 +74,8 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     _pulseOpacity = Tween<double>(begin: 0.35, end: 0.0).animate(
       CurvedAnimation(parent: _blinkController, curve: Curves.easeOut),
     );
+
+    context.read<HomeBloc>().add(HomeInit(context: context));
   }
 
   @override
@@ -135,9 +137,14 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                             left: 16,
                             top: 20,
                             child: GestureDetector(
-                              onTap: () {
+                              onTap: () async {
                                 if (isLoggedIn) {
-                                  ProfileRoute().go(context);
+                                  final result =
+                                      await ProfileRoute().push(context);
+
+                                  if (result == true) {
+                                    context.read<HomeBloc>().add(LoadProfile());
+                                  }
                                 } else {
                                   RegisterRoute().go(context);
                                 }

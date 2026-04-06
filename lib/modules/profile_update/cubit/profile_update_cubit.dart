@@ -9,8 +9,6 @@ import '../../../misc/snackbar.dart';
 import '../../../repositories/auth_repository/auth_repository.dart';
 import '../../../repositories/profile_repository/models/profile_model.dart';
 import '../../../repositories/profile_repository/profile_repository.dart';
-import '../../../router/builder.dart';
-import '../../profile/cubit/profile_cubit.dart';
 
 part 'profile_update_state.dart';
 
@@ -98,9 +96,6 @@ class ProfileUpdateCubit extends Cubit<ProfileUpdateState> {
         isLoading: false,
         successMessage: 'Profile berhasil diperbarui',
       ));
-
-      getIt<ProfileCubit>().getProfile();
-      ProfileRoute().go(context);
     } catch (error) {
       // Update state ke error jika ada masalah
       emit(state.copyWith(

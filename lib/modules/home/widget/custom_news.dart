@@ -93,7 +93,7 @@ class _NewsContent extends StatelessWidget {
     return Expanded(
       flex: 2,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 3),
+        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,

@@ -13,13 +13,13 @@ class CustomMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: GridView.count(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         crossAxisCount: 4,
         mainAxisSpacing: 0,
-        childAspectRatio: 0.8,
+        childAspectRatio: 1,
         children: [
           _buildMenuItem(context, 'Mart', 'assets/icons/mart.png', 0),
           _buildMenuItem(context, 'Event', 'assets/icons/event.png', 1),
@@ -49,7 +49,7 @@ class CustomMenu extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
-            elevation: 6,
+            elevation: 4,
             child: Container(
               width: 60,
               height: 60,
@@ -86,7 +86,7 @@ class CustomMenu extends StatelessWidget {
           Text(
             title,
             textAlign: TextAlign.center,
-            maxLines: 2,
+            maxLines: 1,
             overflow: TextOverflow.ellipsis,
             softWrap: true,
             style: AppTextStyles.textStyleNormal.copyWith(
