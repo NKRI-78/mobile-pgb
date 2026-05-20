@@ -278,8 +278,9 @@ class CheckoutCubit extends Cubit<CheckoutState> {
       final distance = costV3Result.distance ?? 0.0;
 
       final cost = await repo.getCostItemV2(storeId: storeId, weight: weight);
+      final hasShippingOptions = cost.isNotEmpty || costV3.isNotEmpty;
 
-      if (cost.isNotEmpty && context.mounted) {
+      if (hasShippingOptions && context.mounted) {
         showModalBottomSheet(
           isDismissible: true,
           enableDrag: true,
@@ -297,7 +298,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
         if (context.mounted) {
           ShowSnackbar.snackbar(
             context,
-            "Anda belum menambahkan alamat pengiriman",
+            "Tidak ada opsi pengiriman yang tersedia",
             isSuccess: false,
           );
         }
