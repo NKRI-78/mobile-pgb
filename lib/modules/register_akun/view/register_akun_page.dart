@@ -91,12 +91,17 @@ class RegisterAkunView extends StatelessWidget {
                         CustomTextfieldAkun(),
                         SizedBox(height: 15),
                         CustomButton(
-                          onPressed: () {
-                            context.read<RegisterAkunCubit>().submit(context);
-                          },
+                          onPressed: state.isLoading
+                              ? null
+                              : () {
+                                  context
+                                      .read<RegisterAkunCubit>()
+                                      .submit(context);
+                                },
                           text: "Selanjutnya",
                           backgroundColour: AppColors.primaryColor,
                           textColour: AppColors.secondaryColor,
+                          isLoading: state.isLoading,
                         )
                       ],
                     ),

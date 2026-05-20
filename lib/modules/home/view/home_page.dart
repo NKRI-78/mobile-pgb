@@ -441,7 +441,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
 
   Widget _buildNewsSectionHeader(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      padding: const EdgeInsets.only(left: 24, right: 24, top: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

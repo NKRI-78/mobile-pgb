@@ -52,6 +52,17 @@ class CustomButton extends StatelessWidget {
               leading!,
               const SizedBox(width: 8),
             ],
+            if (isLoading) ...[
+              SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  valueColor: AlwaysStoppedAnimation<Color>(textColour),
+                ),
+              ),
+              const SizedBox(width: 10),
+            ],
             Text(
               text,
               style: AppTextStyles.textStyleBold.copyWith(

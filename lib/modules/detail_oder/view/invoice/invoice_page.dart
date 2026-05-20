@@ -1,7 +1,7 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/misc/date_helper.dart';
-import 'package:mobile_pgb/misc/theme.dart';
+import '../../../../misc/date_helper.dart';
+import '../../../../misc/theme.dart';
 
 import '../../../../misc/colors.dart';
 import '../../../../misc/text_style.dart';
