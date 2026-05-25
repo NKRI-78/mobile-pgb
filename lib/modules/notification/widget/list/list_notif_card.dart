@@ -65,7 +65,7 @@ class ListNotifCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        DateHelper.parseDate(notif.createdAt.toString()),
+                        DateHelper.formatFullDate(notif.createdAt.toString()),
                         style: const TextStyle(
                           color: AppColors.blackColor,
                           fontSize: 14,
@@ -97,7 +97,9 @@ class ListNotifCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      notif.type == "WAITING_PAYMENT" ? "Menunggu Pembayaran" : notif.data["description"] ?? "",
+                      notif.type == "WAITING_PAYMENT"
+                          ? "Menunggu Pembayaran"
+                          : notif.data["description"] ?? "",
                       style: TextStyle(
                         color: AppColors.blackColor,
                         fontSize: 14,
