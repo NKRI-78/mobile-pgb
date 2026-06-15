@@ -14,7 +14,7 @@ class ButtonMedia extends StatelessWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             _MyCustomButton(
               backgroundColour: AppColors.secondaryColor,
@@ -25,7 +25,7 @@ class ButtonMedia extends StatelessWidget {
                 await context.read<ForumCreateCubit>().uploadImg(context);
               },
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 12),
             _MyCustomButton(
               backgroundColour: AppColors.secondaryColor,
               textColour: AppColors.whiteColor,
@@ -35,7 +35,7 @@ class ButtonMedia extends StatelessWidget {
                 await context.read<ForumCreateCubit>().uploadVid(context);
               },
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 12),
             _MyCustomButton(
               backgroundColour: AppColors.secondaryColor,
               textColour: AppColors.whiteColor,
@@ -71,22 +71,25 @@ class _MyCustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: backgroundColour,
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(12),
+      elevation: 2,
+      shadowColor: backgroundColour.withValues(alpha: 0.3),
       child: InkWell(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(12),
         onTap: onPressed,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, color: textColour, size: 14),
+              Icon(icon, color: textColour, size: 18),
               const SizedBox(width: 8),
               Text(
                 text,
                 style: TextStyle(
                   color: textColour,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
                 ),
               ),
             ],

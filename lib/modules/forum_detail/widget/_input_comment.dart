@@ -56,9 +56,9 @@ class InputComment extends StatelessWidget {
                           },
                           style: const TextStyle(
                             color: AppColors.whiteColor,
-                            fontSize: 14,
+                            fontSize: 13,
                           ),
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               contentPadding: EdgeInsets.symmetric(
                                   vertical: 0.0, horizontal: 16.0),
                               fillColor: AppColors.greyColor,
@@ -66,7 +66,7 @@ class InputComment extends StatelessWidget {
                               hintText: "Tulis komentar...",
                               hintStyle: TextStyle(
                                 color: AppColors.whiteColor,
-                                fontSize: 14,
+                                fontSize: 13,
                               ),
                               border: OutlineInputBorder(
                                   borderRadius:

@@ -8,60 +8,58 @@ class InputDescription extends StatelessWidget {
     return BlocBuilder<ForumCreateCubit, ForumCreateState>(
       builder: (context, state) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 10.0,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(
-                    width: 1.2,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.08),
+                  blurRadius: 12,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: TextField(
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(1000),
+              ],
+              textCapitalization: TextCapitalization.sentences,
+              minLines: 5,
+              maxLines: null,
+              style: AppTextStyles.textStyleNormal.copyWith(height: 1.5),
+              onChanged: (value) {
+                final ct = context.read<ForumCreateCubit>();
+                ct.copyState(newState: ct.state.copyWith(description: value));
+              },
+              cursorColor: AppColors.secondaryColor,
+              decoration: InputDecoration(
+                hintText: "Apa yang kamu pikirkan...",
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 16.0, horizontal: 18.0),
+                isDense: true,
+                fillColor: Colors.white,
+                filled: true,
+                hintStyle: TextStyle(
+                  color: Color(0xFF9CA3AF),
+                  fontSize: 15,
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
                     color: AppColors.secondaryColor,
+                    width: 0.5,
                   ),
+                  borderRadius: BorderRadius.circular(16),
                 ),
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: AppColors.whiteColor,
-                    borderRadius: BorderRadius.circular(10.0),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0xFFE5E7EB),
+                    width: 1.0,
                   ),
-                  child: TextField(
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(1000),
-                    ],
-                    textCapitalization: TextCapitalization.sentences,
-                    minLines: 5,
-                    maxLines: null,
-                    style: AppTextStyles.textStyleNormal,
-                    onChanged: (value) {
-                      final ct = context.read<ForumCreateCubit>();
-                      ct.copyState(
-                          newState: ct.state.copyWith(description: value));
-                    },
-                    cursorColor: AppColors.greyColor,
-                    decoration: InputDecoration(
-                      hintText: "Apa yang kamu pikirkan...",
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 12.0, horizontal: 15.0),
-                      isDense: true,
-                      hintStyle: TextStyle(
-                        color: AppColors.greyColor.withValues(alpha: 0.8),
-                      ),
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey, width: 0.5),
-                      ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey, width: 0.5),
-                      ),
-                    ),
-                  ),
+                  borderRadius: BorderRadius.circular(16),
                 ),
               ),
-            ],
+            ),
           ),
         );
       },

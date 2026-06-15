@@ -39,7 +39,7 @@ class ThumbnailMedia extends StatelessWidget {
         }).toList();
 
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -52,15 +52,22 @@ class ThumbnailMedia extends StatelessWidget {
                             final file = entry.value;
 
                             return Container(
-                              margin: const EdgeInsets.only(bottom: 10),
+                              margin: const EdgeInsets.only(bottom: 16),
                               width: double.infinity,
-                              height: 180,
+                              height: 200,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(16),
                                 image: DecorationImage(
                                   image: MemoryImage(st.videoFileThumbnail!),
                                   fit: BoxFit.cover,
                                 ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.15),
+                                    blurRadius: 12,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
                               ),
                               child: Stack(
                                 children: [
@@ -75,27 +82,42 @@ class ThumbnailMedia extends StatelessWidget {
                                         ),
                                       );
                                     },
-                                    child: const Center(
-                                      child: Icon(
-                                        Icons.play_circle_fill,
-                                        color: Colors.white,
-                                        size: 80,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(16),
+                                        color:
+                                            Colors.black.withValues(alpha: 0.3),
+                                      ),
+                                      child: const Center(
+                                        child: Icon(
+                                          Icons.play_circle_fill,
+                                          color: Colors.white,
+                                          size: 72,
+                                        ),
                                       ),
                                     ),
                                   ),
                                   Positioned(
-                                    right: 10,
-                                    top: 10,
+                                    right: 12,
+                                    top: 12,
                                     child: GestureDetector(
                                       onTap: () => context
                                           .read<ForumCreateCubit>()
                                           .removeFileAt(picked.indexOf(file)),
                                       child: Container(
-                                        width: 30,
-                                        height: 30,
+                                        width: 36,
+                                        height: 36,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: Colors.black.withOpacity(0.5),
+                                          color: Colors.black
+                                              .withValues(alpha: 0.6),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black
+                                                  .withValues(alpha: 0.2),
+                                              blurRadius: 8,
+                                            ),
+                                          ],
                                         ),
                                         child: const Icon(
                                           Icons.close,
@@ -119,8 +141,8 @@ class ThumbnailMedia extends StatelessWidget {
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 3,
-                                crossAxisSpacing: 5,
-                                mainAxisSpacing: 5,
+                                crossAxisSpacing: 12,
+                                mainAxisSpacing: 12,
                               ),
                               itemBuilder: (context, i) {
                                 final item = imageOrDocFiles[i];
@@ -133,7 +155,7 @@ class ThumbnailMedia extends StatelessWidget {
                                       width: 100,
                                       height: 100,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
+                                        borderRadius: BorderRadius.circular(14),
                                         image: DecorationImage(
                                           image: isDoc
                                               ? const AssetImage(
@@ -145,19 +167,26 @@ class ThumbnailMedia extends StatelessWidget {
                                       ),
                                     ),
                                     Positioned(
-                                      right: 5,
-                                      top: 5,
+                                      right: 6,
+                                      top: 6,
                                       child: GestureDetector(
                                         onTap: () => context
                                             .read<ForumCreateCubit>()
                                             .removeFileAt(picked.indexOf(item)),
                                         child: Container(
-                                          width: 25,
-                                          height: 25,
+                                          width: 28,
+                                          height: 28,
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,
-                                            color:
-                                                Colors.black.withOpacity(0.5),
+                                            color: Colors.black
+                                                .withValues(alpha: 0.6),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black
+                                                    .withValues(alpha: 0.2),
+                                                blurRadius: 6,
+                                              ),
+                                            ],
                                           ),
                                           child: const Icon(
                                             Icons.close,

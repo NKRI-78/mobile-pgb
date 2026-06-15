@@ -128,15 +128,15 @@ class GeneralModal {
                   ),
                 ),
                 Positioned(
-                  top: -50,
+                  top: -80,
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                     ),
                     child: Image.asset(
                       locationImage ?? imageDefaultData,
-                      height: 140,
-                      width: 140,
+                      height: 180,
+                      width: 180,
                       fit: BoxFit.contain,
                     ),
                   ),
