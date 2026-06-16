@@ -17,7 +17,7 @@ dependencies:
   carousel_slider: ^5.0.0
   cart_stepper: ^4.3.0
   chewie: ^1.11.3
-  cunning_document_scanner: ^1.2.3
+  camera: ^0.11.1
   cupertino_icons: ^1.0.8
   custom_rating_bar: ^3.0.0
   detectable_text_field: ^3.0.2
@@ -48,10 +48,12 @@ dependencies:
   go_router: ^15.1.1
   go_router_builder: ^2.9.0
   google_maps_flutter: ^2.12.2
+  google_mlkit_text_recognition: ^0.15.0
   google_sign_in: ^6.3.0
   http: ^1.4.0
   hydrated_bloc: ^10.0.0
   image_cropper: ^9.1.0
+  image: ^4.5.4
   image_picker: ^1.1.2
   intl: ^0.20.2
   json_annotation: ^4.9.0

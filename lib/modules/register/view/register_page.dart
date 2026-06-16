@@ -281,8 +281,8 @@ class RegisterView extends StatelessWidget {
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        'Pastikan E-KTP terlihat jelas dan diletakkan di tempat terang.\n'
-                        'Hindari bayangan atau buram agar proses registrasi berjalan lancar.',
+                        'Pastikan seluruh E-KTP masuk frame, bagian NIK berada di area panduan, dan foto tidak buram.\n'
+                        'Jika posisi kartu atau NIK tidak pas, foto akan ditolak otomatis.',
                         style: AppTextStyles.textStyleNormal.copyWith(
                           color: Colors.white,
                         ),

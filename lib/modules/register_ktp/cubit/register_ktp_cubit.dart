@@ -1,9 +1,7 @@
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
-import 'package:cunning_document_scanner/cunning_document_scanner.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -27,11 +25,19 @@ class RegisterKtpCubit extends Cubit<RegisterKtpState> {
   }
 
   void reset() {
-    emit(RegisterKtpState());
+    emit(const RegisterKtpState());
+  }
+
+  void init({UserGoogleModel? userGoogle}) {
+    emit(state.copyWith(userGoogleModel: userGoogle));
   }
 
   Future<void> uploadKtpImage(String imagePath) async {
-    emit(state.copyWith(loading: true, error: null));
+    emit(state.copyWith(
+      loading: true,
+      error: null,
+      validationMessage: null,
+    ));
 
     try {
       final result = await repo.uploadKtpForOcr(File(imagePath));
@@ -42,6 +48,7 @@ class RegisterKtpCubit extends Cubit<RegisterKtpState> {
       emit(state.copyWith(
         loading: false,
         ktpImagePath: imagePath,
+        imagePaths: [imagePath],
         nik: response['nik'] ?? '',
         nama: response['name'] ?? '',
         ttl: response['place_date_birth'] ?? '',
@@ -60,35 +67,28 @@ class RegisterKtpCubit extends Cubit<RegisterKtpState> {
         berlakuHingga: response['expired'] ?? '',
       ));
     } catch (e) {
-      emit(state.copyWith(loading: false, error: e.toString()));
+      emit(state.copyWith(
+        loading: false,
+        error: e.toString(),
+      ));
     }
   }
 
-  Future<void> scanKtp({UserGoogleModel? userGoogle}) async {
-    emit(state.copyWith(loading: true, userGoogleModel: userGoogle));
+  Future<void> processCapturedKtp(String imagePath) async {
+    // Foto mentah dari kamera tetap dikirim ke backend.
+    // Backend yang melakukan OCR dan mengembalikan hasil ekstraksinya.
+    await uploadKtpImage(imagePath);
+  }
 
-    try {
-      final images = await CunningDocumentScanner.getPictures(
-        isGalleryImportAllowed: true,
-        noOfPages: 1,
-      );
+  void setValidationFailure(String message) {
+    emit(state.copyWith(
+      loading: false,
+      validationMessage: message,
+    ));
+  }
 
-      if (images != null && images.isNotEmpty) {
-        final imagePath = images.first;
-
-        // Panggil API upload KTP dan ekstraksi teks OCR
-        await uploadKtpImage(imagePath);
-
-        emit(state.copyWith(
-          loading: false,
-          imagePaths: images,
-        ));
-      } else {
-        emit(state.copyWith(loading: false));
-      }
-    } catch (e) {
-      emit(state.copyWith(loading: false));
-    }
+  void clearValidationMessage() {
+    emit(state.copyWith(validationMessage: null, error: null));
   }
 
   Future<void> checkNikExistence(BuildContext context) async {

@@ -1,0 +1,356 @@
+import 'dart:ui' as ui;
+
+import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
+
+import '../../../misc/colors.dart';
+import '../../../misc/text_style.dart';
+import '../helper/ktp_capture_analyzer.dart';
+import '../model/ktp_capture_validation.dart';
+
+class KtpCameraCapturePage extends StatefulWidget {
+  const KtpCameraCapturePage({super.key});
+
+  @override
+  State<KtpCameraCapturePage> createState() => _KtpCameraCapturePageState();
+}
+
+class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
+  CameraController? _controller;
+  bool _initializing = true;
+  bool _capturing = false;
+  bool _accepted = false;
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    _setupCamera();
+  }
+
+  Future<void> _setupCamera() async {
+    try {
+      final cameras = await availableCameras();
+      final backCamera = cameras.where(
+        (camera) => camera.lensDirection == CameraLensDirection.back,
+      );
+
+      if (backCamera.isEmpty) {
+        setState(() {
+          _error = 'Kamera belakang tidak tersedia di perangkat ini.';
+          _initializing = false;
+        });
+        return;
+      }
+
+      final controller = CameraController(
+        backCamera.first,
+        ResolutionPreset.veryHigh,
+        enableAudio: false,
+        imageFormatGroup: ImageFormatGroup.jpeg,
+      );
+
+      await controller.initialize();
+      if (!mounted) {
+        await controller.dispose();
+        return;
+      }
+
+      setState(() {
+        _controller = controller;
+        _initializing = false;
+      });
+      _startAutoCaptureLoop();
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _error = 'Kamera gagal dibuka. Coba tutup lalu buka kembali.';
+        _initializing = false;
+      });
+    }
+  }
+
+  void _startAutoCaptureLoop() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      while (mounted && !_accepted) {
+        await Future.delayed(const Duration(milliseconds: 1200));
+        if (!mounted || _capturing || _initializing || _accepted) {
+          continue;
+        }
+
+        await _captureKtp();
+      }
+    });
+  }
+
+  Future<void> _captureKtp() async {
+    final controller = _controller;
+    if (controller == null || !controller.value.isInitialized || _capturing) {
+      return;
+    }
+
+    setState(() {
+      _capturing = true;
+      _error = null;
+    });
+
+    try {
+      final screenSize = MediaQuery.of(context).size;
+      final file = await controller.takePicture();
+      final validation = await KtpCaptureAnalyzer.validate(
+        imagePath: file.path,
+        screenSize: screenSize,
+      );
+
+      if (!mounted) return;
+
+      if (!validation.isValid) {
+        setState(() {
+          _error = validation.message;
+          _capturing = false;
+        });
+        return;
+      }
+
+      _accepted = true;
+      Navigator.of(context).pop(validation.processedImagePath ?? file.path);
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _error = 'Foto KTP gagal diproses. Silakan coba lagi.';
+        _capturing = false;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final guideLayout = KtpGuideLayout.fromSize(size);
+
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          if (_controller != null && _controller!.value.isInitialized)
+            _FullscreenCameraPreview(controller: _controller!)
+          else if (_initializing)
+            const Center(
+              child: CircularProgressIndicator(color: AppColors.whiteColor),
+            )
+          else
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Text(
+                  _error ?? 'Kamera tidak tersedia.',
+                  style: AppTextStyles.textStyleNormal.copyWith(
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          if (_controller != null && _controller!.value.isInitialized)
+            CustomPaint(
+              painter: _KtpGuidePainter(guideLayout: guideLayout),
+              child: const SizedBox.expand(),
+            ),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: _capturing
+                            ? null
+                            : () => Navigator.of(context).pop(),
+                        icon: const Icon(
+                          Icons.arrow_back_ios_new,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          'Ambil Foto KTP Otomatis',
+                          textAlign: TextAlign.center,
+                          style: AppTextStyles.textStyleBold.copyWith(
+                            color: Colors.white,
+                            fontSize: 22,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 48),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Posisikan seluruh KTP di dalam frame. Jika posisi benar dan tidak blur, foto akan terambil otomatis.',
+                    style: AppTextStyles.textStyleNormal.copyWith(
+                      color: Colors.white,
+                      fontSize: 13,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  const Spacer(),
+                  if (_error != null)
+                    Container(
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: AppColors.redColor.withValues(alpha: 0.9),
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: Text(
+                        _error!,
+                        style: AppTextStyles.textStyleNormal.copyWith(
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  if (_error != null) const SizedBox(height: 14),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FullscreenCameraPreview extends StatelessWidget {
+  const _FullscreenCameraPreview({required this.controller});
+
+  final CameraController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    final previewSize = controller.value.previewSize;
+    if (previewSize == null) {
+      return const SizedBox.expand();
+    }
+
+    return SizedBox.expand(
+      child: ClipRect(
+        child: FittedBox(
+          fit: BoxFit.cover,
+          child: SizedBox(
+            width: previewSize.height,
+            height: previewSize.width,
+            child: CameraPreview(controller),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _KtpGuidePainter extends CustomPainter {
+  const _KtpGuidePainter({required this.guideLayout});
+
+  final KtpGuideLayout guideLayout;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final overlayPaint = Paint()..color = Colors.black.withValues(alpha: 0.45);
+    final background = Path()..addRect(Offset.zero & size);
+    final cardFill = Paint()
+      ..color = Colors.white.withValues(alpha: 0.06)
+      ..style = PaintingStyle.fill;
+    final cardPath = Path()
+      ..addRRect(
+        RRect.fromRectAndRadius(
+          guideLayout.cardRect,
+          const Radius.circular(18),
+        ),
+      );
+
+    final dimmed = Path.combine(
+      ui.PathOperation.difference,
+      background,
+      cardPath,
+    );
+    canvas.drawPath(dimmed, overlayPaint);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        guideLayout.cardRect,
+        const Radius.circular(18),
+      ),
+      cardFill,
+    );
+
+    final cardBorder = Paint()
+      ..color = Colors.white
+      ..strokeWidth = 3.5
+      ..style = PaintingStyle.stroke;
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        guideLayout.cardRect,
+        const Radius.circular(18),
+      ),
+      cardBorder,
+    );
+
+    final nikBorder = Paint()
+      ..color = const Color(0xFFFFD54F)
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
+    final nikFill = Paint()
+      ..color = const Color(0xFFFFD54F).withValues(alpha: 0.12)
+      ..style = PaintingStyle.fill;
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        guideLayout.nikRect,
+        const Radius.circular(12),
+      ),
+      nikFill,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        guideLayout.nikRect,
+        const Radius.circular(12),
+      ),
+      nikBorder,
+    );
+
+    _drawNikLabel(canvas, guideLayout.nikRect);
+  }
+
+  void _drawNikLabel(Canvas canvas, Rect rect) {
+    final paragraphStyle = ui.ParagraphStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.w700,
+      textAlign: TextAlign.left,
+    );
+    final textStyle = ui.TextStyle(
+      color: const Color(0xFFFFD54F),
+    );
+    final builder = ui.ParagraphBuilder(paragraphStyle)
+      ..pushStyle(textStyle)
+      ..addText('AREA NIK');
+    final paragraph = builder.build()
+      ..layout(const ui.ParagraphConstraints(width: 120));
+
+    canvas.drawParagraph(
+      paragraph,
+      Offset(rect.left, rect.top - 18),
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _KtpGuidePainter oldDelegate) {
+    return oldDelegate.guideLayout != guideLayout;
+  }
+}

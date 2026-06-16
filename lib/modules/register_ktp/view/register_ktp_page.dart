@@ -11,6 +11,7 @@ import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/pages/loading_page.dart';
 import '../cubit/register_ktp_cubit.dart';
 import '../widget/custom_textfield_register_ktp.dart';
+import 'ktp_camera_capture_page.dart';
 
 class RegisterKtpPage extends StatelessWidget {
   const RegisterKtpPage({super.key, this.userGoogle});
@@ -19,14 +20,55 @@ class RegisterKtpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<RegisterKtpCubit>(
-      create: (_) => RegisterKtpCubit()..scanKtp(userGoogle: userGoogle),
-      child: const RegisterKtpView(),
+      create: (_) => RegisterKtpCubit()..init(userGoogle: userGoogle),
+      child: RegisterKtpView(userGoogle: userGoogle),
     );
   }
 }
 
-class RegisterKtpView extends StatelessWidget {
-  const RegisterKtpView({super.key});
+class RegisterKtpView extends StatefulWidget {
+  const RegisterKtpView({super.key, this.userGoogle});
+
+  final UserGoogleModel? userGoogle;
+
+  @override
+  State<RegisterKtpView> createState() => _RegisterKtpViewState();
+}
+
+class _RegisterKtpViewState extends State<RegisterKtpView> {
+  bool _openingCamera = false;
+  bool _didAutoOpen = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && !_didAutoOpen) {
+        _didAutoOpen = true;
+        _openCameraCapture();
+      }
+    });
+  }
+
+  Future<void> _openCameraCapture() async {
+    if (_openingCamera) return;
+    _openingCamera = true;
+    final cubit = context.read<RegisterKtpCubit>();
+    cubit.clearValidationMessage();
+
+    final imagePath = await Navigator.of(context).push<String>(
+      MaterialPageRoute(
+        builder: (_) => const KtpCameraCapturePage(),
+      ),
+    );
+
+    _openingCamera = false;
+    if (!mounted || imagePath == null || imagePath.isEmpty) {
+      return;
+    }
+
+    await cubit.processCapturedKtp(imagePath);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +93,8 @@ class RegisterKtpView extends StatelessWidget {
                 Icons.arrow_back_ios_new,
                 color: AppColors.whiteColor,
               ),
-              onPressed: () async {
-                await GoogleSignIn().signOut();
+              onPressed: () {
+                GoogleSignIn().signOut();
                 Navigator.pop(context);
               },
             ),
@@ -80,6 +122,44 @@ class RegisterKtpView extends StatelessWidget {
                       return SingleChildScrollView(
                         child: Column(
                           children: [
+                            if (state.error != null) ...[
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color:
+                                      AppColors.redColor.withValues(alpha: 0.9),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  state.error!,
+                                  style: AppTextStyles.textStyleNormal.copyWith(
+                                    color: Colors.white,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                            ],
+                            if (state.validationMessage != null) ...[
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color:
+                                      AppColors.redColor.withValues(alpha: 0.9),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  state.validationMessage!,
+                                  style: AppTextStyles.textStyleNormal.copyWith(
+                                    color: Colors.white,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                            ],
                             if (state.imagePaths.isNotEmpty) ...[
                               Text(
                                 'Hasil Scan KTP',
@@ -105,9 +185,7 @@ class RegisterKtpView extends StatelessWidget {
                               const SizedBox(height: 12),
                             ],
                             OutlinedButton.icon(
-                              onPressed: () {
-                                context.read<RegisterKtpCubit>().scanKtp();
-                              },
+                              onPressed: _openCameraCapture,
                               icon: const Icon(Icons.refresh,
                                   color: Colors.white),
                               label: Text(
