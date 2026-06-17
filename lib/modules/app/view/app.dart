@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../misc/helper.dart';
 import 'package:upgrader/upgrader.dart';
-import '../../../misc/firebase_messangging.dart';
 
+import '../../../misc/firebase_messangging.dart';
+import '../../../misc/helper.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/theme.dart';
 import '../../../router/router.dart';

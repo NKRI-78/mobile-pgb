@@ -3,19 +3,19 @@ import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:filesize/filesize.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../misc/text_style.dart';
-import '../../../misc/snackbar.dart';
-import '../../../repositories/forum_repository/forum_repository.dart';
 import 'package:multi_image_picker_plus/multi_image_picker_plus.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:filesize/filesize.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../../../misc/injections.dart';
+import '../../../misc/snackbar.dart';
+import '../../../misc/text_style.dart';
+import '../../../repositories/forum_repository/forum_repository.dart';
 
 part 'forum_create_state.dart';
 

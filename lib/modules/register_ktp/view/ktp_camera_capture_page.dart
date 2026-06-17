@@ -326,11 +326,61 @@ class _KtpGuidePainter extends CustomPainter {
     );
 
     _drawNikLabel(canvas, guideLayout.nikRect);
+    final faceBorder = Paint()
+      ..color = const Color(0xFF4FC3F7)
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
+
+    final faceFill = Paint()
+      ..color = const Color(0xFF4FC3F7).withValues(alpha: 0.12)
+      ..style = PaintingStyle.fill;
+
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        guideLayout.faceRect,
+        const Radius.circular(12),
+      ),
+      faceFill,
+    );
+
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        guideLayout.faceRect,
+        const Radius.circular(12),
+      ),
+      faceBorder,
+    );
+
+    _drawFaceLabel(canvas, guideLayout.faceRect);
+  }
+
+  void _drawFaceLabel(Canvas canvas, Rect rect) {
+    final paragraphStyle = ui.ParagraphStyle(
+      fontSize: 10,
+      fontWeight: FontWeight.w700,
+      textAlign: TextAlign.center,
+    );
+
+    final textStyle = ui.TextStyle(
+      color: const Color(0xFF4FC3F7),
+    );
+
+    final builder = ui.ParagraphBuilder(paragraphStyle)
+      ..pushStyle(textStyle)
+      ..addText('FOTO WAJAH');
+
+    final paragraph = builder.build()
+      ..layout(const ui.ParagraphConstraints(width: 80));
+
+    canvas.drawParagraph(
+      paragraph,
+      Offset(rect.left, rect.top - 18),
+    );
   }
 
   void _drawNikLabel(Canvas canvas, Rect rect) {
     final paragraphStyle = ui.ParagraphStyle(
-      fontSize: 12,
+      fontSize: 10,
       fontWeight: FontWeight.w700,
       textAlign: TextAlign.left,
     );

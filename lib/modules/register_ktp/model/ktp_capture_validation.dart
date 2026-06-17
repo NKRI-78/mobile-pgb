@@ -8,10 +8,15 @@ class KtpGuideConfig {
   static const double cardAspectRatio = 1.58;
   static const double cardTopFactor = 0.18;
 
-  static const double nikLeftFactor = 0.18;
+  static const double nikLeftFactor = 0.20;
   static const double nikTopFactor = 0.12;
-  static const double nikWidthFactor = 0.58;
-  static const double nikHeightFactor = 0.13;
+  static const double nikWidthFactor = 0.48;
+  static const double nikHeightFactor = 0.12;
+
+  static const double faceLeftFactor = 0.70;
+  static const double faceTopFactor = 0.22;
+  static const double faceWidthFactor = 0.24;
+  static const double faceHeightFactor = 0.50;
 }
 
 class KtpCaptureValidation {
@@ -36,21 +41,29 @@ class KtpGuideLayout {
   const KtpGuideLayout({
     required this.cardRect,
     required this.nikRect,
+    required this.faceRect,
   });
 
   final Rect cardRect;
   final Rect nikRect;
+  final Rect faceRect;
 
   static KtpGuideLayout fromSize(Size size) {
     final cardWidth = size.width * KtpGuideConfig.cardWidthFactor;
     final cardHeight = cardWidth / KtpGuideConfig.cardAspectRatio;
     final cardLeft = (size.width - cardWidth) / 2;
-    final cardTop = size.height * KtpGuideConfig.cardTopFactor;
+    final cardTop = (size.height - cardHeight) / 2;
     final cardRect = Rect.fromLTWH(
       cardLeft,
       cardTop,
       cardWidth,
       cardHeight,
+    );
+    final faceRect = Rect.fromLTWH(
+      cardRect.left + (cardRect.width * KtpGuideConfig.faceLeftFactor),
+      cardRect.top + (cardRect.height * KtpGuideConfig.faceTopFactor),
+      cardRect.width * KtpGuideConfig.faceWidthFactor,
+      cardRect.height * KtpGuideConfig.faceHeightFactor,
     );
 
     final nikRect = Rect.fromLTWH(
@@ -63,6 +76,7 @@ class KtpGuideLayout {
     return KtpGuideLayout(
       cardRect: cardRect,
       nikRect: nikRect,
+      faceRect: faceRect,
     );
   }
 
