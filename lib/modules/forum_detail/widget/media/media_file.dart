@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../misc/colors.dart';
-import '../../../../misc/text_style.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../misc/colors.dart';
+import '../../../../misc/text_style.dart';
 import '../../../../repositories/forum_repository/models/forum_detail_model.dart';
 
 class MediaFile extends StatelessWidget {

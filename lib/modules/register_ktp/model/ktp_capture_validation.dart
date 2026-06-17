@@ -8,15 +8,15 @@ class KtpGuideConfig {
   static const double cardAspectRatio = 1.58;
   static const double cardTopFactor = 0.18;
 
-  static const double nikLeftFactor = 0.20;
+  static const double nikLeftFactor = 0.23;
   static const double nikTopFactor = 0.12;
-  static const double nikWidthFactor = 0.48;
+  static const double nikWidthFactor = 0.46;
   static const double nikHeightFactor = 0.12;
 
-  static const double faceLeftFactor = 0.70;
-  static const double faceTopFactor = 0.22;
+  static const double faceLeftFactor = 0.72;
+  static const double faceTopFactor = 0.18;
   static const double faceWidthFactor = 0.24;
-  static const double faceHeightFactor = 0.50;
+  static const double faceHeightFactor = 0.46;
 }
 
 class KtpCaptureValidation {

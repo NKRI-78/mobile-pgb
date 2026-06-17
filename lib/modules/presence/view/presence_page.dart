@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../misc/date_helper.dart';
-import '../../../misc/snackbar.dart';
-import '../cubit/presence_cubit.dart';
-import '../../../widgets/pages/loading_page.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../../../misc/colors.dart';
+import '../../../misc/date_helper.dart';
+import '../../../misc/snackbar.dart';
 import '../../../misc/text_style.dart';
+import '../../../widgets/pages/loading_page.dart';
+import '../cubit/presence_cubit.dart';
 
 class PresencePage extends StatelessWidget {
   const PresencePage({super.key});

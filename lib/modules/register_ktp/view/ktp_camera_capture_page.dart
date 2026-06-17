@@ -2,6 +2,7 @@ import 'dart:ui' as ui;
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
@@ -21,6 +22,11 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
   bool _capturing = false;
   bool _accepted = false;
   String? _error;
+  String _statusMessage = 'Mempersiapkan analisis realtime...';
+  bool _analyzingFrame = false;
+  bool _captureInProgress = false;
+  DateTime? _lastAnalyzedAt;
+  int _readyFrameStreak = 0;
 
   @override
   void initState() {
@@ -47,7 +53,8 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
         backCamera.first,
         ResolutionPreset.veryHigh,
         enableAudio: false,
-        imageFormatGroup: ImageFormatGroup.jpeg,
+        imageFormatGroup:
+            Platform.isIOS ? ImageFormatGroup.bgra8888 : ImageFormatGroup.nv21,
       );
 
       await controller.initialize();
@@ -60,7 +67,7 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
         _controller = controller;
         _initializing = false;
       });
-      _startAutoCaptureLoop();
+      await _startRealtimeAnalysis();
     } catch (_) {
       if (!mounted) return;
       setState(() {
@@ -70,17 +77,91 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
     }
   }
 
-  void _startAutoCaptureLoop() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      while (mounted && !_accepted) {
-        await Future.delayed(const Duration(milliseconds: 1200));
-        if (!mounted || _capturing || _initializing || _accepted) {
-          continue;
+  Future<void> _startRealtimeAnalysis() async {
+    final controller = _controller;
+
+    if (controller == null || controller.value.isStreamingImages) {
+      return;
+    }
+
+    await controller.startImageStream((image) async {
+      if (!mounted ||
+          _capturing ||
+          _accepted ||
+          _initializing ||
+          _analyzingFrame) {
+        return;
+      }
+
+      final now = DateTime.now();
+      if (_lastAnalyzedAt != null &&
+          now.difference(_lastAnalyzedAt!) <
+              const Duration(milliseconds: 300)) {
+        return;
+      }
+      _lastAnalyzedAt = now;
+      _analyzingFrame = true;
+
+      try {
+        final analysis = await KtpCaptureAnalyzer.validatePreviewFrame(
+          cameraImage: image,
+        );
+        print('READY=${analysis.isReady}');
+        print('MSG=${analysis.message}');
+        print('BLUR=${analysis.blurScore}');
+        print('LINES=${analysis.recognizedLineCount}');
+        print('CHARS=${analysis.totalCharacters}');
+        print('KEYWORDS=${analysis.keywordMatches}');
+        print('NIK=${analysis.hasNikCandidate}');
+        if (!mounted || _accepted) {
+          return;
         }
 
-        await _captureKtp();
+        if (analysis.isReady) {
+          _setStatusMessage(
+            'Menstabilkan KTP ${_readyFrameStreak + 1}/8...',
+          );
+          if (_captureInProgress) {
+            return;
+          }
+
+          _readyFrameStreak++;
+
+          if (_readyFrameStreak >= 8) {
+            _readyFrameStreak = 0;
+
+            _captureInProgress = true;
+
+            try {
+              await _captureKtp();
+            } finally {
+              await Future.delayed(
+                const Duration(seconds: 5),
+              );
+
+              _captureInProgress = false;
+            }
+          }
+
+          return;
+        }
+
+        _readyFrameStreak = 0;
+        _setStatusMessage(analysis.message);
+      } finally {
+        _analyzingFrame = false;
       }
     });
+  }
+
+  Future<void> _stopRealtimeAnalysis() async {
+    final controller = _controller;
+    if (controller == null || !controller.value.isStreamingImages) {
+      return;
+    }
+
+    await controller.stopImageStream();
+    _analyzingFrame = false;
   }
 
   Future<void> _captureKtp() async {
@@ -92,10 +173,12 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
     setState(() {
       _capturing = true;
       _error = null;
+      _statusMessage = 'Mengambil foto KTP...';
     });
 
     try {
       final screenSize = MediaQuery.of(context).size;
+      await _stopRealtimeAnalysis();
       final file = await controller.takePicture();
       final validation = await KtpCaptureAnalyzer.validate(
         imagePath: file.path,
@@ -108,7 +191,13 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
         setState(() {
           _error = validation.message;
           _capturing = false;
+          _statusMessage = 'Sesuaikan posisi KTP untuk analisis realtime.';
         });
+        await Future.delayed(
+          const Duration(seconds: 2),
+        );
+
+        await _startRealtimeAnalysis();
         return;
       }
 
@@ -119,8 +208,20 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
       setState(() {
         _error = 'Foto KTP gagal diproses. Silakan coba lagi.';
         _capturing = false;
+        _statusMessage = 'Analisis realtime aktif. Coba stabilkan KTP lagi.';
       });
+      await _startRealtimeAnalysis();
     }
+  }
+
+  void _setStatusMessage(String message) {
+    if (!mounted || _statusMessage == message) {
+      return;
+    }
+
+    setState(() {
+      _statusMessage = message;
+    });
   }
 
   @override
@@ -195,12 +296,34 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Posisikan seluruh KTP di dalam frame. Jika posisi benar dan tidak blur, foto akan terambil otomatis.',
+                    'Posisikan seluruh KTP di dalam frame. Preview akan dianalisis secara realtime dan foto diambil saat frame live sudah cukup jelas.',
                     style: AppTextStyles.textStyleNormal.copyWith(
                       color: Colors.white,
                       fontSize: 13,
                     ),
                     textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.18),
+                      ),
+                    ),
+                    child: Text(
+                      _statusMessage,
+                      style: AppTextStyles.textStyleNormal.copyWith(
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                   const SizedBox(height: 10),
                   const Spacer(),
@@ -356,7 +479,7 @@ class _KtpGuidePainter extends CustomPainter {
 
   void _drawFaceLabel(Canvas canvas, Rect rect) {
     final paragraphStyle = ui.ParagraphStyle(
-      fontSize: 10,
+      fontSize: 9,
       fontWeight: FontWeight.w700,
       textAlign: TextAlign.center,
     );
@@ -370,7 +493,7 @@ class _KtpGuidePainter extends CustomPainter {
       ..addText('FOTO WAJAH');
 
     final paragraph = builder.build()
-      ..layout(const ui.ParagraphConstraints(width: 80));
+      ..layout(const ui.ParagraphConstraints(width: 75));
 
     canvas.drawParagraph(
       paragraph,

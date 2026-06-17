@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'dart:math';
-import 'dart:ui';
 
+import 'package:camera/camera.dart';
+import 'package:flutter/services.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image/image.dart' as img;
 
@@ -10,7 +11,68 @@ import '../model/ktp_capture_validation.dart';
 class KtpCaptureAnalyzer {
   KtpCaptureAnalyzer._();
 
-  static const double _minimumBlurScore = 120;
+  static double get _minimumPreviewBlurScore {
+    if (Platform.isIOS) {
+      return 155;
+    }
+
+    return 100;
+  }
+
+  static double get _minimumCaptureBlurScore {
+    if (Platform.isIOS) {
+      return 350;
+    }
+
+    return 250;
+  }
+
+  static Future<KtpPreviewValidation> validatePreviewFrame({
+    required CameraImage cameraImage,
+    // required int sensorOrientation,
+  }) async {
+    try {
+      final blurScore = _estimatePreviewBlurScore(cameraImage);
+
+      String message = 'Posisikan KTP di dalam frame';
+
+      if (blurScore < 20) {
+        message = 'Posisikan KTP di dalam frame';
+      } else if (blurScore < 80) {
+        message = 'KTP terdeteksi';
+      } else if (blurScore < _minimumPreviewBlurScore) {
+        message = 'Tahan KTP dan kamera tetap stabil';
+      } else {
+        message = 'Frame siap. Menstabilkan...';
+      }
+
+      return KtpPreviewValidation(
+        isReady: blurScore >= _minimumPreviewBlurScore,
+        message: message,
+        blurScore: blurScore,
+        recognizedLineCount: 0,
+        totalCharacters: 0,
+        keywordMatches: 0,
+        hasNikCandidate: false,
+      );
+    } catch (e, s) {
+      print('====================');
+      print('PREVIEW ERROR');
+      print(e);
+      print(s);
+      print('====================');
+
+      return const KtpPreviewValidation(
+        isReady: false,
+        message: 'Sedang membaca frame kamera...',
+        blurScore: 0,
+        recognizedLineCount: 0,
+        totalCharacters: 0,
+        keywordMatches: 0,
+        hasNikCandidate: false,
+      );
+    }
+  }
 
   static Future<KtpCaptureValidation> validate({
     required String imagePath,
@@ -59,10 +121,11 @@ class KtpCaptureAnalyzer {
     );
 
     final blurScore = _estimateBlurScore(croppedCardImage);
-    if (blurScore < _minimumBlurScore) {
+    if (blurScore < _minimumCaptureBlurScore) {
       return KtpCaptureValidation(
         isValid: false,
-        message: 'Foto KTP masih buram. Coba tahan kamera lebih stabil.',
+        message:
+            'Foto KTP masih kurang tajam. Tahan kamera lebih stabil dan pastikan pencahayaan cukup.',
         blurScore: blurScore,
         textCoverage: 0,
         nikInsideGuide: false,
@@ -81,7 +144,7 @@ class KtpCaptureAnalyzer {
           .where((line) => line.text.trim().isNotEmpty)
           .toList();
 
-      if (lines.length < 15) {
+      if (lines.length < 20) {
         return KtpCaptureValidation(
           isValid: false,
           message:
@@ -101,7 +164,7 @@ class KtpCaptureAnalyzer {
 
       print('totalCharacters=$totalCharacters');
 
-      if (totalCharacters < 150) {
+      if (totalCharacters < 250) {
         return KtpCaptureValidation(
           isValid: false,
           message:
@@ -113,7 +176,28 @@ class KtpCaptureAnalyzer {
         );
       }
 
-      if (textCoverage < 0.18) {
+      // TAMBAHKAN DI SINI
+      final meaningfulLines = lines
+          .where(
+            (e) => e.text.trim().length >= 5,
+          )
+          .length;
+
+      print('meaningfulLines=$meaningfulLines');
+
+      if (meaningfulLines < 18) {
+        return KtpCaptureValidation(
+          isValid: false,
+          message:
+              'Teks KTP belum terbaca dengan jelas. Hindari bayangan dan gunakan pencahayaan yang lebih terang.',
+          blurScore: blurScore,
+          textCoverage: textCoverage,
+          nikInsideGuide: false,
+          processedImagePath: processedImagePath,
+        );
+      }
+
+      if (textCoverage < 0.25) {
         return KtpCaptureValidation(
           isValid: false,
           message:
@@ -136,7 +220,7 @@ class KtpCaptureAnalyzer {
         return KtpCaptureValidation(
           isValid: false,
           message:
-              'NIK belum terbaca 16 digit. Pastikan bagian atas KTP terlihat jelas.',
+              'NIK belum terbaca dengan jelas. Pastikan bagian atas KTP tidak buram dan tidak tertutup pantulan cahaya.',
           blurScore: blurScore,
           textCoverage: textCoverage,
           nikInsideGuide: false,
@@ -242,6 +326,46 @@ class KtpCaptureAnalyzer {
     return max((totalSquared / count) - (mean * mean), 0);
   }
 
+  static double _estimatePreviewBlurScore(CameraImage cameraImage) {
+    if (cameraImage.planes.isEmpty) {
+      return 0;
+    }
+
+    final bytes = cameraImage.planes.first.bytes;
+    final width = cameraImage.width;
+    final height = cameraImage.height;
+    if (bytes.isEmpty || width < 3 || height < 3) {
+      return 0;
+    }
+
+    final stride = cameraImage.planes.first.bytesPerRow;
+    double total = 0;
+    double totalSquared = 0;
+    int count = 0;
+
+    for (var y = 1; y < height - 1; y += 4) {
+      for (var x = 1; x < width - 1; x += 4) {
+        final center = bytes[(y * stride) + x].toDouble();
+        final left = bytes[(y * stride) + (x - 1)].toDouble();
+        final right = bytes[(y * stride) + (x + 1)].toDouble();
+        final top = bytes[((y - 1) * stride) + x].toDouble();
+        final bottom = bytes[((y + 1) * stride) + x].toDouble();
+
+        final laplacian = (left + right + top + bottom - (4 * center)).abs();
+        total += laplacian;
+        totalSquared += laplacian * laplacian;
+        count++;
+      }
+    }
+
+    if (count == 0) {
+      return 0;
+    }
+
+    final mean = total / count;
+    return max((totalSquared / count) - (mean * mean), 0);
+  }
+
   static double _luma(img.Pixel pixel) {
     return (0.299 * pixel.r) + (0.587 * pixel.g) + (0.114 * pixel.b);
   }
@@ -291,11 +415,31 @@ class KtpCaptureAnalyzer {
       print('LINE=${line.text}');
       print('DIGITS=$digits');
 
-      if (digits.length >= 14) {
+      if (digits.length >= 15) {
         return line;
       }
     }
 
     return null;
   }
+}
+
+class KtpPreviewValidation {
+  const KtpPreviewValidation({
+    required this.isReady,
+    required this.message,
+    required this.blurScore,
+    required this.recognizedLineCount,
+    required this.totalCharacters,
+    required this.keywordMatches,
+    required this.hasNikCandidate,
+  });
+
+  final bool isReady;
+  final String message;
+  final double blurScore;
+  final int recognizedLineCount;
+  final int totalCharacters;
+  final int keywordMatches;
+  final bool hasNikCandidate;
 }

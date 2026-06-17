@@ -5,12 +5,13 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:multi_image_picker_plus/multi_image_picker_plus.dart';
+import 'package:photo_manager/photo_manager.dart';
+
 import '../../../misc/snackbar.dart';
 import '../../../repositories/create_forum_repository/create_forum_repository.dart';
 import '../../../repositories/detail_order_repository/detail_order_repository.dart';
 import '../../../repositories/detail_order_repository/models/detail_order_model.dart';
-import 'package:multi_image_picker_plus/multi_image_picker_plus.dart';
-import 'package:photo_manager/photo_manager.dart';
 
 part 'detail_order_state.dart';
 
