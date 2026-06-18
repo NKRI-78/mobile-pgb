@@ -27,15 +27,18 @@ class MemberNearBloc extends Bloc<MemberNearEvent, MemberNearState> {
 
   FutureOr<void> _onMemberNearSetArea(
       MemberNearSetArea event, Emitter<MemberNearState> emit) async {
-    emit(state.copyWith(loading: true));
     List<Marker> newMarkers = [];
 
     final app = getIt<AppBloc>();
     final profile = app.state.profile;
 
-    emit(state.copyWith(
+    emit(
+      state.copyWith(
+        loading: true,
         latitude: profile?.latitude ?? 0.0,
-        longitude: profile?.longitude ?? 0.0));
+        longitude: profile?.longitude ?? 0.0,
+      ),
+    );
 
     event.mapController.moveCamera(CameraUpdate.newLatLng(
         LatLng(profile?.latitude ?? 0.0, profile?.longitude ?? 0.0)));

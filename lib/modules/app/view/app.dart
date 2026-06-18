@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:upgrader/upgrader.dart';
 
 import '../../../misc/firebase_messangging.dart';
+import '../../../misc/flavor_config.dart';
 import '../../../misc/helper.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/theme.dart';
@@ -125,10 +126,11 @@ class _AppViewState extends State<AppView> {
 
   @override
   Widget build(BuildContext context) {
+    final isStaging = FlavorConfig.isStaging;
     return BlocBuilder<AppBloc, AppState>(
       builder: (_, localState) {
         return MaterialApp.router(
-          debugShowCheckedModeBanner: false,
+          debugShowCheckedModeBanner: isStaging,
           theme: baseTheme.copyWith(),
           routerConfig: router,
           builder: (context, child) {

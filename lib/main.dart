@@ -10,6 +10,7 @@ import 'package:upgrader/upgrader.dart';
 
 import 'firebase_options.dart';
 import 'misc/firebase_messangging.dart';
+import 'misc/flavor_config.dart';
 import 'misc/injections.dart';
 import 'misc/remote_config.dart';
 import 'modules/app/bloc_observer.dart';
@@ -32,13 +33,14 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   await MyRemoteConfig.init();
-  // Set the background messaging handler early on, as a named top-level function
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   if (!kIsWeb) {
     await setupFlutterNotifications();
   }
   if (kDebugMode) await Upgrader.clearSavedSettings();
+  debugPrint('Running with flavor: ${FlavorConfig.instance.name}');
+  debugPrint('Base URL: ${FlavorConfig.instance.baseUrl}');
 
   runApp(const App());
 }

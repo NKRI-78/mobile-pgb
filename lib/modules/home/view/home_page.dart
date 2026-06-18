@@ -380,7 +380,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
   Widget _floatingAbsensi(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        PresenceRoute().push(context);
+        // PresenceRoute().push(context);
       },
       child: Stack(
         alignment: Alignment.center,

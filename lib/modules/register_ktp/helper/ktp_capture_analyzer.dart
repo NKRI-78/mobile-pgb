@@ -415,7 +415,7 @@ class KtpCaptureAnalyzer {
       print('LINE=${line.text}');
       print('DIGITS=$digits');
 
-      if (digits.length >= 15) {
+      if (digits.length == 16) {
         return line;
       }
     }

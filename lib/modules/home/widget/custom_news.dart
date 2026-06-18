@@ -25,6 +25,7 @@ class CustomNews extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
+        color: AppColors.whiteColor,
         margin: const EdgeInsets.only(right: 18, left: 18, bottom: 10, top: 10),
         elevation: 4,
         shape: RoundedRectangleBorder(

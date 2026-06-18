@@ -1,49 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../modules/presence/view/presence_page.dart';
-import '../modules/maintenance/view/maintenance_pages.dart';
-import '../modules/nfc/view/nfc_page.dart';
-import '../modules/tracking_biteship/view/tracking_page.dart';
+
 import '../misc/register_akun_extra.dart';
 import '../modules/about_me/view/about_me_page.dart';
+import '../modules/about_us/view/about_us_page.dart';
 import '../modules/cart/view/cart_page.dart';
 import '../modules/checkout/view/checkout_page.dart';
 import '../modules/create_shipping_address/view/create_address_page.dart';
 import '../modules/detail_oder/view/detail_order_page.dart';
 import '../modules/detail_product/view/detail_product_page.dart';
 import '../modules/event/view/event_page.dart';
-import '../modules/list_address/view/list_address_page.dart';
-import '../modules/need_riview/views/need_riview_page.dart';
-import '../modules/order/view/order_page.dart';
-import '../modules/profile/view/profile_page.dart';
-import '../modules/shop/view/shop_page.dart';
-import '../modules/show_more_testimoni/view/show_more_testimoni.dart';
-import '../modules/sos/view/sos_page.dart';
-import '../modules/tracking/view/tracking_page.dart';
-import '../modules/update_shipping_address/view/update_address_page.dart';
-import '../modules/waiting_paymentv2/view/waiting_payment_page.dart';
-import '../repositories/oder_repository/models/tracking_model.dart';
-import '../repositories/shop_repository/models/detail_product_model.dart';
-import '../widgets/pages/page_detail_proof_shipping.dart';
-import '../modules/membernear/view/membernear_page.dart';
-
 import '../modules/event_detail/view/event_detail_page.dart';
 import '../modules/forum/view/forum_page.dart';
 import '../modules/forum_create/view/forum_create_page.dart';
 import '../modules/forum_detail/view/forum_detail_page.dart';
 import '../modules/home/view/home_page.dart';
+import '../modules/list_address/view/list_address_page.dart';
 import '../modules/login/view/login_page.dart';
 import '../modules/lupa_password/view/lupa_password_page.dart';
 import '../modules/lupa_password_change/view/lupa_password_change.dart';
 import '../modules/lupa_password_otp/view/lupa_password_otp.dart';
+import '../modules/maintenance/view/maintenance_pages.dart';
+import '../modules/membernear/view/membernear_page.dart';
+import '../modules/need_riview/views/need_riview_page.dart';
 import '../modules/news_all/view/news_all_page.dart';
 import '../modules/news_detail/view/news_detail_page.dart';
+import '../modules/nfc/view/nfc_page.dart';
 import '../modules/notification/view/detail/notification_detail_page.dart';
 import '../modules/notification/view/detail/notification_ppob_detail_page.dart';
 import '../modules/notification/view/notification_page.dart';
 import '../modules/onboarding/view/onboarding_page.dart';
+import '../modules/order/view/order_page.dart';
 import '../modules/ppob/view/ppob_page.dart';
 import '../modules/ppob/view/ppob_waiting_payment_page.dart';
+import '../modules/profile/view/profile_page.dart';
 import '../modules/profile_update/view/profile_update_page.dart';
 import '../modules/register/view/register_page.dart';
 import '../modules/register_akun/view/register_akun_page.dart';
@@ -51,11 +41,20 @@ import '../modules/register_change/view/register_change_page.dart';
 import '../modules/register_ktp/view/register_ktp_page.dart';
 import '../modules/register_otp/view/register_otp_page.dart';
 import '../modules/settings/view/settings_page.dart';
+import '../modules/shop/view/shop_page.dart';
+import '../modules/show_more_testimoni/view/show_more_testimoni.dart';
 import '../modules/sos/view/sos_detail_page.dart';
+import '../modules/sos/view/sos_page.dart';
+import '../modules/tracking/view/tracking_page.dart';
+import '../modules/tracking_biteship/view/tracking_page.dart';
+import '../modules/update_shipping_address/view/update_address_page.dart';
+import '../modules/waiting_paymentv2/view/waiting_payment_page.dart';
 import '../modules/wallet/view/wallet_page.dart';
 import '../modules/webview/webview.dart';
-import '../modules/about_us/view/about_us_page.dart';
+import '../repositories/oder_repository/models/tracking_model.dart';
+import '../repositories/shop_repository/models/detail_product_model.dart';
 import '../widgets/pages/media/view/media_page.dart';
+import '../widgets/pages/page_detail_proof_shipping.dart';
 import '../widgets/pages/video/detail_video_player.dart';
 import '../widgets/photo_view/clipped_photo_view.dart';
 
@@ -70,7 +69,6 @@ class OnboardingRoute extends GoRouteData {
 }
 
 @TypedGoRoute<HomeRoute>(path: '/home', routes: [
-  TypedGoRoute<PresenceRoute>(path: 'presence'),
   TypedGoRoute<MaintenanceRoute>(path: 'not-found'),
   TypedGoRoute<SosDetailRoute>(path: 'sos-detail'),
   TypedGoRoute<ForumRoute>(path: 'forum', routes: [
@@ -149,13 +147,6 @@ class HomeRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return HomePage();
-  }
-}
-
-class PresenceRoute extends GoRouteData {
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return PresencePage();
   }
 }
 

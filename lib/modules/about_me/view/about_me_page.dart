@@ -57,7 +57,7 @@ class AboutMePage extends StatelessWidget {
                 "Partai Gema Bangsa mencakup nilai, tujuan, dan cita-cita sebagai landasan perjuangan untuk memperjuangkan aspirasi rakyat. Partai ini memiliki karakter sebagai partai nasional yang modern, terbuka, berwawasan kebangsaan, dan berbasis pada kekuatan rakyat dengan orientasi pada kemandirian bangsa.",
                 style: AppTextStyles.textStyleNormal.copyWith(
                   color: AppColors.greyColor,
-                  fontSize: 15,
+                  fontSize: 14,
                 ),
                 textAlign: TextAlign.center,
               ),

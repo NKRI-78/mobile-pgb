@@ -3,17 +3,17 @@ import 'dart:io';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../app/models/user_google_model.dart';
-import '../../register_akun/model/extrack_ktp_model.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../../misc/injections.dart';
-import '../../../misc/register_akun_extra.dart';
-import '../cubit/register_cubit.dart';
 
 import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
+import '../../../misc/register_akun_extra.dart';
 import '../../../misc/text_style.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/button/custom_button.dart';
+import '../../app/models/user_google_model.dart';
+import '../../register_akun/model/extrack_ktp_model.dart';
+import '../cubit/register_cubit.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});

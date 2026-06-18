@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run STAGING",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_staging.dart",
+      "flutterMode": "debug",
+      "args": ["--flavor", "staging"]
+    },
+    {
+      "name": "Run PRODUCTION",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_production.dart",
+      "flutterMode": "debug",
+      "args": ["--flavor", "production"]
+    }
+  ]
+}
