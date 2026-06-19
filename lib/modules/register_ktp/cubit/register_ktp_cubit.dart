@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_pgb/modules/register_ktp/helper/ktp_capture_analyzer.dart';
 import 'dart:io';
 
 import '../../../misc/colors.dart';
@@ -40,15 +41,31 @@ class RegisterKtpCubit extends Cubit<RegisterKtpState> {
     ));
 
     try {
-      final result = await repo.uploadKtpForOcr(File(imagePath));
+      final uploadPath = await KtpCaptureAnalyzer.rotateForUpload(
+        imagePath,
+      );
+
+      print('ORIGINAL PATH: $imagePath');
+      print('UPLOAD PATH  : $uploadPath');
+
+      print('======================');
+      print('UPLOADING TO OCR');
+      print('FILE: $uploadPath');
+      print('======================');
+      final result = await repo.uploadKtpForOcr(File(uploadPath));
+      print('OCR RESPONSE: $result');
+      print('======================');
+      print('OCR RESPONSE RAW');
+      print(result);
+      print('======================');
 
       final response = result['data']['response'];
-      print('Path Gambar KTP: $imagePath');
+      print('Path Gambar KTP: $uploadPath');
 
       emit(state.copyWith(
         loading: false,
-        ktpImagePath: imagePath,
-        imagePaths: [imagePath],
+        ktpImagePath: uploadPath,
+        imagePaths: [uploadPath],
         nik: response['nik'] ?? '',
         nama: response['name'] ?? '',
         ttl: response['place_date_birth'] ?? '',
@@ -67,6 +84,8 @@ class RegisterKtpCubit extends Cubit<RegisterKtpState> {
         berlakuHingga: response['expired'] ?? '',
       ));
     } catch (e) {
+      print('OCR ERROR: $e');
+
       emit(state.copyWith(
         loading: false,
         error: e.toString(),

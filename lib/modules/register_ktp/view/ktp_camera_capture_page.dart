@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:flutter/services.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
@@ -31,6 +32,11 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
   @override
   void initState() {
     super.initState();
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+
     _setupCamera();
   }
 
@@ -119,7 +125,7 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
 
         if (analysis.isReady) {
           _setStatusMessage(
-            'Menstabilkan KTP ${_readyFrameStreak + 1}/8...',
+            'Menstabilkan KTP ${_readyFrameStreak + 1}/6...',
           );
           if (_captureInProgress) {
             return;
@@ -127,7 +133,7 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
 
           _readyFrameStreak++;
 
-          if (_readyFrameStreak >= 8) {
+          if (_readyFrameStreak >= 6) {
             _readyFrameStreak = 0;
 
             _captureInProgress = true;
@@ -185,6 +191,9 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
         screenSize: screenSize,
       );
 
+      print('VALID=${validation.isValid}');
+      print('MESSAGE=${validation.message}');
+
       if (!mounted) return;
 
       if (!validation.isValid) {
@@ -226,6 +235,13 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
 
   @override
   void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+
     _controller?.dispose();
     super.dispose();
   }
@@ -427,11 +443,11 @@ class _KtpGuidePainter extends CustomPainter {
     );
 
     final nikBorder = Paint()
-      ..color = const Color(0xFFFFD54F)
+      ..color = Colors.white
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
     final nikFill = Paint()
-      ..color = const Color(0xFFFFD54F).withValues(alpha: 0.12)
+      ..color = Colors.white.withValues(alpha: 0.1)
       ..style = PaintingStyle.fill;
     canvas.drawRRect(
       RRect.fromRectAndRadius(
@@ -450,12 +466,12 @@ class _KtpGuidePainter extends CustomPainter {
 
     _drawNikLabel(canvas, guideLayout.nikRect);
     final faceBorder = Paint()
-      ..color = const Color(0xFF4FC3F7)
+      ..color = Colors.white
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
 
     final faceFill = Paint()
-      ..color = const Color(0xFF4FC3F7).withValues(alpha: 0.12)
+      ..color = Colors.white.withValues(alpha: 0.1)
       ..style = PaintingStyle.fill;
 
     canvas.drawRRect(
@@ -481,11 +497,10 @@ class _KtpGuidePainter extends CustomPainter {
     final paragraphStyle = ui.ParagraphStyle(
       fontSize: 9,
       fontWeight: FontWeight.w700,
-      textAlign: TextAlign.center,
     );
 
     final textStyle = ui.TextStyle(
-      color: const Color(0xFF4FC3F7),
+      color: Colors.white,
     );
 
     final builder = ui.ParagraphBuilder(paragraphStyle)
@@ -493,33 +508,65 @@ class _KtpGuidePainter extends CustomPainter {
       ..addText('FOTO WAJAH');
 
     final paragraph = builder.build()
-      ..layout(const ui.ParagraphConstraints(width: 75));
+      ..layout(
+        const ui.ParagraphConstraints(
+          width: 120,
+        ),
+      );
+
+    canvas.save();
+
+    canvas.translate(
+      rect.right + 14,
+      rect.top,
+    );
+
+    canvas.rotate(1.5708);
 
     canvas.drawParagraph(
       paragraph,
-      Offset(rect.left, rect.top - 18),
+      Offset.zero,
     );
+
+    canvas.restore();
   }
 
   void _drawNikLabel(Canvas canvas, Rect rect) {
     final paragraphStyle = ui.ParagraphStyle(
       fontSize: 10,
       fontWeight: FontWeight.w700,
-      textAlign: TextAlign.left,
     );
+
     final textStyle = ui.TextStyle(
-      color: const Color(0xFFFFD54F),
+      color: Colors.white,
     );
+
     final builder = ui.ParagraphBuilder(paragraphStyle)
       ..pushStyle(textStyle)
       ..addText('AREA NIK');
+
     final paragraph = builder.build()
-      ..layout(const ui.ParagraphConstraints(width: 120));
+      ..layout(
+        const ui.ParagraphConstraints(
+          width: 100,
+        ),
+      );
+
+    canvas.save();
+
+    canvas.translate(
+      rect.right + 14,
+      rect.top,
+    );
+
+    canvas.rotate(1.5708);
 
     canvas.drawParagraph(
       paragraph,
-      Offset(rect.left, rect.top - 18),
+      Offset.zero,
     );
+
+    canvas.restore();
   }
 
   @override

@@ -3,20 +3,19 @@ import 'dart:ui';
 class KtpGuideConfig {
   const KtpGuideConfig._();
 
-  // Ubah angka-angka ini kalau mau geser atau resize boundary di preview.
-  static const double cardWidthFactor = 0.9;
-  static const double cardAspectRatio = 1.58;
-  static const double cardTopFactor = 0.18;
+  static const double cardWidthFactor = 0.70;
+  static const double cardAspectRatio = 0.63;
+  static const double cardTopFactor = 0.05;
 
-  static const double nikLeftFactor = 0.23;
-  static const double nikTopFactor = 0.12;
-  static const double nikWidthFactor = 0.46;
-  static const double nikHeightFactor = 0.12;
+  static const double nikLeftFactor = 0.76;
+  static const double nikTopFactor = 0.26;
+  static const double nikWidthFactor = 0.12;
+  static const double nikHeightFactor = 0.45;
 
-  static const double faceLeftFactor = 0.72;
-  static const double faceTopFactor = 0.18;
-  static const double faceWidthFactor = 0.24;
-  static const double faceHeightFactor = 0.46;
+  static const double faceLeftFactor = 0.34;
+  static const double faceTopFactor = 0.73;
+  static const double faceWidthFactor = 0.46;
+  static const double faceHeightFactor = 0.24;
 }
 
 class KtpCaptureValidation {
@@ -52,7 +51,8 @@ class KtpGuideLayout {
     final cardWidth = size.width * KtpGuideConfig.cardWidthFactor;
     final cardHeight = cardWidth / KtpGuideConfig.cardAspectRatio;
     final cardLeft = (size.width - cardWidth) / 2;
-    final cardTop = (size.height - cardHeight) / 2;
+    final cardTop = ((size.height - cardHeight) / 2) +
+        (size.height * KtpGuideConfig.cardTopFactor);
     final cardRect = Rect.fromLTWH(
       cardLeft,
       cardTop,

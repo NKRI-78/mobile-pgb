@@ -170,18 +170,16 @@ class _RegisterKtpViewState extends State<RegisterKtpView> {
                               ),
                               const SizedBox(height: 8),
                               Card(
-                                elevation: 6,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                clipBehavior: Clip.antiAlias,
-                                child: Image.file(
-                                  File(state.imagePaths.first),
-                                  width: double.infinity,
-                                  height: 200,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
+                                  elevation: 6,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  clipBehavior: Clip.antiAlias,
+                                  child: Image.file(
+                                    File(state.imagePaths.first),
+                                    width: double.infinity,
+                                    fit: BoxFit.fitWidth,
+                                  )),
                               const SizedBox(height: 12),
                             ],
                             OutlinedButton.icon(

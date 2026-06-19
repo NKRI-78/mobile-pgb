@@ -21,15 +21,14 @@ class KtpCaptureAnalyzer {
 
   static double get _minimumCaptureBlurScore {
     if (Platform.isIOS) {
-      return 350;
+      return 150;
     }
 
-    return 250;
+    return 80;
   }
 
   static Future<KtpPreviewValidation> validatePreviewFrame({
     required CameraImage cameraImage,
-    // required int sensorOrientation,
   }) async {
     try {
       final blurScore = _estimatePreviewBlurScore(cameraImage);
@@ -120,8 +119,19 @@ class KtpCaptureAnalyzer {
       image: croppedCardImage,
     );
 
+    print('processedImagePath=$processedImagePath');
+    print('imageSize=$imageSize');
+    print('mappedCardRect=$mappedCardRect');
+
     final blurScore = _estimateBlurScore(croppedCardImage);
+
+    print('====================');
+    print('CAPTURE BLUR');
+    print('blurScore=$blurScore');
+    print('minimum=$_minimumCaptureBlurScore');
+    print('====================');
     if (blurScore < _minimumCaptureBlurScore) {
+      print('GAGAL BLUR');
       return KtpCaptureValidation(
         isValid: false,
         message:
@@ -132,12 +142,14 @@ class KtpCaptureAnalyzer {
         processedImagePath: processedImagePath,
       );
     }
-
+    print('MASUK OCR');
     final recognizer = TextRecognizer(script: TextRecognitionScript.latin);
     try {
       final recognizedText = await recognizer.processImage(
         InputImage.fromFilePath(processedImagePath),
       );
+
+      print('OCR BERHASIL');
 
       final lines = recognizedText.blocks
           .expand((block) => block.lines)
@@ -197,7 +209,16 @@ class KtpCaptureAnalyzer {
         );
       }
 
+      print('====================');
+      print('lines=${lines.length}');
+      print('totalCharacters=$totalCharacters');
+      print('meaningfulLines=$meaningfulLines');
+      print('textCoverage=$textCoverage');
+      print('====================');
+
       if (textCoverage < 0.25) {
+        print('GAGAL TEXT COVERAGE');
+        print('textCoverage=$textCoverage');
         return KtpCaptureValidation(
           isValid: false,
           message:
@@ -287,6 +308,45 @@ class KtpCaptureAnalyzer {
       flush: true,
     );
     return targetFile.path;
+  }
+
+  static Future<String> rotateForUpload(String imagePath) async {
+    final file = File(imagePath);
+
+    final bytes = await file.readAsBytes();
+    final decodedImage = img.decodeImage(bytes);
+
+    if (decodedImage == null) {
+      return imagePath;
+    }
+
+    final image = img.bakeOrientation(decodedImage);
+    print('BEFORE ROTATE: ${image.width}x${image.height}');
+
+    final img.Image rotated;
+
+    if (image.height > image.width) {
+      rotated = img.copyRotate(image, angle: -90);
+      print('ROTATING -90° FOR LANDSCAPE KTP');
+    } else {
+      rotated = image;
+      print('ALREADY LANDSCAPE');
+    }
+
+    print('AFTER ROTATE: ${rotated.width}x${rotated.height}');
+
+    final uploadPath = imagePath.replaceFirstMapped(
+      RegExp(r'(\.jpe?g)\$', caseSensitive: false),
+      (match) => '${match.group(0)!.replaceFirst('.', '_upload.')}',
+    );
+
+    await File(uploadPath).writeAsBytes(
+      img.encodeJpg(rotated, quality: 95),
+    );
+
+    print('UPLOAD PATH: $uploadPath');
+
+    return uploadPath;
   }
 
   static double _estimateBlurScore(img.Image source) {
@@ -415,7 +475,7 @@ class KtpCaptureAnalyzer {
       print('LINE=${line.text}');
       print('DIGITS=$digits');
 
-      if (digits.length == 16) {
+      if (digits.length >= 15) {
         return line;
       }
     }
