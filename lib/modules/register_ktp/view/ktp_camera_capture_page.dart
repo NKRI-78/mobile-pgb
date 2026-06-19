@@ -270,6 +270,7 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
                   _error ?? 'Kamera tidak tersedia.',
                   style: AppTextStyles.textStyleNormal.copyWith(
                     color: Colors.white,
+                    fontSize: 14,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -312,10 +313,11 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Posisikan seluruh KTP di dalam frame. Preview akan dianalisis secara realtime dan foto diambil saat frame live sudah cukup jelas.',
-                    style: AppTextStyles.textStyleNormal.copyWith(
+                    'Letakkan KTP sepenuhnya di dalam frame. Foto akan diambil otomatis jika sudah jelas.',
+                    style: AppTextStyles.textStyleBold.copyWith(
                       color: Colors.white,
-                      fontSize: 13,
+                      height: 1.5,
+                      fontSize: 15,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -336,7 +338,7 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
                       _statusMessage,
                       style: AppTextStyles.textStyleNormal.copyWith(
                         color: Colors.white,
-                        fontSize: 12,
+                        fontSize: 14,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -347,13 +349,14 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
                     Container(
                       padding: const EdgeInsets.all(14),
                       decoration: BoxDecoration(
-                        color: AppColors.redColor.withValues(alpha: 0.9),
+                        color: AppColors.whiteColor.withValues(alpha: 0.4),
                         borderRadius: BorderRadius.circular(14),
                       ),
                       child: Text(
                         _error!,
                         style: AppTextStyles.textStyleNormal.copyWith(
                           color: Colors.white,
+                          fontSize: 14,
                         ),
                         textAlign: TextAlign.center,
                       ),
