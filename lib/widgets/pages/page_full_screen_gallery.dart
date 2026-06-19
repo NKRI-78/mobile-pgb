@@ -9,7 +9,7 @@ class FullscreenGallery extends StatefulWidget {
   const FullscreenGallery({
     Key? key,
     required this.images,
-    this.initialIndex = 0, 
+    this.initialIndex = 0,
     this.stock,
   }) : super(key: key);
 
@@ -48,10 +48,15 @@ class _FullscreenGalleryState extends State<FullscreenGallery> {
           return Stack(
             alignment: Alignment.center,
             children: [
-              // Gambar dengan efek gelap/transparan
               ColorFiltered(
                 colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(widget.stock == null ? 0.0 : widget.stock == 0 ? 0.5 : 0.0), // Efek gelap semi-transparan
+                  Colors.black.withValues(
+                    alpha: widget.stock == null
+                        ? 0.0
+                        : widget.stock == 0
+                            ? 0.5
+                            : 0.0,
+                  ),
                   BlendMode.darken,
                 ),
                 child: ExtendedImage.network(
@@ -76,22 +81,26 @@ class _FullscreenGalleryState extends State<FullscreenGallery> {
               ),
 
               // Teks di tengah gambar
-              widget.stock == null ? Container() : widget.stock == 0 ?  const Text(
-                "Stok Habis",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  shadows: [
-                    Shadow(
-                      blurRadius: 4.0,
-                      color: Colors.black54,
-                      offset: Offset(2.0, 2.0),
-                    ),
-                  ],
-                ),
-                textAlign: TextAlign.center,
-              ) : Container(),
+              widget.stock == null
+                  ? Container()
+                  : widget.stock == 0
+                      ? const Text(
+                          "Stok Habis",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            shadows: [
+                              Shadow(
+                                blurRadius: 4.0,
+                                color: Colors.black54,
+                                offset: Offset(2.0, 2.0),
+                              ),
+                            ],
+                          ),
+                          textAlign: TextAlign.center,
+                        )
+                      : Container(),
             ],
           );
         },

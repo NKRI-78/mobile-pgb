@@ -122,10 +122,12 @@ class UpdateShippingAddressCubit extends Cubit<UpdateShippingAddressState> {
   void setAreaCurrent(GoogleMapController mapController) async {
     Geolocator.requestPermission();
     Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.low);
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(position.latitude, position.longitude);
-    Placemark place = placemarks[0];
+        locationSettings: const LocationSettings(
+      accuracy: LocationAccuracy.low,
+    ));
+    // List<Placemark> placemarks =
+    await placemarkFromCoordinates(position.latitude, position.longitude);
+    // Placemark place = placemarks[0];
 
     emit(state.copyWith(
       latitude: position.latitude,

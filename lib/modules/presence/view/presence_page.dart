@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/date_helper.dart';
@@ -29,7 +28,7 @@ class PresenceView extends StatefulWidget {
 }
 
 class _PresenceViewState extends State<PresenceView> {
-  bool _hasScanned = false;
+  // bool _hasScanned = false;
 
   // late final MobileScannerController _scannerController;
 
@@ -67,7 +66,7 @@ class _PresenceViewState extends State<PresenceView> {
         if (state.isSuccess) {
           Navigator.pop(context);
         } else {
-          _hasScanned = false;
+          // _hasScanned = false;
           // _scannerController.start();
         }
       },

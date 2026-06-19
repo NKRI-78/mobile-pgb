@@ -225,7 +225,7 @@ class GeneralModal {
                             fontWeight: FontWeight.w600,
                             color: AppColors.whiteColor,
                           )),
-                      const SizedBox(height: 25.0),
+                      const SizedBox(height: 20),
                       ElevatedButton.icon(
                         onPressed: () async {
                           await openWhatsApp(membernear, context);
@@ -237,7 +237,8 @@ class GeneralModal {
                         ),
                         label: Text(
                           'Hubungi melalui WhatsApp',
-                          style: AppTextStyles.textStyleBold.copyWith(),
+                          style: AppTextStyles.textStyleBold
+                              .copyWith(fontSize: 14),
                         ),
                       ),
                     ],

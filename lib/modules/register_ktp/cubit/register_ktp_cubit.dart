@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_pgb/modules/register_ktp/helper/ktp_capture_analyzer.dart';
+import '../helper/ktp_capture_analyzer.dart';
 import 'dart:io';
 
 import '../../../misc/colors.dart';

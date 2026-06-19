@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:mobile_pgb/misc/colors.dart';
+import '../../../misc/colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../misc/date_helper.dart';

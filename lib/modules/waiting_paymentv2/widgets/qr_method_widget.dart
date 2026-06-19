@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 import '../../../misc/colors.dart';
-import '../../../misc/price_currency%20copy.dart';
+import '../../../misc/price_currency_copy.dart';
 import '../../../misc/snackbar.dart';
 import '../../../repositories/payment_repository/models/payment_model.dart';
 import '../../../widgets/image/image_card.dart';

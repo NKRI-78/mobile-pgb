@@ -121,7 +121,7 @@ class _DetailVideoPlayerState extends State<DetailVideoPlayer> {
                         height: 40,
                         width: 40,
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.35),
+                          color: Colors.black.withValues(alpha: 0.35),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: IconButton(
@@ -142,7 +142,7 @@ class _DetailVideoPlayerState extends State<DetailVideoPlayer> {
                         height: 40,
                         width: 40,
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.35),
+                          color: Colors.black.withValues(alpha: 0.35),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: PopupMenuButton<int>(

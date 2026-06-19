@@ -49,7 +49,9 @@ Future<Position> determinePosition(BuildContext context) async {
   }
 
   return await Geolocator.getCurrentPosition(
-    desiredAccuracy: LocationAccuracy.bestForNavigation,
+    locationSettings: const LocationSettings(
+      accuracy: LocationAccuracy.bestForNavigation,
+    ),
   );
 }
 

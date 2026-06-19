@@ -77,7 +77,6 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     getIt<BaseNetworkClient>().addTokenToHeader(event.token);
     emit(state.copyWith(token: event.token, user: event.user));
     getIt<ProfileCubit>().getProfile();
-    getIt<HomeBloc>().add(HomeInit());
     state.copyWith();
   }
 

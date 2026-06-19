@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../misc/colors.dart';
-import '../../../misc/price_currency%20copy.dart';
+import '../../../misc/price_currency_copy.dart';
 import '../../../misc/theme.dart';
 
 class TopUpSection extends StatelessWidget {

@@ -16,38 +16,6 @@ class AppRepository {
 
   final http = getIt<BaseNetworkClient>();
 
-  // Future<SettingModel> isRealese() async {
-  //   try {
-  //     final res = await http.get(Uri.parse(settings));
-
-  //     debugPrint(res.body);
-  //     final json = jsonDecode(res.body);
-  //     if (res.statusCode == 200) {
-  //       return SettingModel.fromJson(json);
-  //     } else {
-  //       throw "error api";
-  //     }
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
-
-  // Future<ProfileModelV2> getProfile() async {
-  //   try {
-  //     final res = await http.get(Uri.parse(profile));
-
-  //     final json = jsonDecode(res.body);
-  //     debugPrint('RESULT PROFILE : $json');
-  //     if (res.statusCode == 200) {
-  //       return  ProfileModelV2.fromJson(json);
-  //     } else {
-  //       throw json['message'] ?? "Terjadi kesalahan";
-  //     }
-  //   } on SocketException {
-  //     throw "Terjadi kesalahan jaringan";
-  //   }
-  // }
-
   Future<BadgesOrderModel> getBadgesOrder() async {
     try {
       final res = await http.get(Uri.parse('$order/allBadgeUser'));
