@@ -71,7 +71,8 @@ class _CommentForumState extends State<CommentForum> {
                                     const BorderRadius.all(Radius.circular(15)),
                                 color: widget.comment.id == state.lastIdComment
                                     ? AppColors.secondaryColor
-                                    : AppColors.greyColor.withOpacity(0.3)),
+                                    : AppColors.greyColor
+                                        .withValues(alpha: 0.3)),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [

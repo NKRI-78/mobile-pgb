@@ -27,7 +27,7 @@ class MediaFile extends StatelessWidget {
           margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
           decoration: BoxDecoration(
-            color: AppColors.greyColor.withOpacity(0.8),
+            color: AppColors.greyColor.withValues(alpha: 0.8),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Row(

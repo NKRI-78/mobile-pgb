@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:socket_io_client/socket_io_client.dart';
+import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 
 import '../modules/app/bloc/app_bloc.dart';
 import 'api_url.dart';
@@ -10,7 +9,7 @@ enum ConnectionIndicator { red, yellow, green }
 
 class SocketServices with ChangeNotifier, DiagnosticableTreeMixin {
   static final shared = SocketServices();
-  IO.Socket? socket;
+  socket_io.Socket? socket;
   bool isConnected = false;
 
   ConnectionIndicator _connectionIndicator = ConnectionIndicator.yellow;
@@ -32,9 +31,9 @@ class SocketServices with ChangeNotifier, DiagnosticableTreeMixin {
     String token = getIt<AppBloc>().state.token;
     debugPrint("Token : $token");
 
-    socket = IO.io(
+    socket = socket_io.io(
         MyApi.baseUrlSocket,
-        OptionBuilder()
+        socket_io.OptionBuilder()
             .setTransports(['websocket']) // for Flutter or Dart VM
             .setExtraHeaders({'Authorization': token}) // optional
             .disableAutoConnect()

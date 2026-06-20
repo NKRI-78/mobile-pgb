@@ -36,7 +36,7 @@ class AboutMePage extends StatelessWidget {
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.15),
+                      color: Colors.black.withValues(alpha: 0.15),
                       blurRadius: 12,
                       offset: const Offset(0, 6),
                     ),
@@ -136,7 +136,7 @@ class AboutMePage extends StatelessWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: color.withOpacity(0.15),
+            color: color.withValues(alpha: 0.15),
             shape: BoxShape.circle,
           ),
           padding: const EdgeInsets.all(8),

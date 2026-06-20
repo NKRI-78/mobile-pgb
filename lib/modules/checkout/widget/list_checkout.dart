@@ -160,7 +160,7 @@ class _ListCheckoutState extends State<ListCheckout> {
                 ),
               ),
               Divider(
-                color: AppColors.blackColor.withOpacity(0.2),
+                color: AppColors.blackColor.withValues(alpha: 0.2),
                 height: 5,
                 thickness: 1,
               ),

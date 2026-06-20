@@ -110,7 +110,7 @@ class CreateAddressView extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 12.0, horizontal: 15.0),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.1),
+                                color: Colors.white.withValues(alpha: 0.1),
                                 border:
                                     Border.all(color: Colors.grey, width: 0.5),
                                 borderRadius: BorderRadius.circular(6.0),

@@ -54,7 +54,7 @@ class _InputLabelState extends State<InputLabel> {
                       borderRadius: BorderRadius.circular(6.0),
                       boxShadow: [
                         BoxShadow(
-                            color: Colors.grey.withOpacity(0.1),
+                            color: Colors.grey.withValues(alpha: 0.1),
                             spreadRadius: 1.0,
                             blurRadius: 3.0,
                             offset: const Offset(0.0, 1.0))
@@ -104,8 +104,11 @@ class _InputLabelState extends State<InputLabel> {
                                   setState(() {
                                     isCheck = true;
                                     typeAddressC.text = e;
-                                    var cubit = context.read<UpdateShippingAddressCubit>();
-                                    cubit.copyState(newState: cubit.state.copyWith(label: e));
+                                    var cubit = context
+                                        .read<UpdateShippingAddressCubit>();
+                                    cubit.copyState(
+                                        newState:
+                                            cubit.state.copyWith(label: e));
                                   });
                                 },
                                 child: Container(

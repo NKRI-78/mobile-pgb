@@ -115,7 +115,7 @@ class _PpobWaitingPaymentPageState extends State<PpobWaitingPaymentPage> {
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppColors.blackColor.withOpacity(0.2)),
+        border: Border.all(color: AppColors.blackColor.withValues(alpha: 0.2)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -153,7 +153,7 @@ class _PpobWaitingPaymentPageState extends State<PpobWaitingPaymentPage> {
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppColors.blackColor.withOpacity(0.2)),
+        border: Border.all(color: AppColors.blackColor.withValues(alpha: 0.2)),
       ),
       child: Column(
         children: [
@@ -257,7 +257,8 @@ class _PpobWaitingPaymentPageState extends State<PpobWaitingPaymentPage> {
       decoration: BoxDecoration(
           color: AppColors.whiteColor,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AppColors.blackColor.withOpacity(0.2))),
+          border:
+              Border.all(color: AppColors.blackColor.withValues(alpha: 0.2))),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,

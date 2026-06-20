@@ -139,7 +139,7 @@ class CostShipping extends StatelessWidget {
                         ),
                       ),
                     );
-                  }).toList(),
+                  }),
                 ] else ...[
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -221,7 +221,7 @@ class CostShipping extends StatelessWidget {
                       ),
                     ),
                   );
-                }).toList(),
+                }),
               ],
 
               Divider(

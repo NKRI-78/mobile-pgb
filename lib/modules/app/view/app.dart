@@ -75,8 +75,7 @@ class _AppViewState extends State<AppView> {
 
       // ❌ belum sampai target
       if (daysSinceInstall < nextDay) {
-        debugPrint(
-            "SKIP: belum sampai target (${daysSinceInstall} < $nextDay)");
+        debugPrint("SKIP: belum sampai target ($daysSinceInstall < $nextDay)");
         debugPrint("=== REVIEW END (SKIP) ===");
         return;
       }

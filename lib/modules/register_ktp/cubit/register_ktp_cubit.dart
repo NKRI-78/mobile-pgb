@@ -306,35 +306,38 @@ class RegisterKtpCubit extends Cubit<RegisterKtpState> {
         );
         RegisterAkunRoute($extra: extra).push(context);
 
-        print('===== Extract KTP =====');
-        print('avatarLink: ${extractKtp.avatarLink}');
-        print('KTP: ${extractKtp.indentityCardUrl}');
-        print('fullname: ${extractKtp.fullname}');
-        print('nik: ${extractKtp.nik}');
-        print('address: ${extractKtp.address}');
-        print('birthPlaceAndDate: ${extractKtp.birthPlaceAndDate}');
-        print('gender: ${extractKtp.gender}');
-        print('bloodType: ${extractKtp.bloodType}');
-        print('administrativeVillage: ${extractKtp.administrativeVillage}');
-        print('villageUnit: ${extractKtp.villageUnit}');
-        print('subDistrict: ${extractKtp.subDistrict}');
-        print('religion: ${extractKtp.religion}');
-        print('maritalStatus: ${extractKtp.maritalStatus}');
-        print('occupation: ${extractKtp.occupation}');
-        print('citizenship: ${extractKtp.citizenship}');
-        print('validUntil: ${extractKtp.validUntil}');
-        print('regencyCity: ${extractKtp.regencyCity}');
-        print('province: ${extractKtp.province}');
+        debugPrint('''
+===== Extract KTP =====
+avatarLink : ${extractKtp.avatarLink}
+ktp        : ${extractKtp.indentityCardUrl}
+fullname   : ${extractKtp.fullname}
+nik        : ${extractKtp.nik}
+address    : ${extractKtp.address}
+ttl        : ${extractKtp.birthPlaceAndDate}
+gender     : ${extractKtp.gender}
+bloodType  : ${extractKtp.bloodType}
+village    : ${extractKtp.administrativeVillage}
+rtRw       : ${extractKtp.villageUnit}
+district   : ${extractKtp.subDistrict}
+religion   : ${extractKtp.religion}
+marital    : ${extractKtp.maritalStatus}
+job        : ${extractKtp.occupation}
+country    : ${extractKtp.citizenship}
+expired    : ${extractKtp.validUntil}
+city       : ${extractKtp.regencyCity}
+province   : ${extractKtp.province}
+=======================
+''');
 
-        print('===== User Google =====');
-        print('action: ${userGoogle.action}');
-        print('avatar: ${userGoogle.avatar}');
-        print('email: ${userGoogle.email}');
-        print('name: ${userGoogle.name}');
-        print('oauthId: ${userGoogle.oauthId}');
-
-        print("CEK${extra.extrackKtp}");
-        print("CEK${extra.userGoogle}");
+        debugPrint('''
+===== User Google =====
+action  : ${userGoogle.action}
+avatar  : ${userGoogle.avatar}
+email   : ${userGoogle.email}
+name    : ${userGoogle.name}
+oauthId : ${userGoogle.oauthId}
+=======================
+''');
       }
     } catch (e, stack) {
       debugPrint('Gagal check NIK: $e');
