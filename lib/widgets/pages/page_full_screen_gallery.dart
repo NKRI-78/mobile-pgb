@@ -7,11 +7,11 @@ class FullscreenGallery extends StatefulWidget {
   final int? stock;
 
   const FullscreenGallery({
-    Key? key,
+    super.key,
     required this.images,
     this.initialIndex = 0,
     this.stock,
-  }) : super(key: key);
+  });
 
   @override
   State<FullscreenGallery> createState() => _FullscreenGalleryState();

@@ -3,7 +3,7 @@ description: "A new Flutter project."
 
 publish_to: "none"
 
-version: 2.0.0+16
+version: 2.1.0+17
 
 environment:
   sdk: ^3.6.1
@@ -52,7 +52,7 @@ dependencies:
   google_sign_in: ^6.3.0
   http: ^1.4.0
   hydrated_bloc: ^10.0.0
-  image_cropper: ^9.1.0
+  image_cropper: ^12.2.1
   image: ^4.5.4
   image_picker: ^1.1.2
   intl: ^0.20.2

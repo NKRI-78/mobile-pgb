@@ -46,8 +46,8 @@ class LupaPasswordChangeView extends StatelessWidget {
         elevation: 0,
         leading: SizedBox(),
       ),
-      body: WillPopScope(
-        onWillPop: () async => false,
+      body: PopScope(
+                          canPop: false,
         child: Stack(
           fit: StackFit.expand,
           children: [

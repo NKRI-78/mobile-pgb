@@ -76,62 +76,73 @@ class CheckoutView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             RichText(
-                                text: TextSpan(children: [
-                              const TextSpan(
-                                  text: "Total\n",
-                                  style: TextStyle(
-                                      color: AppColors.blackColor,
-                                      fontSize: fontSizeDefault,
-                                      fontWeight: FontWeight.bold)),
-                              TextSpan(
-                                  text: '${Price.currency(state.totalPrice)}',
-                                  style: const TextStyle(
-                                      color: AppColors.blackColor,
-                                      fontSize: fontSizeLarge,
-                                      fontWeight: FontWeight.bold))
-                            ])),
+                              text: TextSpan(
+                                children: [
+                                  const TextSpan(
+                                      text: "Total\n",
+                                      style: TextStyle(
+                                          color: AppColors.blackColor,
+                                          fontSize: fontSizeDefault,
+                                          fontWeight: FontWeight.bold)),
+                                  TextSpan(
+                                      text:
+                                          '${Price.currency(state.totalPrice)}',
+                                      style: const TextStyle(
+                                          color: AppColors.blackColor,
+                                          fontSize: fontSizeLarge,
+                                          fontWeight: FontWeight.bold))
+                                ],
+                              ),
+                            ),
                             SizedBox(
-                              width: 150,
-                              height: 50,
-                              child: CustomButton(
+                                width: 150,
+                                height: 50,
+                                child: CustomButton(
                                   backgroundColour: AppColors.secondaryColor,
-                                  onPressed: state.loading
-                                      ? null
-                                      : () async {
-                                          var cubit =
-                                              context.read<CheckoutCubit>();
-                                          if (state.channel == null) {
-                                            ShowSnackbar.snackbar(context,
-                                                "Silahkan pilih metode pembayaran",
-                                                isSuccess: false);
-                                            return;
-                                          }
-                                          if (state.shippings == null) {
-                                            ShowSnackbar.snackbar(context,
-                                                "Silahkan pilih metode pengiriman",
-                                                isSuccess: false);
-                                            return;
-                                          } else {
-                                            try {
-                                              var paymentNumber =
-                                                  await cubit.checkoutItem();
-                                              if (context.mounted) {
-                                                WaitingPaymentV2Route(
-                                                        id: paymentNumber)
-                                                    .go(context);
-                                              }
-                                            } catch (e) {
-                                              if (context.mounted) {
-                                                ShowSnackbar.snackbar(
-                                                    context, e.toString(),
-                                                    isSuccess: false);
-                                              }
-                                            }
-                                          }
-                                        },
                                   textColour: AppColors.whiteColor,
-                                  text: "Checkout"),
-                            )
+                                  text: "Checkout",
+                                  isLoading: state.loading,
+                                  onPressed: () async {
+                                    var cubit = context.read<CheckoutCubit>();
+
+                                    if (state.channel == null) {
+                                      ShowSnackbar.snackbar(
+                                        context,
+                                        "Silahkan pilih metode pembayaran",
+                                        isSuccess: false,
+                                      );
+                                      return;
+                                    }
+
+                                    if (state.shippings == null) {
+                                      ShowSnackbar.snackbar(
+                                        context,
+                                        "Silahkan pilih metode pengiriman",
+                                        isSuccess: false,
+                                      );
+                                      return;
+                                    }
+
+                                    try {
+                                      var paymentNumber =
+                                          await cubit.checkoutItem();
+
+                                      if (context.mounted) {
+                                        WaitingPaymentV2Route(
+                                          id: paymentNumber,
+                                        ).go(context);
+                                      }
+                                    } catch (e) {
+                                      if (context.mounted) {
+                                        ShowSnackbar.snackbar(
+                                          context,
+                                          e.toString(),
+                                          isSuccess: false,
+                                        );
+                                      }
+                                    }
+                                  },
+                                ))
                           ],
                         ),
                       ),

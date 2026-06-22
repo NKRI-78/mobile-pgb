@@ -125,17 +125,6 @@ class _WebViewScreenState extends State<WebViewScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    // Text(
-                    //   widget.url.contains(RegExp(r'^(http|https)://'))
-                    //       ? widget.url
-                    //       : "https://${widget.url}",
-                    //   maxLines: 1,
-                    //   overflow: TextOverflow.ellipsis,
-                    //   style: const TextStyle(
-                    //     color: AppColors.greyColor,
-                    //     fontSize: 12,
-                    //   ),
-                    // ),
                   ],
                 ),
               ),

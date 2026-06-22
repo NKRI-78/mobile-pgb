@@ -8,9 +8,9 @@ class KtpGuideConfig {
   static const double cardTopFactor = 0.05;
 
   static const double nikLeftFactor = 0.76;
-  static const double nikTopFactor = 0.26;
+  static const double nikTopFactor = 0.25;
   static const double nikWidthFactor = 0.12;
-  static const double nikHeightFactor = 0.45;
+  static const double nikHeightFactor = 0.46;
 
   static const double faceLeftFactor = 0.34;
   static const double faceTopFactor = 0.73;

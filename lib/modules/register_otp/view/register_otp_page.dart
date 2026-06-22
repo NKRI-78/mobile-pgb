@@ -42,8 +42,8 @@ class RegisterOtpView extends StatelessWidget {
         final timeRemaining =
             '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
 
-        return WillPopScope(
-          onWillPop: () async => false,
+        return PopScope(
+                          canPop: false,
           child: Scaffold(
             extendBodyBehindAppBar: true,
             appBar: AppBar(
@@ -60,8 +60,8 @@ class RegisterOtpView extends StatelessWidget {
               elevation: 0,
               leading: const SizedBox(),
             ),
-            body: WillPopScope(
-              onWillPop: () async => false,
+            body: PopScope(
+                          canPop: false,
               child: Stack(
                 fit: StackFit.expand,
                 children: [

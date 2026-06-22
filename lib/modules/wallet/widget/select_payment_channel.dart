@@ -17,8 +17,8 @@ class SelectPaymentChannel extends StatelessWidget {
       builder: (context, state) {
         return SafeArea(
           top: false,
-          child: WillPopScope(
-            onWillPop: () async => false,
+          child: PopScope(
+                          canPop: false,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               decoration: const BoxDecoration(

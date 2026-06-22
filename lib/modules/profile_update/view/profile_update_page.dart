@@ -185,6 +185,7 @@ class _ProfileUpdateViewState extends State<ProfileUpdateView> {
                           text: "Edit Profile",
                           backgroundColour: AppColors.secondaryColor,
                           textColour: AppColors.whiteColor,
+                          isLoading: state.isLoading,
                         )
                       ],
                     ),
@@ -297,6 +298,9 @@ class _ImagePickerBottomSheet extends StatelessWidget {
           toolbarWidgetColor: Colors.white,
           initAspectRatio: CropAspectRatioPreset.square,
           lockAspectRatio: true,
+          hideBottomControls: false,
+          statusBarColor: AppColors.secondaryColor,
+          showCropGrid: true,
         ),
         IOSUiSettings(
           title: 'Crop Foto',

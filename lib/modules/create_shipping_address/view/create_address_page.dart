@@ -164,16 +164,16 @@ class CreateAddressView extends StatelessWidget {
           bottomNavigationBar: SafeArea(
             minimum: const EdgeInsets.symmetric(horizontal: 20),
             child: CustomButton(
-              onPressed: state.loading
-                  ? null
-                  : () async {
-                      if (context.mounted) {
-                        FocusScope.of(context).unfocus();
-                      }
-                      context
-                          .read<CreateShippingAddressCubit>()
-                          .submit(context: context);
-                    },
+              isLoading: state.loading,
+              onPressed: () async {
+                if (context.mounted) {
+                  FocusScope.of(context).unfocus();
+                }
+
+                context.read<CreateShippingAddressCubit>().submit(
+                      context: context,
+                    );
+              },
               backgroundColour: AppColors.blueColor,
               textColour: AppColors.whiteColor,
               text: "Tambah Alamat",

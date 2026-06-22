@@ -31,9 +31,11 @@ class RegisterAkunPage extends StatelessWidget {
 }
 
 class RegisterAkunView extends StatelessWidget {
-  const RegisterAkunView({
+  RegisterAkunView({
     super.key,
   });
+
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -76,34 +78,37 @@ class RegisterAkunView extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.all(20),
                   child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Text(
-                          'Pastikan data yang anda input sudah benar',
-                          textAlign: TextAlign.center,
-                          style: AppTextStyles.textStyleBold.copyWith(
-                            color: AppColors.whiteColor,
-                            fontSize: 14,
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        children: [
+                          Text(
+                            'Pastikan data yang anda input sudah benar',
+                            textAlign: TextAlign.center,
+                            style: AppTextStyles.textStyleBold.copyWith(
+                              color: AppColors.whiteColor,
+                              fontSize: 14,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 15),
-                        CustomfieldFoto(),
-                        CustomTextfieldAkun(),
-                        SizedBox(height: 15),
-                        CustomButton(
-                          onPressed: state.isLoading
-                              ? null
-                              : () {
-                                  context
-                                      .read<RegisterAkunCubit>()
-                                      .submit(context);
-                                },
-                          text: "Selanjutnya",
-                          backgroundColour: AppColors.primaryColor,
-                          textColour: AppColors.secondaryColor,
-                          isLoading: state.isLoading,
-                        )
-                      ],
+                          SizedBox(height: 15),
+                          CustomfieldFoto(),
+                          CustomTextfieldAkun(),
+                          SizedBox(height: 15),
+                          CustomButton(
+                            onPressed: () {
+                              if (!formKey.currentState!.validate()) {
+                                return;
+                              }
+
+                              context.read<RegisterAkunCubit>().submit(context);
+                            },
+                            text: "Selanjutnya",
+                            backgroundColour: AppColors.primaryColor,
+                            textColour: AppColors.secondaryColor,
+                            isLoading: state.isLoading,
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),

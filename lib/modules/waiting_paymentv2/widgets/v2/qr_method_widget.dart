@@ -97,7 +97,6 @@ class QrMethodWidgetV2 extends StatelessWidget {
                     text: "Bayar Sekarang",
                     textColour: AppColors.whiteColor,
                     radius: 8,
-                    icon: Icons.downloading_sharp,
                     onPressed: () {
                       Helper.openLink(
                           url: payment.data?["actions"][2]["url"],

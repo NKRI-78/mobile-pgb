@@ -154,14 +154,19 @@ void _customPaymentSection<T>(
                         child: CustomButton(
                           backgroundColour: AppColors.secondaryColor,
                           textColour: AppColors.whiteColor,
-                          text: state.isLoading ? "" : "Bayar",
-                          onPressed: state.isLoading || state.channel == null
+                          text: "Bayar",
+                          isLoading: state.isLoading,
+                          onPressed: state.channel == null
                               ? null
                               : () async {
                                   final cubit = context.read<PpobCubit>();
+
                                   try {
                                     final response = await cubit.checkoutItem(
-                                        userId.toString(), type, idPel);
+                                      userId.toString(),
+                                      type,
+                                      idPel,
+                                    );
 
                                     if (response != null) {
                                       final isQRPayment = paymentCode
@@ -176,19 +181,24 @@ void _customPaymentSection<T>(
                                               .add(const Duration(minutes: 15))
                                           : DateTime.now()
                                               .add(const Duration(days: 1));
-                                      PpobPaymentRoute(
-                                        paymentExpire: expireTime,
-                                        paymentAccess:
-                                            response['payment_access'] ?? "-",
-                                        totalPayment: totalAmount,
-                                        paymentCode: paymentCode,
-                                        nameProduct: nameProduct,
-                                        logoChannel: logoChannel,
-                                      ).go(context);
+
+                                      if (context.mounted) {
+                                        PpobPaymentRoute(
+                                          paymentExpire: expireTime,
+                                          paymentAccess:
+                                              response['payment_access'] ?? "-",
+                                          totalPayment: totalAmount,
+                                          paymentCode: paymentCode,
+                                          nameProduct: nameProduct,
+                                          logoChannel: logoChannel,
+                                        ).go(context);
+                                      }
                                     } else {
-                                      ShowSnackbar.snackbar(context,
-                                          cubit.state.errorMessage ?? "",
-                                          isSuccess: false);
+                                      ShowSnackbar.snackbar(
+                                        context,
+                                        cubit.state.errorMessage ?? "",
+                                        isSuccess: false,
+                                      );
                                     }
                                   } catch (e) {
                                     ShowSnackbar.snackbar(
@@ -198,15 +208,6 @@ void _customPaymentSection<T>(
                                     );
                                   }
                                 },
-                          child: state.isLoading
-                              ? const SizedBox(
-                                  height: 24,
-                                  width: 24,
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : null,
                         ),
                       );
                     },

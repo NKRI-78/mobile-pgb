@@ -83,40 +83,19 @@ class RegisterChangeView extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 100, left: 24, right: 24),
                 child: Column(
                   children: [
-                    // Text(
-                    //   "Email Lama: $email",
-                    //   style: AppTextStyles.textStyleNormal.copyWith(
-                    //     color: AppColors.whiteColor,
-                    //   ),
-                    // ),
-                    // const SizedBox(height: 16),
-
                     _FieldEmail(),
                     const SizedBox(height: 14),
                     CustomButton(
                       text: "Kirim",
                       backgroundColour: AppColors.whiteColor,
                       textColour: AppColors.secondaryColor,
-                      onPressed: state.isLoading
-                          ? null
-                          : () {
-                              cubit.resendEmail(
-                                context: context,
-                                emailOld: email,
-                              );
-                            },
-                      leading: state.isLoading
-                          ? const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  AppColors.whiteColor,
-                                ),
-                              ),
-                            )
-                          : null,
+                      isLoading: state.isLoading,
+                      onPressed: () {
+                        cubit.resendEmail(
+                          context: context,
+                          emailOld: email,
+                        );
+                      },
                     )
                   ],
                 ),

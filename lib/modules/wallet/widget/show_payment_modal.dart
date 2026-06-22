@@ -127,18 +127,21 @@ void showPaymentModal(BuildContext context) {
                         return CustomButton(
                           backgroundColour: AppColors.secondaryColor,
                           textColour: AppColors.whiteColor,
-                          text: state.isLoading ? "" : "Bayar",
-                          onPressed: state.isLoading || state.channel == null
+                          text: "Bayar",
+                          isLoading: state.isLoading,
+                          onPressed: state.channel == null
                               ? null
                               : () async {
                                   var cubit = context.read<WalletCubit>();
+
                                   try {
                                     var paymentNumber =
                                         await cubit.topUpWallet(context);
+
                                     if (context.mounted) {
                                       WaitingPaymentV2Route(
-                                              id: paymentNumber.toString())
-                                          .go(context);
+                                        id: paymentNumber.toString(),
+                                      ).go(context);
                                     }
                                   } catch (e) {
                                     ShowSnackbar.snackbar(
@@ -148,15 +151,6 @@ void showPaymentModal(BuildContext context) {
                                     );
                                   }
                                 },
-                          child: state.isLoading
-                              ? const SizedBox(
-                                  height: 24,
-                                  width: 24,
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : null,
                         );
                       },
                     ),
