@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../modules/kyc_tutorial/view/kyc_tutorial_page.dart';
 
 import '../misc/register_akun_extra.dart';
 import '../modules/about_me/view/about_me_page.dart';
@@ -124,6 +125,9 @@ class OnboardingRoute extends GoRouteData {
       ])
     ]),
     // TypedGoRoute<RegisterGoogleRoute>(path: 'register-google'),
+    TypedGoRoute<KycTutorialRoute>(
+      path: 'kyc-tutorial',
+    ),
     TypedGoRoute<RegisterKtpRoute>(path: 'register-ktp', routes: [
       TypedGoRoute<RegisterAkunRoute>(path: 'register-akun', routes: [
         TypedGoRoute<RegisterOtpRoute>(path: 'register-otp', routes: [
@@ -458,6 +462,21 @@ class LupaPasswordChangeRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return LupaPasswordChangePage(email: email, otp: otp);
+  }
+}
+
+class KycTutorialRoute extends GoRouteData {
+  final RegisterAkunExtra $extra;
+
+  KycTutorialRoute({
+    required this.$extra,
+  });
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return KycTutorialPage(
+      userGoogle: $extra.userGoogle,
+    );
   }
 }
 

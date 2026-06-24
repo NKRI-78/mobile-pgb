@@ -36,7 +36,6 @@ class LoginView extends StatelessWidget {
               'Login',
               style: AppTextStyles.textStyleBold.copyWith(
                 color: AppColors.whiteColor,
-                fontSize: 24,
               ),
             ),
             centerTitle: true,
@@ -61,61 +60,56 @@ class LoginView extends StatelessWidget {
               ),
               SafeArea(
                 child: SingleChildScrollView(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: size.height,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 20,
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 20,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Image.asset(
-                            'assets/images/logo_transparant.png',
-                            height: size.height * 0.25,
-                          ),
-                          SizedBox(height: 100),
-                          CustomTextfieldLogin(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            spacing: 5,
-                            children: [
-                              Text("Klik",
-                                  style: AppTextStyles.textStyleNormal.copyWith(
-                                    color: AppColors.whiteColor,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Image.asset(
+                          'assets/images/logo_transparant.png',
+                          height: size.height * 0.25,
+                        ),
+                        SizedBox(height: 50),
+                        CustomTextfieldLogin(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          spacing: 5,
+                          children: [
+                            Text("Klik",
+                                style: AppTextStyles.textStyleNormal.copyWith(
+                                  color: AppColors.whiteColor,
+                                )),
+                            GestureDetector(
+                              onTap: () {
+                                LupaPasswordRoute().go(context);
+                                debugPrint("Lupa Password");
+                              },
+                              child: Text("Disini",
+                                  style: AppTextStyles.textStyleBold.copyWith(
+                                    color: AppColors.yellowColor,
+                                    fontSize: 14,
                                   )),
-                              GestureDetector(
-                                onTap: () {
-                                  LupaPasswordRoute().go(context);
-                                  debugPrint("Lupa Password");
-                                },
-                                child: Text("Disini",
-                                    style: AppTextStyles.textStyleBold.copyWith(
-                                      color: AppColors.yellowColor,
-                                      fontSize: 14,
-                                    )),
-                              ),
-                              Text("jika lupa Password",
-                                  style: AppTextStyles.textStyleNormal.copyWith(
-                                    color: AppColors.whiteColor,
-                                  )),
-                            ],
-                          ),
-                          SizedBox(height: 30),
-                          CustomButton(
-                            text: 'Masuk',
-                            backgroundColour: AppColors.buttonWhiteColor,
-                            textColour: AppColors.blackColor,
-                            onPressed: () {
-                              context.read<LoginCubit>().submit(context);
-                            },
-                          )
-                        ],
-                      ),
+                            ),
+                            Text("jika lupa Password",
+                                style: AppTextStyles.textStyleNormal.copyWith(
+                                  color: AppColors.whiteColor,
+                                )),
+                          ],
+                        ),
+                        SizedBox(height: 30),
+                        CustomButton(
+                          text: 'Login',
+                          backgroundColour: AppColors.buttonWhiteColor,
+                          textColour: AppColors.blackColor,
+                          onPressed: () {
+                            context.read<LoginCubit>().submit(context);
+                          },
+                        )
+                      ],
                     ),
                   ),
                 ),

@@ -1,8 +1,8 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import '../helper/ktp_capture_analyzer.dart';
-import 'dart:io';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -13,6 +13,7 @@ import '../../../repositories/auth_repository/auth_repository.dart';
 import '../../../router/builder.dart';
 import '../../app/models/user_google_model.dart';
 import '../../register_akun/model/extrack_ktp_model.dart';
+import '../helper/ktp_capture_analyzer.dart';
 
 part 'register_ktp_state.dart';
 

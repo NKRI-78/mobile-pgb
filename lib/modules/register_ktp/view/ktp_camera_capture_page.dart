@@ -34,7 +34,7 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
     super.initState();
 
     SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
+      DeviceOrientation.landscapeLeft,
     ]);
 
     _setupCamera();
@@ -57,7 +57,7 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
 
       final controller = CameraController(
         backCamera.first,
-        ResolutionPreset.veryHigh,
+        ResolutionPreset.high,
         enableAudio: false,
         imageFormatGroup:
             Platform.isIOS ? ImageFormatGroup.bgra8888 : ImageFormatGroup.nv21,
@@ -235,14 +235,16 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
 
   @override
   void dispose() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
+    _accepted = true;
+
+    _stopRealtimeAnalysis();
 
     _controller?.dispose();
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+
     super.dispose();
   }
 
@@ -292,7 +294,13 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
                       IconButton(
                         onPressed: _capturing
                             ? null
-                            : () => Navigator.of(context).pop(),
+                            : () async {
+                                await _stopRealtimeAnalysis();
+
+                                if (mounted) {
+                                  Navigator.of(context).pop();
+                                }
+                              },
                         icon: const Icon(
                           Icons.arrow_back_ios_new,
                           color: Colors.white,
@@ -435,7 +443,7 @@ class _KtpGuidePainter extends CustomPainter {
 
     final cardBorder = Paint()
       ..color = Colors.white
-      ..strokeWidth = 3.5
+      ..strokeWidth = 3
       ..style = PaintingStyle.stroke;
     canvas.drawRRect(
       RRect.fromRectAndRadius(
@@ -447,7 +455,7 @@ class _KtpGuidePainter extends CustomPainter {
 
     final nikBorder = Paint()
       ..color = Colors.white
-      ..strokeWidth = 2
+      ..strokeWidth = 0.5
       ..style = PaintingStyle.stroke;
     final nikFill = Paint()
       ..color = Colors.white.withValues(alpha: 0.1)
@@ -467,10 +475,53 @@ class _KtpGuidePainter extends CustomPainter {
       nikBorder,
     );
 
+    final sectionBorder = Paint()
+      ..color = Colors.white
+      ..strokeWidth = 0.5
+      ..style = PaintingStyle.stroke;
+
+    final sectionFill = Paint()
+      ..color = Colors.white.withValues(alpha: 0.08)
+      ..style = PaintingStyle.fill;
+
+// Header (Provinsi + Kabupaten)
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        guideLayout.headerRect,
+        const Radius.circular(12),
+      ),
+      sectionFill,
+    );
+
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        guideLayout.headerRect,
+        const Radius.circular(12),
+      ),
+      sectionBorder,
+    );
+
+// Biodata (Nama - Berlaku Hingga)
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        guideLayout.biodataRect,
+        const Radius.circular(12),
+      ),
+      sectionFill,
+    );
+
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        guideLayout.biodataRect,
+        const Radius.circular(12),
+      ),
+      sectionBorder,
+    );
+
     _drawNikLabel(canvas, guideLayout.nikRect);
     final faceBorder = Paint()
       ..color = Colors.white
-      ..strokeWidth = 2
+      ..strokeWidth = 0.5
       ..style = PaintingStyle.stroke;
 
     final faceFill = Paint()
@@ -520,8 +571,8 @@ class _KtpGuidePainter extends CustomPainter {
     canvas.save();
 
     canvas.translate(
-      rect.right + 14,
-      rect.top,
+      rect.right + 18,
+      rect.top + 15,
     );
 
     canvas.rotate(1.5708);
@@ -536,7 +587,7 @@ class _KtpGuidePainter extends CustomPainter {
 
   void _drawNikLabel(Canvas canvas, Rect rect) {
     final paragraphStyle = ui.ParagraphStyle(
-      fontSize: 10,
+      fontSize: 9,
       fontWeight: FontWeight.w700,
     );
 
@@ -558,8 +609,8 @@ class _KtpGuidePainter extends CustomPainter {
     canvas.save();
 
     canvas.translate(
-      rect.right + 14,
-      rect.top,
+      rect.right - 10,
+      rect.top - 50,
     );
 
     canvas.rotate(1.5708);

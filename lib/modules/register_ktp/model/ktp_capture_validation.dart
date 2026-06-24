@@ -9,13 +9,23 @@ class KtpGuideConfig {
 
   static const double nikLeftFactor = 0.76;
   static const double nikTopFactor = 0.25;
-  static const double nikWidthFactor = 0.12;
-  static const double nikHeightFactor = 0.46;
+  static const double nikWidthFactor = 0.10;
+  static const double nikHeightFactor = 0.47;
 
   static const double faceLeftFactor = 0.34;
   static const double faceTopFactor = 0.73;
   static const double faceWidthFactor = 0.46;
   static const double faceHeightFactor = 0.24;
+
+  static const double headerLeftFactor = 0.87;
+  static const double headerTopFactor = 0.32;
+  static const double headerWidthFactor = 0.12;
+  static const double headerHeightFactor = 0.42;
+
+  static const double biodataLeftFactor = 0.12;
+  static const double biodataTopFactor = 0.02;
+  static const double biodataWidthFactor = 0.63;
+  static const double biodataHeightFactor = 0.66;
 }
 
 class KtpCaptureValidation {
@@ -41,11 +51,15 @@ class KtpGuideLayout {
     required this.cardRect,
     required this.nikRect,
     required this.faceRect,
+    required this.headerRect,
+    required this.biodataRect,
   });
 
   final Rect cardRect;
   final Rect nikRect;
   final Rect faceRect;
+  final Rect headerRect;
+  final Rect biodataRect;
 
   static KtpGuideLayout fromSize(Size size) {
     final cardWidth = size.width * KtpGuideConfig.cardWidthFactor;
@@ -73,10 +87,26 @@ class KtpGuideLayout {
       cardRect.height * KtpGuideConfig.nikHeightFactor,
     );
 
+    final headerRect = Rect.fromLTWH(
+      cardRect.left + (cardRect.width * KtpGuideConfig.headerLeftFactor),
+      cardRect.top + (cardRect.height * KtpGuideConfig.headerTopFactor),
+      cardRect.width * KtpGuideConfig.headerWidthFactor,
+      cardRect.height * KtpGuideConfig.headerHeightFactor,
+    );
+
+    final biodataRect = Rect.fromLTWH(
+      cardRect.left + (cardRect.width * KtpGuideConfig.biodataLeftFactor),
+      cardRect.top + (cardRect.height * KtpGuideConfig.biodataTopFactor),
+      cardRect.width * KtpGuideConfig.biodataWidthFactor,
+      cardRect.height * KtpGuideConfig.biodataHeightFactor,
+    );
+
     return KtpGuideLayout(
       cardRect: cardRect,
       nikRect: nikRect,
       faceRect: faceRect,
+      headerRect: headerRect,
+      biodataRect: biodataRect,
     );
   }
 

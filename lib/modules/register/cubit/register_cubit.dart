@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as ht;
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:mobile_pgb/misc/api_url.dart';
+import '../../../misc/api_url.dart';
 
 import '../../../misc/injections.dart';
 import '../../../misc/register_akun_extra.dart';
@@ -96,7 +96,10 @@ class RegisterCubit extends Cubit<RegisterState> {
               RegisterAkunExtra(userGoogle: dataGoogle);
           emit(state.copyWith(oauthId: dataGoogle.oauthId));
           if (!context.mounted) return;
-          RegisterKtpRoute($extra: akunExtra).push(context);
+          // RegisterKtpRoute($extra: akunExtra).push(context);
+          KycTutorialRoute(
+            $extra: akunExtra,
+          ).push(context);
         } else {
           // Jika bukan kondisi REGISTER, bisa tampilkan pesan error umum
           ShowSnackbar.snackbar(

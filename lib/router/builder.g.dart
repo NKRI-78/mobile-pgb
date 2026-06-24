@@ -224,6 +224,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
               ],
             ),
             GoRouteData.$route(
+              path: 'kyc-tutorial',
+              factory: $KycTutorialRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
               path: 'register-ktp',
               factory: $RegisterKtpRouteExtension._fromState,
               routes: [
@@ -1109,6 +1113,27 @@ extension $LupaPasswordChangeRouteExtension on LupaPasswordChangeRoute {
       context.pushReplacement(location);
 
   void replace(BuildContext context) => context.replace(location);
+}
+
+extension $KycTutorialRouteExtension on KycTutorialRoute {
+  static KycTutorialRoute _fromState(GoRouterState state) => KycTutorialRoute(
+        $extra: state.extra as RegisterAkunExtra,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/register/kyc-tutorial',
+      );
+
+  void go(BuildContext context) => context.go(location, extra: $extra);
+
+  Future<T?> push<T>(BuildContext context) =>
+      context.push<T>(location, extra: $extra);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location, extra: $extra);
+
+  void replace(BuildContext context) =>
+      context.replace(location, extra: $extra);
 }
 
 extension $RegisterKtpRouteExtension on RegisterKtpRoute {

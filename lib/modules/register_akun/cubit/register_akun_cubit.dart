@@ -44,52 +44,6 @@ class RegisterAkunCubit extends Cubit<RegisterAkunState> {
     return "999${now.toString().substring(now.toString().length - 7)}";
   }
 
-  // bool submissionValidation(
-  //   BuildContext context, {
-  //   required String email,
-  //   required String phone,
-  //   required String password,
-  //   required String passwordConfirm,
-  // }) {
-  //   final isAppleReview = Platform.isIOS &&
-  //       getIt<FirebaseRemoteConfig>().getBool("is_review_apple");
-  //   debugPrint("isAppleReview: $isAppleReview");
-
-  //   if (!email
-  //       .contains(RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)?$'))) {
-  //     ShowSnackbar.snackbar(
-  //       context,
-  //       "Harap masukkan email yang tepat",
-  //       isSuccess: false,
-  //     );
-  //     return false;
-  //   }
-  //   if (!isAppleReview &&
-  //       (phone.length < 10 || !RegExp(r'^[0-9]+$').hasMatch(phone))) {
-  //     ShowSnackbar.snackbar(
-  //       context,
-  //       "Nomor telepon harus minimal 10 digit dan hanya mengandung angka",
-  //       isSuccess: false,
-  //     );
-  //     return false;
-  //   } else if (passwordConfirm.length < 8) {
-  //     ShowSnackbar.snackbar(
-  //       context,
-  //       "Konfirmasi Kata Sandi minimal 8 karakter",
-  //       isSuccess: false,
-  //     );
-  //     return false;
-  //   } else if (passwordConfirm != password) {
-  //     ShowSnackbar.snackbar(
-  //       context,
-  //       "Kata Sandi tidak cocok",
-  //       isSuccess: false,
-  //     );
-  //     return false;
-  //   }
-  //   return true;
-  // }
-
   Future<void> submit(BuildContext context) async {
     final isAppleReview = Platform.isIOS &&
         getIt<FirebaseRemoteConfig>().getBool("is_review_apple");

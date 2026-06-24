@@ -80,6 +80,7 @@ class AuthRepository {
       final json = jsonDecode(responseBody);
 
       if (response.statusCode == 200) {
+        debugPrint("CEK IMG KTP ${ktpImage.path}");
         return json;
       } else {
         throw json['message'] ?? "Gagal memproses KTP";
