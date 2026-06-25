@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image/image.dart' as img;
@@ -13,10 +14,10 @@ class KtpCaptureAnalyzer {
 
   static double get _minimumPreviewBlurScore {
     if (Platform.isIOS) {
-      return 155;
+      return 90;
     }
 
-    return 100;
+    return 75;
   }
 
   static double get _minimumCaptureBlurScore {
@@ -38,11 +39,11 @@ class KtpCaptureAnalyzer {
       if (blurScore < 20) {
         message = 'Posisikan KTP di dalam frame';
       } else if (blurScore < 80) {
-        message = 'KTP terdeteksi';
+        message = 'Arahkan kamera ke KTP';
       } else if (blurScore < _minimumPreviewBlurScore) {
         message = 'Tahan KTP dan kamera tetap stabil';
       } else {
-        message = 'Frame siap. Menstabilkan...';
+        message = 'Menyiapkan foto otomatis...';
       }
 
       return KtpPreviewValidation(
@@ -55,11 +56,11 @@ class KtpCaptureAnalyzer {
         hasNikCandidate: false,
       );
     } catch (e, s) {
-      print('====================');
-      print('PREVIEW ERROR');
-      print(e);
-      print(s);
-      print('====================');
+      debugPrint('====================');
+      debugPrint('PREVIEW ERROR');
+      debugPrint(e.toString());
+      debugPrint(s.toString());
+      debugPrint('====================');
 
       return const KtpPreviewValidation(
         isReady: false,
@@ -119,19 +120,19 @@ class KtpCaptureAnalyzer {
       image: croppedCardImage,
     );
 
-    print('processedImagePath=$processedImagePath');
-    print('imageSize=$imageSize');
-    print('mappedCardRect=$mappedCardRect');
+    debugPrint('processedImagePath=$processedImagePath');
+    debugPrint('imageSize=$imageSize');
+    debugPrint('mappedCardRect=$mappedCardRect');
 
     final blurScore = _estimateBlurScore(croppedCardImage);
 
-    print('====================');
-    print('CAPTURE BLUR');
-    print('blurScore=$blurScore');
-    print('minimum=$_minimumCaptureBlurScore');
-    print('====================');
+    debugPrint('====================');
+    debugPrint('CAPTURE BLUR');
+    debugPrint('blurScore=$blurScore');
+    debugPrint('minimum=$_minimumCaptureBlurScore');
+    debugPrint('====================');
     if (blurScore < _minimumCaptureBlurScore) {
-      print('GAGAL BLUR');
+      debugPrint('GAGAL BLUR');
       return KtpCaptureValidation(
         isValid: false,
         message:
@@ -142,21 +143,21 @@ class KtpCaptureAnalyzer {
         processedImagePath: processedImagePath,
       );
     }
-    print('MASUK OCR');
+    debugPrint('MASUK OCR');
     final recognizer = TextRecognizer(script: TextRecognitionScript.latin);
     try {
       final recognizedText = await recognizer.processImage(
         InputImage.fromFilePath(processedImagePath),
       );
 
-      print('OCR BERHASIL');
+      debugPrint('OCR BERHASIL');
 
       final lines = recognizedText.blocks
           .expand((block) => block.lines)
           .where((line) => line.text.trim().isNotEmpty)
           .toList();
 
-      if (lines.length < 20) {
+      if (lines.length < 12) {
         return KtpCaptureValidation(
           isValid: false,
           message:
@@ -174,9 +175,9 @@ class KtpCaptureAnalyzer {
         (sum, line) => sum + line.text.trim().length,
       );
 
-      print('totalCharacters=$totalCharacters');
+      debugPrint('totalCharacters=$totalCharacters');
 
-      if (totalCharacters < 250) {
+      if (totalCharacters < 150) {
         return KtpCaptureValidation(
           isValid: false,
           message:
@@ -195,9 +196,9 @@ class KtpCaptureAnalyzer {
           )
           .length;
 
-      print('meaningfulLines=$meaningfulLines');
+      debugPrint('meaningfulLines=$meaningfulLines');
 
-      if (meaningfulLines < 18) {
+      if (meaningfulLines < 10) {
         return KtpCaptureValidation(
           isValid: false,
           message:
@@ -209,16 +210,16 @@ class KtpCaptureAnalyzer {
         );
       }
 
-      print('====================');
-      print('lines=${lines.length}');
-      print('totalCharacters=$totalCharacters');
-      print('meaningfulLines=$meaningfulLines');
-      print('textCoverage=$textCoverage');
-      print('====================');
+      debugPrint('====================');
+      debugPrint('lines=${lines.length}');
+      debugPrint('totalCharacters=$totalCharacters');
+      debugPrint('meaningfulLines=$meaningfulLines');
+      debugPrint('textCoverage=$textCoverage');
+      debugPrint('====================');
 
-      if (textCoverage < 0.25) {
-        print('GAGAL TEXT COVERAGE');
-        print('textCoverage=$textCoverage');
+      if (textCoverage < 0.15) {
+        debugPrint('GAGAL TEXT COVERAGE');
+        debugPrint('textCoverage=$textCoverage');
         return KtpCaptureValidation(
           isValid: false,
           message:
@@ -230,13 +231,13 @@ class KtpCaptureAnalyzer {
         );
       }
 
-      print('textCoverage=$textCoverage');
-      print('blurScore=$blurScore');
+      debugPrint('textCoverage=$textCoverage');
+      debugPrint('blurScore=$blurScore');
       for (final line in lines) {
-        print('OCR: ${line.text}');
+        debugPrint('OCR: ${line.text}');
       }
       final nikLine = _findNikLine(lines);
-      print('nikLine=${nikLine?.text}');
+      debugPrint('nikLine=${nikLine?.text}');
       if (nikLine == null) {
         return KtpCaptureValidation(
           isValid: false,
@@ -251,7 +252,7 @@ class KtpCaptureAnalyzer {
 
       final keywordMatches = _countKtpKeywords(lines);
 
-      print('keywordMatches=$keywordMatches');
+      debugPrint('keywordMatches=$keywordMatches');
 
       if (keywordMatches < 4) {
         return KtpCaptureValidation(
@@ -321,30 +322,30 @@ class KtpCaptureAnalyzer {
     }
 
     final image = img.bakeOrientation(decodedImage);
-    print('BEFORE ROTATE: ${image.width}x${image.height}');
+    debugPrint('BEFORE ROTATE: ${image.width}x${image.height}');
 
     final img.Image rotated;
 
     if (image.height > image.width) {
       rotated = img.copyRotate(image, angle: -90);
-      print('ROTATING -90° FOR LANDSCAPE KTP');
+      debugPrint('ROTATING -90° FOR LANDSCAPE KTP');
     } else {
       rotated = image;
-      print('ALREADY LANDSCAPE');
+      debugPrint('ALREADY LANDSCAPE');
     }
 
-    print('AFTER ROTATE: ${rotated.width}x${rotated.height}');
+    debugPrint('AFTER ROTATE: ${rotated.width}x${rotated.height}');
 
     final uploadPath = imagePath.replaceFirstMapped(
       RegExp(r'(\.jpe?g)\$', caseSensitive: false),
-      (match) => '${match.group(0)!.replaceFirst('.', '_upload.')}',
+      (match) => match.group(0)!.replaceFirst('.', '_upload.'),
     );
 
     await File(uploadPath).writeAsBytes(
       img.encodeJpg(rotated, quality: 95),
     );
 
-    print('UPLOAD PATH: $uploadPath');
+    debugPrint('UPLOAD PATH: $uploadPath');
 
     return uploadPath;
   }
@@ -472,10 +473,10 @@ class KtpCaptureAnalyzer {
     for (final line in lines) {
       final digits = line.text.replaceAll(RegExp(r'[^0-9]'), '');
 
-      print('LINE=${line.text}');
-      print('DIGITS=$digits');
+      debugPrint('LINE=${line.text}');
+      debugPrint('DIGITS=$digits');
 
-      if (digits.length >= 15) {
+      if (digits.length >= 14) {
         return line;
       }
     }

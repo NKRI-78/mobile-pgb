@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/register_akun_extra.dart';
 import '../../../misc/text_style.dart';
-
 import '../../../router/builder.dart';
 import '../../../widgets/button/custom_button.dart';
-import 'package:permission_handler/permission_handler.dart';
-
 import '../../app/models/user_google_model.dart';
 
 class KycTutorialPage extends StatelessWidget {

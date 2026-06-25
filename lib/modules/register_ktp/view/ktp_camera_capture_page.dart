@@ -36,6 +36,9 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
     ]);
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.immersiveSticky,
+    );
 
     _setupCamera();
   }
@@ -64,6 +67,9 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
       );
 
       await controller.initialize();
+      await Future.delayed(
+        const Duration(milliseconds: 300),
+      );
       if (!mounted) {
         await controller.dispose();
         return;
@@ -112,20 +118,20 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
         final analysis = await KtpCaptureAnalyzer.validatePreviewFrame(
           cameraImage: image,
         );
-        print('READY=${analysis.isReady}');
-        print('MSG=${analysis.message}');
-        print('BLUR=${analysis.blurScore}');
-        print('LINES=${analysis.recognizedLineCount}');
-        print('CHARS=${analysis.totalCharacters}');
-        print('KEYWORDS=${analysis.keywordMatches}');
-        print('NIK=${analysis.hasNikCandidate}');
+        debugPrint('READY=${analysis.isReady}');
+        debugPrint('MSG=${analysis.message}');
+        debugPrint('BLUR=${analysis.blurScore}');
+        debugPrint('LINES=${analysis.recognizedLineCount}');
+        debugPrint('CHARS=${analysis.totalCharacters}');
+        debugPrint('KEYWORDS=${analysis.keywordMatches}');
+        debugPrint('NIK=${analysis.hasNikCandidate}');
         if (!mounted || _accepted) {
           return;
         }
 
         if (analysis.isReady) {
           _setStatusMessage(
-            'Menstabilkan KTP ${_readyFrameStreak + 1}/6...',
+            'Menstabilkan KTP ${_readyFrameStreak + 1}/3...',
           );
           if (_captureInProgress) {
             return;
@@ -133,7 +139,7 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
 
           _readyFrameStreak++;
 
-          if (_readyFrameStreak >= 6) {
+          if (_readyFrameStreak >= 3) {
             _readyFrameStreak = 0;
 
             _captureInProgress = true;
@@ -142,7 +148,7 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
               await _captureKtp();
             } finally {
               await Future.delayed(
-                const Duration(seconds: 5),
+                const Duration(seconds: 1),
               );
 
               _captureInProgress = false;
@@ -191,8 +197,8 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
         screenSize: screenSize,
       );
 
-      print('VALID=${validation.isValid}');
-      print('MESSAGE=${validation.message}');
+      debugPrint('VALID=${validation.isValid}');
+      debugPrint('MESSAGE=${validation.message}');
 
       if (!mounted) return;
 
@@ -240,6 +246,9 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
     _stopRealtimeAnalysis();
 
     _controller?.dispose();
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.edgeToEdge,
+    );
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -252,6 +261,8 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final guideLayout = KtpGuideLayout.fromSize(size);
+    final cardRect = guideLayout.cardRect;
+    const panelWidth = 180.0;
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -283,93 +294,134 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
               painter: _KtpGuidePainter(guideLayout: guideLayout),
               child: const SizedBox.expand(),
             ),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: _capturing
-                            ? null
-                            : () async {
-                                await _stopRealtimeAnalysis();
+          Positioned(
+            top: 5,
+            left: 0,
+            right: 0,
+            child: SafeArea(
+              child: SizedBox(
+                height: 56,
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: _capturing
+                          ? null
+                          : () async {
+                              await _stopRealtimeAnalysis();
 
-                                if (mounted) {
-                                  Navigator.of(context).pop();
-                                }
-                              },
-                        icon: const Icon(
-                          Icons.arrow_back_ios_new,
+                              if (mounted) {
+                                Navigator.of(context).pop();
+                              }
+                            },
+                      icon: const Icon(
+                        Icons.arrow_back_ios_new,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        'Ambil Foto KTP Otomatis',
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.textStyleBold.copyWith(
                           color: Colors.white,
+                          fontSize: 18,
                         ),
                       ),
-                      Expanded(
-                        child: Text(
-                          'Ambil Foto KTP Otomatis',
-                          textAlign: TextAlign.center,
-                          style: AppTextStyles.textStyleBold.copyWith(
-                            color: Colors.white,
-                            fontSize: 22,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 48),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    'Letakkan KTP sepenuhnya di dalam frame. Foto akan diambil otomatis jika sudah jelas.',
-                    style: AppTextStyles.textStyleBold.copyWith(
-                      color: Colors.white,
-                      height: 1.5,
-                      fontSize: 15,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 10),
+                    const SizedBox(width: 70),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            left: cardRect.right + 8,
+            top: cardRect.center.dy - 80,
+            child: SizedBox(
+              width: panelWidth - 5,
+              child: Column(
+                children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 10,
-                    ),
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(14),
+                      color: Colors.black.withValues(alpha: 0.3),
+                      borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.18),
+                        color: Colors.white.withValues(alpha: 0.5),
                       ),
                     ),
                     child: Text(
                       _statusMessage,
+                      textAlign: TextAlign.center,
                       style: AppTextStyles.textStyleNormal.copyWith(
                         color: Colors.white,
-                        fontSize: 14,
+                        fontSize: 12,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  const Spacer(),
-                  if (_error != null)
+                  if (_error != null) ...[
+                    const SizedBox(height: 20),
                     Container(
-                      padding: const EdgeInsets.all(14),
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: AppColors.whiteColor.withValues(alpha: 0.4),
-                        borderRadius: BorderRadius.circular(14),
+                        color: Colors.black.withValues(alpha: 0.3),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.5),
+                        ),
                       ),
                       child: Text(
                         _error!,
+                        textAlign: TextAlign.center,
                         style: AppTextStyles.textStyleNormal.copyWith(
                           color: Colors.white,
-                          fontSize: 14,
+                          fontSize: 12,
                         ),
-                        textAlign: TextAlign.center,
                       ),
                     ),
-                  if (_error != null) const SizedBox(height: 14),
+                  ],
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            left: cardRect.left - panelWidth - 7,
+            top: cardRect.center.dy - 100,
+            child: Container(
+              width: panelWidth,
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.5),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Petunjuk :',
+                    style: AppTextStyles.textStyleBold.copyWith(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  _buildCheckItem(
+                    Icons.crop_free,
+                    'Pastikan seluruh KTP terlihat jelas di dalam frame',
+                  ),
+                  _buildCheckItem(
+                    Icons.wb_sunny_outlined,
+                    'Pastikan pencahayaan cukup dan tidak ada pantulan',
+                  ),
+                  _buildCheckItem(
+                    Icons.phone_android,
+                    'Pastikan tangan stabil dan tidak goyang',
+                  ),
                 ],
               ),
             ),
@@ -380,25 +432,63 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
   }
 }
 
+Widget _buildCheckItem(
+  IconData icon,
+  String text,
+) {
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 8),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(
+          icon,
+          color: AppColors.whiteColor,
+          size: 24,
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(
+            text,
+            style: AppTextStyles.textStyleNormal.copyWith(
+              color: AppColors.whiteColor,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 class _FullscreenCameraPreview extends StatelessWidget {
-  const _FullscreenCameraPreview({required this.controller});
+  const _FullscreenCameraPreview({
+    required this.controller,
+  });
 
   final CameraController controller;
 
   @override
   Widget build(BuildContext context) {
     final previewSize = controller.value.previewSize;
+
     if (previewSize == null) {
       return const SizedBox.expand();
     }
+
+    debugPrint("CEK PREVIEW SIZE : $previewSize");
+    debugPrint("CEK ASPECT : ${controller.value.aspectRatio}");
+
+    debugPrint(
+      'SCREEN SIZE = ${MediaQuery.of(context).size}',
+    );
 
     return SizedBox.expand(
       child: ClipRect(
         child: FittedBox(
           fit: BoxFit.cover,
           child: SizedBox(
-            width: previewSize.height,
-            height: previewSize.width,
+            width: previewSize.width,
+            height: previewSize.height,
             child: CameraPreview(controller),
           ),
         ),
@@ -414,16 +504,16 @@ class _KtpGuidePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final overlayPaint = Paint()..color = Colors.black.withValues(alpha: 0.45);
+    final overlayPaint = Paint()..color = Colors.black.withValues(alpha: 0.5);
     final background = Path()..addRect(Offset.zero & size);
     final cardFill = Paint()
-      ..color = Colors.white.withValues(alpha: 0.06)
+      ..color = Colors.white.withValues(alpha: 0.05)
       ..style = PaintingStyle.fill;
     final cardPath = Path()
       ..addRRect(
         RRect.fromRectAndRadius(
           guideLayout.cardRect,
-          const Radius.circular(18),
+          const Radius.circular(16),
         ),
       );
 
@@ -436,7 +526,7 @@ class _KtpGuidePainter extends CustomPainter {
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         guideLayout.cardRect,
-        const Radius.circular(18),
+        const Radius.circular(16),
       ),
       cardFill,
     );
@@ -448,14 +538,14 @@ class _KtpGuidePainter extends CustomPainter {
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         guideLayout.cardRect,
-        const Radius.circular(18),
+        const Radius.circular(16),
       ),
       cardBorder,
     );
 
     final nikBorder = Paint()
-      ..color = Colors.white
-      ..strokeWidth = 0.5
+      ..color = Colors.black
+      ..strokeWidth = 1.5
       ..style = PaintingStyle.stroke;
     final nikFill = Paint()
       ..color = Colors.white.withValues(alpha: 0.1)
@@ -463,21 +553,21 @@ class _KtpGuidePainter extends CustomPainter {
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         guideLayout.nikRect,
-        const Radius.circular(12),
+        const Radius.circular(4),
       ),
       nikFill,
     );
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         guideLayout.nikRect,
-        const Radius.circular(12),
+        const Radius.circular(4),
       ),
       nikBorder,
     );
 
     final sectionBorder = Paint()
-      ..color = Colors.white
-      ..strokeWidth = 0.5
+      ..color = Colors.black
+      ..strokeWidth = 1.5
       ..style = PaintingStyle.stroke;
 
     final sectionFill = Paint()
@@ -488,7 +578,7 @@ class _KtpGuidePainter extends CustomPainter {
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         guideLayout.headerRect,
-        const Radius.circular(12),
+        const Radius.circular(4),
       ),
       sectionFill,
     );
@@ -496,7 +586,7 @@ class _KtpGuidePainter extends CustomPainter {
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         guideLayout.headerRect,
-        const Radius.circular(12),
+        const Radius.circular(4),
       ),
       sectionBorder,
     );
@@ -505,7 +595,7 @@ class _KtpGuidePainter extends CustomPainter {
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         guideLayout.biodataRect,
-        const Radius.circular(12),
+        const Radius.circular(4),
       ),
       sectionFill,
     );
@@ -513,15 +603,17 @@ class _KtpGuidePainter extends CustomPainter {
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         guideLayout.biodataRect,
-        const Radius.circular(12),
+        const Radius.circular(4),
       ),
       sectionBorder,
     );
 
     _drawNikLabel(canvas, guideLayout.nikRect);
+    _drawHeaderLabel(canvas, guideLayout.headerRect);
+    _drawBiodataLabel(canvas, guideLayout.biodataRect);
     final faceBorder = Paint()
-      ..color = Colors.white
-      ..strokeWidth = 0.5
+      ..color = Colors.black
+      ..strokeWidth = 1.5
       ..style = PaintingStyle.stroke;
 
     final faceFill = Paint()
@@ -531,7 +623,7 @@ class _KtpGuidePainter extends CustomPainter {
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         guideLayout.faceRect,
-        const Radius.circular(12),
+        const Radius.circular(4),
       ),
       faceFill,
     );
@@ -539,7 +631,7 @@ class _KtpGuidePainter extends CustomPainter {
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         guideLayout.faceRect,
-        const Radius.circular(12),
+        const Radius.circular(4),
       ),
       faceBorder,
     );
@@ -549,8 +641,9 @@ class _KtpGuidePainter extends CustomPainter {
 
   void _drawFaceLabel(Canvas canvas, Rect rect) {
     final paragraphStyle = ui.ParagraphStyle(
-      fontSize: 9,
+      fontSize: 10,
       fontWeight: FontWeight.w700,
+      textAlign: TextAlign.center,
     );
 
     final textStyle = ui.TextStyle(
@@ -561,21 +654,21 @@ class _KtpGuidePainter extends CustomPainter {
       ..pushStyle(textStyle)
       ..addText('FOTO WAJAH');
 
+    const textWidth = 120.0;
+
     final paragraph = builder.build()
       ..layout(
         const ui.ParagraphConstraints(
-          width: 120,
+          width: textWidth,
         ),
       );
 
     canvas.save();
 
     canvas.translate(
-      rect.right + 18,
-      rect.top + 15,
+      rect.center.dx - (textWidth / 2),
+      rect.bottom + 10,
     );
-
-    canvas.rotate(1.5708);
 
     canvas.drawParagraph(
       paragraph,
@@ -587,8 +680,9 @@ class _KtpGuidePainter extends CustomPainter {
 
   void _drawNikLabel(Canvas canvas, Rect rect) {
     final paragraphStyle = ui.ParagraphStyle(
-      fontSize: 9,
+      fontSize: 10,
       fontWeight: FontWeight.w700,
+      textAlign: TextAlign.center,
     );
 
     final textStyle = ui.TextStyle(
@@ -597,7 +691,7 @@ class _KtpGuidePainter extends CustomPainter {
 
     final builder = ui.ParagraphBuilder(paragraphStyle)
       ..pushStyle(textStyle)
-      ..addText('AREA NIK');
+      ..addText('NIK');
 
     final paragraph = builder.build()
       ..layout(
@@ -609,11 +703,85 @@ class _KtpGuidePainter extends CustomPainter {
     canvas.save();
 
     canvas.translate(
-      rect.right - 10,
-      rect.top - 50,
+      rect.left - 70,
+      rect.top + 8,
     );
 
-    canvas.rotate(1.5708);
+    canvas.drawParagraph(
+      paragraph,
+      Offset.zero,
+    );
+
+    canvas.restore();
+  }
+
+  void _drawHeaderLabel(Canvas canvas, Rect rect) {
+    final paragraphStyle = ui.ParagraphStyle(
+      fontSize: 10,
+      fontWeight: FontWeight.w700,
+      textAlign: TextAlign.center,
+    );
+
+    final textStyle = ui.TextStyle(
+      color: Colors.white,
+    );
+
+    final builder = ui.ParagraphBuilder(paragraphStyle)
+      ..pushStyle(textStyle)
+      ..addText('PROV / KAB');
+
+    final paragraph = builder.build()
+      ..layout(
+        const ui.ParagraphConstraints(
+          width: 100,
+        ),
+      );
+
+    canvas.save();
+
+    canvas.translate(
+      rect.left - 85,
+      rect.top + 10,
+    );
+
+    canvas.drawParagraph(
+      paragraph,
+      Offset.zero,
+    );
+
+    canvas.restore();
+  }
+
+  void _drawBiodataLabel(Canvas canvas, Rect rect) {
+    final paragraphStyle = ui.ParagraphStyle(
+      fontSize: 10,
+      fontWeight: FontWeight.w700,
+      textAlign: TextAlign.center,
+    );
+
+    final textStyle = ui.TextStyle(
+      color: Colors.white,
+    );
+
+    final builder = ui.ParagraphBuilder(paragraphStyle)
+      ..pushStyle(textStyle)
+      ..addText('BIODATA');
+
+    const textWidth = 120.0;
+
+    final paragraph = builder.build()
+      ..layout(
+        const ui.ParagraphConstraints(
+          width: textWidth,
+        ),
+      );
+
+    canvas.save();
+
+    canvas.translate(
+      rect.center.dx - (textWidth / 2),
+      rect.bottom + 10,
+    );
 
     canvas.drawParagraph(
       paragraph,

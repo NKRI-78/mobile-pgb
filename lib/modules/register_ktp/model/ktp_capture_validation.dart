@@ -3,29 +3,32 @@ import 'dart:ui';
 class KtpGuideConfig {
   const KtpGuideConfig._();
 
-  static const double cardWidthFactor = 0.70;
-  static const double cardAspectRatio = 0.63;
-  static const double cardTopFactor = 0.05;
+  static const double cardWidthFactor = 0.55;
+  static const double cardAspectRatio = 1.58;
 
-  static const double nikLeftFactor = 0.76;
-  static const double nikTopFactor = 0.25;
-  static const double nikWidthFactor = 0.10;
-  static const double nikHeightFactor = 0.47;
+  // HEADER
+  static const double headerLeftFactor = 0.17;
+  static const double headerTopFactor = 0.015;
+  static const double headerWidthFactor = 0.65;
+  static const double headerHeightFactor = 0.12;
 
-  static const double faceLeftFactor = 0.34;
-  static const double faceTopFactor = 0.73;
-  static const double faceWidthFactor = 0.46;
-  static const double faceHeightFactor = 0.24;
+  // NIK
+  static const double nikLeftFactor = 0.24;
+  static const double nikTopFactor = 0.145;
+  static const double nikWidthFactor = 0.47;
+  static const double nikHeightFactor = 0.085;
 
-  static const double headerLeftFactor = 0.87;
-  static const double headerTopFactor = 0.32;
-  static const double headerWidthFactor = 0.12;
-  static const double headerHeightFactor = 0.42;
+  // BIODATA
+  static const double biodataLeftFactor = 0.02;
+  static const double biodataTopFactor = 0.24;
+  static const double biodataWidthFactor = 0.69;
+  static const double biodataHeightFactor = 0.60;
 
-  static const double biodataLeftFactor = 0.12;
-  static const double biodataTopFactor = 0.02;
-  static const double biodataWidthFactor = 0.63;
-  static const double biodataHeightFactor = 0.66;
+  // FOTO
+  static const double faceLeftFactor = 0.725;
+  static const double faceTopFactor = 0.2;
+  static const double faceWidthFactor = 0.235;
+  static const double faceHeightFactor = 0.47;
 }
 
 class KtpCaptureValidation {
@@ -65,8 +68,7 @@ class KtpGuideLayout {
     final cardWidth = size.width * KtpGuideConfig.cardWidthFactor;
     final cardHeight = cardWidth / KtpGuideConfig.cardAspectRatio;
     final cardLeft = (size.width - cardWidth) / 2;
-    final cardTop = ((size.height - cardHeight) / 2) +
-        (size.height * KtpGuideConfig.cardTopFactor);
+    final cardTop = (size.height - cardHeight) / 1.5;
     final cardRect = Rect.fromLTWH(
       cardLeft,
       cardTop,

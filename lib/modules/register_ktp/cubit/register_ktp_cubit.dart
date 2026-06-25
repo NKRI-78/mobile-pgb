@@ -46,22 +46,22 @@ class RegisterKtpCubit extends Cubit<RegisterKtpState> {
         imagePath,
       );
 
-      print('ORIGINAL PATH: $imagePath');
-      print('UPLOAD PATH  : $uploadPath');
+      debugPrint('ORIGINAL PATH: $imagePath');
+      debugPrint('UPLOAD PATH  : $uploadPath');
 
-      print('======================');
-      print('UPLOADING TO OCR');
-      print('FILE: $uploadPath');
-      print('======================');
+      debugPrint('======================');
+      debugPrint('UPLOADING TO OCR');
+      debugPrint('FILE: $uploadPath');
+      debugPrint('======================');
       final result = await repo.uploadKtpForOcr(File(uploadPath));
-      print('OCR RESPONSE: $result');
-      print('======================');
-      print('OCR RESPONSE RAW');
-      print(result);
-      print('======================');
+      debugPrint('OCR RESPONSE: $result');
+      debugPrint('======================');
+      debugPrint('OCR RESPONSE RAW');
+      debugPrint(result.toString());
+      debugPrint('======================');
 
       final response = result['data']['response'];
-      print('Path Gambar KTP: $uploadPath');
+      debugPrint('Path Gambar KTP: $uploadPath');
 
       emit(state.copyWith(
         loading: false,
@@ -85,11 +85,18 @@ class RegisterKtpCubit extends Cubit<RegisterKtpState> {
         berlakuHingga: response['expired'] ?? '',
       ));
     } catch (e) {
-      print('OCR ERROR: $e');
+      debugPrint('OCR ERROR: $e');
+
+      String errorMessage = e.toString();
+
+      if (errorMessage.contains('Gambar bukan halaman identitas KTP')) {
+        errorMessage =
+            'Foto KTP belum dapat diproses. Mohon ambil ulang foto dengan posisi yang lebih jelas.';
+      }
 
       emit(state.copyWith(
         loading: false,
-        error: e.toString(),
+        error: errorMessage,
       ));
     }
   }
