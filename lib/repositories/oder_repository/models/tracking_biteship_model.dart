@@ -35,16 +35,15 @@ class TrackingBitshipModel {
     id = json['id'];
     waybillId = json['waybill_id'];
     courier =
-        json['courier'] != null ? new Courier.fromJson(json['courier']) : null;
-    origin =
-        json['origin'] != null ? new Origin.fromJson(json['origin']) : null;
+        json['courier'] != null ? Courier.fromJson(json['courier']) : null;
+    origin = json['origin'] != null ? Origin.fromJson(json['origin']) : null;
     destination = json['destination'] != null
-        ? new Origin.fromJson(json['destination'])
+        ? Origin.fromJson(json['destination'])
         : null;
     if (json['history'] != null) {
       history = <History>[];
       json['history'].forEach((v) {
-        history!.add(new History.fromJson(v));
+        history!.add(History.fromJson(v));
       });
     }
     link = json['link'];
@@ -55,27 +54,27 @@ class TrackingBitshipModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['success'] = this.success;
-    data['message'] = this.message;
-    data['object'] = this.object;
-    data['id'] = this.id;
-    data['waybill_id'] = this.waybillId;
-    if (this.courier != null) {
-      data['courier'] = this.courier!.toJson();
+    data['success'] = success;
+    data['message'] = message;
+    data['object'] = object;
+    data['id'] = id;
+    data['waybill_id'] = waybillId;
+    if (courier != null) {
+      data['courier'] = courier!.toJson();
     }
-    if (this.origin != null) {
-      data['origin'] = this.origin!.toJson();
+    if (origin != null) {
+      data['origin'] = origin!.toJson();
     }
-    if (this.destination != null) {
-      data['destination'] = this.destination!.toJson();
+    if (destination != null) {
+      data['destination'] = destination!.toJson();
     }
-    if (this.history != null) {
-      data['history'] = this.history!.map((v) => v.toJson()).toList();
+    if (history != null) {
+      data['history'] = history!.map((v) => v.toJson()).toList();
     }
-    data['link'] = this.link;
-    data['order_id'] = this.orderId;
-    data['status'] = this.status;
-    data['weight'] = this.weight;
+    data['link'] = link;
+    data['order_id'] = orderId;
+    data['status'] = status;
+    data['weight'] = weight;
     return data;
   }
 }
@@ -110,13 +109,13 @@ class Courier {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['company'] = this.company;
-    data['name'] = this.name;
-    data['phone'] = this.phone;
-    data['driver_name'] = this.driverName;
-    data['driver_phone'] = this.driverPhone;
-    data['driver_photo_url'] = this.driverPhotoUrl;
-    data['driver_plate_number'] = this.driverPlateNumber;
+    data['company'] = company;
+    data['name'] = name;
+    data['phone'] = phone;
+    data['driver_name'] = driverName;
+    data['driver_phone'] = driverPhone;
+    data['driver_photo_url'] = driverPhotoUrl;
+    data['driver_plate_number'] = driverPlateNumber;
     return data;
   }
 }
@@ -134,8 +133,8 @@ class Origin {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['contact_name'] = this.contactName;
-    data['address'] = this.address;
+    data['contact_name'] = contactName;
+    data['address'] = address;
     return data;
   }
 }
@@ -157,10 +156,10 @@ class History {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = this.status;
-    data['eventDate'] = this.eventDate;
-    data['serviceType'] = this.serviceType;
-    data['note'] = this.note;
+    data['status'] = status;
+    data['eventDate'] = eventDate;
+    data['serviceType'] = serviceType;
+    data['note'] = note;
     return data;
   }
 }

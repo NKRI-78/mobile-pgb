@@ -483,7 +483,7 @@ class Address {
   String? province;
   double? longitude;
   int? postalCode;
-  Null? nameAddress;
+  String? nameAddress;
   String? subDistrict;
   String? detailAddress;
 
@@ -532,7 +532,7 @@ class Store {
   String? name;
   String? linkPhoto;
   int? id;
-  Null? description;
+  String? description;
   String? phoneNumber;
   bool? statusOpen;
   User? user;

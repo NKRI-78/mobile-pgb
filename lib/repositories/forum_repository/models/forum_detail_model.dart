@@ -8,7 +8,7 @@ class ForumDetailModel {
   int? longitude;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  String? deletedAt;
   List<ForumComment>? forumComment;
   User? user;
   List<ForumMedia>? forumMedia;
@@ -112,10 +112,10 @@ class ForumComment {
   String? comment;
   int? userId;
   int? forumId;
-  Null? commentId;
+  String? commentId;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  String? deletedAt;
   User? user;
   List<Replies>? replies;
 
@@ -298,7 +298,7 @@ class Replies {
   int? commentId;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  String? deletedAt;
   User? user;
 
   Replies(
@@ -469,10 +469,10 @@ class ForumComments {
   String? comment;
   int? userId;
   int? forumId;
-  Null? commentId;
+  String? commentId;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  String? deletedAt;
   User? user;
   List<Null>? forumCommentLikes;
   List<Replies>? replies;

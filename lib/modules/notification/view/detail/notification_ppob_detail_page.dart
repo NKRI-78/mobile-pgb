@@ -135,7 +135,7 @@ Widget _buildTimerBox(String? expiredDate, String? paymentStatus,
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppColors.blackColor.withOpacity(0.2)),
+        border: Border.all(color: AppColors.blackColor.withValues(alpha: 0.2)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -206,7 +206,7 @@ Widget _buildPaymentBox(
     decoration: BoxDecoration(
       color: AppColors.whiteColor,
       borderRadius: BorderRadius.circular(10),
-      border: Border.all(color: AppColors.blackColor.withOpacity(0.2)),
+      border: Border.all(color: AppColors.blackColor.withValues(alpha: 0.2)),
     ),
     child: Column(
       children: [
@@ -315,7 +315,7 @@ Widget _buildDetailPayment(
     decoration: BoxDecoration(
       color: AppColors.whiteColor,
       borderRadius: BorderRadius.circular(10),
-      border: Border.all(color: AppColors.blackColor.withOpacity(0.2)),
+      border: Border.all(color: AppColors.blackColor.withValues(alpha: 0.2)),
     ),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.start,

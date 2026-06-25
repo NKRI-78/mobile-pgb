@@ -708,7 +708,7 @@ class DetailOrderView extends StatelessWidget {
                                   color: AppColors.whiteColor,
                                   border: Border.all(
                                       color: AppColors.blackColor
-                                          .withOpacity(0.2)),
+                                          .withValues(alpha: 0.2)),
                                 ),
                                 child: state.detailOrder?.status ==
                                             "FINISHED" ||

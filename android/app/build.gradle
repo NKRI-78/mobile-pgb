@@ -2,7 +2,6 @@ plugins {
     id "com.android.application"
     id "kotlin-android"
     id 'com.google.gms.google-services'
-    
     id "dev.flutter.flutter-gradle-plugin"
 }
 
@@ -21,15 +20,31 @@ android {
     namespace = "com.langitdigital78.mobile_pgb"
     compileSdk = 36
     ndkVersion = flutter.ndkVersion
+    
+    flavorDimensions "environment"
+
+    productFlavors {
+    staging {
+        dimension "environment"
+
+        resValue "string", "app_name", "Mobile PGB STAGING"
+    }
+
+    production {
+        dimension "environment"
+
+        resValue "string", "app_name", "Mobile PGB"
+    }
+}
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
         coreLibraryDesugaringEnabled true
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
     defaultConfig {
@@ -71,4 +86,8 @@ dependencies{
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
+    implementation 'com.google.mlkit:text-recognition-chinese:16.0.1'
+    implementation 'com.google.mlkit:text-recognition-devanagari:16.0.1'
+    implementation 'com.google.mlkit:text-recognition-japanese:16.0.1'
+    implementation 'com.google.mlkit:text-recognition-korean:16.0.1'
 }

@@ -22,8 +22,8 @@ class SelectPaymentChannel extends StatelessWidget {
             state.selectedPulsaData?.price?.toDouble() ?? 0;
         final bool isBelowMinimum = pulsaPrice < 50000;
 
-        return WillPopScope(
-          onWillPop: () async => false,
+        return PopScope(
+                          canPop: false,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             decoration: const BoxDecoration(

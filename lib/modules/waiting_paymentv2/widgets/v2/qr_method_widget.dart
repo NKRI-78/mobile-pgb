@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../../misc/theme.dart';
-import '../../../../widgets/button/custom_button.dart';
+
 import '../../../../misc/colors.dart';
 import '../../../../misc/download_manager.dart';
 import '../../../../misc/helper.dart';
+import '../../../../misc/theme.dart';
 import '../../../../repositories/payment_repository/models/payment_model.dart';
+import '../../../../widgets/button/custom_button.dart';
 import '../../../../widgets/image/image_card.dart';
 
 class QrMethodWidgetV2 extends StatelessWidget {
@@ -96,7 +97,6 @@ class QrMethodWidgetV2 extends StatelessWidget {
                     text: "Bayar Sekarang",
                     textColour: AppColors.whiteColor,
                     radius: 8,
-                    icon: Icons.downloading_sharp,
                     onPressed: () {
                       Helper.openLink(
                           url: payment.data?["actions"][2]["url"],

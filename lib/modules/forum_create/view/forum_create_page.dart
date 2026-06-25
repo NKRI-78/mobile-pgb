@@ -76,89 +76,75 @@ class ForumCreateView extends StatelessWidget {
                 return CustomButton(
                   backgroundColour: AppColors.secondaryColor,
                   textColour: AppColors.whiteColor,
-                  text: state.loading ? 'Loading...' : 'Posting',
-                  onPressed: state.loading
-                      ? null
-                      : () async {
-                          showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (dialogContext) {
-                              return WillPopScope(
-                                onWillPop: () async => false,
-                                child: Dialog(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(24),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        const SizedBox(
-                                          width: 60,
-                                          height: 60,
-                                          child: CircularProgressIndicator(
-                                            valueColor:
-                                                AlwaysStoppedAnimation<Color>(
-                                              AppColors.secondaryColor,
-                                            ),
-                                            strokeWidth: 3,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 24),
-                                        Text(
-                                          'Sedang Memposting...',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(0xFF1F2937),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Text(
-                                          'Mohon tunggu sebentar',
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            color: Color(0xFF6B7280),
-                                          ),
-                                        ),
-                                      ],
+                  text: 'Posting',
+                  isLoading: state.loading,
+                  onPressed: () async {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (dialogContext) {
+                        return PopScope(
+                          canPop: false,
+                          child: Dialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Container(
+                              padding: const EdgeInsets.all(24),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const SizedBox(
+                                    width: 60,
+                                    height: 60,
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        AppColors.secondaryColor,
+                                      ),
+                                      strokeWidth: 3,
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                          );
-
-                          await context
-                              .read<ForumCreateCubit>()
-                              .createForum(context);
-
-                          if (context.mounted) {
-                            Navigator.of(context).pop();
-
-                            if (context
-                                .read<ForumCreateCubit>()
-                                .state
-                                .description
-                                .trim()
-                                .isNotEmpty) {
-                              getIt<ForumCubit>().fetchForum();
-                              Navigator.pop(context);
-                            }
-                          }
-                        },
-                  child: state.loading
-                      ? const SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 2,
+                                  const SizedBox(height: 24),
+                                  Text(
+                                    'Sedang Memposting...',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xFF1F2937),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'Mohon tunggu sebentar',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: Color(0xFF6B7280),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                        )
-                      : null,
+                        );
+                      },
+                    );
+
+                    await context.read<ForumCreateCubit>().createForum(context);
+
+                    if (context.mounted) {
+                      Navigator.of(context).pop();
+
+                      if (context
+                          .read<ForumCreateCubit>()
+                          .state
+                          .description
+                          .trim()
+                          .isNotEmpty) {
+                        getIt<ForumCubit>().fetchForum();
+                        Navigator.pop(context);
+                      }
+                    }
+                  },
                 );
               },
             ),

@@ -113,8 +113,8 @@ class SosDetailView extends StatelessWidget {
       pageBuilder: (context, animation, secondaryAnimation) {
         return BlocProvider.value(
           value: getIt<SosCubit>(),
-          child: WillPopScope(
-            onWillPop: () async => false,
+          child: PopScope(
+                          canPop: false,
             child: Center(
               child: Material(
                 color: Colors.transparent,

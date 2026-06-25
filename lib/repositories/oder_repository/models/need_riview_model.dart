@@ -42,25 +42,25 @@ class NeedRiviewModel {
     updatedAt = json['updated_at'];
     review = json['review'];
     product =
-        json['product'] != null ? new Product.fromJson(json['product']) : null;
+        json['product'] != null ? Product.fromJson(json['product']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['quantity'] = this.quantity;
-    data['price'] = this.price;
-    data['total_price'] = this.totalPrice;
-    data['weight'] = this.weight;
-    data['total_weight'] = this.totalWeight;
-    data['note'] = this.note;
-    data['product_id'] = this.productId;
-    data['order_id'] = this.orderId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['review'] = this.review;
-    if (this.product != null) {
-      data['product'] = this.product!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['quantity'] = quantity;
+    data['price'] = price;
+    data['total_price'] = totalPrice;
+    data['weight'] = weight;
+    data['total_weight'] = totalWeight;
+    data['note'] = note;
+    data['product_id'] = productId;
+    data['order_id'] = orderId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['review'] = review;
+    if (product != null) {
+      data['product'] = product!.toJson();
     }
     return data;
   }
@@ -81,18 +81,18 @@ class Product {
     if (json['pictures'] != null) {
       pictures = <Pictures>[];
       json['pictures'].forEach((v) {
-        pictures!.add(new Pictures.fromJson(v));
+        pictures!.add(Pictures.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['id'] = this.id;
-    data['description'] = this.description;
-    if (this.pictures != null) {
-      data['pictures'] = this.pictures!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['id'] = id;
+    data['description'] = description;
+    if (pictures != null) {
+      data['pictures'] = pictures!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -108,8 +108,8 @@ class Pictures {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['link'] = this.link;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['link'] = link;
     return data;
   }
 }

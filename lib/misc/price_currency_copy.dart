@@ -2,7 +2,9 @@ import 'package:intl/intl.dart';
 
 class Price {
   Price._();
-  static currency(double value,) {
+  static currency(
+    double value,
+  ) {
     String formattedCurrency = NumberFormat.currency(
       locale: 'id_ID',
       symbol: 'Rp ',
@@ -11,7 +13,10 @@ class Price {
 
     return formattedCurrency;
   }
-  static currencyNoSymbol(double value,) {
+
+  static currencyNoSymbol(
+    double value,
+  ) {
     String formattedCurrency = NumberFormat.currency(
       locale: 'id_ID',
       symbol: "",
@@ -20,6 +25,7 @@ class Price {
 
     return formattedCurrency;
   }
+
   static currencyForum(double value) {
     String formattedCurrency = NumberFormat.currency(
       locale: 'id_ID',

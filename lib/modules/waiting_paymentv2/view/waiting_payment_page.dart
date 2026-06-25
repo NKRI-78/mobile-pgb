@@ -86,14 +86,6 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
         final howToUseUrl = channel != null ? channel['howToUseUrl'] : null;
         return Scaffold(
           backgroundColor: AppColors.primaryColor,
-          // bottomNavigationBar: state.payment?.status != 'PAID' ? null : CustomBotton(
-          //     onPressed: () {
-          //       state.payment?.status == 'PAID' ? OrderRoute(initIndex: 1).push(context) : state.payment?.data?['type'] == "TOPUP" ? OrderRoute(initIndex:5).push(context) :  HomeRoute().go(context);
-          //     },
-          //     colorBtn: secondaryColor,
-          //     radius: 0,
-          //     isOutline: false,
-          //     textButton: state.payment?.status == 'PAID' ? "Lihat status pesanan saya" : "Kembali"),
           body: RefreshIndicator(
             onRefresh: () async {
               await context.read<WaitingPaymentCubit>().init(context, 0);
@@ -119,24 +111,30 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
                               : state.payment == null
                                   ? const SliverFillRemaining(
                                       child: Center(
-                                          child: EmptyPage(
-                                              msg: "Tidak ada pembayaran")))
+                                        child: EmptyPage(
+                                            msg: "Tidak ada pembayaran"),
+                                      ),
+                                    )
                                   : SliverList(
                                       delegate: SliverChildListDelegate(
                                         [
                                           Container(
                                             margin: const EdgeInsets.symmetric(
-                                                vertical: 5),
+                                              vertical: 5,
+                                            ),
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 15, vertical: 10),
+                                              horizontal: 15,
+                                              vertical: 10,
+                                            ),
                                             decoration: BoxDecoration(
-                                                color: AppColors.whiteColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                border: Border.all(
-                                                    color: AppColors.blackColor
-                                                        .withValues(
-                                                            alpha: 0.10))),
+                                              color: AppColors.whiteColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              border: Border.all(
+                                                color: AppColors.blackColor
+                                                    .withValues(alpha: 0.10),
+                                              ),
+                                            ),
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -196,13 +194,14 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
                                                     ? Container()
                                                     : SlideCountdownSeparated(
                                                         duration: duration,
-                                                        decoration: BoxDecoration(
-                                                            color: AppColors
-                                                                .secondaryColor,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5)),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: AppColors
+                                                              .secondaryColor,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5),
+                                                        ),
                                                         onDone: () {
                                                           setState(() {
                                                             isExpired = true;
@@ -231,17 +230,17 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
                                                       horizontal: 15,
                                                       vertical: 10),
                                                   decoration: BoxDecoration(
-                                                      color:
-                                                          AppColors.whiteColor,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      border: Border.all(
-                                                          color: AppColors
-                                                              .blackColor
-                                                              .withValues(
-                                                                  alpha:
-                                                                      0.10))),
+                                                    color: AppColors.whiteColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    border: Border.all(
+                                                      color: AppColors
+                                                          .blackColor
+                                                          .withValues(
+                                                              alpha: 0.10),
+                                                    ),
+                                                  ),
                                                   child: SizedBox(
                                                     height: 45,
                                                     child: CustomButton(
@@ -263,17 +262,21 @@ class _WaitingPaymentViewState extends State<WaitingPaymentV2View> {
                                                 ),
                                           Container(
                                             margin: const EdgeInsets.symmetric(
-                                                vertical: 5),
+                                              vertical: 5,
+                                            ),
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 15, vertical: 10),
+                                              horizontal: 15,
+                                              vertical: 10,
+                                            ),
                                             decoration: BoxDecoration(
-                                                color: AppColors.whiteColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                border: Border.all(
-                                                    color: AppColors.blackColor
-                                                        .withValues(
-                                                            alpha: 0.10))),
+                                              color: AppColors.whiteColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              border: Border.all(
+                                                color: AppColors.blackColor
+                                                    .withValues(alpha: 0.10),
+                                              ),
+                                            ),
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,

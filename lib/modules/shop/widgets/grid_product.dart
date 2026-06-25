@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../misc/theme.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/price_currency.dart';
 import '../../../misc/text_style.dart';
+import '../../../misc/theme.dart';
 import '../../../repositories/shop_repository/models/product_model.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/image/image_card.dart';

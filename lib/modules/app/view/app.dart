@@ -1,13 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../misc/helper.dart';
 import 'package:upgrader/upgrader.dart';
-import '../../../misc/firebase_messangging.dart';
 
+import '../../../misc/firebase_messangging.dart';
+import '../../../misc/flavor_config.dart';
+import '../../../misc/helper.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/theme.dart';
 import '../../../router/router.dart';
@@ -74,8 +76,7 @@ class _AppViewState extends State<AppView> {
 
       // ❌ belum sampai target
       if (daysSinceInstall < nextDay) {
-        debugPrint(
-            "SKIP: belum sampai target (${daysSinceInstall} < $nextDay)");
+        debugPrint("SKIP: belum sampai target ($daysSinceInstall < $nextDay)");
         debugPrint("=== REVIEW END (SKIP) ===");
         return;
       }
@@ -117,6 +118,10 @@ class _AppViewState extends State<AppView> {
   void initState() {
     super.initState();
 
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       FirebaseMessagingMisc.init();
       checkReview();
@@ -125,10 +130,11 @@ class _AppViewState extends State<AppView> {
 
   @override
   Widget build(BuildContext context) {
+    final isStaging = FlavorConfig.isStaging;
     return BlocBuilder<AppBloc, AppState>(
       builder: (_, localState) {
         return MaterialApp.router(
-          debugShowCheckedModeBanner: false,
+          debugShowCheckedModeBanner: isStaging,
           theme: baseTheme.copyWith(),
           routerConfig: router,
           builder: (context, child) {

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../widget/forum_header_section.dart';
-import '../widget/list_forum.dart';
-import '../../../widgets/pages/empty_page.dart';
-import '../../../widgets/pages/loading_page.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
+import '../../../widgets/pages/empty_page.dart';
+import '../../../widgets/pages/loading_page.dart';
 import '../cubit/forum_cubit.dart';
+import '../widget/forum_header_section.dart';
+import '../widget/list_forum.dart';
 
 class ForumPage extends StatelessWidget {
   const ForumPage({super.key});

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../misc/colors.dart';
-import '../../../misc/text_style.dart';
 import '../../../misc/helper.dart';
 import '../../../misc/price_currency.dart';
+import '../../../misc/text_style.dart';
 import '../cubit/checkout_cubit.dart';
 
 class CostShipping extends StatelessWidget {
@@ -138,7 +139,7 @@ class CostShipping extends StatelessWidget {
                         ),
                       ),
                     );
-                  }).toList(),
+                  }),
                 ] else ...[
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -220,7 +221,7 @@ class CostShipping extends StatelessWidget {
                       ),
                     ),
                   );
-                }).toList(),
+                }),
               ],
 
               Divider(

@@ -43,6 +43,7 @@ class CustomCardEventSection extends StatelessWidget {
     return Opacity(
       opacity: isExpired ? 0.5 : 1,
       child: Card(
+        color: AppColors.whiteColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),

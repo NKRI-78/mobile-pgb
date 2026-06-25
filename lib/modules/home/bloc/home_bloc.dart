@@ -51,8 +51,10 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
       if (event.context != null) {
         await Future.delayed(const Duration(milliseconds: 100));
+
         try {
           await determinePosition(event.context!);
+
           await setLastLocation(emit);
         } catch (e) {
           debugPrint("Lokasi error: $e");

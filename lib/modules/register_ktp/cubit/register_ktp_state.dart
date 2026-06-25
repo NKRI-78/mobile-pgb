@@ -7,6 +7,7 @@ class RegisterKtpState extends Equatable {
   final Map<String, dynamic>? extractedData;
   final UserGoogleModel? userGoogleModel;
   final String? error;
+  final String? validationMessage;
   //
   final String nik;
   final String nama;
@@ -32,6 +33,7 @@ class RegisterKtpState extends Equatable {
     this.extractedData,
     this.userGoogleModel,
     this.error,
+    this.validationMessage,
     //
     this.nik = '',
     this.nama = '',
@@ -59,6 +61,7 @@ class RegisterKtpState extends Equatable {
         extractedData,
         userGoogleModel,
         error,
+        validationMessage,
         //
         nik,
         nama,
@@ -84,7 +87,8 @@ class RegisterKtpState extends Equatable {
     String? ktpImagePath,
     Map<String, dynamic>? extractedData,
     UserGoogleModel? userGoogleModel,
-    String? error,
+    Object? error = _sentinel,
+    Object? validationMessage = _sentinel,
     //
     String? nik,
     String? nama,
@@ -109,7 +113,10 @@ class RegisterKtpState extends Equatable {
       ktpImagePath: ktpImagePath ?? this.ktpImagePath,
       extractedData: extractedData ?? this.extractedData,
       userGoogleModel: userGoogleModel ?? this.userGoogleModel,
-      error: error,
+      error: identical(error, _sentinel) ? this.error : error as String?,
+      validationMessage: identical(validationMessage, _sentinel)
+          ? this.validationMessage
+          : validationMessage as String?,
       //
       nik: nik ?? this.nik,
       nama: nama ?? this.nama,
@@ -130,3 +137,5 @@ class RegisterKtpState extends Equatable {
     );
   }
 }
+
+const Object _sentinel = Object();

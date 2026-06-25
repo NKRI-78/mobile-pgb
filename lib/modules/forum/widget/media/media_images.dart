@@ -363,7 +363,7 @@ class MediaImages extends StatelessWidget {
                           child: Container(
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.1),
+                              color: Colors.black.withValues(alpha: 0.1),
                             ),
                             child: Text(
                               '+${medias.length - 5}',

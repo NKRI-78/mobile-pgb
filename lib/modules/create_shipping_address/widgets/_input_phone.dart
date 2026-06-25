@@ -21,16 +21,16 @@ class InputPhone extends StatelessWidget {
               ),
               Container(
                   decoration: BoxDecoration(
-                      color: AppColors.whiteColor.withOpacity(0.10),
+                      color: AppColors.whiteColor.withValues(alpha: 0.10),
                       borderRadius: BorderRadius.circular(10.0)),
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: AppColors.whiteColor.withOpacity(0.1),
+                      color: AppColors.whiteColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(6.0),
                       boxShadow: [
                         BoxShadow(
-                            color: Colors.grey.withOpacity(0.1),
+                            color: Colors.grey.withValues(alpha: 0.1),
                             spreadRadius: 1.0,
                             blurRadius: 3.0,
                             offset: const Offset(0.0, 1.0))
@@ -42,7 +42,8 @@ class InputPhone extends StatelessWidget {
                       cursorColor: AppColors.blackColor,
                       onChanged: (value) {
                         var cubit = context.read<CreateShippingAddressCubit>();
-                        cubit.copyState(newState: cubit.state.copyWith(phoneNumber: value));
+                        cubit.copyState(
+                            newState: cubit.state.copyWith(phoneNumber: value));
                       },
                       keyboardType: TextInputType.number,
                       inputFormatters: [

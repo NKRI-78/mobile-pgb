@@ -181,7 +181,7 @@ class _DetailProductViewState extends State<DetailProductView> {
                                                     width: double.infinity,
                                                     height: 330,
                                                     color: Colors.black
-                                                        .withOpacity(0.5),
+                                                        .withValues(alpha: 0.5),
                                                   )
                                                 : const SizedBox.shrink(),
                                             data.stock == 0

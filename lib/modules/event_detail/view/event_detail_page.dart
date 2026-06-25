@@ -1,18 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../../../misc/injections.dart';
-import '../../app/bloc/app_bloc.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
 import '../../../misc/theme.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/photo_view/custom_fullscreen_preview.dart';
+import '../../app/bloc/app_bloc.dart';
 import '../cubit/event_detail_cubit.dart';
 import '../widget/custom_user_joined.dart';
 
@@ -51,6 +51,7 @@ class EventDetailView extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             surfaceTintColor: Colors.transparent,
+            backgroundColor: AppColors.whiteColor,
             title: Text(
               'Detail Event',
               style: AppTextStyles.textStyleBold,

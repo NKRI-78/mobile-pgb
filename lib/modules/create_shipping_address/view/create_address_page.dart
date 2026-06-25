@@ -6,22 +6,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:place_picker_google/place_picker_google.dart';
+
+import '../../../misc/colors.dart';
 import '../../../misc/custom_place_picker.dart';
 import '../../../misc/injections.dart';
-import '../../app/bloc/app_bloc.dart';
-import 'package:place_picker_google/place_picker_google.dart';
-import '../../../misc/colors.dart';
 import '../../../misc/theme.dart';
-import '../cubit/create_shipping_address_cubit.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/header/header_section.dart';
 import '../../../widgets/map/custom_select_location.dart';
+import '../../app/bloc/app_bloc.dart';
+import '../cubit/create_shipping_address_cubit.dart';
 
+part '../widgets/_input_detail_address.dart';
 part '../widgets/_input_location.dart';
 part '../widgets/_input_location_lebel.dart';
 part '../widgets/_input_name.dart';
 part '../widgets/_input_phone.dart';
-part '../widgets/_input_detail_address.dart';
 part '../widgets/input_label.dart';
 
 class CreateAddressPage extends StatelessWidget {
@@ -109,7 +110,7 @@ class CreateAddressView extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 12.0, horizontal: 15.0),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.1),
+                                color: Colors.white.withValues(alpha: 0.1),
                                 border:
                                     Border.all(color: Colors.grey, width: 0.5),
                                 borderRadius: BorderRadius.circular(6.0),
@@ -163,16 +164,16 @@ class CreateAddressView extends StatelessWidget {
           bottomNavigationBar: SafeArea(
             minimum: const EdgeInsets.symmetric(horizontal: 20),
             child: CustomButton(
-              onPressed: state.loading
-                  ? null
-                  : () async {
-                      if (context.mounted) {
-                        FocusScope.of(context).unfocus();
-                      }
-                      context
-                          .read<CreateShippingAddressCubit>()
-                          .submit(context: context);
-                    },
+              isLoading: state.loading,
+              onPressed: () async {
+                if (context.mounted) {
+                  FocusScope.of(context).unfocus();
+                }
+
+                context.read<CreateShippingAddressCubit>().submit(
+                      context: context,
+                    );
+              },
               backgroundColour: AppColors.blueColor,
               textColour: AppColors.whiteColor,
               text: "Tambah Alamat",

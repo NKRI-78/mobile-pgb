@@ -6,12 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import '../../../misc/injections.dart';
 import '../../../misc/snackbar.dart';
-import '../../list_address/cubit/list_address_cubit.dart';
 import '../../../repositories/checkout_repository/checkout_repository.dart';
 import '../../../repositories/checkout_repository/models/detail_address_model.dart';
 import '../../../widgets/map/custom_select_location.dart';
+import '../../list_address/cubit/list_address_cubit.dart';
 
 part 'update_shipping_address_state.dart';
 
@@ -121,10 +122,12 @@ class UpdateShippingAddressCubit extends Cubit<UpdateShippingAddressState> {
   void setAreaCurrent(GoogleMapController mapController) async {
     Geolocator.requestPermission();
     Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.low);
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(position.latitude, position.longitude);
-    Placemark place = placemarks[0];
+        locationSettings: const LocationSettings(
+      accuracy: LocationAccuracy.low,
+    ));
+    // List<Placemark> placemarks =
+    await placemarkFromCoordinates(position.latitude, position.longitude);
+    // Placemark place = placemarks[0];
 
     emit(state.copyWith(
       latitude: position.latitude,

@@ -8,7 +8,7 @@ class InputDetailAddress extends StatelessWidget {
     return BlocBuilder<UpdateShippingAddressCubit, UpdateShippingAddressState>(
       builder: (context, st) {
         final TextEditingController _ctrAddress =
-        TextEditingController(text: st.currentAddress.trim());
+            TextEditingController(text: st.currentAddress.trim());
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Column(
@@ -16,7 +16,7 @@ class InputDetailAddress extends StatelessWidget {
             children: [
               const Text("Detail Alamat",
                   style: TextStyle(
-                    fontSize:fontSizeDefault,
+                    fontSize: fontSizeDefault,
                   )),
               const SizedBox(
                 height: 10.0,
@@ -32,7 +32,7 @@ class InputDetailAddress extends StatelessWidget {
                       borderRadius: BorderRadius.circular(6.0),
                       boxShadow: [
                         BoxShadow(
-                            color: Colors.grey.withOpacity(0.1),
+                            color: Colors.grey.withValues(alpha: 0.1),
                             spreadRadius: 1.0,
                             blurRadius: 3.0,
                             offset: const Offset(0.0, 1.0))

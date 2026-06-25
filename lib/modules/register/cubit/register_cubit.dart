@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as ht;
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
+import '../../../misc/api_url.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/register_akun_extra.dart';
 import '../../../misc/snackbar.dart';
@@ -49,13 +50,15 @@ class RegisterCubit extends Cubit<RegisterState> {
       print("Access Token: $accessToken");
 
       final response = await ht.post(
-        Uri.parse("http://157.245.193.49:9985/api/v1/auth/signinWithGoogle"),
+        Uri.parse("${MyApi.baseUrl}/api/v1/auth/signinWithGoogle"),
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
         body: jsonEncode({'token': accessToken}),
       );
+      print("STATUS CODE = ${response.statusCode}");
+      print("BODY = ${response.body}");
 
       print("✅ API response: ${response.body}");
 
@@ -93,7 +96,10 @@ class RegisterCubit extends Cubit<RegisterState> {
               RegisterAkunExtra(userGoogle: dataGoogle);
           emit(state.copyWith(oauthId: dataGoogle.oauthId));
           if (!context.mounted) return;
-          RegisterKtpRoute($extra: akunExtra).push(context);
+          // RegisterKtpRoute($extra: akunExtra).push(context);
+          KycTutorialRoute(
+            $extra: akunExtra,
+          ).push(context);
         } else {
           // Jika bukan kondisi REGISTER, bisa tampilkan pesan error umum
           ShowSnackbar.snackbar(

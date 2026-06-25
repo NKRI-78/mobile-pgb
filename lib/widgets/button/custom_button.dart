@@ -34,6 +34,8 @@ class CustomButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColour,
           foregroundColor: textColour,
+          disabledBackgroundColor: backgroundColour,
+          disabledForegroundColor: textColour,
           elevation: 4,
           padding: const EdgeInsets.symmetric(
             horizontal: 20,
@@ -43,32 +45,42 @@ class CustomButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(radius ?? 12),
           ),
         ),
-        onPressed: onPressed,
+        onPressed: isLoading ? null : onPressed,
         child: Row(
-          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            if (leading != null) ...[
-              leading!,
-              const SizedBox(width: 8),
-            ],
             if (isLoading) ...[
               SizedBox(
-                width: 20,
-                height: 20,
+                width: 18,
+                height: 18,
                 child: CircularProgressIndicator(
-                  strokeWidth: 2.5,
+                  strokeWidth: 2,
                   valueColor: AlwaysStoppedAnimation<Color>(textColour),
                 ),
               ),
-              const SizedBox(width: 10),
-            ],
-            Text(
-              text,
-              style: AppTextStyles.textStyleBold.copyWith(
-                fontWeight: FontWeight.w500,
+              const SizedBox(width: 12),
+            ] else if (leading != null) ...[
+              leading!,
+              const SizedBox(width: 8),
+            ] else if (icon != null) ...[
+              Icon(
+                icon,
                 color: textColour,
-                fontSize: 16,
+                size: 20,
+              ),
+              const SizedBox(width: 8),
+            ],
+            Flexible(
+              child: Text(
+                isLoading ? 'Mohon Tunggu...' : text,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: AppTextStyles.textStyleBold.copyWith(
+                  color: textColour,
+                  fontSize: 14,
+                ),
               ),
             ),
           ],

@@ -59,6 +59,7 @@ class CustomfieldFoto extends StatelessWidget {
             Text(
               "Foto Profile",
               style: AppTextStyles.textStyleNormal.copyWith(
+                fontSize: 13,
                 color: AppColors.whiteColor,
               ),
             ),

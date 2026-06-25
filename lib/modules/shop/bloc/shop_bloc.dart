@@ -4,15 +4,16 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 import '../../../misc/pagination.dart';
 import '../../../repositories/shop_repository/models/category_model.dart';
 import '../../../repositories/shop_repository/models/product_model.dart';
 import '../../../repositories/shop_repository/shop_repository.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+part 'shop_bloc.g.dart';
 part 'shop_event.dart';
 part 'shop_state.dart';
-part 'shop_bloc.g.dart';
 
 class ShopBloc extends HydratedBloc<ShopEvent, ShopState> {
   ShopBloc() : super(const ShopState()) {

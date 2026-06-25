@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import '../../modules/app/bloc/app_bloc.dart';
 
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
+import '../../modules/app/bloc/app_bloc.dart';
 import 'models/about_model.dart';
 import 'models/banner_model.dart';
 import 'models/data_pagination.dart';

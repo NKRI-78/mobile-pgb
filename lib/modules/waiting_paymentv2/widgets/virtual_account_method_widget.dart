@@ -170,7 +170,7 @@ class VirtualAccountMethodWidget extends StatelessWidget {
         ),
         Container(
           decoration: BoxDecoration(
-              color: AppColors.blueColor.withOpacity(.3),
+              color: AppColors.blueColor.withValues(alpha: 0.3),
               border: Border.all(
                 color: AppColors.blueColor,
               ),

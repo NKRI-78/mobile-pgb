@@ -35,7 +35,7 @@ class NotificationDetailView extends StatelessWidget {
           appBar: AppBar(
             surfaceTintColor: Colors.transparent,
             elevation: 2,
-            shadowColor: Colors.black.withOpacity(0.3),
+            shadowColor: Colors.black.withValues(alpha: 0.3),
             title: Text(
               "Notification Detail",
               style: AppTextStyles.textStyleBold,

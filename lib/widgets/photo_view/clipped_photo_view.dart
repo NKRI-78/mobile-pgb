@@ -122,7 +122,7 @@ class _ClippedPhotoViewState extends State<ClippedPhotoView> {
                           Container(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: AppColors.greyColor.withOpacity(0.8),
+                              color: AppColors.greyColor.withValues(alpha: 0.8),
                             ),
                             child: isScale || zoom == 1
                                 ? Container()
@@ -136,7 +136,7 @@ class _ClippedPhotoViewState extends State<ClippedPhotoView> {
                           Container(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: AppColors.greyColor.withOpacity(0.8),
+                              color: AppColors.greyColor.withValues(alpha: 0.8),
                             ),
                             child: PopupMenuButton(
                               color: AppColors.whiteColor,

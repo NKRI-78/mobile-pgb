@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../misc/date_helper.dart';
-import '../../../misc/snackbar.dart';
-import '../cubit/presence_cubit.dart';
-import '../../../widgets/pages/loading_page.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../../../misc/colors.dart';
+import '../../../misc/date_helper.dart';
+import '../../../misc/snackbar.dart';
 import '../../../misc/text_style.dart';
+import '../../../widgets/pages/loading_page.dart';
+import '../cubit/presence_cubit.dart';
 
 class PresencePage extends StatelessWidget {
   const PresencePage({super.key});
@@ -29,24 +28,24 @@ class PresenceView extends StatefulWidget {
 }
 
 class _PresenceViewState extends State<PresenceView> {
-  bool _hasScanned = false;
+  // bool _hasScanned = false;
 
-  late final MobileScannerController _scannerController;
+  // late final MobileScannerController _scannerController;
 
-  @override
-  void initState() {
-    super.initState();
-    _scannerController = MobileScannerController(
-      detectionSpeed: DetectionSpeed.noDuplicates,
-      facing: CameraFacing.back,
-    );
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _scannerController = MobileScannerController(
+  //     detectionSpeed: DetectionSpeed.noDuplicates,
+  //     facing: CameraFacing.back,
+  //   );
+  // }
 
-  @override
-  void dispose() {
-    _scannerController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _scannerController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +66,8 @@ class _PresenceViewState extends State<PresenceView> {
         if (state.isSuccess) {
           Navigator.pop(context);
         } else {
-          _hasScanned = false;
-          _scannerController.start();
+          // _hasScanned = false;
+          // _scannerController.start();
         }
       },
       child: Scaffold(
@@ -87,31 +86,31 @@ class _PresenceViewState extends State<PresenceView> {
         ),
         body: Stack(
           children: [
-            MobileScanner(
-              controller: _scannerController,
-              onDetect: (barcodeCapture) {
-                if (_hasScanned) return;
+            // MobileScanner(
+            //   controller: _scannerController,
+            //   onDetect: (barcodeCapture) {
+            //     if (_hasScanned) return;
 
-                final barcode = barcodeCapture.barcodes.first;
-                final code = barcode.rawValue;
+            //     final barcode = barcodeCapture.barcodes.first;
+            //     final code = barcode.rawValue;
 
-                if (code == null || code.isEmpty) {
-                  ShowSnackbar.snackbar(
-                    context,
-                    'QR Code tidak valid',
-                    isSuccess: false,
-                  );
-                  return;
-                }
+            //     if (code == null || code.isEmpty) {
+            //       ShowSnackbar.snackbar(
+            //         context,
+            //         'QR Code tidak valid',
+            //         isSuccess: false,
+            //       );
+            //       return;
+            //     }
 
-                _hasScanned = true;
-                _scannerController.stop();
+            //     _hasScanned = true;
+            //     _scannerController.stop();
 
-                context.read<PresenceCubit>().createPresence(
-                      tokenAttend: code,
-                    );
-              },
-            ),
+            //     context.read<PresenceCubit>().createPresence(
+            //           tokenAttend: code,
+            //         );
+            //   },
+            // ),
             Center(
               child: Container(
                 width: 250,

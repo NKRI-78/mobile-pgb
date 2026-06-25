@@ -11,10 +11,10 @@ class ContactListPpob extends StatefulWidget {
   const ContactListPpob({super.key});
 
   @override
-  _ContactListPpobState createState() => _ContactListPpobState();
+  ContactListPpobState createState() => ContactListPpobState();
 }
 
-class _ContactListPpobState extends State<ContactListPpob> {
+class ContactListPpobState extends State<ContactListPpob> {
   List<Contact> contacts = [];
   List<Contact> filteredContacts = [];
   TextEditingController searchController = TextEditingController();

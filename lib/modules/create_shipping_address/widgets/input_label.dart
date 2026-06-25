@@ -45,16 +45,16 @@ class _InputLabelState extends State<InputLabel> {
               ),
               Container(
                   decoration: BoxDecoration(
-                      color: AppColors.whiteColor.withOpacity(0.1),
+                      color: AppColors.whiteColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(10.0)),
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: AppColors.whiteColor.withOpacity(0.1),
+                      color: AppColors.whiteColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(6.0),
                       boxShadow: [
                         BoxShadow(
-                            color: Colors.grey.withOpacity(0.1),
+                            color: Colors.grey.withValues(alpha: 0.1),
                             spreadRadius: 1.0,
                             blurRadius: 3.0,
                             offset: const Offset(0.0, 1.0))
@@ -105,8 +105,11 @@ class _InputLabelState extends State<InputLabel> {
                                   setState(() {
                                     isCheck = true;
                                     typeAddressC.text = e;
-                                    var cubit = context.read<CreateShippingAddressCubit>();
-                                    cubit.copyState(newState: cubit.state.copyWith(label: e));
+                                    var cubit = context
+                                        .read<CreateShippingAddressCubit>();
+                                    cubit.copyState(
+                                        newState:
+                                            cubit.state.copyWith(label: e));
                                   });
                                 },
                                 child: Container(
@@ -115,7 +118,8 @@ class _InputLabelState extends State<InputLabel> {
                                     margin: const EdgeInsets.only(right: 8),
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(35),
-                                        color: AppColors.whiteColor.withOpacity(0.1),
+                                        color: AppColors.whiteColor
+                                            .withValues(alpha: 0.1),
                                         border: Border.all(
                                             color: Colors.grey[350]!)),
                                     child: Center(

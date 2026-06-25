@@ -13,36 +13,39 @@ class _Maps extends StatefulWidget {
 }
 
 class _MapsState extends State<_Maps> {
-  final Completer<GoogleMapController> _controller =
-      Completer<GoogleMapController>();
+  bool _initialized = false;
 
   @override
   Widget build(BuildContext context) {
-    CameraPosition kGooglePlex = CameraPosition(
+    final kGooglePlex = CameraPosition(
       target: LatLng(widget.latitude, widget.longitude),
-      zoom: 15.0,
+      zoom: 15,
     );
 
-    return BlocBuilder<MemberNearBloc, MemberNearState>(
-      builder: (context, st) {
-        return st.loading
-            ? const CustomLoadingPage()
-            : GoogleMap(
-                mapType: MapType.normal,
-                gestureRecognizers: {}..add(Factory<EagerGestureRecognizer>(
-                    () => EagerGestureRecognizer())),
-                myLocationEnabled: true,
-                zoomControlsEnabled: false,
-                buildingsEnabled: false,
-                mapToolbarEnabled: false,
-                initialCameraPosition: kGooglePlex,
-                markers: Set.from(widget.markers),
-                onMapCreated: (GoogleMapController controller) {
-                  _controller.complete(controller);
-                  context.read<MemberNearBloc>().add(MemberNearSetArea(
-                      context: context, mapController: controller));
-                },
-              );
+    return GoogleMap(
+      mapType: MapType.normal,
+      gestureRecognizers: {
+        Factory<EagerGestureRecognizer>(
+          () => EagerGestureRecognizer(),
+        ),
+      },
+      myLocationEnabled: true,
+      zoomControlsEnabled: false,
+      buildingsEnabled: false,
+      mapToolbarEnabled: false,
+      initialCameraPosition: kGooglePlex,
+      markers: Set.from(widget.markers),
+      onMapCreated: (controller) {
+        if (_initialized) return;
+
+        _initialized = true;
+
+        context.read<MemberNearBloc>().add(
+              MemberNearSetArea(
+                context: context,
+                mapController: controller,
+              ),
+            );
       },
     );
   }

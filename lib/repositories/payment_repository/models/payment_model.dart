@@ -252,9 +252,8 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     wight = json['wight'];
-    shipping = json['shipping'] != null
-        ? Shipping.fromJson(json['shipping'])
-        : null;
+    shipping =
+        json['shipping'] != null ? Shipping.fromJson(json['shipping']) : null;
     storeAddress = json['store_address'] != null
         ? StoreAddress.fromJson(json['store_address'])
         : null;
@@ -384,9 +383,8 @@ class ShippingAddress {
     id = json['id'];
     name = json['name'];
     label = json['label'];
-    address = json['address'] != null
-        ? StoreAddress.fromJson(json['address'])
-        : null;
+    address =
+        json['address'] != null ? StoreAddress.fromJson(json['address']) : null;
     userId = json['user_id'];
     addressId = json['address_id'];
     isSelected = json['is_selected'];
@@ -473,16 +471,16 @@ class Product {
     if (json['pictures'] != null) {
       pictures = <Pictures>[];
       json['pictures'].forEach((v) {
-        pictures!.add(new Pictures.fromJson(v));
+        pictures!.add(Pictures.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    if (this.pictures != null) {
-      data['pictures'] = this.pictures!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    if (pictures != null) {
+      data['pictures'] = pictures!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -498,8 +496,8 @@ class Pictures {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['link'] = this.link;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['link'] = link;
     return data;
   }
 }

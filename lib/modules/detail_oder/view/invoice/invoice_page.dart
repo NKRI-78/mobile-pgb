@@ -1,10 +1,10 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
-import '../../../../misc/date_helper.dart';
-import '../../../../misc/theme.dart';
 
 import '../../../../misc/colors.dart';
+import '../../../../misc/date_helper.dart';
 import '../../../../misc/text_style.dart';
+import '../../../../misc/theme.dart';
 import '../../../../repositories/detail_order_repository/models/detail_order_model.dart';
 
 class InvoicePage extends StatelessWidget {

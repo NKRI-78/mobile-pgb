@@ -2,17 +2,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../misc/text_style.dart';
-import '../../../widgets/photo_view/custom_fullscreen_preview.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/custom_step_tracker.dart';
 import '../../../misc/snackbar.dart';
+import '../../../misc/text_style.dart';
 import '../../../misc/theme.dart';
-import '../../webview/webview.dart';
-import '../cubit/tracking_cubit.dart';
 import '../../../widgets/header/header_section.dart';
 import '../../../widgets/pages/empty_page.dart';
 import '../../../widgets/pages/loading_page.dart';
+import '../../../widgets/photo_view/custom_fullscreen_preview.dart';
+import '../../webview/webview.dart';
+import '../cubit/tracking_cubit.dart';
 
 class TrackingBitshipPage extends StatelessWidget {
   const TrackingBitshipPage(
