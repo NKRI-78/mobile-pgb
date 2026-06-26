@@ -214,9 +214,9 @@ PODS:
   - GTMSessionFetcher/Core (3.5.0)
   - GTMSessionFetcher/Full (3.5.0):
     - GTMSessionFetcher/Core
-  - image_cropper (0.0.4):
+  - image_cropper (0.0.5):
     - Flutter
-    - TOCropViewController (~> 2.7.4)
+    - TOCropViewController (~> 3.1.2)
   - image_picker_ios (0.0.1):
     - Flutter
   - in_app_review (2.0.0):
@@ -296,7 +296,7 @@ PODS:
     - Flutter
     - FlutterMacOS
   - SwiftyGif (5.4.5)
-  - TOCropViewController (2.7.4)
+  - TOCropViewController (3.1.2)
   - url_launcher_ios (0.0.1):
     - Flutter
   - video_player_avfoundation (0.0.1):
@@ -519,7 +519,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 4f2618a4a1e762a1ee134a1e2323bba9843e06da
   GTMAppAuth: f69bd07d68cd3b766125f7e072c45d7340dea0de
   GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
-  image_cropper: c4326ea50132b1e1564499e5d32a84f01fb03537
+  image_cropper: fca51f94982730acae168c4b5d691e0f11aeb259
   image_picker_ios: 7fe1ff8e34c1790d6fff70a32484959f563a928a
   in_app_review: 7dd1ea365263f834b8464673f9df72c80c17c937
   libwebp: 02b23773aedb6ff1fd38cec7a77b81414c6842a8
@@ -545,7 +545,7 @@ SPEC CHECKSUMS:
   smart_auth: 33668081c5f646af84f10492a067d25fdcd16951
   sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
   SwiftyGif: 706c60cf65fa2bc5ee0313beece843c8eb8194d4
-  TOCropViewController: 80b8985ad794298fb69d3341de183f33d1853654
+  TOCropViewController: a916930c465b5d9445a74d95e0c0da931771b4df
   url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
   video_player_avfoundation: 2cef49524dd1f16c5300b9cd6efd9611ce03639b
   video_thumbnail: b637e0ad5f588ca9945f6e2c927f73a69a661140

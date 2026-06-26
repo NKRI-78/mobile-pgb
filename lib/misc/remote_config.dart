@@ -6,9 +6,13 @@ class MyRemoteConfig {
   static FirebaseRemoteConfig? remoteConfig;
 
   static Future<void> init() async {
-    try {
-      remoteConfig = FirebaseRemoteConfig.instance;
+    remoteConfig = FirebaseRemoteConfig.instance;
 
+    if (!getIt.isRegistered<FirebaseRemoteConfig>()) {
+      getIt.registerSingleton<FirebaseRemoteConfig>(remoteConfig!);
+    }
+
+    try {
       await remoteConfig?.setConfigSettings(
         RemoteConfigSettings(
           fetchTimeout: const Duration(seconds: 10),
@@ -24,8 +28,6 @@ class MyRemoteConfig {
       });
 
       await remoteConfig?.fetchAndActivate();
-
-      getIt.registerLazySingleton<FirebaseRemoteConfig>(() => remoteConfig!);
 
       print('is_review_apple: ${remoteConfig?.getBool('is_review_apple')}');
       print('is_not_found: ${remoteConfig?.getBool('is_not_found')}');
