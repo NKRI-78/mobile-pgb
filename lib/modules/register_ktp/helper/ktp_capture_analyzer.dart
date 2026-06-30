@@ -311,6 +311,56 @@ class KtpCaptureAnalyzer {
     return targetFile.path;
   }
 
+  static Future<String> writePreviewFrameToFile({
+    required CameraImage cameraImage,
+  }) async {
+    if (cameraImage.format.group != ImageFormatGroup.bgra8888) {
+      throw UnsupportedError(
+        'Preview frame conversion hanya didukung untuk BGRA8888 pada iOS.',
+      );
+    }
+
+    final plane = cameraImage.planes.first;
+    final bytes = plane.bytes;
+    final stride = plane.bytesPerRow;
+
+    final image = img.Image(
+      width: cameraImage.width,
+      height: cameraImage.height,
+    );
+
+    for (int y = 0; y < cameraImage.height; y++) {
+      for (int x = 0; x < cameraImage.width; x++) {
+        final offset = y * stride + x * 4;
+
+        final b = bytes[offset];
+        final g = bytes[offset + 1];
+        final r = bytes[offset + 2];
+        final a = bytes[offset + 3];
+
+        image.setPixelRgba(
+          x,
+          y,
+          r,
+          g,
+          b,
+          a,
+        );
+      }
+    }
+
+    final targetFile = File(
+      '${Directory.systemTemp.path}/ktp_preview_${DateTime.now().microsecondsSinceEpoch}.jpg',
+    );
+
+    await targetFile.writeAsBytes(
+      img.encodeJpg(image, quality: 100),
+      flush: true,
+    );
+
+    return targetFile.path;
+  }
+
   static Future<String> rotateForUpload(String imagePath) async {
     final file = File(imagePath);
 

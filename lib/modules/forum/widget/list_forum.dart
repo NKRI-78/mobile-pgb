@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_pgb/misc/video_cache_manager.dart';
+import '../../../misc/video_cache_manager.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/modal.dart';

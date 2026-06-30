@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../widget/ktp_instruction.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
@@ -17,7 +18,8 @@ class KtpCameraCapturePage extends StatefulWidget {
   State<KtpCameraCapturePage> createState() => _KtpCameraCapturePageState();
 }
 
-class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
+class _KtpCameraCapturePageState extends State<KtpCameraCapturePage>
+    with WidgetsBindingObserver {
   CameraController? _controller;
   bool _initializing = true;
   bool _capturing = false;
@@ -28,19 +30,40 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
   bool _captureInProgress = false;
   DateTime? _lastAnalyzedAt;
   int _readyFrameStreak = 0;
+  bool _showInstruction = true;
+  bool get _isLandscape {
+    final view = View.of(context);
+
+    return view.physicalSize.width > view.physicalSize.height;
+  }
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
 
     SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
       DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
     ]);
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.immersiveSticky,
-    );
+  }
 
-    _setupCamera();
+  @override
+  void didChangeMetrics() {
+    super.didChangeMetrics();
+
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  Future<void> _openCamera() async {
+    setState(() {
+      _showInstruction = false;
+    });
+
+    await _setupCamera();
   }
 
   Future<void> _setupCamera() async {
@@ -67,6 +90,29 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
       );
 
       await controller.initialize();
+
+      controller.addListener(() {
+        debugPrint(
+          'ORIENTATION => ${controller.value.deviceOrientation}',
+        );
+      });
+
+      await Future.delayed(const Duration(milliseconds: 300));
+
+      debugPrint(controller.value.deviceOrientation.toString());
+
+      debugPrint(
+        'LOCK = ${controller.value.lockedCaptureOrientation}',
+      );
+      debugPrint(
+        'DEVICE ORIENTATION = ${controller.value.deviceOrientation}',
+      );
+
+      debugPrint(
+        'PREVIEW SIZE = ${controller.value.previewSize}',
+      );
+
+      debugPrint(controller.value.toString());
       await Future.delayed(
         const Duration(milliseconds: 300),
       );
@@ -145,7 +191,7 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
             _captureInProgress = true;
 
             try {
-              await _captureKtp();
+              await _captureKtp(image);
             } finally {
               await Future.delayed(
                 const Duration(seconds: 1),
@@ -176,7 +222,7 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
     _analyzingFrame = false;
   }
 
-  Future<void> _captureKtp() async {
+  Future<void> _captureKtp(CameraImage image) async {
     final controller = _controller;
     if (controller == null || !controller.value.isInitialized || _capturing) {
       return;
@@ -191,9 +237,19 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
     try {
       final screenSize = MediaQuery.of(context).size;
       await _stopRealtimeAnalysis();
-      final file = await controller.takePicture();
+
+      final String imagePath;
+      if (Platform.isIOS && image.format.group == ImageFormatGroup.bgra8888) {
+        imagePath = await KtpCaptureAnalyzer.writePreviewFrameToFile(
+          cameraImage: image,
+        );
+      } else {
+        final file = await controller.takePicture();
+        imagePath = file.path;
+      }
+
       final validation = await KtpCaptureAnalyzer.validate(
-        imagePath: file.path,
+        imagePath: imagePath,
         screenSize: screenSize,
       );
 
@@ -217,7 +273,7 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
       }
 
       _accepted = true;
-      Navigator.of(context).pop(validation.processedImagePath ?? file.path);
+      Navigator.of(context).pop(validation.processedImagePath ?? imagePath);
     } catch (_) {
       if (!mounted) return;
       setState(() {
@@ -241,18 +297,21 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
 
   @override
   void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+
     _accepted = true;
 
     _stopRealtimeAnalysis();
 
     _controller?.dispose();
+
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.edgeToEdge,
     );
 
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    WidgetsBinding.instance.removeObserver(this);
 
     super.dispose();
   }
@@ -261,8 +320,16 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final guideLayout = KtpGuideLayout.fromSize(size);
+
     final cardRect = guideLayout.cardRect;
     const panelWidth = 180.0;
+
+    if (_showInstruction) {
+      return KtpInstructionView(
+        isLandscape: _isLandscape,
+        onStart: _openCamera,
+      );
+    }
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -574,7 +641,7 @@ class _KtpGuidePainter extends CustomPainter {
       ..color = Colors.white.withValues(alpha: 0.08)
       ..style = PaintingStyle.fill;
 
-// Header (Provinsi + Kabupaten)
+
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         guideLayout.headerRect,
@@ -591,7 +658,7 @@ class _KtpGuidePainter extends CustomPainter {
       sectionBorder,
     );
 
-// Biodata (Nama - Berlaku Hingga)
+
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         guideLayout.biodataRect,
