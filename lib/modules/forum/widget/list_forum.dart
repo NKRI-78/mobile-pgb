@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_pgb/misc/video_cache_manager.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/modal.dart';
@@ -28,7 +29,11 @@ class ForumListSection extends StatelessWidget {
       color: AppColors.whiteColor,
       child: InkWell(
         onTap: () {
-          ForumDetailRoute(idForum: forums.id.toString()).go(context);
+          VideoCacheManager.instance.pauseAll();
+
+          ForumDetailRoute(
+            idForum: forums.id.toString(),
+          ).go(context);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,6 +142,8 @@ class ForumListSection extends StatelessWidget {
                 ? Container()
                 : InkWell(
                     onTap: () {
+                      VideoCacheManager.instance.pauseAll();
+
                       ForumDetailRoute(
                         idForum: forums.forumComment!.first.forumId.toString(),
                       ).go(context);

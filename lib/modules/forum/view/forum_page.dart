@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_pgb/misc/video_cache_manager.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -40,6 +41,13 @@ class _ForumViewState extends State<ForumView> {
       context.read<ForumCubit>().init();
       _isInit = true;
     }
+  }
+
+  @override
+  void dispose() {
+    VideoCacheManager.instance.clear();
+
+    super.dispose();
   }
 
   @override
@@ -88,7 +96,8 @@ class _ForumViewState extends State<ForumView> {
                           }
                           if (state.forums.isEmpty) {
                             return const SliverToBoxAdapter(
-                                child: EmptyPage(msg: "Tidak ada Interaksi.."));
+                              child: EmptyPage(msg: "Tidak ada Interaksi.."),
+                            );
                           }
                           return SliverList(
                             delegate: SliverChildBuilderDelegate(

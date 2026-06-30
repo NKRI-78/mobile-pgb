@@ -1,5 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_pgb/misc/video_cache_manager.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -16,24 +17,80 @@ class VideoPlayer extends StatefulWidget {
 }
 
 class _VideoPlayerState extends State<VideoPlayer> {
-  late VideoPlayerController _videoController;
+  VideoPlayerController? _videoController;
   ChewieController? _chewieController;
+  bool _hasError = false;
 
   @override
   void initState() {
     super.initState();
-    _initializePlayer();
+
+    final cache = VideoCacheManager.instance;
+
+    final controller = cache.videoControllers[widget.urlVideo];
+
+    if (controller != null) {
+      debugPrint("LOAD FROM CACHE : ${widget.urlVideo}");
+
+      _videoController = controller;
+
+      _createChewieController();
+    } else {
+      _initializePlayer();
+    }
   }
 
   Future<void> _initializePlayer() async {
-    _videoController =
-        VideoPlayerController.networkUrl(Uri.parse(widget.urlVideo))
-          ..setLooping(false);
-    await _videoController.initialize();
+    try {
+      final cache = VideoCacheManager.instance;
 
+      debugPrint("INITIALIZE VIDEO : ${widget.urlVideo}");
+
+      final controller = VideoPlayerController.networkUrl(
+        Uri.parse(widget.urlVideo),
+      )..setLooping(false);
+
+      await controller.initialize();
+
+      _videoController = controller;
+      cache.videoControllers[widget.urlVideo] = controller;
+
+      if (!mounted) return;
+
+      _createChewieController();
+      setState(() {});
+    } catch (e, s) {
+      _hasError = true;
+
+      debugPrint("VIDEO ERROR : $e");
+      debugPrintStack(stackTrace: s);
+
+      if (mounted) {
+        setState(() {});
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    debugPrint("DISPOSE WIDGET : ${widget.urlVideo}");
+
+    _chewieController?.dispose();
+
+    super.dispose();
+  }
+
+  void _downloadVideo() {
+    DownloadHelper.downloadDoc(context: context, url: widget.urlVideo);
+  }
+
+  void _createChewieController() {
+    final controller = _videoController;
+
+    if (controller == null) return;
     _chewieController = ChewieController(
-      videoPlayerController: _videoController,
-      aspectRatio: _videoController.value.aspectRatio,
+      videoPlayerController: controller,
+      aspectRatio: controller.value.aspectRatio,
       autoPlay: false,
       looping: false,
       showControls: true,
@@ -50,7 +107,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
       errorBuilder: (context, errorMessage) {
         return Center(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8),
             child: Text(
               "Gagal memuat video: $errorMessage",
               style: const TextStyle(color: Colors.white),
@@ -59,45 +116,56 @@ class _VideoPlayerState extends State<VideoPlayer> {
         );
       },
     );
-
-    if (mounted) {
-      setState(() {});
-    }
-  }
-
-  @override
-  void dispose() {
-    _videoController.dispose();
-    _chewieController?.dispose();
-    super.dispose();
-  }
-
-  void _downloadVideo() {
-    DownloadHelper.downloadDoc(context: context, url: widget.urlVideo);
   }
 
   @override
   Widget build(BuildContext context) {
+    final chewie = _chewieController;
+    final controller = _videoController;
+
+    if (_hasError) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Text(
+            "Video tidak dapat dimuat",
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+    }
+
+    if (controller == null || !controller.value.isInitialized) {
+      return Center(
+        child: CircularProgressIndicator(
+          color: AppColors.secondaryColor,
+        ),
+      );
+    }
+
+    if (chewie == null) {
+      return Center(
+        child: CircularProgressIndicator(
+          color: AppColors.secondaryColor,
+        ),
+      );
+    }
+
     return VisibilityDetector(
-      key: ObjectKey(_videoController),
-      onVisibilityChanged: (VisibilityInfo info) {
-        var visiblePercentage = info.visibleFraction * 100;
-        debugPrint('Widget ${info.key} is $visiblePercentage% visible');
-        if (info.visibleFraction == 0 && mounted) {
-          _videoController.pause();
+      key: ValueKey(widget.urlVideo),
+      onVisibilityChanged: (info) {
+        final controller = _videoController;
+
+        if (controller == null || !controller.value.isInitialized) return;
+
+        if (info.visibleFraction < 0.3) {
+          controller.pause();
         }
       },
-      child: _chewieController != null &&
-              _chewieController!.videoPlayerController.value.isInitialized
-          ? AspectRatio(
-              aspectRatio: _videoController.value.aspectRatio,
-              child: Chewie(controller: _chewieController!),
-            )
-          : Center(
-              child: CircularProgressIndicator(
-                color: AppColors.secondaryColor,
-              ),
-            ),
+      child: AspectRatio(
+        aspectRatio: controller.value.aspectRatio,
+        child: Chewie(controller: chewie),
+      ),
     );
   }
 }
