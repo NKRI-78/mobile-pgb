@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile_pgb/misc/font_size.dart';
 import '../widget/ktp_instruction.dart';
 
 import '../../../misc/colors.dart';
@@ -42,6 +43,7 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
+    // Kembalikan orientasi ke portrait dan landscape saat keluar dari kamera
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.landscapeLeft,
@@ -59,10 +61,14 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage>
   }
 
   Future<void> _openCamera() async {
+    // Kunci orientasi ke landscape saat kamera dibuka
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     setState(() {
       _showInstruction = false;
     });
-
     await _setupCamera();
   }
 
@@ -92,30 +98,20 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage>
       await controller.initialize();
 
       controller.addListener(() {
-        debugPrint(
-          'ORIENTATION => ${controller.value.deviceOrientation}',
-        );
+        debugPrint('ORIENTATION => ${controller.value.deviceOrientation}');
       });
 
       await Future.delayed(const Duration(milliseconds: 300));
 
       debugPrint(controller.value.deviceOrientation.toString());
 
-      debugPrint(
-        'LOCK = ${controller.value.lockedCaptureOrientation}',
-      );
-      debugPrint(
-        'DEVICE ORIENTATION = ${controller.value.deviceOrientation}',
-      );
+      debugPrint('LOCK = ${controller.value.lockedCaptureOrientation}');
+      debugPrint('DEVICE ORIENTATION = ${controller.value.deviceOrientation}');
 
-      debugPrint(
-        'PREVIEW SIZE = ${controller.value.previewSize}',
-      );
+      debugPrint('PREVIEW SIZE = ${controller.value.previewSize}');
 
       debugPrint(controller.value.toString());
-      await Future.delayed(
-        const Duration(milliseconds: 300),
-      );
+      await Future.delayed(const Duration(milliseconds: 300));
       if (!mounted) {
         await controller.dispose();
         return;
@@ -176,9 +172,7 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage>
         }
 
         if (analysis.isReady) {
-          _setStatusMessage(
-            'Menstabilkan KTP ${_readyFrameStreak + 1}/3...',
-          );
+          _setStatusMessage('Menstabilkan KTP ${_readyFrameStreak + 1}/3...');
           if (_captureInProgress) {
             return;
           }
@@ -193,9 +187,7 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage>
             try {
               await _captureKtp(image);
             } finally {
-              await Future.delayed(
-                const Duration(seconds: 1),
-              );
+              await Future.delayed(const Duration(seconds: 1));
 
               _captureInProgress = false;
             }
@@ -264,9 +256,7 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage>
           _capturing = false;
           _statusMessage = 'Sesuaikan posisi KTP untuk analisis realtime.';
         });
-        await Future.delayed(
-          const Duration(seconds: 2),
-        );
+        await Future.delayed(const Duration(seconds: 2));
 
         await _startRealtimeAnalysis();
         return;
@@ -297,9 +287,7 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage>
 
   @override
   void dispose() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     _accepted = true;
 
@@ -307,9 +295,7 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage>
 
     _controller?.dispose();
 
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.edgeToEdge,
-    );
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
     WidgetsBinding.instance.removeObserver(this);
 
@@ -320,9 +306,12 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage>
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final guideLayout = KtpGuideLayout.fromSize(size);
+    final safeTop = MediaQuery.paddingOf(context).top;
+
+    final headerTop = safeTop + 5;
 
     final cardRect = guideLayout.cardRect;
-    const panelWidth = 180.0;
+    const panelWidth = 160.0;
 
     if (_showInstruction) {
       return KtpInstructionView(
@@ -362,48 +351,46 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage>
               child: const SizedBox.expand(),
             ),
           Positioned(
-            top: 5,
+            top: headerTop,
             left: 0,
             right: 0,
-            child: SafeArea(
-              child: SizedBox(
-                height: 56,
-                child: Row(
-                  children: [
-                    IconButton(
-                      onPressed: _capturing
-                          ? null
-                          : () async {
-                              await _stopRealtimeAnalysis();
+            child: SizedBox(
+              height: 56,
+              child: Row(
+                children: [
+                  IconButton(
+                    onPressed: _capturing
+                        ? null
+                        : () async {
+                            await _stopRealtimeAnalysis();
 
-                              if (mounted) {
-                                Navigator.of(context).pop();
-                              }
-                            },
-                      icon: const Icon(
-                        Icons.arrow_back_ios_new,
+                            if (mounted) {
+                              Navigator.of(context).pop();
+                            }
+                          },
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      'Ambil Foto KTP Otomatis',
+                      textAlign: TextAlign.center,
+                      style: AppTextStyles.textStyleBold.copyWith(
                         color: Colors.white,
+                        fontSize: responsiveFont(context, 18),
                       ),
                     ),
-                    Expanded(
-                      child: Text(
-                        'Ambil Foto KTP Otomatis',
-                        textAlign: TextAlign.center,
-                        style: AppTextStyles.textStyleBold.copyWith(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 70),
-                  ],
-                ),
+                  ),
+                  const SizedBox(width: 70),
+                ],
               ),
             ),
           ),
           Positioned(
             left: cardRect.right + 8,
-            top: cardRect.center.dy - 80,
+            top: cardRect.center.dy - 100,
             child: SizedBox(
               width: panelWidth - 5,
               child: Column(
@@ -423,7 +410,7 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage>
                       textAlign: TextAlign.center,
                       style: AppTextStyles.textStyleNormal.copyWith(
                         color: Colors.white,
-                        fontSize: 12,
+                        fontSize: responsiveFont(context, 12),
                       ),
                     ),
                   ),
@@ -444,7 +431,7 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage>
                         textAlign: TextAlign.center,
                         style: AppTextStyles.textStyleNormal.copyWith(
                           color: Colors.white,
-                          fontSize: 12,
+                          fontSize: responsiveFont(context, 12),
                         ),
                       ),
                     ),
@@ -455,16 +442,14 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage>
           ),
           Positioned(
             left: cardRect.left - panelWidth - 7,
-            top: cardRect.center.dy - 100,
+            top: cardRect.center.dy - 120,
             child: Container(
               width: panelWidth,
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: Colors.black.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.5),
-                ),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.5)),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -473,21 +458,24 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage>
                     'Petunjuk :',
                     style: AppTextStyles.textStyleBold.copyWith(
                       color: Colors.white,
-                      fontSize: 14,
+                      fontSize: responsiveFont(context, 14),
                     ),
                   ),
                   const SizedBox(height: 10),
                   _buildCheckItem(
                     Icons.crop_free,
                     'Pastikan seluruh KTP terlihat jelas di dalam frame',
+                    context,
                   ),
                   _buildCheckItem(
                     Icons.wb_sunny_outlined,
                     'Pastikan pencahayaan cukup dan tidak ada pantulan',
+                    context,
                   ),
                   _buildCheckItem(
                     Icons.phone_android,
                     'Pastikan tangan stabil dan tidak goyang',
+                    context,
                   ),
                 ],
               ),
@@ -499,26 +487,20 @@ class _KtpCameraCapturePageState extends State<KtpCameraCapturePage>
   }
 }
 
-Widget _buildCheckItem(
-  IconData icon,
-  String text,
-) {
+Widget _buildCheckItem(IconData icon, String text, BuildContext context) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 8),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(
-          icon,
-          color: AppColors.whiteColor,
-          size: 24,
-        ),
+        Icon(icon, color: AppColors.whiteColor, size: 24),
         const SizedBox(width: 10),
         Expanded(
           child: Text(
             text,
             style: AppTextStyles.textStyleNormal.copyWith(
               color: AppColors.whiteColor,
+              fontSize: responsiveFont(context, 12),
             ),
           ),
         ),
@@ -528,9 +510,7 @@ Widget _buildCheckItem(
 }
 
 class _FullscreenCameraPreview extends StatelessWidget {
-  const _FullscreenCameraPreview({
-    required this.controller,
-  });
+  const _FullscreenCameraPreview({required this.controller});
 
   final CameraController controller;
 
@@ -545,9 +525,7 @@ class _FullscreenCameraPreview extends StatelessWidget {
     debugPrint("CEK PREVIEW SIZE : $previewSize");
     debugPrint("CEK ASPECT : ${controller.value.aspectRatio}");
 
-    debugPrint(
-      'SCREEN SIZE = ${MediaQuery.of(context).size}',
-    );
+    debugPrint('SCREEN SIZE = ${MediaQuery.of(context).size}');
 
     return SizedBox.expand(
       child: ClipRect(
@@ -591,10 +569,7 @@ class _KtpGuidePainter extends CustomPainter {
     );
     canvas.drawPath(dimmed, overlayPaint);
     canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        guideLayout.cardRect,
-        const Radius.circular(16),
-      ),
+      RRect.fromRectAndRadius(guideLayout.cardRect, const Radius.circular(16)),
       cardFill,
     );
 
@@ -603,10 +578,7 @@ class _KtpGuidePainter extends CustomPainter {
       ..strokeWidth = 3
       ..style = PaintingStyle.stroke;
     canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        guideLayout.cardRect,
-        const Radius.circular(16),
-      ),
+      RRect.fromRectAndRadius(guideLayout.cardRect, const Radius.circular(16)),
       cardBorder,
     );
 
@@ -618,17 +590,11 @@ class _KtpGuidePainter extends CustomPainter {
       ..color = Colors.white.withValues(alpha: 0.1)
       ..style = PaintingStyle.fill;
     canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        guideLayout.nikRect,
-        const Radius.circular(4),
-      ),
+      RRect.fromRectAndRadius(guideLayout.nikRect, const Radius.circular(4)),
       nikFill,
     );
     canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        guideLayout.nikRect,
-        const Radius.circular(4),
-      ),
+      RRect.fromRectAndRadius(guideLayout.nikRect, const Radius.circular(4)),
       nikBorder,
     );
 
@@ -641,23 +607,15 @@ class _KtpGuidePainter extends CustomPainter {
       ..color = Colors.white.withValues(alpha: 0.08)
       ..style = PaintingStyle.fill;
 
-
     canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        guideLayout.headerRect,
-        const Radius.circular(4),
-      ),
+      RRect.fromRectAndRadius(guideLayout.headerRect, const Radius.circular(4)),
       sectionFill,
     );
 
     canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        guideLayout.headerRect,
-        const Radius.circular(4),
-      ),
+      RRect.fromRectAndRadius(guideLayout.headerRect, const Radius.circular(4)),
       sectionBorder,
     );
-
 
     canvas.drawRRect(
       RRect.fromRectAndRadius(
@@ -688,18 +646,12 @@ class _KtpGuidePainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        guideLayout.faceRect,
-        const Radius.circular(4),
-      ),
+      RRect.fromRectAndRadius(guideLayout.faceRect, const Radius.circular(4)),
       faceFill,
     );
 
     canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        guideLayout.faceRect,
-        const Radius.circular(4),
-      ),
+      RRect.fromRectAndRadius(guideLayout.faceRect, const Radius.circular(4)),
       faceBorder,
     );
 
@@ -713,9 +665,7 @@ class _KtpGuidePainter extends CustomPainter {
       textAlign: TextAlign.center,
     );
 
-    final textStyle = ui.TextStyle(
-      color: Colors.white,
-    );
+    final textStyle = ui.TextStyle(color: Colors.white);
 
     final builder = ui.ParagraphBuilder(paragraphStyle)
       ..pushStyle(textStyle)
@@ -724,23 +674,13 @@ class _KtpGuidePainter extends CustomPainter {
     const textWidth = 120.0;
 
     final paragraph = builder.build()
-      ..layout(
-        const ui.ParagraphConstraints(
-          width: textWidth,
-        ),
-      );
+      ..layout(const ui.ParagraphConstraints(width: textWidth));
 
     canvas.save();
 
-    canvas.translate(
-      rect.center.dx - (textWidth / 2),
-      rect.bottom + 10,
-    );
+    canvas.translate(rect.center.dx - (textWidth / 2), rect.bottom + 10);
 
-    canvas.drawParagraph(
-      paragraph,
-      Offset.zero,
-    );
+    canvas.drawParagraph(paragraph, Offset.zero);
 
     canvas.restore();
   }
@@ -752,32 +692,20 @@ class _KtpGuidePainter extends CustomPainter {
       textAlign: TextAlign.center,
     );
 
-    final textStyle = ui.TextStyle(
-      color: Colors.white,
-    );
+    final textStyle = ui.TextStyle(color: Colors.white);
 
     final builder = ui.ParagraphBuilder(paragraphStyle)
       ..pushStyle(textStyle)
       ..addText('NIK');
 
     final paragraph = builder.build()
-      ..layout(
-        const ui.ParagraphConstraints(
-          width: 100,
-        ),
-      );
+      ..layout(const ui.ParagraphConstraints(width: 100));
 
     canvas.save();
 
-    canvas.translate(
-      rect.left - 70,
-      rect.top + 8,
-    );
+    canvas.translate(rect.left - 70, rect.top + 8);
 
-    canvas.drawParagraph(
-      paragraph,
-      Offset.zero,
-    );
+    canvas.drawParagraph(paragraph, Offset.zero);
 
     canvas.restore();
   }
@@ -789,32 +717,20 @@ class _KtpGuidePainter extends CustomPainter {
       textAlign: TextAlign.center,
     );
 
-    final textStyle = ui.TextStyle(
-      color: Colors.white,
-    );
+    final textStyle = ui.TextStyle(color: Colors.white);
 
     final builder = ui.ParagraphBuilder(paragraphStyle)
       ..pushStyle(textStyle)
       ..addText('PROV / KAB');
 
     final paragraph = builder.build()
-      ..layout(
-        const ui.ParagraphConstraints(
-          width: 100,
-        ),
-      );
+      ..layout(const ui.ParagraphConstraints(width: 100));
 
     canvas.save();
 
-    canvas.translate(
-      rect.left - 85,
-      rect.top + 10,
-    );
+    canvas.translate(rect.left - 85, rect.top + 10);
 
-    canvas.drawParagraph(
-      paragraph,
-      Offset.zero,
-    );
+    canvas.drawParagraph(paragraph, Offset.zero);
 
     canvas.restore();
   }
@@ -826,9 +742,7 @@ class _KtpGuidePainter extends CustomPainter {
       textAlign: TextAlign.center,
     );
 
-    final textStyle = ui.TextStyle(
-      color: Colors.white,
-    );
+    final textStyle = ui.TextStyle(color: Colors.white);
 
     final builder = ui.ParagraphBuilder(paragraphStyle)
       ..pushStyle(textStyle)
@@ -837,23 +751,13 @@ class _KtpGuidePainter extends CustomPainter {
     const textWidth = 120.0;
 
     final paragraph = builder.build()
-      ..layout(
-        const ui.ParagraphConstraints(
-          width: textWidth,
-        ),
-      );
+      ..layout(const ui.ParagraphConstraints(width: textWidth));
 
     canvas.save();
 
-    canvas.translate(
-      rect.center.dx - (textWidth / 2),
-      rect.bottom + 10,
-    );
+    canvas.translate(rect.center.dx - (textWidth / 2), rect.bottom + 10);
 
-    canvas.drawParagraph(
-      paragraph,
-      Offset.zero,
-    );
+    canvas.drawParagraph(paragraph, Offset.zero);
 
     canvas.restore();
   }

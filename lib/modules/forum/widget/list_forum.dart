@@ -24,6 +24,7 @@ class ForumListSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     debugPrint("BUILD FORUM ${forums.id}");
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 5),
       color: AppColors.whiteColor,
@@ -104,7 +105,10 @@ class ForumListSection extends StatelessWidget {
                 // Menampilkan video
                 if ((forums.forumMedia?.isNotEmpty ?? false) &&
                     forums.forumMedia?.first.type == "video")
-                  VideoPlayer(urlVideo: forums.forumMedia?.first.link ?? ""),
+                  VideoPlayer(
+                    key: ValueKey(forums.forumMedia?.first.link),
+                    urlVideo: forums.forumMedia?.first.link ?? "",
+                  ),
 
                 // Menampilkan file dokumen
                 if ((forums.forumMedia?.isNotEmpty ?? false) &&

@@ -52,6 +52,7 @@ class _ForumViewState extends State<ForumView> {
 
   @override
   Widget build(BuildContext context) {
+     debugPrint("FORUM PAGE BUILD");
     return BlocBuilder<ForumCubit, ForumState>(
       builder: (context, state) {
         return Scaffold(
@@ -100,12 +101,13 @@ class _ForumViewState extends State<ForumView> {
                             );
                           }
                           return SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                              (context, index) {
+                            delegate: SliverChildListDelegate(
+                              state.forums.map((forum) {
                                 return ForumListSection(
-                                    forums: state.forums[index]);
-                              },
-                              childCount: state.forums.length,
+                                  key: ValueKey(forum.id),
+                                  forums: forum,
+                                );
+                              }).toList(),
                             ),
                           );
                         },

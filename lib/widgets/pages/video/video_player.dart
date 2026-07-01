@@ -94,6 +94,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
       autoPlay: false,
       looping: false,
       showControls: true,
+      allowFullScreen: false,
+      showOptions: true,
       additionalOptions: (context) => [
         OptionItem(
           onTap: (ctx) {
@@ -104,22 +106,12 @@ class _VideoPlayerState extends State<VideoPlayer> {
           title: 'Download Video',
         ),
       ],
-      errorBuilder: (context, errorMessage) {
-        return Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Text(
-              "Gagal memuat video: $errorMessage",
-              style: const TextStyle(color: Colors.white),
-            ),
-          ),
-        );
-      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("BUILD VIDEO ${widget.urlVideo}");
     final chewie = _chewieController;
     final controller = _videoController;
 
@@ -154,9 +146,12 @@ class _VideoPlayerState extends State<VideoPlayer> {
     return VisibilityDetector(
       key: ValueKey(widget.urlVideo),
       onVisibilityChanged: (info) {
-        final controller = _videoController;
+        if (!mounted) return;
 
-        if (controller == null || !controller.value.isInitialized) return;
+        final controller = _videoController;
+        if (controller == null) return;
+
+        if (!controller.value.isInitialized) return;
 
         if (info.visibleFraction < 0.3) {
           controller.pause();

@@ -16,7 +16,7 @@ dependencies:
   cached_network_image: ^3.4.1
   carousel_slider: ^5.0.0
   cart_stepper: ^4.3.0
-  chewie: ^1.11.3
+  chewie: ^1.13.1
   camera: ^0.11.1
   cupertino_icons: ^1.0.8
   custom_rating_bar: ^3.0.0

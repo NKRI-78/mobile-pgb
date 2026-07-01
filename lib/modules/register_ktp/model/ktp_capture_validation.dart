@@ -3,7 +3,7 @@ import 'dart:ui';
 class KtpGuideConfig {
   const KtpGuideConfig._();
 
-  static const double cardWidthFactor = 0.55;
+  static const double cardWidthFactor = 0.5;
   static const double cardAspectRatio = 1.58;
 
   // HEADER
